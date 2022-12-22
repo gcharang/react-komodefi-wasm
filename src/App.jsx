@@ -17,7 +17,6 @@ import init, {
   MainStatus,
   Mm2RpcErr
 } from "./js/mm2.js";
-import ScrollToBottom from 'react-scroll-to-bottom';
 
 const LOG_LEVEL = LogLevel.Debug;
 
