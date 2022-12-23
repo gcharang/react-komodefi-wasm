@@ -176,7 +176,7 @@ function App() {
   const collapseResponseOnChange = () => {
     setCollapseResponseChecked(!collapseResponseChecked);
   };
-/////////
+  /////////
   const requestDataOnChange = (e) => {
     setRequestData(e.target.value)
   }
@@ -235,7 +235,7 @@ function App() {
   }, [outputMessages]);
 
   useEffect(() => {
-  if (scrollOutputChecked) {
+    if (scrollOutputChecked) {
       outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [scrollOutputChecked]);
@@ -313,6 +313,8 @@ function App() {
         break;
     }
   }
+
+  const logLevels = [{id:"debug",title:"Debug"},{id:"info",title:"Info"},{id:"warn",title:"Warn"},{id:"error",title:"Error"},]
 
   async function run_mm2(params, handle_log) {
     // run an MM2 instance
@@ -500,7 +502,7 @@ function App() {
                     <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
 
                   </div>
-                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  <div className="absolute w-[80px] h-[80%] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -536,6 +538,28 @@ function App() {
                           Collapse
                         </label>
                       </div>
+                    </div>
+                    <div className="relative flex flex-col items-center mx-auto border-t-2 mt-2">
+                      <label className="text-base font-medium text-gray-300">Log level</label>
+                      <fieldset className="mt-2">
+                        <legend className="sr-only">Log level</legend>
+                        <div className="space-y-1">
+                          {logLevels.map((logLevel) => (
+                            <div key={logLevel.id} className="flex items-center">
+                              <input
+                                id={logLevel.id}
+                                name="log-level"
+                                type="radio"
+                                defaultChecked={logLevel.id === 'info'}
+                                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              />
+                              <label htmlFor={logLevel.id} className="ml-3 block text-sm font-medium text-gray-300">
+                                {logLevel.title}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </fieldset>
                     </div>
                   </div>
                 </div>
