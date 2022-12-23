@@ -374,15 +374,15 @@ function App() {
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
-                          id="prettify-request"
-                          aria-describedby="prettify-request"
-                          name="prettify request"
+                          id="prettify-conf"
+                          aria-describedby="prettify-conf"
+                          name="prettify conf"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
                       </div>
                       <div className="ml-3 text-sm">
-                        <label htmlFor="prettify-request" className="font-medium text-gray-300">
+                        <label htmlFor="prettify-conf" className="font-medium text-gray-300">
                           Prettify
                         </label>
                       </div>
@@ -390,15 +390,15 @@ function App() {
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
-                          id="collapse-request"
-                          aria-describedby="collapse-request"
-                          name="collapse request"
+                          id="collapse-conf"
+                          aria-describedby="collapse-conf"
+                          name="collapse conf"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
                       </div>
                       <div className="ml-3 text-sm">
-                        <label htmlFor="collapse-request" className="font-medium text-gray-300">
+                        <label htmlFor="collapse-conf" className="font-medium text-gray-300">
                           Collapse
                         </label>
                       </div>
