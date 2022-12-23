@@ -46,52 +46,7 @@ async function init_wasm() {
 // }
 
 
-async function run_mm2(params, handle_log) {
-  // run an MM2 instance
-  try {
-    const version = mm2_version();
-    console.info(`run_mm2() version=${version.result} datetime=${version.datetime}`);
 
-    mm2_main(params, handle_log);
-  } catch (e) {
-    switch (e) {
-      case Mm2MainErr.AlreadyRuns:
-        alert("MM2 already runs, please wait...");
-        return;
-      case Mm2MainErr.InvalidParams:
-        alert("Invalid config");
-        return;
-      case Mm2MainErr.NoCoinsInConf:
-        alert("No 'coins' field in config");
-        return;
-      default:
-        alert(`Oops: ${e}`);
-        return;
-    }
-  }
-}
-
-async function rpc_request(request_js) {
-  try {
-    const response = await mm2_rpc(request_js);
-    console.log(response);
-  } catch (e) {
-    switch (e) {
-      case Mm2RpcErr.NotRunning:
-        alert("MM2 is not running yet");
-        break;
-      case Mm2RpcErr.InvalidPayload:
-        alert(`Invalid payload: ${request_js}`);
-        break;
-      case Mm2RpcErr.InternalError:
-        alert(`An MM2 internal error`);
-        break;
-      default:
-        alert(`Unexpected error: ${e}`);
-        break;
-    }
-  }
-}
 
 const getBaseUrl = () => {
   let url;
@@ -119,10 +74,13 @@ function App() {
   const initialMm2BtnText = 'Run mm2';
   const [mm2BtnText, setMm2BtnText] = useState(initialMm2BtnText);
   const [mm2UserPass, setMm2UserPass] = useState("");
+  const [rpcResponse, setRpcResponse] = useState("Once a request is sent, mm2's response is displayed here")
   const mm2BtnTextRef = useRef()
-  const mm2UserPassRef=useRef()
+  const mm2UserPassRef = useRef()
+  const rpcResponseRef = useRef()
   mm2BtnTextRef.current = mm2BtnText
   mm2UserPassRef.current = mm2UserPass
+  rpcResponseRef.current = rpcResponse
 
   /*useEffect(() => {
    // 👇️ simulate chat Messages flowing in
@@ -203,11 +161,11 @@ function App() {
         console.info(line);
         break;
       case LogLevel.Debug:
-        setOutputMessages(current => [
-          ...current,
-          ["[Debug] "+line, "neutral"],
-        ]);
-        console.log(line);
+        // setOutputMessages(current => [
+        //   ...current,
+        //   ["[Debug] " + line, "neutral"],
+        // ]);
+        // console.log(line);
         break;
       case LogLevel.Trace:
       default:
@@ -218,6 +176,57 @@ function App() {
         ]);
         console.debug(line);
         break;
+    }
+  }
+
+  async function run_mm2(params, handle_log) {
+    // run an MM2 instance
+    try {
+      const version = mm2_version();
+      setOutputMessages(current => [
+        ...current,
+        ["[Info] " + `run_mm2() version=${version.result} datetime=${version.datetime}`, "violet"],
+      ]);
+      console.info(`run_mm2() version=${version.result} datetime=${version.datetime}`);
+      mm2_main(params, handle_log);
+    } catch (e) {
+      switch (e) {
+        case Mm2MainErr.AlreadyRuns:
+          alert("MM2 already runs, please wait...");
+          return;
+        case Mm2MainErr.InvalidParams:
+          alert("Invalid config");
+          return;
+        case Mm2MainErr.NoCoinsInConf:
+          alert("No 'coins' field in config");
+          return;
+        default:
+          alert(`Oops: ${e}`);
+          return;
+      }
+    }
+  }
+
+  async function rpc_request(request_js) {
+    try {
+      const response = await mm2_rpc(request_js);
+      console.log(response);
+      return response
+    } catch (e) {
+      switch (e) {
+        case Mm2RpcErr.NotRunning:
+          alert("MM2 is not running yet");
+          break;
+        case Mm2RpcErr.InvalidPayload:
+          alert(`Invalid payload: ${request_js}`);
+          break;
+        case Mm2RpcErr.InternalError:
+          alert(`An MM2 internal error`);
+          break;
+        default:
+          alert(`Unexpected error: ${e}`);
+          break;
+      }
     }
   }
 
@@ -259,7 +268,7 @@ function App() {
               let coins = await fetch(coinsUrl);
               let coinsJson = await coins.json();
               conf_js.coins = coinsJson
-              console.log(conf_js)
+              // console.log(conf_js)
             }
             setMm2UserPass(() => conf_js.rpc_password)
             params = {
@@ -286,7 +295,8 @@ function App() {
           return;
         }
 
-        await rpc_request(request_js);
+        let response = await rpc_request(request_js);
+        setRpcResponse(() =>response);
       });
     });
 
@@ -312,7 +322,7 @@ function App() {
 }`}>
                 </textarea>
 
-                <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
+                <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
                 <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4">
@@ -367,10 +377,10 @@ function App() {
         ]
     }
 ]`}></textarea>
-                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
+                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
                 </button>
-                <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" defaultValue="Once a request is sent, mm2's response is displayed here">
+                <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" value={rpcResponse}>
                 </textarea>
               </section>
             </div>
