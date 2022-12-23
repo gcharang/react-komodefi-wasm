@@ -128,6 +128,56 @@ function App() {
   mm2UserPassRef.current = mm2UserPass
   rpcResponseRef.current = rpcResponse
 
+  const [prettifyConfChecked, setPrettifyConfChecked] = useState(true);
+
+  const prettifyConfOnChange = () => {
+    setPrettifyConfChecked(!prettifyConfChecked);
+  };
+
+  const [collapseConfChecked, setCollapseConfChecked] = useState(false);
+
+  const collapseConfOnChange = () => {
+    setCollapseConfChecked(!collapseConfChecked);
+  };
+
+  const [scrollOutputChecked, setScrollOutputChecked] = useState(true);
+
+  const scrollOutputOnChange = () => {
+    setScrollOutputChecked(!scrollOutputChecked);
+  };
+
+  const [collapseOutputChecked, setCollapseOutputChecked] = useState(false);
+
+  const collapseOutputOnChange = () => {
+    setCollapseOutputChecked(!collapseOutputChecked);
+  };
+
+  
+  const [prettifyRequestChecked, setPrettifyRequestChecked] = useState(true);
+
+  const prettifyRequestOnChange = () => {
+    setPrettifyRequestChecked(!prettifyRequestChecked);
+  };
+
+  const [collapseRequestChecked, setCollapseRequestChecked] = useState(false);
+
+  const collapseRequestOnChange = () => {
+    setCollapseRequestChecked(!collapseRequestChecked);
+  };
+
+  const [prettifyResponseChecked, setPrettifyResponseChecked] = useState(true);
+
+  const prettifyResponseOnChange = () => {
+    setPrettifyResponseChecked(!prettifyResponseChecked);
+  };
+
+  const [collapseResponseChecked, setCollapseResponseChecked] = useState(false);
+
+  const collapseResponseOnChange = () => {
+    setCollapseResponseChecked(!collapseResponseChecked);
+  };
+
+
   /*useEffect(() => {
    // 👇️ simulate chat Messages flowing in
    setInterval(
@@ -379,6 +429,8 @@ function App() {
                           name="prettify conf"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={prettifyConfChecked}
+                          onChange={prettifyConfOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -395,6 +447,8 @@ function App() {
                           name="collapse conf"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={collapseConfChecked}
+                          onChange={collapseConfOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -408,15 +462,15 @@ function App() {
                   <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
                 <div className='relative'>
-                <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4 relative">
-                  {outputMessages.map((message, index) => {
-                    return <div className="text-base font-bold border-slate-700	border-b-2" key={index}><p className={`text-${message[1]}-300`}>{message[0]}</p></div>;
-                  })}
-                  {/* <p className="text-xl font-bold">Once mm2 is run, daemon output is rendered here</p>               */}
-                  <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
-          
-                </div>
-                <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4 relative">
+                    {outputMessages.map((message, index) => {
+                      return <div className="text-base font-bold border-slate-700	border-b-2" key={index}><p className={`text-${message[1]}-300`}>{message[0]}</p></div>;
+                    })}
+                    {/* <p className="text-xl font-bold">Once mm2 is run, daemon output is rendered here</p>               */}
+                    <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
+
+                  </div>
+                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -425,6 +479,8 @@ function App() {
                           name="scroll output"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={scrollOutputChecked}
+                          onChange={scrollOutputOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -441,6 +497,8 @@ function App() {
                           name="collapse output"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={collapseOutputChecked}
+                          onChange={collapseOutputOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -468,6 +526,8 @@ function App() {
                           name="prettify request"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={prettifyRequestChecked}
+                          onChange={prettifyRequestOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -484,6 +544,8 @@ function App() {
                           name="collapse request"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={collapseRequestChecked}
+                          onChange={collapseRequestOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -509,6 +571,8 @@ function App() {
                           name="prettify response"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={prettifyResponseChecked}
+                          onChange={prettifyResponseOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
@@ -525,6 +589,8 @@ function App() {
                           name="collapse response"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          checked={collapseResponseChecked}
+                          onChange={collapseResponseOnChange}
                         />
                       </div>
                       <div className="ml-3 text-sm">
