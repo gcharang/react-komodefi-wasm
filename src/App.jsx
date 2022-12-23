@@ -152,7 +152,7 @@ function App() {
     setCollapseOutputChecked(!collapseOutputChecked);
   };
 
-  
+
   const [prettifyRequestChecked, setPrettifyRequestChecked] = useState(true);
 
   const prettifyRequestOnChange = () => {
@@ -176,7 +176,14 @@ function App() {
   const collapseResponseOnChange = () => {
     setCollapseResponseChecked(!collapseResponseChecked);
   };
+/////////
+  const requestDataOnChange = (e) => {
+    setRequestData(e.target.value)
+  }
 
+  const confDataOnChange = (e) => {
+    setConfData(e.target.value)
+  }
 
   /*useEffect(() => {
    // 👇️ simulate chat Messages flowing in
@@ -190,14 +197,30 @@ function App() {
    );
  }, []);*/
   useEffect(() => {
-
-  }, [confData]);
+    const intervalId1 = setInterval(() => {
+      if (prettifyConfChecked && JSON.parse(confData)) {
+        setConfData(() => JSON.stringify(JSON.parse(confData), null, 2))
+      }
+    }, 5000);
+    return () => {
+      clearInterval(intervalId1);
+    };
+  }, [prettifyConfChecked]);
   useEffect(() => {
-
-  }, [requestData]);
+    const intervalId2 = setInterval(() => {
+      if (prettifyRequestChecked && JSON.parse(requestData)) {
+        setRequestData(() => JSON.stringify(JSON.parse(requestData), null, 2))
+      }
+    }, 5000);
+    return () => {
+      clearInterval(intervalId2);
+    };
+  }, [prettifyRequestChecked]);
   useEffect(() => {
-
-  }, [rpcResponse]);
+    if (prettifyResponseChecked && rpcResponse !== "Once a request is sent, mm2's response is displayed here") {
+      setRpcResponse(() => JSON.stringify(JSON.parse(rpcResponse), null, 2))
+    }
+  }, [prettifyResponseChecked]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time outputMessages change
@@ -206,9 +229,16 @@ function App() {
       setOutputMessages(current => current.slice(-500))
       //outputMessages = outputMessages.slice(-20)
       // outputMessages.splice(0,nOfOutputMsgs-20)
+    } if (scrollOutputChecked) {
+      outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-    outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [outputMessages]);
+
+  useEffect(() => {
+  if (scrollOutputChecked) {
+      outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [scrollOutputChecked]);
 
 
   function spawn_mm2_status_checking() {
@@ -401,7 +431,7 @@ function App() {
         }
 
         let response = await rpc_request(request_js);
-        setRpcResponse(() => JSON.stringify(response, null, 2));
+        setRpcResponse(() => JSON.stringify(response));
       });
     });
 
@@ -418,7 +448,7 @@ function App() {
             <div className="grid h-full  grid-cols-1 gap-4 lg:col-span-2">
               <section aria-labelledby="section-1-title" className="flex flex-col justify-between">
                 <div className='relative'>
-                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData}>
+                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData} onChange={confDataOnChange}>
                   </textarea>
                   <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
@@ -516,7 +546,7 @@ function App() {
             <div className="grid h-full grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title" className="flex flex-col justify-between">
                 <div className='relative'>
-                  <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData}></textarea>
+                  <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData} onChange={requestDataOnChange}></textarea>
                   <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
