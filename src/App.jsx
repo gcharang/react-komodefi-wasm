@@ -407,13 +407,16 @@ function App() {
                 <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
+                <div className='relative'>
                 <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4 relative">
                   {outputMessages.map((message, index) => {
                     return <div className="text-base font-bold border-slate-700	border-b-2" key={index}><p className={`text-${message[1]}-300`}>{message[0]}</p></div>;
                   })}
                   {/* <p className="text-xl font-bold">Once mm2 is run, daemon output is rendered here</p>               */}
                   <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
-                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+          
+                </div>
+                <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -426,7 +429,7 @@ function App() {
                       </div>
                       <div className="ml-3 text-sm">
                         <label htmlFor="scroll-output" className="font-medium text-gray-300">
-                          Scroll to bottom
+                          Always scroll to bottom
                         </label>
                       </div>
                     </div>
