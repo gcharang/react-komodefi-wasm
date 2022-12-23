@@ -72,6 +72,52 @@ function App() {
   const [outputMessages, setOutputMessages] = useState([["Once mm2 is run, daemon output is rendered here", "blue"]]);
 
   const initialMm2BtnText = 'Run mm2';
+  const [confData, setConfData] = useState(`{
+    "gui": "WASMTEST",
+    "mm2": 1,
+    "passphrase": "wasmtest",
+    "allow_weak_password": true,
+    "rpc_password": "testpsw",
+    "netid": 7777
+}`);
+  const [requestData, setRequestData] = useState(`[
+    {
+        "userpass": "testpsw",
+        "method": "electrum",
+        "mm2": 1,
+        "coin": "RICK",
+        "tx_history": true,
+        "servers": [
+            {
+                "url": "electrum1.cipig.net:30017",
+                "protocol": "WSS"
+            }
+        ]
+    },
+    {
+        "userpass": "testpsw",
+        "method": "electrum",
+        "mm2": 1,
+        "coin": "MORTY",
+        "tx_history": true,
+        "servers": [
+            {
+                "url": "electrum1.cipig.net:30018",
+                "protocol": "WSS"
+            }
+        ]
+    },
+    {
+        "userpass": "testpsw",
+        "method": "enable",
+        "mm2": 1,
+        "coin": "ETH",
+        "swap_contract_address": "0x8500AFc0bc5214728082163326C2FF0C73f4a871",
+        "urls": [
+            "http://eth1.cipig.net:8555"
+        ]
+    }
+]`);
   const [mm2BtnText, setMm2BtnText] = useState(initialMm2BtnText);
   const [mm2UserPass, setMm2UserPass] = useState("");
   const [rpcResponse, setRpcResponse] = useState("Once a request is sent, mm2's response is displayed here")
@@ -93,6 +139,15 @@ function App() {
      600,
    );
  }, []);*/
+ useEffect(() => {
+ 
+}, [confData]);
+useEffect(() => {
+ 
+}, [requestData]);
+useEffect(() => {
+ 
+}, [rpcResponse]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time outputMessages change
@@ -296,7 +351,7 @@ function App() {
         }
 
         let response = await rpc_request(request_js);
-        setRpcResponse(() =>response);
+        setRpcResponse(() =>JSON.stringify(response));
       });
     });
 
@@ -312,14 +367,7 @@ function App() {
             {/* Left column */}
             <div className="grid h-full  grid-cols-1 gap-4 lg:col-span-2">
               <section aria-labelledby="section-1-title" className="flex flex-col justify-between">
-                <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" defaultValue={`{
-    "gui": "WASMTEST",
-    "mm2": 1,
-    "passphrase": "wasmtest",
-    "allow_weak_password": true,
-    "rpc_password": "testpsw",
-    "netid": 7777
-}`}>
+                <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData}>
                 </textarea>
 
                 <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
@@ -339,44 +387,7 @@ function App() {
             <div className="grid h-full grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title" className="flex flex-col justify-between">
 
-                <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" defaultValue={`[
-    {
-        "userpass": "testpsw",
-        "method": "electrum",
-        "mm2": 1,
-        "coin": "RICK",
-        "tx_history": true,
-        "servers": [
-            {
-                "url": "electrum1.cipig.net:30017",
-                "protocol": "WSS"
-            }
-        ]
-    },
-    {
-        "userpass": "testpsw",
-        "method": "electrum",
-        "mm2": 1,
-        "coin": "MORTY",
-        "tx_history": true,
-        "servers": [
-            {
-                "url": "electrum1.cipig.net:30018",
-                "protocol": "WSS"
-            }
-        ]
-    },
-    {
-        "userpass": "testpsw",
-        "method": "enable",
-        "mm2": 1,
-        "coin": "ETH",
-        "swap_contract_address": "0x8500AFc0bc5214728082163326C2FF0C73f4a871",
-        "urls": [
-            "http://eth1.cipig.net:8555"
-        ]
-    }
-]`}></textarea>
+                <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData}></textarea>
                 <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
                 </button>
