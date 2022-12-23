@@ -351,7 +351,7 @@ function App() {
         }
 
         let response = await rpc_request(request_js);
-        setRpcResponse(() => JSON.stringify(response,null,2));
+        setRpcResponse(() => JSON.stringify(response, null, 2));
       });
     });
 
@@ -367,18 +367,86 @@ function App() {
             {/* Left column */}
             <div className="grid h-full  grid-cols-1 gap-4 lg:col-span-2">
               <section aria-labelledby="section-1-title" className="flex flex-col justify-between">
-                <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData}>
-                </textarea>
-
+                <div className='relative'>
+                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData}>
+                  </textarea>
+                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="prettify-request"
+                          aria-describedby="prettify-request"
+                          name="prettify request"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="prettify-request" className="font-medium text-gray-300">
+                          Prettify
+                        </label>
+                      </div>
+                    </div>
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="collapse-request"
+                          aria-describedby="collapse-request"
+                          name="collapse request"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="collapse-request" className="font-medium text-gray-300">
+                          Collapse
+                        </label>
+                      </div>
+                    </div>
+                  </div> </div>
                 <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
-                <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4">
+                <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4 relative">
                   {outputMessages.map((message, index) => {
                     return <div className="text-base font-bold border-slate-700	border-b-2" key={index}><p className={`text-${message[1]}-300`}>{message[0]}</p></div>;
                   })}
                   {/* <p className="text-xl font-bold">Once mm2 is run, daemon output is rendered here</p>               */}
                   <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
+                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="scroll-output"
+                          aria-describedby="scroll-output"
+                          name="scroll output"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="scroll-output" className="font-medium text-gray-300">
+                          Scroll to bottom
+                        </label>
+                      </div>
+                    </div>
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="collapse-output"
+                          aria-describedby="collapse-output"
+                          name="collapse output"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="collapse-output" className="font-medium text-gray-300">
+                          Collapse
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </section>
             </div>
@@ -386,9 +454,42 @@ function App() {
             {/* Right column */}
             <div className="grid h-full grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title" className="flex flex-col justify-between">
-<div className='relative'>
-                <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData}></textarea>
-                
+                <div className='relative'>
+                  <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData}></textarea>
+                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="prettify-request"
+                          aria-describedby="prettify-request"
+                          name="prettify request"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="prettify-request" className="font-medium text-gray-300">
+                          Prettify
+                        </label>
+                      </div>
+                    </div>
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="collapse-request"
+                          aria-describedby="collapse-request"
+                          name="collapse request"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="collapse-request" className="font-medium text-gray-300">
+                          Collapse
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
