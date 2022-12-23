@@ -34,20 +34,6 @@ async function init_wasm() {
   }
 }
 
-// async function run_mm2_on_click() {
-//   try {
-//     const response = await mm2_rpc(request_js);
-//     console.log(response);
-//     const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
-//         console.log(conf)
-//   } catch (e) {
-//     console.log(e)
-//   }
-// }
-
-
-
-
 const getBaseUrl = () => {
   let url;
   switch (process.env.NODE_ENV) {
@@ -63,7 +49,31 @@ const getBaseUrl = () => {
 }
 
 
+/**
+ * If you don't care about primitives and only objects then this function
+ * is for you, otherwise look elsewhere.
+ * This function will return `false` for any valid json primitive.
+ * EG, 'true' -> false
+ *     '123' -> false
+ *     'null' -> false
+ *     '"I'm a string"' -> false
+ */
+function tryParseJSONObject(jsonString) {
+  try {
+    var o = JSON.parse(jsonString);
 
+    // Handle non-exception-throwing cases:
+    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+    // but... JSON.parse(null) returns null, and typeof null === "object", 
+    // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+    if (o && typeof o === "object") {
+      return o;
+    }
+  }
+  catch (e) { }
+
+  return false;
+};
 
 
 
@@ -128,99 +138,11 @@ function App() {
   mm2UserPassRef.current = mm2UserPass
   rpcResponseRef.current = rpcResponse
 
-  const [prettifyConfChecked, setPrettifyConfChecked] = useState(true);
-
-  const prettifyConfOnChange = () => {
-    setPrettifyConfChecked(!prettifyConfChecked);
-  };
-
-  const [collapseConfChecked, setCollapseConfChecked] = useState(false);
-
-  const collapseConfOnChange = () => {
-    setCollapseConfChecked(!collapseConfChecked);
-  };
-
   const [scrollOutputChecked, setScrollOutputChecked] = useState(true);
 
   const scrollOutputOnChange = () => {
     setScrollOutputChecked(!scrollOutputChecked);
   };
-
-  const [collapseOutputChecked, setCollapseOutputChecked] = useState(false);
-
-  const collapseOutputOnChange = () => {
-    setCollapseOutputChecked(!collapseOutputChecked);
-  };
-
-
-  const [prettifyRequestChecked, setPrettifyRequestChecked] = useState(true);
-
-  const prettifyRequestOnChange = () => {
-    setPrettifyRequestChecked(!prettifyRequestChecked);
-  };
-
-  const [collapseRequestChecked, setCollapseRequestChecked] = useState(false);
-
-  const collapseRequestOnChange = () => {
-    setCollapseRequestChecked(!collapseRequestChecked);
-  };
-
-  const [prettifyResponseChecked, setPrettifyResponseChecked] = useState(true);
-
-  const prettifyResponseOnChange = () => {
-    setPrettifyResponseChecked(!prettifyResponseChecked);
-  };
-
-  const [collapseResponseChecked, setCollapseResponseChecked] = useState(false);
-
-  const collapseResponseOnChange = () => {
-    setCollapseResponseChecked(!collapseResponseChecked);
-  };
-  /////////
-  const requestDataOnChange = (e) => {
-    setRequestData(e.target.value)
-  }
-
-  const confDataOnChange = (e) => {
-    setConfData(e.target.value)
-  }
-
-  /*useEffect(() => {
-   // 👇️ simulate chat Messages flowing in
-   setInterval(
-     () =>
-       setOutputMessages(current => [
-         ...current,
-         ['Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, quaerat eum id obcaecati, magnam voluptatum dolorem sunt, omnis sed consectetur necessitatibus blanditiis ipsa? Cumque architecto, doloribus mollitia velit non sint!'+Date.now(),"blue"],
-       ]),
-     600,
-   );
- }, []);*/
-  useEffect(() => {
-    const intervalId1 = setInterval(() => {
-      if (prettifyConfChecked && JSON.parse(confData)) {
-        setConfData(() => JSON.stringify(JSON.parse(confData), null, 2))
-      }
-    }, 5000);
-    return () => {
-      clearInterval(intervalId1);
-    };
-  }, [prettifyConfChecked]);
-  useEffect(() => {
-    const intervalId2 = setInterval(() => {
-      if (prettifyRequestChecked && JSON.parse(requestData)) {
-        setRequestData(() => JSON.stringify(JSON.parse(requestData), null, 2))
-      }
-    }, 5000);
-    return () => {
-      clearInterval(intervalId2);
-    };
-  }, [prettifyRequestChecked]);
-  useEffect(() => {
-    if (prettifyResponseChecked && rpcResponse !== "Once a request is sent, mm2's response is displayed here") {
-      setRpcResponse(() => JSON.stringify(JSON.parse(rpcResponse), null, 2))
-    }
-  }, [prettifyResponseChecked]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time outputMessages change
@@ -300,7 +222,7 @@ function App() {
         //   ...current,
         //   ["[Debug] " + line, "neutral"],
         // ]);
-        // console.log(line);
+        console.log(line);
         break;
       case LogLevel.Trace:
       default:
@@ -314,7 +236,7 @@ function App() {
     }
   }
 
-  const logLevels = [{id:"debug",title:"Debug"},{id:"info",title:"Info"},{id:"warn",title:"Warn"},{id:"error",title:"Error"},]
+  const logLevels = [{ id: "debug", title: "Debug" }, { id: "info", title: "Info" }, { id: "warn", title: "Warn" }, { id: "error", title: "Error" },]
 
   async function run_mm2(params, handle_log) {
     // run an MM2 instance
@@ -433,7 +355,7 @@ function App() {
         }
 
         let response = await rpc_request(request_js);
-        setRpcResponse(() => JSON.stringify(response));
+        setRpcResponse(() => JSON.stringify(response, null, 2));
       });
     });
 
@@ -450,9 +372,9 @@ function App() {
             <div className="grid h-full  grid-cols-1 gap-4 lg:col-span-2">
               <section aria-labelledby="section-1-title" className="flex flex-col justify-between">
                 <div className='relative'>
-                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={confData} onChange={confDataOnChange}>
+                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" defaultValue={confData}>
                   </textarea>
-                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  {/* <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -489,7 +411,8 @@ function App() {
                         </label>
                       </div>
                     </div>
-                  </div> </div>
+                  </div>  */}
+                </div>
                 <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
@@ -502,7 +425,7 @@ function App() {
                     <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
 
                   </div>
-                  <div className="absolute w-[80px] h-[80%] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  <div className="absolute w-[80px] h-auto bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -521,7 +444,7 @@ function App() {
                         </label>
                       </div>
                     </div>
-                    <div className="relative flex flex-col items-center mx-auto">
+                    {/* <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
                           id="collapse-output"
@@ -538,7 +461,7 @@ function App() {
                           Collapse
                         </label>
                       </div>
-                    </div>
+                  </div> 
                     <div className="relative flex flex-col items-center mx-auto border-t-2 mt-2">
                       <label className="text-base font-medium text-gray-300">Log level</label>
                       <fieldset className="mt-2">
@@ -560,7 +483,7 @@ function App() {
                           ))}
                         </div>
                       </fieldset>
-                    </div>
+                    </div>*/}
                   </div>
                 </div>
               </section>
@@ -570,8 +493,8 @@ function App() {
             <div className="grid h-full grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title" className="flex flex-col justify-between">
                 <div className='relative'>
-                  <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData} onChange={requestDataOnChange}></textarea>
-                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" defaultValue={requestData}></textarea>
+                  {/* <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -608,7 +531,7 @@ function App() {
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
@@ -616,7 +539,7 @@ function App() {
                 <div className='relative'>
                   <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" value={rpcResponse}>
                   </textarea>
-                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                  {/* <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
                       <div className="flex h-5 items-center">
                         <input
@@ -653,7 +576,7 @@ function App() {
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </section>
             </div>
