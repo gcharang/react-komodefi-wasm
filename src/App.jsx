@@ -139,15 +139,15 @@ function App() {
      600,
    );
  }, []);*/
- useEffect(() => {
- 
-}, [confData]);
-useEffect(() => {
- 
-}, [requestData]);
-useEffect(() => {
- 
-}, [rpcResponse]);
+  useEffect(() => {
+
+  }, [confData]);
+  useEffect(() => {
+
+  }, [requestData]);
+  useEffect(() => {
+
+  }, [rpcResponse]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time outputMessages change
@@ -351,7 +351,7 @@ useEffect(() => {
         }
 
         let response = await rpc_request(request_js);
-        setRpcResponse(() =>JSON.stringify(response));
+        setRpcResponse(() => JSON.stringify(response,null,2));
       });
     });
 
@@ -386,16 +386,53 @@ useEffect(() => {
             {/* Right column */}
             <div className="grid h-full grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title" className="flex flex-col justify-between">
-
+<div className='relative'>
                 <textarea id="wid_rpc_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" value={requestData}></textarea>
+                
+                </div>
                 <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
                 </button>
-                <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" value={rpcResponse}>
-                </textarea>
+                <div className='relative'>
+                  <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" value={rpcResponse}>
+                  </textarea>
+                  <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="prettify-response"
+                          aria-describedby="prettify-response"
+                          name="prettify response"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="prettify-response" className="font-medium text-gray-300">
+                          Prettify
+                        </label>
+                      </div>
+                    </div>
+                    <div className="relative flex flex-col items-center mx-auto">
+                      <div className="flex h-5 items-center">
+                        <input
+                          id="collapse-response"
+                          aria-describedby="collapse-response"
+                          name="collapse response"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="collapse-response" className="font-medium text-gray-300">
+                          Collapse
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </section>
             </div>
-
           </div>
         </div>
       </main>
