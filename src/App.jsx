@@ -365,6 +365,7 @@ function App() {
   return (
     <div>
       <main className="h-screen">
+        <p className='text-xl text-center text-white'>Use at your own risk. Do not store/load seeds/wallets with coins/tokens of any significant value</p>
         <div className="h-[96vh] pt-2 my-auto mx-auto max-w-[90%]">
           {/* Main 3 column grid */}
           <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
