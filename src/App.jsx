@@ -107,38 +107,22 @@ const getBaseUrl = () => {
   return url;
 }
 
-function spawn_mm2_status_checking() {
-  setInterval(function () {
-    const run_button = document.getElementById("wid_run_mm2_button");
-    const rpc_button = document.getElementById("wid_mm2_rpc_button");
 
-    const status = mm2_main_status();
-    switch (status) {
-      case MainStatus.NotRunning:
-      //  console.log("NotRunning")
-      case MainStatus.NoContext:
-      // console.log("NoContext")
-      case MainStatus.NoRpc:
-      //  console.log("NoRpc")
-        rpc_button.disabled = true;
-        run_button.disabled = false;
-        break;
-      case MainStatus.RpcIsUp:
-      //  console.log("RpcIsUp")
-        rpc_button.disabled = false;
-        run_button.disabled = true;
-        break;
-      default:
-        throw new Error(`Expected MainStatus, found: ${status}`);
-    }
-  }, 100)
-}
+
+
 
 
 function App() {
   const outputBottomRef = useRef(null);
-
   const [outputMessages, setOutputMessages] = useState([["Once mm2 is run, daemon output is rendered here", "blue"]]);
+
+  const initialMm2BtnText = 'Run mm2';
+  const [mm2BtnText, setMm2BtnText] = useState(initialMm2BtnText);
+  const [mm2UserPass, setMm2UserPass] = useState("");
+  const mm2BtnTextRef = useRef()
+  const mm2UserPassRef=useRef()
+  mm2BtnTextRef.current = mm2BtnText
+  mm2UserPassRef.current = mm2UserPass
 
   /*useEffect(() => {
    // 👇️ simulate chat Messages flowing in
@@ -163,6 +147,36 @@ function App() {
     outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [outputMessages]);
 
+
+  function spawn_mm2_status_checking() {
+    setInterval(function () {
+      const run_button = document.getElementById("wid_run_mm2_button");
+      const rpc_button = document.getElementById("wid_mm2_rpc_button");
+
+      const status = mm2_main_status();
+      switch (status) {
+        case MainStatus.NotRunning:
+        //  console.log("NotRunning")
+        case MainStatus.NoContext:
+        // console.log("NoContext")
+        case MainStatus.NoRpc:
+          //  console.log("NoRpc")
+          rpc_button.disabled = true;
+          run_button.disabled = false;
+          setMm2BtnText(() => 'Run mm2')
+          break;
+        case MainStatus.RpcIsUp:
+          //  console.log("RpcIsUp")
+          rpc_button.disabled = false;
+          run_button.stop_btn = true;
+          setMm2BtnText(() => 'Stop mm2')
+          break;
+        default:
+          throw new Error(`Expected MainStatus, found: ${status}`);
+      }
+    }, 100)
+  }
+
   function handle_log(level, line) {
     switch (level) {
       case LogLevel.Off:
@@ -170,29 +184,29 @@ function App() {
       case LogLevel.Error:
         setOutputMessages(current => [
           ...current,
-          ["[Error] "+line, "red"],
+          ["[Error] " + line, "red"],
         ]);
         console.error(line);
         break;
       case LogLevel.Warn:
         setOutputMessages(current => [
           ...current,
-          ["[Warn] "+line, "yellow"],
+          ["[Warn] " + line, "yellow"],
         ]);
         console.warn(line);
         break;
       case LogLevel.Info:
         setOutputMessages(current => [
           ...current,
-          ["[Info] "+line, "violet"],
+          ["[Info] " + line, "violet"],
         ]);
         console.info(line);
         break;
       case LogLevel.Debug:
-        // setOutputMessages(current => [
-        //   ...current,
-        //   ["[Debug] "+line, "neutral"],
-        // ]);
+        setOutputMessages(current => [
+          ...current,
+          ["[Debug] "+line, "neutral"],
+        ]);
         console.log(line);
         break;
       case LogLevel.Trace:
@@ -200,7 +214,7 @@ function App() {
         // The console.trace method outputs some extra trace from the generated JS glue code which we don't want.
         setOutputMessages(current => [
           ...current,
-          ["[default] "+line, "neutral"],
+          ["[default] " + line, "neutral"],
         ]);
         console.debug(line);
         break;
@@ -220,29 +234,45 @@ function App() {
     init_wasm().then(function () {
       spawn_mm2_status_checking();
       const run_mm2_button = document.getElementById("wid_run_mm2_button");
-      run_mm2_button.addEventListener('click', async () => {
-        const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
+      run_mm2_button.addEventListener('click', async (e) => {
+        e.preventDefault()
+        if (mm2BtnTextRef.current === "Stop mm2") {
+          try {
+            let resp = await rpc_request({
+              userpass: mm2UserPassRef.current,
+              method: "stop"
+            })
+            setMm2BtnText(() => 'Run mm2')
+          } catch (error) {
+            alert(`used userPass: ${mm2UserPassRef.current}. error:${error}`)
+          }
 
-        let params;
-        try {
-          const conf_js = JSON.parse(conf);
-          const baseUrl = getBaseUrl()
-          let coinsUrl = new URL(baseUrl + "/coins")
-          let coins = await fetch(coinsUrl);
-          let coinsJson = await coins.json();
-          // console.log(JSON.stringify(conf_js))
-          conf_js.coins = coinsJson
-          console.log(conf_js)
-          params = {
-            conf: conf_js,
-            log_level: LOG_LEVEL,
-          };
-        } catch (e) {
-          alert(`Expected config in JSON, found '${conf}'\nError : ${e}`);
-          return;
+        } else {
+          const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
+
+          let params;
+          try {
+            const conf_js = JSON.parse(conf);
+            if (!conf_js.coins) {
+              const baseUrl = getBaseUrl()
+              let coinsUrl = new URL(baseUrl + "/coins")
+              let coins = await fetch(coinsUrl);
+              let coinsJson = await coins.json();
+              conf_js.coins = coinsJson
+              console.log(conf_js)
+            }
+            setMm2UserPass(() => conf_js.rpc_password)
+            params = {
+              conf: conf_js,
+              log_level: LOG_LEVEL,
+            };
+          } catch (e) {
+            alert(`Expected config in JSON, found '${conf}'\nError : ${e}`);
+            return;
+          }
+
+          await run_mm2(params, handle_log);
         }
-
-        await run_mm2(params, handle_log);
       });
 
       const rpc_request_button = document.getElementById("wid_mm2_rpc_button");
@@ -282,8 +312,8 @@ function App() {
 }`}>
                 </textarea>
 
-                <button id="wid_run_mm2_button"  className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-300 text-gray-500 hover:bg-slate-100 h-[32px] w-[142px] mx-auto">
-                  <span className="my-auto flex items-center">Run mm2</span>
+                <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
+                  <span className="my-auto flex items-center">{mm2BtnText}</span>
                 </button>
                 <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4">
                   {outputMessages.map((message, index) => {
@@ -337,7 +367,7 @@ function App() {
         ]
     }
 ]`}></textarea>
-                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-300 text-gray-500 hover:bg-slate-100  h-[32px] w-[142px] mx-auto">
+                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
                   <span className="my-auto flex items-center">Send request</span>
                 </button>
                 <textarea readOnly="readonly" id="wid_rpc_output" className="w-full h-[60vh] rounded-lg bg-slate-800 shadow text-gray-300 p-4" defaultValue="Once a request is sent, mm2's response is displayed here">
