@@ -79,7 +79,7 @@ function tryParseJSONObject(jsonString) {
 
 function App() {
   const outputBottomRef = useRef(null);
-  const [outputMessages, setOutputMessages] = useState([["Once mm2 is run, daemon output is rendered here", "blue"]]);
+  const [outputMessages, setOutputMessages] = useState([["Once mm2 is started, daemon output is rendered here", "blue"]]);
 
   const initialMm2BtnText = 'Run mm2';
   const [confData, setConfData] = useState(`{
@@ -91,6 +91,10 @@ function App() {
     "netid": 7777
 }`);
   const [requestData, setRequestData] = useState(`[
+    {
+        "userpass": "testpsw",
+        "method": "version"
+    },
     {
         "userpass": "testpsw",
         "method": "electrum",
@@ -124,7 +128,7 @@ function App() {
         "coin": "ETH",
         "swap_contract_address": "0x8500AFc0bc5214728082163326C2FF0C73f4a871",
         "urls": [
-            "http://eth1.cipig.net:8555"
+            "https://eth1.cipig.net:18555"
         ]
     }
 ]`);
@@ -161,6 +165,13 @@ function App() {
       outputBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [scrollOutputChecked]);
+
+  useEffect(() => {
+    const run_button = document.getElementById("wid_run_mm2_button");
+    const rpc_button = document.getElementById("wid_mm2_rpc_button");
+    rpc_button.disabled = true;
+    run_button.disabled = true;
+  }, []);
 
 
   function spawn_mm2_status_checking() {
@@ -422,7 +433,7 @@ function App() {
                     {outputMessages.map((message, index) => {
                       return <div className="text-base font-bold border-slate-700	border-b-2" key={index}><p className={`text-${message[1]}-300`}>{message[0]}</p></div>;
                     })}
-                    {/* <p className="text-xl font-bold">Once mm2 is run, daemon output is rendered here</p>               */}
+                    {/* <p className="text-xl font-bold">Once mm2 is started, daemon output is rendered here</p>               */}
                     <div ref={outputBottomRef} className="text-blue-300 text-violet-300 text-red-300 text-yellow-300 text-nuetral-300" />
 
                   </div>
