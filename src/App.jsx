@@ -5,7 +5,10 @@
 // will "boot" the module and make it ready to use.
 // Currently, browsers don't support natively imported WebAssembly as an ES module, but
 // eventually the manual initialization won't be required!
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Fragment } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckIcon } from '@heroicons/react/24/outline'
 
 import init, {
   mm2_main,
@@ -24,15 +27,6 @@ const LOG_LEVEL = LogLevel.Debug;
 // default export to inform it where the wasm file is located on the
 // server, and then we wait on the returned promise to wait for the
 // wasm to be loaded.
-async function init_wasm() {
-  try {
-    const baseUrl = getBaseUrl()
-    let mm2BinUrl = new URL(baseUrl + "/mm2_bg.wasm")
-    await init(mm2BinUrl);
-  } catch (e) {
-    alert(`Oops: ${e}`);
-  }
-}
 
 const getBaseUrl = () => {
   let url;
@@ -80,6 +74,11 @@ function tryParseJSONObject(jsonString) {
 function App() {
   const outputBottomRef = useRef(null);
   const [outputMessages, setOutputMessages] = useState([["Once mm2 is started, daemon output is rendered here", "blue"]]);
+
+  const [customDialogOpen, setCustomDialogOpen] = useState(false)
+  const [customMM2, setCustomMM2] = useState(null)
+  const [customCoins, setCustomCoins] = useState(null)
+
 
   const initialMm2BtnText = 'Run mm2';
   const [confData, setConfData] = useState(`{
@@ -166,19 +165,26 @@ function App() {
     }
   }, [scrollOutputChecked]);
 
-  useEffect(() => {
-    const run_button = document.getElementById("wid_run_mm2_button");
-    const rpc_button = document.getElementById("wid_mm2_rpc_button");
-    rpc_button.disabled = true;
-    run_button.disabled = true;
-  }, []);
-
+  async function init_wasm(mm2_pointer) {
+    try {
+      if (mm2_pointer) {
+        await init(mm2_pointer);
+      } else {
+        const baseUrl = getBaseUrl()
+        let mm2BinUrl = new URL(baseUrl + "/mm2_bg.wasm")
+        await init(mm2BinUrl);
+      }
+      spawn_mm2_status_checking();
+    } catch (e) {
+      alert(`Oops: ${e}`);
+    }
+  }
 
   function spawn_mm2_status_checking() {
     setInterval(function () {
       const run_button = document.getElementById("wid_run_mm2_button");
       const rpc_button = document.getElementById("wid_mm2_rpc_button");
-
+      const custom_button = document.getElementById("set_custom_mm2_coins");
       const status = mm2_main_status();
       switch (status) {
         case MainStatus.NotRunning:
@@ -189,12 +195,14 @@ function App() {
           //  console.log("NoRpc")
           rpc_button.disabled = true;
           run_button.disabled = false;
+          custom_button.disabled = false;
           setMm2BtnText(() => 'Run mm2')
           break;
         case MainStatus.RpcIsUp:
           //  console.log("RpcIsUp")
           rpc_button.disabled = false;
           run_button.stop_btn = true;
+          custom_button.disabled = true;
           setMm2BtnText(() => 'Stop mm2')
           break;
         default:
@@ -249,7 +257,13 @@ function App() {
 
   const logLevels = [{ id: "debug", title: "Debug" }, { id: "info", title: "Info" }, { id: "warn", title: "Warn" }, { id: "error", title: "Error" },]
 
-  async function run_mm2(params, handle_log) {
+  async function run_mm2(params, handle_log, mm2_pointer) {
+    if (mm2_pointer) {
+      await init_wasm(mm2_pointer)
+    } else {
+      await init_wasm()
+    }
+
     // run an MM2 instance
     try {
       const version = mm2_version();
@@ -300,6 +314,64 @@ function App() {
     }
   }
 
+  async function handleMM2ButtonClick(e) {
+    e.preventDefault()
+    if (mm2BtnTextRef.current === "Stop mm2") {
+      try {
+        let resp = await rpc_request({
+          userpass: mm2UserPassRef.current,
+          method: "stop"
+        })
+        setMm2BtnText(() => 'Run mm2')
+      } catch (error) {
+        alert(`used userPass: ${mm2UserPassRef.current}. error:${error}`)
+      }
+
+    } else {
+      const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
+
+      let params;
+      try {
+        const conf_js = JSON.parse(conf);
+        if (!conf_js.coins) {
+          const baseUrl = getBaseUrl()
+          let coinsUrl = new URL(baseUrl + "/coins")
+          let coins = await fetch(coinsUrl);
+          let coinsJson = await coins.json();
+          conf_js.coins = coinsJson
+          // console.log(conf_js)
+        }
+        setMm2UserPass(() => conf_js.rpc_password)
+        params = {
+          conf: conf_js,
+          log_level: LOG_LEVEL,
+        };
+      } catch (e) {
+        alert(`Expected config in JSON, found '${conf}'\nError : ${e}`);
+        return;
+      }
+      if (customMM2) {
+        await run_mm2(params, handle_log, customMM2);
+      } else {
+        await run_mm2(params, handle_log);
+      }
+    }
+  }
+
+  async function handleRpcButtonClick() {
+    const request_payload = document.getElementById("wid_rpc_input").value;
+    let request_js;
+    try {
+      request_js = JSON.parse(request_payload);
+    } catch (e) {
+      alert(`Expected request in JSON, found '${request_payload}'\nError : ${e}`);
+      return;
+    }
+
+    let response = await rpc_request(request_js);
+    setRpcResponse(() => JSON.stringify(response, null, 2));
+  }
+
   useEffect(() => {
     /* (async () => {
        await init_wasm()
@@ -310,49 +382,57 @@ function App() {
        // this now gets called when the component unmounts
      };*/
 
-    init_wasm().then(function () {
+    const run_button = document.getElementById("wid_run_mm2_button");
+    const rpc_button = document.getElementById("wid_mm2_rpc_button");
+    const custom_button = document.getElementById("set_custom_mm2_coins");
+
+    rpc_button.disabled = true;
+    run_button.disabled = false;
+    custom_button.disabled = false;
+
+    /* init_wasm().then(function () {
       spawn_mm2_status_checking();
       const run_mm2_button = document.getElementById("wid_run_mm2_button");
-      run_mm2_button.addEventListener('click', async (e) => {
-        e.preventDefault()
-        if (mm2BtnTextRef.current === "Stop mm2") {
-          try {
-            let resp = await rpc_request({
-              userpass: mm2UserPassRef.current,
-              method: "stop"
-            })
-            setMm2BtnText(() => 'Run mm2')
-          } catch (error) {
-            alert(`used userPass: ${mm2UserPassRef.current}. error:${error}`)
-          }
-
-        } else {
-          const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
-
-          let params;
-          try {
-            const conf_js = JSON.parse(conf);
-            if (!conf_js.coins) {
-              const baseUrl = getBaseUrl()
-              let coinsUrl = new URL(baseUrl + "/coins")
-              let coins = await fetch(coinsUrl);
-              let coinsJson = await coins.json();
-              conf_js.coins = coinsJson
-              // console.log(conf_js)
-            }
-            setMm2UserPass(() => conf_js.rpc_password)
-            params = {
-              conf: conf_js,
-              log_level: LOG_LEVEL,
-            };
-          } catch (e) {
-            alert(`Expected config in JSON, found '${conf}'\nError : ${e}`);
-            return;
-          }
-
-          await run_mm2(params, handle_log);
-        }
-      });
+       run_mm2_button.addEventListener('click', async (e) => {
+         e.preventDefault()
+         if (mm2BtnTextRef.current === "Stop mm2") {
+           try {
+             let resp = await rpc_request({
+               userpass: mm2UserPassRef.current,
+               method: "stop"
+             })
+             setMm2BtnText(() => 'Run mm2')
+           } catch (error) {
+             alert(`used userPass: ${mm2UserPassRef.current}. error:${error}`)
+           }
+ 
+         } else {
+           const conf = document.getElementById("wid_conf_input").value || document.getElementById("wid_conf_input").defaultValue;
+ 
+           let params;
+           try {
+             const conf_js = JSON.parse(conf);
+             if (!conf_js.coins) {
+               const baseUrl = getBaseUrl()
+               let coinsUrl = new URL(baseUrl + "/coins")
+               let coins = await fetch(coinsUrl);
+               let coinsJson = await coins.json();
+               conf_js.coins = coinsJson
+               // console.log(conf_js)
+             }
+             setMm2UserPass(() => conf_js.rpc_password)
+             params = {
+               conf: conf_js,
+               log_level: LOG_LEVEL,
+             };
+           } catch (e) {
+             alert(`Expected config in JSON, found '${conf}'\nError : ${e}`);
+             return;
+           }
+ 
+           await run_mm2(params, handle_log);
+         }
+       });
 
       const rpc_request_button = document.getElementById("wid_mm2_rpc_button");
       rpc_request_button.addEventListener('click', async () => {
@@ -368,7 +448,7 @@ function App() {
         let response = await rpc_request(request_js);
         setRpcResponse(() => JSON.stringify(response, null, 2));
       });
-    });
+    });*/
 
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
   }, []);
@@ -425,9 +505,13 @@ function App() {
                     </div>
                   </div>  */}
                 </div>
-                <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto">
-                  <span className="my-auto flex items-center">{mm2BtnText}</span>
-                </button>
+                <div className="flex flex-row">
+                  <button id="wid_run_mm2_button" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-[142px] mx-auto" onClick={handleMM2ButtonClick}>
+                    <span className="my-auto flex items-center">{mm2BtnText}</span>
+                  </button>
+                  <button id="set_custom_mm2_coins" className="inline-flex justify-center rounded-lg text-sm font-semibold  px-4 my-2 bg-slate-500 text-gray-400 enabled:text-gray-700 enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500 h-[32px] w-auto mx-auto" onClick={() => setCustomDialogOpen(true)}>
+                    <span className="my-auto flex items-center">Set custom mm2/coins</span>
+                  </button></div>
                 <div className='relative'>
                   <div id="wid_mm2_output" className="w-full h-[60vh] overflow-y-scroll rounded-lg bg-slate-800 shadow text-gray-300 p-4 relative">
                     {outputMessages.map((message, index) => {
@@ -545,7 +629,7 @@ function App() {
                     </div>
                   </div> */}
                 </div>
-                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto">
+                <button id="wid_mm2_rpc_button" className="inline-flex justify-center rounded-lg text-sm font-semibold my-2 px-4 bg-slate-500 text-gray-400 enabled:text-gray-700  enabled:hover:text-gray-100 enabled:bg-slate-100 enabled:hover:bg-blue-500  h-[32px] w-[142px] mx-auto" onClick={handleRpcButtonClick}>
                   <span className="my-auto flex items-center">Send request</span>
                 </button>
                 <div className='relative'>
@@ -595,6 +679,62 @@ function App() {
           </div>
         </div>
       </main>
+      <Transition.Root show={customDialogOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={setCustomDialogOpen}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                  <div>
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                      <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    </div>
+                    <div className="mt-3 text-center sm:mt-5">
+                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                        Payment successful
+                      </Dialog.Title>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 sm:mt-6">
+                    <button
+                      type="button"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
+                      onClick={() => setCustomDialogOpen(false)}
+                    >
+                      Go back to dashboard
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
       {/* <footer>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="border-t border-gray-700 py-8 text-center text-sm text-gray-200 sm:text-left">
