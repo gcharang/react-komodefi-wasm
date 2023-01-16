@@ -19,5 +19,5 @@ To keep multiple versions of mm2 bin in the public folder and test them one by o
 
 might want to re start the dev server when mm2 being used is changed in code or replaced with same name in file system
 
-best to open the url: http://localhost:1234/ in a private/incognito window when testing code/mm2 changes to be completely sure cached mm2 bins/other code isn't interfering
+best to open the url: http://localhost:1234/ in a private/incognito window when testing code/mm2 changes, to be completely sure that cached mm2 bins/other code aren't interfering
 
