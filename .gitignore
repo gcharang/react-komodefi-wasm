@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # Custom
-wasm_versions
+wasm_versions/
+coins_versions/
