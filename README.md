@@ -21,3 +21,4 @@ might want to re start the dev server when mm2 being used is changed in code or 
 
 best to open the url: http://localhost:1234/ in a private/incognito window when testing code/mm2 changes, to be completely sure that cached mm2 bins/other code aren't interfering
 
+To update the API version using a url to a zipfile, use `./update_wasm.sh $zipfile_url`
