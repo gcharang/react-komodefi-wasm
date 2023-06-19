@@ -7,7 +7,7 @@
         "tokens_params": [
              {"ticker":"ATOM-IBC_IRIS"
         }],
-       "rpc_urls": ["https://iris.komodo.live/"]
+       "rpc_urls": ["https://iris.komodo.earth/"]
     },
     "userpass":"testpsw"
 }
