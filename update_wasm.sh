@@ -1,3 +1,5 @@
+#!/bin/bash
+
 [ ! -d wasm_versions ] && mkdir wasm_versions
 cd wasm_versions
 fn=${1##*/}
@@ -10,3 +12,8 @@ mv mm2lib.js ../../src/js/mm2.js
 cp -r snippets/* ../../src/js/snippets/
 cd ..
 rm -rf temp
+cd ..
+basename=$(basename "$fn" .zip) # Remove .zip from filename
+temp=${basename#*_}
+version=${temp%-wasm} # Remove everything up to and including the first underscore
+echo "VITE_WASM_VERSION=$version" >.env

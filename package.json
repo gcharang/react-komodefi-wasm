@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "./prebuild.sh && vite build && ./postbuild.sh",
     "preview": "vite preview"
   },
   "dependencies": {

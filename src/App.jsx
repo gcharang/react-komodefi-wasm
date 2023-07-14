@@ -27,7 +27,14 @@ const LOG_LEVEL = LogLevel.Debug;
 async function init_wasm() {
   try {
     const baseUrl = getBaseUrl()
-    let mm2BinUrl = new URL(baseUrl + "/mm2_bg.wasm")
+    let wasm_bin_path
+    if (import.meta.env.DEV) {
+      wasm_bin_path = `/mm2_bg.wasm?v=${Date.now()}`
+    } else {
+      wasm_bin_path = `/mm2_${import.meta.env.VITE_WASM_VERSION}_bg.wasm`
+    }
+    let mm2BinUrl = new URL(baseUrl + wasm_bin_path)
+    console.log(mm2BinUrl)
     await init(mm2BinUrl);
   } catch (e) {
     alert(`Oops: ${e}`);
@@ -35,17 +42,7 @@ async function init_wasm() {
 }
 
 const getBaseUrl = () => {
-  let url;
-  switch (process.env.NODE_ENV) {
-    case 'production':
-      url = 'https://atomicdex-play.lordofthechains.com';
-      break;
-    case 'development':
-    default:
-      url = 'http://localhost:1234';
-  }
-
-  return url;
+  return window.location.protocol + "//" + window.location.host;
 }
 
 
@@ -167,6 +164,7 @@ function App() {
     setInterval(function () {
       const run_button = document.getElementById("wid_run_mm2_button");
       const rpc_button = document.getElementById("wid_mm2_rpc_button");
+      const conf_input = document.getElementById("wid_conf_input");
 
       const status = mm2_main_status();
       switch (status) {
@@ -178,12 +176,14 @@ function App() {
           //  console.log("NoRpc")
           rpc_button.disabled = true;
           run_button.disabled = false;
+          conf_input.disabled = false;
           setMm2BtnText(() => 'Run mm2')
           break;
         case MainStatus.RpcIsUp:
           //  console.log("RpcIsUp")
           rpc_button.disabled = false;
           run_button.stop_btn = true;
+          conf_input.disabled = true;
           setMm2BtnText(() => 'Stop mm2')
           break;
         default:
@@ -370,10 +370,11 @@ function App() {
           {/* Main 3 column grid */}
           <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
             {/* Left column */}
+
             <div className="grid h-full  grid-cols-1 gap-4 lg:col-span-2">
               <section aria-labelledby="section-1-title" className="flex flex-col justify-between">
                 <div className='relative'>
-                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2" defaultValue={confData}>
+                  <textarea id="wid_conf_input" className="w-full h-[30vh] rounded-lg bg-slate-800 shadow text-gray-300 p-2 disabled:opacity-[50%]" defaultValue={confData}>
                   </textarea>
                   {/* <div className="absolute w-[80px] bottom-[20px] right-[30px] top-1/2 -translate-y-1/2 bg-slate-500 opacity-40 hover:opacity-100 justify-around flex flex-col">
                     <div className="relative flex flex-col items-center mx-auto">
