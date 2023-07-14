@@ -34,7 +34,6 @@ async function init_wasm() {
       wasm_bin_path = `/mm2_${import.meta.env.VITE_WASM_VERSION}_bg.wasm`
     }
     let mm2BinUrl = new URL(baseUrl + wasm_bin_path)
-    console.log(mm2BinUrl)
     await init(mm2BinUrl);
   } catch (e) {
     alert(`Oops: ${e}`);
