@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PlayIcon, StopIcon } from "../components/IconComponents";
+import { Send, StopIcon } from "./IconComponents";
 import { rpc_request } from "../shared-functions/rpcRequest";
 import { rpcDefaultConfig } from "../state-machine/staticData";
 
@@ -26,15 +26,18 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
     <div className="h-full flex flex-col">
       <div className="w-full p-2 bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3">
-          {isMm2Running && (
-            <PlayIcon
-              disabled={isMm2Running}
+          <button
+            disabled={!isMm2Running}
+            className="text-base flex gap-1 hover:text-white disabled:text-gray-600 cursor-not-allowed"
+          >
+            <span>Send</span>{" "}
+            <Send
               onClick={() => sendRpcRequest()}
               role="button"
-              className="w-6 h-6 cursor-pointer hover:fill-green-500"
+              className={`w-6 h-6 cursor-pointer`}
               title="Send RPC request"
             />
-          )}
+          </button>
         </div>
       </div>
       <textarea

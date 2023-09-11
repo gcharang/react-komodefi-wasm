@@ -238,7 +238,29 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
     <div className="h-full flex flex-col">
       <div className="w-full p-2 bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3">
-          {mm2State.mm2Running ? (
+          <button
+            onClick={() => toggleMm2()}
+            className=" text-base flex gap-1 hover:text-white group"
+          >
+            {!mm2State.mm2Running ? (
+              <>
+                <span>Run MM2</span>{" "}
+                <PlayIcon
+                  role="image"
+                  className="w-6 h-6 cursor-pointer group-hover:fill-green-500"
+                />
+              </>
+            ) : (
+              <>
+                <span>Stop MM2</span>
+                <StopIcon
+                  role="image"
+                  className="w-6 h-6 cursor-pointer group-hover:fill-red-500"
+                />
+              </>
+            )}
+          </button>
+          {/* {mm2State.mm2Running ? (
             <StopIcon
               onClick={() => toggleMm2()}
               role="button"
@@ -252,7 +274,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
               className="w-6 h-6 cursor-pointer hover:fill-green-500"
               title="Run MM2"
             />
-          )}
+          )} */}
         </div>
       </div>
       <textarea
