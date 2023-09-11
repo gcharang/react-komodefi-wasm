@@ -2,6 +2,7 @@ import { useState } from "react";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
+import SideBar from "./components/SideBar";
 import RpcResponsePanel from "./components/RpcResponsePanel";
 import { rpcDefaultConfig } from "./state-machine/staticData";
 // #a2a3bd
@@ -51,13 +52,13 @@ function App() {
           className="w-40"
         >
           <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10">
-            Top bar
+            MM2 Playground
           </div>
+          <SideBar />
         </div>
         <div
           draggable
           onDragEnd={(elem) => {
-            console.log("Stop here: ", elem.clientX);
             setWindowSizes({
               ...windowSizes,
               sidebar: elem.clientX,
