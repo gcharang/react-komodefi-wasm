@@ -1,18 +1,15 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlayIcon, StopIcon } from "../components/IconComponents";
 
 import init, {
+  LogLevel,
+  MainStatus,
+  Mm2MainErr,
   mm2_main,
   mm2_main_status,
-  mm2_rpc,
+  mm2_stop,
   mm2_version,
-  LogLevel,
-  Mm2MainErr,
-  MainStatus,
-  Mm2RpcErr,
 } from "../js/mm2.js";
-import { rpc_request } from "../shared-functions/rpcRequest";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -173,24 +170,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
 
   const toggleMm2 = async () => {
     if (mm2State.mm2Running) {
-      // setLoading({ id: "mm2Stopping" });
-      try {
-        let resp = await rpc_request({
-          userpass: mm2State.mm2UserPass,
-          method: "stop",
-        });
-        setMm2State((currentValues) => {
-          return {
-            ...currentValues,
-            mm2Running: false,
-          };
-        });
-      } catch (error) {
-        alert(`used userPass: ${mm2State.mm2UserPass}. error:${error}`);
-      }
-      // finally {
-      //   setLoading({ id: "" });
-      // }
+      mm2_stop();
     } else {
       let params;
       try {
@@ -240,14 +220,14 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         <div className="flex gap-3">
           <button
             onClick={() => toggleMm2()}
-            className=" text-base flex gap-1 hover:text-white group"
+            className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347]"
           >
             {!mm2State.mm2Running ? (
               <>
-                <span>Run MM2</span>{" "}
+                <span>Run MM2</span>
                 <PlayIcon
                   role="image"
-                  className="w-6 h-6 cursor-pointer group-hover:fill-green-500"
+                  className="w-5 h-5 cursor-pointer fill-green-500"
                 />
               </>
             ) : (
@@ -255,26 +235,11 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
                 <span>Stop MM2</span>
                 <StopIcon
                   role="image"
-                  className="w-6 h-6 cursor-pointer group-hover:fill-red-500"
+                  className="w-5 h-5 cursor-pointer fill-red-500"
                 />
               </>
             )}
           </button>
-          {/* {mm2State.mm2Running ? (
-            <StopIcon
-              onClick={() => toggleMm2()}
-              role="button"
-              className="w-6 h-6 cursor-pointer hover:fill-red-500"
-              title="Run MM2"
-            />
-          ) : (
-            <PlayIcon
-              onClick={() => toggleMm2()}
-              role="button"
-              className="w-6 h-6 cursor-pointer hover:fill-green-500"
-              title="Run MM2"
-            />
-          )} */}
         </div>
       </div>
       <textarea
@@ -287,7 +252,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
             };
           })
         }
-        className="p-3 w-full h-full resize-none border-none outline-none overflow-hidden bg-transparent text-gray-400 disabled:opacity-[50%]"
+        className="p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]"
         value={mm2State.mm2Config}
       ></textarea>
     </div>

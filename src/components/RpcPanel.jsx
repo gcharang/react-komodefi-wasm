@@ -27,14 +27,14 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
       <div className="w-full p-2 bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3">
           <button
+            onClick={() => sendRpcRequest()}
             disabled={!isMm2Running}
-            className="text-base flex gap-1 hover:text-white disabled:text-gray-600 cursor-not-allowed"
+            className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed"
           >
             <span>Send</span>{" "}
             <Send
-              onClick={() => sendRpcRequest()}
-              role="button"
-              className={`w-6 h-6 cursor-pointer`}
+              role="image"
+              className={`w-5 h-5 cursor-pointer`}
               title="Send RPC request"
             />
           </button>
