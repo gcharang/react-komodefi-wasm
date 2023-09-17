@@ -17,11 +17,6 @@ const getBaseUrl = () => {
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
-  const [loading, setLoading] = useState({
-    id: "",
-  });
-
-  // console.log(mm2Logs.outputMessages);
   function handle_log(level, line) {
     switch (level) {
       case LogLevel.Off:
@@ -165,7 +160,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         default:
           throw new Error(`Expected MainStatus, found: ${status}`);
       }
-    }, 100);
+    }, 300);
   }
 
   const toggleMm2 = async () => {
