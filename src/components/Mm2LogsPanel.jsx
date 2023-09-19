@@ -2,17 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
 
-const Mm2LogsPanel = ({ mm2Logs, setMm2Logs }) => {
+const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
   const [copied, setCopied] = useState(false);
+  const [isInlineCopied, setIsInlineCopied] = useState({ id: "" });
   const [shouldAlwaysScrollToBottom, setShouldAlwaysScrollToBottom] =
     useState(true);
   let mm2Ref = useRef(null);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = (data) => {
     try {
-      navigator.clipboard.writeText(mm2Logs.map((log) => log[0]).join("\n"));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1000);
+      navigator.clipboard.writeText(data);
     } catch (error) {
       // you know what to do
     }
@@ -46,7 +45,17 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs }) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <DoubleDown />
+            <DoubleDown
+              onClick={() => {
+                setWindowSizes({
+                  ...windowSizes,
+                  bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
+                });
+              }}
+              className={`w-6 h-6 cursor-pointer hover:text-white transition ${
+                windowSizes.bottomBar <= 40 ? "rotate-180" : ""
+              }`}
+            />
             <NoSymbol
               onClick={() => {
                 setMm2Logs((currentValues) => {
@@ -62,7 +71,11 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs }) => {
             />
             {!copied && (
               <Clipboard
-                onClick={() => copyToClipboard()}
+                onClick={() => {
+                  copyToClipboard(mm2Logs.map((log) => log[0]).join("\n"));
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1000);
+                }}
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-white"
                 title="Copy Logs"
@@ -70,9 +83,13 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs }) => {
             )}
             {copied && (
               <CheckCircle
-                onClick={() => copyToClipboard()}
+                onClick={() => {
+                  copyToClipboard(mm2Logs.map((log) => log[0]).join("\n"));
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1000);
+                }}
                 role="image"
-                className="w-6 h-6 Check hover:text-green-600"
+                className="w-6 h-6 text-green-600"
               />
             )}
           </div>
@@ -98,15 +115,44 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs }) => {
         ref={(mm2LogsRef) => {
           mm2Ref = mm2LogsRef;
         }}
-        className="p-2 overflow-hidden overflow-y-auto break-words"
+        className={`p-2 overflow-hidden overflow-y-auto break-words ${
+          windowSizes.bottomBar <= 40 && "hidden"
+        }`}
       >
         {mm2Logs.map((message, index) => {
           return (
             <p
+              onClick={() => {
+                copyToClipboard(message[0]);
+                setIsInlineCopied({ id: index });
+                setTimeout(() => {
+                  setIsInlineCopied({ id: "" });
+                }, 1000);
+              }}
               key={index}
-              className={`text-${message[1]}-300 text-base font-bold border-slate-700 border-b`}
+              className={`whitespace-pre-wrap text-${message[1]}-300 ${
+                isInlineCopied.id === index &&
+                "text-green-600 hover:text-green-600"
+              } flex group hover:text-white hover:cursor-pointer text-base font-bold border-slate-700 border-b`}
             >
               {message[0]}
+              <span className="ml-1">
+                {isInlineCopied.id !== index && (
+                  <Clipboard
+                    role="image"
+                    alt="copy to clipboard icon"
+                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6"
+                    title="Copy Logs"
+                  />
+                )}
+                {isInlineCopied.id === index && (
+                  <CheckCircle
+                    role="image"
+                    alt="copied to clipboard icon"
+                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6 text-green-600"
+                  />
+                )}
+              </span>
             </p>
           );
         })}

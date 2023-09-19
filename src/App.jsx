@@ -11,7 +11,7 @@ import { MenuIcon } from "./components/IconComponents";
 function App() {
   const [windowSizes, setWindowSizes] = useState({
     sidebar: 40,
-    bottomBar: 220,
+    bottomBar: 220, // the menubar above it is 40px
     leftPane: null,
     rightPane: null,
   });
@@ -49,7 +49,7 @@ function App() {
         Use at your own risk. Do not store/load seeds/wallets with coins/tokens
         of any significant value
       </p> */}
-      <div className="flex h-full">
+      <div className="flex h-full m-auto max-w-[2200px]">
         <div className="h-full flex justify-between bg-[#11182f] text-[#a2a3bd]">
           <div
             style={{
@@ -58,7 +58,7 @@ function App() {
             className="w-40"
           >
             <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10">
-              <MenuIcon className="w-6 h-6 cursor-pointer hover:text-white" />
+              <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-white" />
             </div>
             <SideBar />
           </div>
@@ -119,7 +119,10 @@ function App() {
               onDragEnd={(elem) => {
                 setWindowSizes({
                   ...windowSizes,
-                  bottomBar: window.innerHeight - elem.clientY,
+                  bottomBar:
+                    window.innerHeight - elem.clientY >= 80
+                      ? window.innerHeight - elem.clientY
+                      : 40,
                 });
               }}
               className="cursor-ns-resize hover:border-t-gray-300 w-full border-b border-b-gray-800 hover:bg-gray-700 hover:border-none p-1"
@@ -131,6 +134,8 @@ function App() {
               className="flex text-white"
             >
               <Mm2LogsPanel
+                windowSizes={windowSizes}
+                setWindowSizes={setWindowSizes}
                 mm2Logs={mm2Logs.outputMessages}
                 setMm2Logs={setMm2Logs}
               />
