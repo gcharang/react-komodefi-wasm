@@ -10,6 +10,7 @@ import init, {
   mm2_stop,
   mm2_version,
 } from "../js/mm2.js";
+import useIsValidSchema from "../shared-functions/useIsValidSchema";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -17,6 +18,7 @@ const getBaseUrl = () => {
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
+  const [isValidSchema] = useIsValidSchema(mm2State.mm2Config);
   function handle_log(level, line) {
     switch (level) {
       case LogLevel.Off:
@@ -211,7 +213,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="w-full p-2 bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3">
           <button
             onClick={() => toggleMm2()}
@@ -247,7 +249,9 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
             };
           })
         }
-        className="p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]"
+        className={`${
+          isValidSchema ? "focus:ring-blue-700" : "focus:ring-red-700"
+        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2State.mm2Config}
       ></textarea>
     </div>

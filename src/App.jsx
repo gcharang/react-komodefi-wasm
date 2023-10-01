@@ -6,6 +6,7 @@ import SideBar from "./components/SideBar";
 import RpcResponsePanel from "./components/RpcResponsePanel";
 import { rpcDefaultConfig } from "./state-machine/staticData";
 import { MenuIcon } from "./components/IconComponents";
+import { WarningDialog } from "./components/WarningModal";
 // #a2a3bd
 
 function App() {
@@ -49,15 +50,16 @@ function App() {
         Use at your own risk. Do not store/load seeds/wallets with coins/tokens
         of any significant value
       </p> */}
+      <WarningDialog />
       <div className="flex h-full m-auto max-w-[2200px]">
-        <div className="h-full flex justify-between bg-[#11182f] text-[#a2a3bd]">
+        <div className="h-full flex justify-between bg-primaryLight text-[#a2a3bd]">
           <div
             style={{
               width: windowSizes.sidebar,
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10">
+            <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10">
               <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-white" />
             </div>
             <SideBar />
@@ -107,6 +109,7 @@ function App() {
               <div className="flex-1 h-full text-gray-300">
                 <RpcPanel
                   isMm2Running={mm2State.mm2Running}
+                  mm2Config={mm2State.mm2Config}
                   rpcRequest={rpcRequest}
                   setRpcRequest={setRpcRequest}
                 />

@@ -5,15 +5,24 @@ import {
   getRawValues,
 } from "../shared-functions/fetchRpcMethods";
 import { rpc_request } from "../shared-functions/rpcRequest";
-import { Send } from "./IconComponents";
+import { Send, SettingsIcon } from "./IconComponents";
+import { SettingsDialog } from "./SettingsDialog";
+import useIsValidSchema from "../shared-functions/useIsValidSchema";
 
-const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
+
+const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
   const [methods, setMethods] = useState([]);
-
-  const generateRpcMethods = async () => {
-    const methods = await fetchRpcMethods();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
+    rpcRequest.config
+  );
+  const generateRpcMethods = async (collectionUrl) => {
+    const methods = await fetchRpcMethods(collectionUrl);
     let result = getRawValues(methods.item);
-    if (result) setMethods(result);
+    if (result) {
+      setMethods(result);
+      return result;
+    }
   };
   useEffect(() => {
     generateRpcMethods();
@@ -37,12 +46,60 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
     });
   };
 
-  const ListBox = () => {
-    const MenuItem = ({ label, children }) => {
-      const [isOpen, setIsOpen] = useState(false);
+  const grabMM2RpcPassword = () => {
+    try {
+      return JSON.parse(mm2Config).rpc_password;
+    } catch (error) {
+      console.error(
+        "An error occurred while trying to parse MM2 config",
+        error
+      );
+      return undefined;
+    }
+  };
 
-      const toggleSubMenu = () => {
-        setIsOpen(!isOpen);
+  function updateUserPass(json, newValue) {
+    try {
+      // Convert to string and replace value
+      let str = json.replace(
+        /"userpass"\s*:\s*"[^"]+"/,
+        `"userpass": "${newValue}"`
+      );
+      // Convert back to JSON
+      return JSON.parse(str);
+    } catch (error) {
+      console.error("An error occurred", error);
+      return null;
+    }
+  }
+
+  const syncPanelPasswords = (rpcRequestConfig) => {
+    const rpcPassword = grabMM2RpcPassword();
+    if (rpcPassword) {
+      const updatedUserPassword = updateUserPass(
+        rpcRequestConfig ? rpcRequestConfig : rpcRequest.config,
+        rpcPassword
+      );
+      if (updatedUserPassword)
+        setRpcRequest((prev) => {
+          return {
+            ...prev,
+            config: JSON.stringify(updatedUserPassword, null, 2),
+          };
+        });
+    }
+  };
+
+  useEffect(() => {
+    syncPanelPasswords();
+  }, [mm2Config]);
+
+  const ListBox = () => {
+    const [activeMenuItem, setActiveMenuItem] = useState();
+
+    const MenuItem = ({ label, children }) => {
+      const toggleSubMenu = (menuLabel) => {
+        setActiveMenuItem(activeMenuItem === menuLabel ? "" : menuLabel);
       };
 
       return (
@@ -50,13 +107,16 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
           role="menuitem"
           className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-slate-900 border-b border-b-gray-600 last:border-none"
         >
-          <button onClick={toggleSubMenu} className="block w-full text-left">
+          <button
+            onClick={() => toggleSubMenu(label)}
+            className="block w-full text-left"
+          >
             {label}
             {children && (
               <span className="absolute top-0 right-0 mt-2 mr-4">
                 <svg
-                  className={`w-5 h-5 ml-2 -mr-1 transition-all ${
-                    isOpen && "rotate-180"
+                  className={`w-5 h-5 ml-2 -mr-1 transition-all duration-200 ${
+                    activeMenuItem === label ? "rotate-180" : "rotate-0"
                   }`}
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -70,7 +130,7 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
               </span>
             )}
           </button>
-          {isOpen && children && (
+          {activeMenuItem === label && children && (
             <ul role="menu" className="">
               {children}
             </ul>
@@ -87,9 +147,9 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
-            aria-controls=""
+            aria-controls="mm2-methods"
           >
-            <span>Options</span>
+            <span>Methods</span>
             <svg
               className="w-5 h-5 ml-2 -mr-1"
               viewBox="0 0 20 20"
@@ -103,7 +163,7 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
             </svg>
           </button>
         </span>
-        <div className="group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+        <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
           <div
             className="absolute z-10 max-h-[40rem] right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-[#131d3b] divide-y rounded-md shadow-lg outline-none"
             aria-labelledby="RPC methods dropdown menu"
@@ -111,6 +171,7 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
           >
             <ul
               role="menu"
+              id="mm2-methods"
               className="py-1 flex flex-col h-[40rem] overflow-hidden overflow-y-auto"
             >
               {Object.keys(methods).map((methodList) => {
@@ -128,12 +189,13 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
                                 null,
                                 2
                               );
-                              setRpcRequest((currentValues) => {
-                                return {
-                                  ...currentValues,
-                                  config: prettifiedJSON,
-                                };
-                              });
+                              // setRpcRequest((currentValues) => {
+                              //   return {
+                              //     ...currentValues,
+                              //     config: prettifiedJSON,
+                              //   };
+                              // });
+                              syncPanelPasswords(prettifiedJSON);
                             }}
                             className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
                           >
@@ -158,13 +220,15 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col">
-        <div className="w-full p-2 bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
+        <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
           <div className="flex justify-between">
             <div className="flex gap-3">
               <button
                 onClick={() => sendRpcRequest()}
                 disabled={!isMm2Running}
-                className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed"
+                className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
+                  isMm2Running ? "bg-blue-900 text-white" : "bg-transparent"
+                }`}
               >
                 <span>Send</span>{" "}
                 <Send
@@ -174,28 +238,59 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest }) => {
                 />
               </button>
             </div>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
+              <SettingsIcon
+                aria-label="open settings dialog"
+                onClick={() => setIsDialogOpen(true)}
+                role="button"
+                className="w-5 h-5 cursor-pointer"
+              />
               <ListBox />
             </div>
           </div>
         </div>
         <textarea
-          onChange={(e) =>
-            setRpcRequest((currentValues) => {
-              return {
-                ...currentValues,
-                config: e.target.value,
-              };
-            })
-          }
-          className="p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%] whitespace-pre-wrap"
+          onChange={(e) => {
+            let value = e.target.value;
+            if (checkIfSchemaValid(value)) {
+              console.log("schema valid");
+              syncPanelPasswords(value);
+            } else {
+              console.log("schema not valid");
+              setRpcRequest((currentValues) => {
+                return {
+                  ...currentValues,
+                  config: value,
+                };
+              });
+            }
+          }}
+          className={`${
+            isValidSchema ? "focus:ring-blue-700" : "focus:ring-red-700"
+          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
           value={rpcRequest.config}
         ></textarea>
       </div>
     );
-  }, [isMm2Running, methods, rpcRequest, setRpcRequest]);
+  }, [
+    isMm2Running,
+    methods,
+    rpcRequest,
+    setRpcRequest,
+    mm2Config,
+    isValidSchema,
+  ]);
 
-  return <> {panel}</>;
+  return (
+    <>
+      <SettingsDialog
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        generateRpcMethods={generateRpcMethods}
+      />
+      {panel}
+    </>
+  );
 };
 
 export default RpcPanel;

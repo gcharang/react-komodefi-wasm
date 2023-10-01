@@ -17,7 +17,7 @@ const RpcResponsePanel = ({ rpcRequestResponse }) => {
 
   return (
     <div className="w-1/2 grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3 items-center">
           {!copied && (
             <Clipboard

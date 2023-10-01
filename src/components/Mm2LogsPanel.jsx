@@ -42,7 +42,7 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
   ];
   return (
     <div className="w-1/2 grid grid-flow-row border-r border-r-gray-700">
-      <div className="w-full p-2 flex-[0_0_auto] bg-[#11182f] text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <DoubleDown
