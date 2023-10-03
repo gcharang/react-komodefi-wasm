@@ -7,7 +7,6 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import { rpcDefaultConfig } from "./state-machine/staticData";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
-// #a2a3bd
 
 function App() {
   const [windowSizes, setWindowSizes] = useState({

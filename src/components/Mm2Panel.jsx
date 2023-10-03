@@ -122,10 +122,12 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
     try {
       const baseUrl = getBaseUrl();
       let wasm_bin_path;
-      if (import.meta.env.DEV) {
+      if (process.env.NODE_ENV !== "production") {
         wasm_bin_path = `/mm2_bg.wasm?v=${Date.now()}`;
       } else {
-        wasm_bin_path = `/mm2_${import.meta.env.VITE_WASM_VERSION}_bg.wasm`;
+        wasm_bin_path = `/mm2_${
+          import.meta.env.NEXT_PUBLIC_WASM_VERSION
+        }_bg.wasm`;
       }
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
       await init(mm2BinUrl);

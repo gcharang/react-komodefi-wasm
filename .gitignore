@@ -26,3 +26,6 @@ dist-ssr
 # Custom
 wasm_versions/
 coins_versions/
+
+.next
+next-env.d.ts
