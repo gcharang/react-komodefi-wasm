@@ -11,20 +11,25 @@ import init, {
   mm2_version,
 } from "../js/mm2.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useMm2PanelState } from "../store/mm2";
+import { useMm2LogsPanelState } from "../store/mm2Logs";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
 };
 const LOG_LEVEL = LogLevel.Debug;
 
-const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
-  const [isValidSchema] = useIsValidSchema(mm2State.mm2Config);
+const Mm2Panel = () => {
+  const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
+  const { setMm2LogsPanelState } = useMm2LogsPanelState();
+  const [isValidSchema] = useIsValidSchema(mm2PanelState.mm2Config);
+
   function handle_log(level, line) {
     switch (level) {
       case LogLevel.Off:
         break;
       case LogLevel.Error:
-        setMm2Logs((current) => {
+        setMm2LogsPanelState((current) => {
           return {
             ...current,
             outputMessages: [
@@ -36,7 +41,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         console.error(line);
         break;
       case LogLevel.Warn:
-        setMm2Logs((current) => {
+        setMm2LogsPanelState((current) => {
           return {
             ...current,
             outputMessages: [
@@ -48,7 +53,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         console.warn(line);
         break;
       case LogLevel.Info:
-        setMm2Logs((current) => {
+        setMm2LogsPanelState((current) => {
           return {
             ...current,
             outputMessages: [
@@ -65,7 +70,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
       case LogLevel.Trace:
       default:
         // The console.trace method outputs some extra trace from the generated JS glue code which we don't want.
-        setMm2Logs((current) => {
+        setMm2LogsPanelState((current) => {
           return {
             ...current,
             outputMessages: [
@@ -83,7 +88,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
     // run an MM2 instance
     try {
       const version = mm2_version();
-      setMm2Logs((current) => {
+      setMm2LogsPanelState((current) => {
         return {
           ...current,
           outputMessages: [
@@ -145,7 +150,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         // console.log("NoContext")
         case MainStatus.NoRpc:
           //  console.log("NoRpc")
-          setMm2State((currentValues) => {
+          setMm2PanelState((currentValues) => {
             return {
               ...currentValues,
               mm2Running: false,
@@ -154,7 +159,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
           break;
         case MainStatus.RpcIsUp:
           //  console.log("RpcIsUp")
-          setMm2State((currentValues) => {
+          setMm2PanelState((currentValues) => {
             return {
               ...currentValues,
               mm2Running: true,
@@ -168,13 +173,13 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
   }
 
   const toggleMm2 = async () => {
-    if (mm2State.mm2Running) {
+    if (mm2PanelState.mm2Running) {
       mm2_stop();
     } else {
       let params;
       try {
         // setLoading({ id: "mm2CommandInitiated" });
-        const conf_js = JSON.parse(mm2State.mm2Config);
+        const conf_js = JSON.parse(mm2PanelState.mm2Config);
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
           let coinsUrl = new URL(baseUrl + "/coins");
@@ -183,7 +188,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
           conf_js.coins = coinsJson;
           // console.log(conf_js)
         }
-        setMm2State((currentValues) => {
+        setMm2PanelState((currentValues) => {
           return {
             ...currentValues,
             mm2UserPass: conf_js.rpc_password,
@@ -195,7 +200,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         };
       } catch (e) {
         alert(
-          `Expected config in JSON, found '${mm2State.mm2Config}'\nError : ${e}`
+          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
         );
         return;
       }
@@ -221,7 +226,7 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
             onClick={() => toggleMm2()}
             className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347]"
           >
-            {!mm2State.mm2Running ? (
+            {!mm2PanelState.mm2Running ? (
               <>
                 <span>Run MM2</span>
                 <PlayIcon
@@ -242,9 +247,9 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
         </div>
       </div>
       <textarea
-        disabled={mm2State.mm2Running}
+        disabled={mm2PanelState.mm2Running}
         onChange={(e) =>
-          setMm2State((currentValues) => {
+          setMm2PanelState((currentValues) => {
             return {
               ...currentValues,
               mm2Config: e.target.value,
@@ -252,9 +257,11 @@ const Mm2Panel = ({ mm2State, setMm2State, setMm2Logs }) => {
           })
         }
         className={`${
-          isValidSchema ? "focus:ring-blue-700" : "focus:ring-red-700"
+          isValidSchema
+            ? "focus:ring-blue-700"
+            : "focus:ring-red-700 focus:ring-2"
         } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
-        value={mm2State.mm2Config}
+        value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
   );

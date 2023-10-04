@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
+import { useMm2LogsPanelState } from "../store/mm2Logs";
 
-const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
+const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
+  const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();
   const [copied, setCopied] = useState(false);
   const [isInlineCopied, setIsInlineCopied] = useState({ id: "" });
   const [shouldAlwaysScrollToBottom, setShouldAlwaysScrollToBottom] =
@@ -21,7 +23,7 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
     if (shouldAlwaysScrollToBottom && mm2Ref) {
       mm2Ref.scrollBy(0, mm2Ref.scrollHeight);
     }
-  }, [shouldAlwaysScrollToBottom, mm2Logs, mm2Ref]);
+  }, [shouldAlwaysScrollToBottom, mm2LogsPanelState.outputMessages, mm2Ref]);
 
   useEffect(() => {
     if (mm2Ref)
@@ -58,7 +60,7 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
             />
             <NoSymbol
               onClick={() => {
-                setMm2Logs((currentValues) => {
+                setMm2LogsPanelState((currentValues) => {
                   return {
                     ...currentValues,
                     outputMessages: [],
@@ -72,7 +74,11 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
             {!copied && (
               <Clipboard
                 onClick={() => {
-                  copyToClipboard(mm2Logs.map((log) => log[0]).join("\n"));
+                  copyToClipboard(
+                    mm2LogsPanelState.outputMessages
+                      .map((log) => log[0])
+                      .join("\n")
+                  );
                   setCopied(true);
                   setTimeout(() => setCopied(false), 1000);
                 }}
@@ -84,7 +90,11 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
             {copied && (
               <CheckCircle
                 onClick={() => {
-                  copyToClipboard(mm2Logs.map((log) => log[0]).join("\n"));
+                  copyToClipboard(
+                    mm2LogsPanelState.outputMessages
+                      .map((log) => log[0])
+                      .join("\n")
+                  );
                   setCopied(true);
                   setTimeout(() => setCopied(false), 1000);
                 }}
@@ -119,7 +129,7 @@ const Mm2LogsPanel = ({ mm2Logs, setMm2Logs, windowSizes, setWindowSizes }) => {
           windowSizes.bottomBar <= 40 && "hidden"
         }`}
       >
-        {mm2Logs.map((message, index) => {
+        {mm2LogsPanelState.outputMessages.map((message, index) => {
           return (
             <p
               onClick={() => {

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
+import { useRpcPanelState } from "../store/rpc";
 
-const RpcResponsePanel = ({ rpcRequestResponse }) => {
+const RpcResponsePanel = () => {
+  const { rpcPanelState } = useRpcPanelState();
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(rpcRequestResponse);
+      navigator.clipboard.writeText(rpcPanelState.requestResponse);
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch (error) {
@@ -37,7 +39,9 @@ const RpcResponsePanel = ({ rpcRequestResponse }) => {
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <p className="p-2 whitespace-pre-wrap">{rpcRequestResponse}</p>
+        <p className="p-2 whitespace-pre-wrap">
+          {rpcPanelState.requestResponse}
+        </p>
       </div>
     </div>
   );

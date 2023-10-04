@@ -16,39 +16,8 @@ function App() {
     rightPane: null,
   });
 
-  const [mm2State, setMm2State] = useState({
-    mm2Running: false,
-    startCommand: "Run MM2",
-    mm2UserPass: "",
-    mm2Config: `{
-      "gui": "WASMTEST",
-      "mm2": 1,
-      "passphrase": "wasmtest",
-      "allow_weak_password": true,
-      "rpc_password": "testpsw",
-      "netid": 7777
-    }`,
-    defaultConfig: `{}`,
-  });
-
-  const [rpcRequest, setRpcRequest] = useState({
-    config: rpcDefaultConfig,
-    requestResponse: ``,
-  });
-
-  const [mm2Logs, setMm2Logs] = useState({
-    // add new logs here
-    outputMessages: [
-      ["Once mm2 is run, daemon output is rendered here", "blue"],
-    ],
-  });
-
   return (
-    <div className="h-full min-h-screen relative">
-      {/* <p className="h-10 text-xl text-center text-white">
-        Use at your own risk. Do not store/load seeds/wallets with coins/tokens
-        of any significant value
-      </p> */}
+    <div className="h-full bg-primaryBg-900 min-h-screen relative">
       <WarningDialog />
       <div className="flex h-full m-auto max-w-[2200px]">
         <div className="h-full flex justify-between bg-primaryLight text-[#a2a3bd]">
@@ -87,11 +56,7 @@ function App() {
                 }}
                 className="h-full text-gray-300"
               >
-                <Mm2Panel
-                  mm2State={mm2State}
-                  setMm2State={setMm2State}
-                  setMm2Logs={setMm2Logs}
-                />
+                <Mm2Panel />
               </div>
               <div
                 draggable
@@ -106,12 +71,7 @@ function App() {
                 className="cursor-ew-resize hover:border-t-gray-300 border-r border-r-gray-800 hover:bg-gray-700 hover:border-none p-1 h-full"
               ></div>
               <div className="flex-1 h-full text-gray-300">
-                <RpcPanel
-                  isMm2Running={mm2State.mm2Running}
-                  mm2Config={mm2State.mm2Config}
-                  rpcRequest={rpcRequest}
-                  setRpcRequest={setRpcRequest}
-                />
+                <RpcPanel />
               </div>
             </div>
           </div>
@@ -138,12 +98,8 @@ function App() {
               <Mm2LogsPanel
                 windowSizes={windowSizes}
                 setWindowSizes={setWindowSizes}
-                mm2Logs={mm2Logs.outputMessages}
-                setMm2Logs={setMm2Logs}
               />
-              <RpcResponsePanel
-                rpcRequestResponse={rpcRequest.requestResponse}
-              />
+              <RpcResponsePanel />
             </div>
           </div>
         </div>

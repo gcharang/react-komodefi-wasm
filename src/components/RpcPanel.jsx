@@ -8,13 +8,17 @@ import { rpc_request } from "../shared-functions/rpcRequest";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useMm2PanelState } from "../store/mm2";
+import { useRpcPanelState } from "../store/rpc";
 
+const RpcPanel = () => {
+  const { mm2PanelState } = useMm2PanelState();
+  const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
 
-const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
   const [methods, setMethods] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcRequest.config
+    rpcPanelState.config
   );
   const generateRpcMethods = async (collectionUrl) => {
     const methods = await fetchRpcMethods(collectionUrl);
@@ -31,24 +35,24 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
   const sendRpcRequest = async () => {
     let request_js;
     try {
-      request_js = JSON.parse(rpcRequest.config);
+      request_js = JSON.parse(rpcPanelState.config);
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcRequest.config}'\nError : ${e}`
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
       );
       return;
     }
 
     let response = await rpc_request(request_js);
-    setRpcRequest({
-      ...rpcRequest,
+    setRpcPanelState({
+      ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),
     });
   };
 
   const grabMM2RpcPassword = () => {
     try {
-      return JSON.parse(mm2Config).rpc_password;
+      return JSON.parse(mm2PanelState.mm2Config).rpc_password;
     } catch (error) {
       console.error(
         "An error occurred while trying to parse MM2 config",
@@ -77,11 +81,11 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
     const rpcPassword = grabMM2RpcPassword();
     if (rpcPassword) {
       const updatedUserPassword = updateUserPass(
-        rpcRequestConfig ? rpcRequestConfig : rpcRequest.config,
+        rpcRequestConfig ? rpcRequestConfig : rpcPanelState.config,
         rpcPassword
       );
       if (updatedUserPassword)
-        setRpcRequest((prev) => {
+        setRpcPanelState((prev) => {
           return {
             ...prev,
             config: JSON.stringify(updatedUserPassword, null, 2),
@@ -92,7 +96,7 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
 
   useEffect(() => {
     syncPanelPasswords();
-  }, [mm2Config]);
+  }, [mm2PanelState.mm2Config]);
 
   const ListBox = () => {
     const [activeMenuItem, setActiveMenuItem] = useState();
@@ -225,9 +229,11 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
             <div className="flex gap-3">
               <button
                 onClick={() => sendRpcRequest()}
-                disabled={!isMm2Running}
+                disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
-                  isMm2Running ? "bg-blue-900 text-white" : "bg-transparent"
+                  mm2PanelState.mm2Running
+                    ? "bg-blue-900 text-white"
+                    : "bg-transparent"
                 }`}
               >
                 <span>Send</span>{" "}
@@ -253,11 +259,9 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
           onChange={(e) => {
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
-              console.log("schema valid");
               syncPanelPasswords(value);
             } else {
-              console.log("schema not valid");
-              setRpcRequest((currentValues) => {
+              setRpcPanelState((currentValues) => {
                 return {
                   ...currentValues,
                   config: value,
@@ -266,18 +270,20 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
             }
           }}
           className={`${
-            isValidSchema ? "focus:ring-blue-700" : "focus:ring-red-700"
+            isValidSchema
+              ? "focus:ring-blue-700"
+              : "focus:ring-red-700 focus:ring-2"
           } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
-          value={rpcRequest.config}
+          value={rpcPanelState.config}
         ></textarea>
       </div>
     );
   }, [
-    isMm2Running,
+    mm2PanelState.mm2Running,
     methods,
-    rpcRequest,
-    setRpcRequest,
-    mm2Config,
+    rpcPanelState,
+    setRpcPanelState,
+    mm2PanelState.mm2Config,
     isValidSchema,
   ]);
 
