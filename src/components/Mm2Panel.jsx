@@ -22,7 +22,9 @@ const LOG_LEVEL = LogLevel.Debug;
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
-  const [isValidSchema] = useIsValidSchema(mm2PanelState.mm2Config);
+  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
+    mm2PanelState.mm2Config
+  );
 
   function handle_log(level, line) {
     switch (level) {
@@ -248,16 +250,28 @@ const Mm2Panel = () => {
       </div>
       <textarea
         disabled={mm2PanelState.mm2Running}
-        onChange={(e) =>
-          setMm2PanelState((currentValues) => {
-            return {
-              ...currentValues,
-              mm2Config: e.target.value,
-            };
-          })
-        }
+        onChange={(e) => {
+          let value = e.target.value;
+          if (checkIfSchemaValid(value)) {
+            setMm2PanelState((currentValues) => {
+              return {
+                ...currentValues,
+                mm2Config: e.target.value,
+                dataHasErrors: false,
+              };
+            });
+          } else {
+            setMm2PanelState((currentValues) => {
+              return {
+                ...currentValues,
+                mm2Config: e.target.value,
+                dataHasErrors: true,
+              };
+            });
+          }
+        }}
         className={`${
-          isValidSchema
+          !mm2PanelState.dataHasErrors
             ? "focus:ring-blue-700"
             : "focus:ring-red-700 focus:ring-2"
         } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}

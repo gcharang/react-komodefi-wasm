@@ -9,6 +9,7 @@ const mm2panelAtom = atom({
     startCommand: "Run MM2",
     mm2UserPass: "",
     mm2Config: mm2DefaultConfig,
+    dataHasErrors: false,
   },
 });
 

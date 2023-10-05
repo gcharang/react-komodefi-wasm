@@ -8,6 +8,7 @@ import { rpc_request } from "../shared-functions/rpcRequest";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { updateUserPass } from "../shared-functions/updateUserPassword";
 import { useMm2PanelState } from "../store/mm2";
 import { useRpcPanelState } from "../store/rpc";
 
@@ -62,26 +63,13 @@ const RpcPanel = () => {
     }
   };
 
-  function updateUserPass(json, newValue) {
-    try {
-      // Convert to string and replace value
-      let str = json.replace(
-        /"userpass"\s*:\s*"[^"]+"/,
-        `"userpass": "${newValue}"`
-      );
-      // Convert back to JSON
-      return JSON.parse(str);
-    } catch (error) {
-      console.error("An error occurred", error);
-      return null;
-    }
-  }
-
   const syncPanelPasswords = (rpcRequestConfig) => {
     const rpcPassword = grabMM2RpcPassword();
     if (rpcPassword) {
       const updatedUserPassword = updateUserPass(
-        rpcRequestConfig ? rpcRequestConfig : rpcPanelState.config,
+        rpcRequestConfig
+          ? JSON.parse(rpcRequestConfig)
+          : JSON.parse(rpcPanelState.config),
         rpcPassword
       );
       if (updatedUserPassword)
@@ -259,18 +247,26 @@ const RpcPanel = () => {
           onChange={(e) => {
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
-              syncPanelPasswords(value);
+              setRpcPanelState((currentValues) => {
+                return {
+                  ...currentValues,
+                  config: value,
+                  dataHasErrors: false,
+                };
+              });
+              // syncPanelPasswords(value);
             } else {
               setRpcPanelState((currentValues) => {
                 return {
                   ...currentValues,
                   config: value,
+                  dataHasErrors: true,
                 };
               });
             }
           }}
           className={`${
-            isValidSchema
+            !rpcPanelState.dataHasErrors
               ? "focus:ring-blue-700"
               : "focus:ring-red-700 focus:ring-2"
           } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}

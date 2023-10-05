@@ -7,6 +7,7 @@ const mm2PanelAtom = atom({
   default: {
     config: rpcDefaultConfig,
     requestResponse: ``,
+    dataHasErrors: false,
   },
 });
 

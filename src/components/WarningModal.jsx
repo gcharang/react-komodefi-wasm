@@ -8,7 +8,6 @@ export const WarningDialog = () => {
 
   useEffect(() => {
     const lastDisplayTimestamp = +Cookies.get("lastDisplayTimestamp");
-    console.log(lastDisplayTimestamp);
     const currentTimestamp = new Date().getTime();
 
     // If the last display timestamp is not set or more than 24 hours have passed, show the modal
