@@ -2,9 +2,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { useVisibilityState } from "../store/modals";
+import { ModalIds } from "../store/modals/modalIds";
 
 export const WarningDialog = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { imVisible, hideModal, showModal } = useVisibilityState();
 
   useEffect(() => {
     const lastDisplayTimestamp = +Cookies.get("lastDisplayTimestamp");
@@ -15,7 +17,7 @@ export const WarningDialog = () => {
       !lastDisplayTimestamp ||
       currentTimestamp - lastDisplayTimestamp > 24 * 60 * 60 * 1000
     ) {
-      setIsDialogOpen(true);
+      showModal(ModalIds.usageWarning);
     }
   }, []);
 
@@ -24,15 +26,15 @@ export const WarningDialog = () => {
     Cookies.set("lastDisplayTimestamp", new Date().getTime(), { expires: 1 }); // Expires in 1 day
 
     // Close the modal
-    setIsDialogOpen(false);
+    hideModal(ModalIds.usageWarning);
   };
   return (
     <>
-      <Transition appear show={isDialogOpen} as={Fragment}>
+      <Transition appear show={imVisible(ModalIds.usageWarning)} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => setIsDialogOpen(false)}
+          onClose={() => hideModal(ModalIds.usageWarning)}
         >
           <Transition.Child
             as={Fragment}

@@ -3,4 +3,6 @@ export const atomKeys = {
   rpcPanel: "rpcPanel",
   mm2Logs: "mm2Logs",
   rpcResponse: "rpcResponse",
+  modalVisibility: "modalVisibility",
+  genericModal: "genericModal",
 };
