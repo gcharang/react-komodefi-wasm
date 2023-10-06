@@ -11,10 +11,15 @@ import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { updateUserPass } from "../shared-functions/updateUserPassword";
 import { useMm2PanelState } from "../store/mm2";
 import { useRpcPanelState } from "../store/rpc";
+import { useVisibilityState } from "../store/modals";
+import { ModalIds } from "../store/modals/modalIds";
+import { useGenericModal } from "../store/genericModal";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
+  const { showModal } = useVisibilityState();
+  const { setGenericModalState } = useGenericModal();
 
   const [methods, setMethods] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -216,7 +221,9 @@ const RpcPanel = () => {
           <div className="flex justify-between">
             <div className="flex gap-3">
               <button
-                onClick={() => sendRpcRequest()}
+                onClick={() => {
+                  sendRpcRequest();
+                }}
                 disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
                   mm2PanelState.mm2Running
