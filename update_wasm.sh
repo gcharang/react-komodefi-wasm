@@ -16,4 +16,4 @@ cd ..
 basename=$(basename "$fn" .zip) # Remove .zip from filename
 temp=${basename#*_}
 version=${temp%-wasm} # Remove everything up to and including the first underscore
-echo "VITE_WASM_VERSION=$version" >.env
+echo "NEXT_PUBLIC_WASM_VERSION=$version" >.env
