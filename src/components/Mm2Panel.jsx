@@ -132,9 +132,7 @@ const Mm2Panel = () => {
       if (process.env.NODE_ENV !== "production") {
         wasm_bin_path = `/mm2_bg.wasm?v=${Date.now()}`;
       } else {
-        wasm_bin_path = `/mm2_${
-          import.meta.env.NEXT_PUBLIC_WASM_VERSION
-        }_bg.wasm`;
+        wasm_bin_path = `/mm2_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
       }
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
       await init(mm2BinUrl);
