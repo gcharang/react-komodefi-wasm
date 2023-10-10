@@ -24,10 +24,11 @@ function App() {
     mm2Config: `{
       "gui": "WASMTEST",
       "mm2": 1,
-      "passphrase": "wasmtest",
+      "passphrase": "federal stay trigger hour exist success game vapor become comfort action phone bright ill target wild nasty crumble dune close rare fabric hen iron",
       "allow_weak_password": true,
       "rpc_password": "testpsw",
-      "netid": 7777
+      "enable_hd":true,
+      "netid": 8762
     }`,
     defaultConfig: `{}`,
   });

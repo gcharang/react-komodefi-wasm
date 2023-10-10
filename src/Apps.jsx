@@ -81,47 +81,87 @@ function App() {
   const [confData, setConfData] = useState(`{
     "gui": "WASMTEST",
     "mm2": 1,
-    "passphrase": "wasmtest",
+    "passphrase": "federal stay trigger hour exist success game vapor become comfort action phone bright ill target wild nasty crumble dune close rare fabric hen iron",
     "allow_weak_password": true,
     "rpc_password": "testpsw",
-    "netid": 7777
+    "enable_hd":true,
+    "netid": 8762
 }`);
   const [requestData, setRequestData] = useState(`[
     {
-        "userpass": "testpsw",
-        "method": "electrum",
-        "mm2": 1,
-        "coin": "RICK",
-        "tx_history": true,
-        "servers": [
-            {
-                "url": "electrum1.cipig.net:30017",
-                "protocol": "WSS"
+      "userpass": "testpsw",
+      "mmrpc": "2.0",
+      "method": "task::enable_utxo::init",
+      "params": {
+        "ticker": "DOC",
+        "activation_params": {
+          "mode": {
+            "rpc": "Electrum",
+            "rpc_data": {
+              "servers": [
+                {
+                  "url": "electrum3.cipig.net:30020",
+                  "protocol": "WSS"
+                }
+              ]
             }
-        ]
+          },
+          "scan_policy": "scan_if_new_wallet",
+          "priv_key_policy": "Trezor",
+          "min_addresses_number": 3,
+          "gap_limit": 20
+        }
+      }
     },
     {
-        "userpass": "testpsw",
-        "method": "electrum",
-        "mm2": 1,
-        "coin": "MORTY",
-        "tx_history": true,
-        "servers": [
-            {
-                "url": "electrum1.cipig.net:30018",
-                "protocol": "WSS"
+      "userpass": "testpsw",
+      "mmrpc": "2.0",
+      "method": "task::enable_utxo::init",
+      "params": {
+        "ticker": "MARTY",
+        "activation_params": {
+          "mode": {
+            "rpc": "Electrum",
+            "rpc_data": {
+              "servers": [
+                {
+                  "url": "electrum3.cipig.net:30021",
+                  "protocol": "WSS"
+                }
+              ]
             }
-        ]
+          },
+          "scan_policy": "scan_if_new_wallet",
+          "priv_key_policy": "Trezor",
+          "min_addresses_number": 3,
+          "gap_limit": 20
+        }
+      }
     },
     {
-        "userpass": "testpsw",
-        "method": "enable",
-        "mm2": 1,
-        "coin": "ETH",
-        "swap_contract_address": "0x8500AFc0bc5214728082163326C2FF0C73f4a871",
-        "urls": [
-            "http://eth1.cipig.net:8555"
-        ]
+      "userpass": "testpsw",
+      "mmrpc": "2.0",
+      "method": "task::enable_qtum::init",
+      "params": {
+        "ticker": "QTUM",
+        "activation_params": {
+          "mode": {
+            "rpc": "Electrum",
+            "rpc_data": {
+              "servers": [
+                {
+                  "url": "electrum3.cipig.net:30050",
+                  "protocol": "WSS"
+                }
+              ]
+            }
+          },
+          "scan_policy": "scan_if_new_wallet",
+          "priv_key_policy": "Trezor",
+          "min_addresses_number": 3,
+          "gap_limit": 20
+        }
+      }
     }
 ]`);
   const [mm2BtnText, setMm2BtnText] = useState(initialMm2BtnText);
