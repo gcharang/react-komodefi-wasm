@@ -48,7 +48,7 @@ export const GenericModal = () => {
                   >
                     {genericModalState.titleComponent}
                   </Dialog.Title>
-                  <div className="mt-2">
+                  <div className="mt-2 text-sm text-gray-400">
                     {genericModalState.messageComponent}
                   </div>
 

@@ -14,12 +14,13 @@ import { useRpcPanelState } from "../store/rpc";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { useGenericModal } from "../store/genericModal";
+import Tooltip from "./Tooltip";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const { showModal } = useVisibilityState();
-  const { setGenericModalState } = useGenericModal();
+  const { genericModalState, setGenericModalState } = useGenericModal();
 
   const [methods, setMethods] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -240,12 +241,14 @@ const RpcPanel = () => {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <SettingsIcon
-                aria-label="open settings dialog"
-                onClick={() => setIsDialogOpen(true)}
-                role="button"
-                className="w-5 h-5 cursor-pointer"
-              />
+              <Tooltip label={"Open Settings"} dir="bottom">
+                <SettingsIcon
+                  aria-label="open settings dialog"
+                  onClick={() => setIsDialogOpen(true)}
+                  role="button"
+                  className="w-5 h-5 cursor-pointer"
+                />
+              </Tooltip>
               <ListBox />
             </div>
           </div>

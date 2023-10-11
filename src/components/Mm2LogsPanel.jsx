@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
+import Tooltip from "./Tooltip";
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();
@@ -47,60 +48,72 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <DoubleDown
-              onClick={() => {
-                setWindowSizes({
-                  ...windowSizes,
-                  bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
-                });
-              }}
-              className={`w-6 h-6 cursor-pointer hover:text-white transition ${
-                windowSizes.bottomBar <= 40 ? "rotate-180" : ""
-              }`}
-            />
-            <NoSymbol
-              onClick={() => {
-                setMm2LogsPanelState((currentValues) => {
-                  return {
-                    ...currentValues,
-                    outputMessages: [],
-                  };
-                });
-              }}
-              role="button"
-              className="w-6 h-6 cursor-pointer hover:text-white"
-              title="Clear Logs"
-            />
-            {!copied && (
-              <Clipboard
+            <Tooltip
+              label={
+                windowSizes.bottomBar <= 40 ? "Expand panel" : "Collapse Panel"
+              }
+            >
+              <DoubleDown
                 onClick={() => {
-                  copyToClipboard(
-                    mm2LogsPanelState.outputMessages
-                      .map((log) => log[0])
-                      .join("\n")
-                  );
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 1000);
+                  setWindowSizes({
+                    ...windowSizes,
+                    bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
+                  });
+                }}
+                className={`w-6 h-6 cursor-pointer hover:text-white transition ${
+                  windowSizes.bottomBar <= 40 ? "rotate-180" : ""
+                }`}
+              />
+            </Tooltip>
+            <Tooltip label={"Clear console"}>
+              <NoSymbol
+                onClick={() => {
+                  setMm2LogsPanelState((currentValues) => {
+                    return {
+                      ...currentValues,
+                      outputMessages: [],
+                    };
+                  });
                 }}
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-white"
-                title="Copy Logs"
+                title="Clear Logs"
               />
+            </Tooltip>
+            {!copied && (
+              <Tooltip label={"Copy Logs"}>
+                <Clipboard
+                  onClick={() => {
+                    copyToClipboard(
+                      mm2LogsPanelState.outputMessages
+                        .map((log) => log[0])
+                        .join("\n")
+                    );
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1000);
+                  }}
+                  role="button"
+                  className="w-6 h-6 cursor-pointer hover:text-white"
+                  title="Copy Logs"
+                />
+              </Tooltip>
             )}
             {copied && (
-              <CheckCircle
-                onClick={() => {
-                  copyToClipboard(
-                    mm2LogsPanelState.outputMessages
-                      .map((log) => log[0])
-                      .join("\n")
-                  );
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 1000);
-                }}
-                role="image"
-                className="w-6 h-6 text-green-600"
-              />
+              <Tooltip label={"Copied!"}>
+                <CheckCircle
+                  onClick={() => {
+                    copyToClipboard(
+                      mm2LogsPanelState.outputMessages
+                        .map((log) => log[0])
+                        .join("\n")
+                    );
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1000);
+                  }}
+                  role="image"
+                  className="w-6 h-6 text-green-600"
+                />
+              </Tooltip>
             )}
           </div>
           <div>
