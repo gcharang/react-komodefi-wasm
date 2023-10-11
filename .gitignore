@@ -26,7 +26,3 @@ dist-ssr
 # Custom
 wasm_versions/
 coins_versions/
-*.wasm
-public/mm2_bg.wasm
-src/js/*
-src/js/mm2.js
