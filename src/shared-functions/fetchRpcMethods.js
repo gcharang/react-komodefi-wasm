@@ -2,7 +2,7 @@ export async function fetchRpcMethods(collectionUrl) {
   const result = await fetch(
     collectionUrl
       ? collectionUrl
-      : "https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/dev/postman/collections/mm2_dev.postman_collection.json"
+      : "https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/postman-update/postman/collections/komodo_defi.postman_collection.json"
   );
   const json = await result.json();
   return json;
