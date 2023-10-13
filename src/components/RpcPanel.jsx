@@ -197,9 +197,10 @@ const RpcPanel = () => {
                             }}
                             className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
                           >
-                            <span>{methodJson.method}</span>
+                            {/* <span>{methodJson.method}</span> */}
                             <span>
-                              {methodJson.coin ?? methodJson?.params?.coin}
+                              {/* {methodJson.coin ?? methodJson?.params?.coin} */}
+                              {methodJson?.name}
                             </span>
                           </button>
                         </li>
