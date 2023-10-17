@@ -221,29 +221,36 @@ const Mm2Panel = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
-        <div className="flex gap-3">
-          <button
-            onClick={() => toggleMm2()}
-            className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347]"
-          >
-            {!mm2PanelState.mm2Running ? (
-              <>
-                <span>Run MM2</span>
-                <PlayIcon
-                  role="image"
-                  className="w-5 h-5 cursor-pointer fill-green-500"
-                />
-              </>
-            ) : (
-              <>
-                <span>Stop MM2</span>
-                <StopIcon
-                  role="image"
-                  className="w-5 h-5 cursor-pointer fill-red-500"
-                />
-              </>
-            )}
-          </button>
+        <div className="flex justify-between">
+          <div className="flex gap-3">
+            <button
+              onClick={() => toggleMm2()}
+              className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347]"
+            >
+              {!mm2PanelState.mm2Running ? (
+                <>
+                  <span>Run MM2</span>
+                  <PlayIcon
+                    role="image"
+                    className="w-5 h-5 cursor-pointer fill-green-500"
+                  />
+                </>
+              ) : (
+                <>
+                  <span>Stop MM2</span>
+                  <StopIcon
+                    role="image"
+                    className="w-5 h-5 cursor-pointer fill-red-500"
+                  />
+                </>
+              )}
+            </button>
+          </div>
+          <div>
+            <p className="text-sm">
+              Version: {process.env.NEXT_PUBLIC_WASM_VERSION}
+            </p>
+          </div>
         </div>
       </div>
       <textarea

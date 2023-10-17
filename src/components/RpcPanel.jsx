@@ -15,14 +15,16 @@ import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { useGenericModal } from "../store/genericModal";
 import Tooltip from "./Tooltip";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const { showModal } = useVisibilityState();
   const { genericModalState, setGenericModalState } = useGenericModal();
-
-  const [methods, setMethods] = useState([]);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [methods, setMethods] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
@@ -38,6 +40,40 @@ const RpcPanel = () => {
   useEffect(() => {
     generateRpcMethods();
   }, []);
+
+  const loadMethodFromUrl = ({ method, methodName }) => {
+    if (!method || !methodName) return;
+    if (
+      (method && !methods[method]) ||
+      (methodName &&
+        !methods[method].find((value) => value?.name === methodName))
+    ) {
+      setGenericModalState({
+        ...genericModalState,
+        titleComponent: (
+          <span className="text-lg font-medium leading-6 text-red-500">
+            Error
+          </span>
+        ),
+        messageComponent:
+          "This method cannot be used. Please verify that this method exist and the URL has no typo",
+      });
+      showModal(ModalIds.genericModal);
+      return;
+    }
+    const requiredValue = methods[method].find(
+      (value) => value?.name === methodName
+    );
+    if (requiredValue) {
+      const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
+      syncPanelPasswords(prettifiedJSON);
+    }
+  };
+  useEffect(() => {
+    const method = searchParams.get("method");
+    const methodName = searchParams.get("methodName");
+    if (methods) loadMethodFromUrl({ method, methodName });
+  }, [searchParams, methods]);
 
   const sendRpcRequest = async () => {
     let request_js;
@@ -172,43 +208,36 @@ const RpcPanel = () => {
               id="mm2-methods"
               className="py-1 flex flex-col h-[40rem] overflow-hidden overflow-y-auto"
             >
-              {Object.keys(methods).map((methodList) => {
-                return (
-                  <MenuItem key={nanoid(24)} label={methodList}>
-                    {methods[methodList].map((methodJson) => {
-                      return (
-                        <li role="menuitem" key={nanoid(24)}>
-                          <button
-                            tabIndex={0}
-                            key={nanoid(24)}
-                            onClick={() => {
-                              const prettifiedJSON = JSON.stringify(
-                                methodJson,
-                                null,
-                                2
-                              );
-                              // setRpcRequest((currentValues) => {
-                              //   return {
-                              //     ...currentValues,
-                              //     config: prettifiedJSON,
-                              //   };
-                              // });
-                              syncPanelPasswords(prettifiedJSON);
-                            }}
-                            className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
-                          >
-                            {/* <span>{methodJson.method}</span> */}
-                            <span>
-                              {/* {methodJson.coin ?? methodJson?.params?.coin} */}
-                              {methodJson?.name}
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </MenuItem>
-                );
-              })}
+              {methods &&
+                Object.keys(methods).map((methodList) => {
+                  return (
+                    <MenuItem key={nanoid(24)} label={methodList}>
+                      {methods[methodList].map((methodJson) => {
+                        return (
+                          <li role="menuitem" key={nanoid(24)}>
+                            <button
+                              tabIndex={0}
+                              key={nanoid(24)}
+                              onClick={() => {
+                                router.push(
+                                  `?method=${methodList}&methodName=${encodeURIComponent(
+                                    methodJson?.name
+                                  )}`,
+                                  {
+                                    scroll: false,
+                                  }
+                                );
+                              }}
+                              className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
+                            >
+                              <span>{methodJson?.name}</span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </MenuItem>
+                  );
+                })}
             </ul>
           </div>
         </div>
