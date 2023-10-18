@@ -125,7 +125,9 @@ const RpcPanel = () => {
   };
 
   useEffect(() => {
-    syncPanelPasswords();
+    !mm2PanelState.dataHasErrors &&
+      !rpcPanelState.dataHasErrors &&
+      syncPanelPasswords();
   }, [mm2PanelState.mm2Config]);
 
   const ListBox = () => {
@@ -309,7 +311,7 @@ const RpcPanel = () => {
             !rpcPanelState.dataHasErrors
               ? "focus:ring-blue-700"
               : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+          } p-3 mr-1 h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
           value={rpcPanelState.config}
         ></textarea>
       </div>
