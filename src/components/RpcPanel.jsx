@@ -1,21 +1,22 @@
 import { nanoid } from "nanoid";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   fetchRpcMethods,
   getRawValues,
 } from "../shared-functions/fetchRpcMethods";
 import { rpc_request } from "../shared-functions/rpcRequest";
-import { Send, SettingsIcon } from "./IconComponents";
-import { SettingsDialog } from "./SettingsDialog";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { updateUserPass } from "../shared-functions/updateUserPassword";
+import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useGenericModal } from "../store/genericModal";
+import { useRpcMethods } from "../store/methods";
 import { useMm2PanelState } from "../store/mm2";
-import { useRpcPanelState } from "../store/rpc";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
-import { useGenericModal } from "../store/genericModal";
+import { useRpcPanelState } from "../store/rpc";
+import { Send, SettingsIcon } from "./IconComponents";
+import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";
-import { useRouter, useSearchParams } from "next/navigation";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
@@ -24,7 +25,7 @@ const RpcPanel = () => {
   const { genericModalState, setGenericModalState } = useGenericModal();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [methods, setMethods] = useState(null);
+  const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
@@ -56,7 +57,7 @@ const RpcPanel = () => {
           </span>
         ),
         messageComponent:
-          "This method cannot be used. Please verify that this method exist and the URL has no typo",
+          "This method doesn't exist. Pick a method from the dropdown in the navbar or copy/paste the method data in the input-box to the right side",
       });
       showModal(ModalIds.genericModal);
       return;

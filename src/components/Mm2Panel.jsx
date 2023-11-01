@@ -13,6 +13,9 @@ import init, {
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
+import { useRpcMethods } from "../store/methods";
+import { useRpcPanelState } from "../store/rpc";
+import { rpc_request } from "../shared-functions/rpcRequest";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -22,9 +25,39 @@ const LOG_LEVEL = LogLevel.Debug;
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
+  const { methods } = useRpcMethods();
+  const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
+  const [docsProperties, setDocsProperties] = useState({
+    instance: null,
+    shouldSendRpcRequest: false,
+    requestId: null,
+  });
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
+
+  useEffect(() => {
+    if (docsProperties.instance && mm2PanelState.mm2Running) {
+      rpc_request(
+        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
+      ).then((response) => {
+        docsProperties.instance.source.postMessage(
+          { requestId: docsProperties.requestId, response },
+          docsProperties.instance.origin
+        );
+        setDocsProperties({
+          instance: null,
+          shouldSendRpcRequest: false,
+          requestId: null,
+        });
+        // stopping to free up agent CPU resource
+        toggleMm2().then(() => {
+          window.close();
+        });
+      });
+    }
+  }, [docsProperties, mm2PanelState.mm2Running]);
 
   function handle_log(level, line) {
     switch (level) {
@@ -107,6 +140,7 @@ const Mm2Panel = () => {
         `run_mm2() version=${version.result} datetime=${version.datetime}`
       );
       mm2_main(params, handle_log);
+      return true;
     } catch (e) {
       switch (e) {
         case Mm2MainErr.AlreadyRuns:
@@ -208,15 +242,46 @@ const Mm2Panel = () => {
       //   setLoading({ id: "" });
       // }
 
-      await run_mm2(params, handle_log);
+      return await run_mm2(params, handle_log);
     }
   };
+
+  async function listenOnEventsFromDocs(event) {
+    if (event.origin !== "http://localhost:3000") {
+      return;
+    }
+    // Handle the received data
+    let receivedData = event.data;
+    setRpcPanelState({
+      ...rpcPanelState,
+      config: receivedData.jsonDataForRpcRequest,
+    });
+    toggleMm2().then(() => {
+      setDocsProperties({
+        instance: event,
+        shouldSendRpcRequest: true,
+        requestId: receivedData.requestId,
+      });
+    });
+  }
 
   useEffect(() => {
     init_wasm().then(function () {
       spawn_mm2_status_checking();
+      setIsMm2Initialized(true);
     });
   }, []);
+
+  useEffect(() => {
+    if (methods && isMm2Initialized)
+      if (window.opener) {
+        window.addEventListener("message", listenOnEventsFromDocs);
+        window.opener.postMessage("👍", "http://localhost:3000");
+      }
+    return () => {
+      window.removeEventListener("message", listenOnEventsFromDocs);
+    };
+  }, [methods, isMm2Initialized]);
 
   return (
     <div className="h-full flex flex-col">

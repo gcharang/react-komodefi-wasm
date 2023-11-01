@@ -5,4 +5,5 @@ export const atomKeys = {
   rpcResponse: "rpcResponse",
   modalVisibility: "modalVisibility",
   genericModal: "genericModal",
+  methods: "methods",
 };
