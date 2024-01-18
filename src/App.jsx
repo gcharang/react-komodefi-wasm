@@ -27,7 +27,7 @@ function App() {
       "passphrase": "wasmtest",
       "allow_weak_password": true,
       "rpc_password": "testpsw",
-      "netid": 7777
+      "netid": 8762
     }`,
     defaultConfig: `{}`,
   });
