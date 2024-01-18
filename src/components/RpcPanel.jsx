@@ -202,6 +202,7 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
                             <span>{methodJson.method}</span>
                             <span>
                               {methodJson.coin ?? methodJson?.params?.coin}
+                              {methodJson.ticker ?? methodJson?.params?.ticker}
                             </span>
                           </button>
                         </li>
