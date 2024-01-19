@@ -6,8 +6,8 @@
 
 ## Build steps
 
-- `npm ci` -> the first time
-- `npm run dev` -> starts a server at http://localhost:3000/
+- `yarn` -> the first time
+- `yarn dev` -> starts a server at http://localhost:3000/
 
 ## Misc notes
 
