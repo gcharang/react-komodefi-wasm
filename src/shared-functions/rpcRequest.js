@@ -1,4 +1,4 @@
-import { Mm2RpcErr, mm2_rpc } from "../js/mm2";
+import { Mm2RpcErr, mm2_rpc } from "../js/mm2lib.js";
 
 export async function rpc_request(request_js) {
   try {

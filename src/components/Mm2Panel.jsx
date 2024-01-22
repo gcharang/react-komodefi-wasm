@@ -9,7 +9,7 @@ import init, {
   mm2_main_status,
   mm2_stop,
   mm2_version,
-} from "../js/mm2.js";
+} from "../js/mm2lib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
@@ -130,7 +130,7 @@ const Mm2Panel = () => {
             ...current.outputMessages,
             [
               "[Info] " +
-                `run_mm2() version=${version.result} datetime=${version.datetime}`,
+              `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
@@ -144,7 +144,7 @@ const Mm2Panel = () => {
     } catch (e) {
       switch (e) {
         case Mm2MainErr.AlreadyRuns:
-          alert("MM2 already runs, please wait...");
+          alert("MM2 is already running, please wait...");
           return;
         case Mm2MainErr.InvalidParams:
           alert("Invalid config");
@@ -164,7 +164,7 @@ const Mm2Panel = () => {
       const baseUrl = getBaseUrl();
       let wasm_bin_path;
       if (process.env.NODE_ENV !== "production") {
-        wasm_bin_path = `/mm2_bg.wasm?v=${Date.now()}`;
+        wasm_bin_path = `/mm2lib_bg.wasm?v=${Date.now()}`;
       } else {
         wasm_bin_path = `/mm2_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
       }
@@ -340,11 +340,10 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${
-          !mm2PanelState.dataHasErrors
-            ? "focus:ring-blue-700"
-            : "focus:ring-red-700 focus:ring-2"
-        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+        className={`${!mm2PanelState.dataHasErrors
+          ? "focus:ring-blue-700"
+          : "focus:ring-red-700 focus:ring-2"
+          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
