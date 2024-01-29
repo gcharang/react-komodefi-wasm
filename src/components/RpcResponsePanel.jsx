@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
+import { useRpcPanelState } from "../store/rpc";
+import Tooltip from "./Tooltip";
 
-const RpcResponsePanel = ({ rpcRequestResponse }) => {
+const RpcResponsePanel = () => {
+  const { rpcPanelState } = useRpcPanelState();
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(rpcRequestResponse);
+      navigator.clipboard.writeText(rpcPanelState.requestResponse);
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch (error) {
@@ -20,24 +23,30 @@ const RpcResponsePanel = ({ rpcRequestResponse }) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3 items-center">
           {!copied && (
-            <Clipboard
-              onClick={() => copyToClipboard()}
-              role="button"
-              className="w-6 h-6 cursor-pointer hover:text-white"
-              title="Copy Logs"
-            />
+            <Tooltip label={"Copy Response"}>
+              <Clipboard
+                onClick={() => copyToClipboard()}
+                role="button"
+                className="w-6 h-6 cursor-pointer hover:text-white"
+                title="Copy Logs"
+              />
+            </Tooltip>
           )}
           {copied && (
-            <CheckCircle
-              onClick={() => copyToClipboard()}
-              role="image"
-              className="w-6 h-6 Check hover:text-green-600"
-            />
+            <Tooltip label={"Copied!"}>
+              <CheckCircle
+                onClick={() => copyToClipboard()}
+                role="image"
+                className="w-6 h-6 Check hover:text-green-600"
+              />
+            </Tooltip>
           )}
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <p className="p-2 whitespace-pre-wrap">{rpcRequestResponse}</p>
+        <p className="p-2 whitespace-pre-wrap">
+          {rpcPanelState.requestResponse}
+        </p>
       </div>
     </div>
   );

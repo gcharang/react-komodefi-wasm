@@ -1,20 +1,34 @@
 import { nanoid } from "nanoid";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   fetchRpcMethods,
   getRawValues,
 } from "../shared-functions/fetchRpcMethods";
 import { rpc_request } from "../shared-functions/rpcRequest";
+import { updateUserPass } from "../shared-functions/updateUserPassword";
+import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useGenericModal } from "../store/genericModal";
+import { useRpcMethods } from "../store/methods";
+import { useMm2PanelState } from "../store/mm2";
+import { useVisibilityState } from "../store/modals";
+import { ModalIds } from "../store/modals/modalIds";
+import { useRpcPanelState } from "../store/rpc";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import Tooltip from "./Tooltip";
 
-
-const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
-  const [methods, setMethods] = useState([]);
+const RpcPanel = () => {
+  const { mm2PanelState } = useMm2PanelState();
+  const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
+  const { showModal } = useVisibilityState();
+  const { genericModalState, setGenericModalState } = useGenericModal();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcRequest.config
+    rpcPanelState.config
   );
   const generateRpcMethods = async (collectionUrl) => {
     const methods = await fetchRpcMethods(collectionUrl);
@@ -28,27 +42,61 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
     generateRpcMethods();
   }, []);
 
+  const loadMethodFromUrl = ({ method, methodName }) => {
+    if (!method || !methodName) return;
+    if (
+      (method && !methods[method]) ||
+      (methodName &&
+        !methods[method].find((value) => value?.name === methodName))
+    ) {
+      setGenericModalState({
+        ...genericModalState,
+        titleComponent: (
+          <span className="text-lg font-medium leading-6 text-red-500">
+            Error
+          </span>
+        ),
+        messageComponent:
+          "This method doesn't exist. Pick a method from the dropdown in the navbar or copy/paste the method data in the input-box to the right side",
+      });
+      showModal(ModalIds.genericModal);
+      return;
+    }
+    const requiredValue = methods[method].find(
+      (value) => value?.name === methodName
+    );
+    if (requiredValue) {
+      const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
+      syncPanelPasswords(prettifiedJSON);
+    }
+  };
+  useEffect(() => {
+    const method = searchParams.get("method");
+    const methodName = searchParams.get("methodName");
+    if (methods) loadMethodFromUrl({ method, methodName });
+  }, [searchParams, methods]);
+
   const sendRpcRequest = async () => {
     let request_js;
     try {
-      request_js = JSON.parse(rpcRequest.config);
+      request_js = JSON.parse(rpcPanelState.config);
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcRequest.config}'\nError : ${e}`
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
       );
       return;
     }
 
     let response = await rpc_request(request_js);
-    setRpcRequest({
-      ...rpcRequest,
+    setRpcPanelState({
+      ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),
     });
   };
 
   const grabMM2RpcPassword = () => {
     try {
-      return JSON.parse(mm2Config).rpc_password;
+      return JSON.parse(mm2PanelState.mm2Config).rpc_password;
     } catch (error) {
       console.error(
         "An error occurred while trying to parse MM2 config",
@@ -58,30 +106,17 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
     }
   };
 
-  function updateUserPass(json, newValue) {
-    try {
-      // Convert to string and replace value
-      let str = json.replace(
-        /"userpass"\s*:\s*"[^"]+"/,
-        `"userpass": "${newValue}"`
-      );
-      // Convert back to JSON
-      return JSON.parse(str);
-    } catch (error) {
-      console.error("An error occurred", error);
-      return null;
-    }
-  }
-
   const syncPanelPasswords = (rpcRequestConfig) => {
     const rpcPassword = grabMM2RpcPassword();
     if (rpcPassword) {
       const updatedUserPassword = updateUserPass(
-        rpcRequestConfig ? rpcRequestConfig : rpcRequest.config,
+        rpcRequestConfig
+          ? JSON.parse(rpcRequestConfig)
+          : JSON.parse(rpcPanelState.config),
         rpcPassword
       );
       if (updatedUserPassword)
-        setRpcRequest((prev) => {
+        setRpcPanelState((prev) => {
           return {
             ...prev,
             config: JSON.stringify(updatedUserPassword, null, 2),
@@ -91,8 +126,10 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
   };
 
   useEffect(() => {
-    syncPanelPasswords();
-  }, [mm2Config]);
+    !mm2PanelState.dataHasErrors &&
+      !rpcPanelState.dataHasErrors &&
+      syncPanelPasswords();
+  }, [mm2PanelState.mm2Config]);
 
   const ListBox = () => {
     const [activeMenuItem, setActiveMenuItem] = useState();
@@ -174,43 +211,36 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
               id="mm2-methods"
               className="py-1 flex flex-col h-[40rem] overflow-hidden overflow-y-auto"
             >
-              {Object.keys(methods).map((methodList) => {
-                return (
-                  <MenuItem key={nanoid(24)} label={methodList}>
-                    {methods[methodList].map((methodJson) => {
-                      return (
-                        <li role="menuitem" key={nanoid(24)}>
-                          <button
-                            tabIndex={0}
-                            key={nanoid(24)}
-                            onClick={() => {
-                              const prettifiedJSON = JSON.stringify(
-                                methodJson,
-                                null,
-                                2
-                              );
-                              // setRpcRequest((currentValues) => {
-                              //   return {
-                              //     ...currentValues,
-                              //     config: prettifiedJSON,
-                              //   };
-                              // });
-                              syncPanelPasswords(prettifiedJSON);
-                            }}
-                            className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
-                          >
-                            <span>{methodJson.method}</span>
-                            <span>
-                              {methodJson.coin ?? methodJson?.params?.coin}
-                              {methodJson.ticker ?? methodJson?.params?.ticker}
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </MenuItem>
-                );
-              })}
+              {methods &&
+                Object.keys(methods).map((methodList) => {
+                  return (
+                    <MenuItem key={nanoid(24)} label={methodList}>
+                      {methods[methodList].map((methodJson) => {
+                        return (
+                          <li role="menuitem" key={nanoid(24)}>
+                            <button
+                              tabIndex={0}
+                              key={nanoid(24)}
+                              onClick={() => {
+                                router.push(
+                                  `?method=${methodList}&methodName=${encodeURIComponent(
+                                    methodJson?.name
+                                  )}`,
+                                  {
+                                    scroll: false,
+                                  }
+                                );
+                              }}
+                              className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
+                            >
+                              <span>{methodJson?.name}</span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </MenuItem>
+                  );
+                })}
             </ul>
           </div>
         </div>
@@ -225,10 +255,14 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
           <div className="flex justify-between">
             <div className="flex gap-3">
               <button
-                onClick={() => sendRpcRequest()}
-                disabled={!isMm2Running}
+                onClick={() => {
+                  sendRpcRequest();
+                }}
+                disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
-                  isMm2Running ? "bg-blue-900 text-white" : "bg-transparent"
+                  mm2PanelState.mm2Running
+                    ? "bg-blue-900 text-white"
+                    : "bg-transparent"
                 }`}
               >
                 <span>Send</span>{" "}
@@ -240,12 +274,14 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <SettingsIcon
-                aria-label="open settings dialog"
-                onClick={() => setIsDialogOpen(true)}
-                role="button"
-                className="w-5 h-5 cursor-pointer"
-              />
+              <Tooltip label={"Open Settings"} dir="bottom">
+                <SettingsIcon
+                  aria-label="open settings dialog"
+                  onClick={() => setIsDialogOpen(true)}
+                  role="button"
+                  className="w-5 h-5 cursor-pointer"
+                />
+              </Tooltip>
               <ListBox />
             </div>
           </div>
@@ -254,31 +290,39 @@ const RpcPanel = ({ isMm2Running, rpcRequest, setRpcRequest, mm2Config }) => {
           onChange={(e) => {
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
-              console.log("schema valid");
-              syncPanelPasswords(value);
-            } else {
-              console.log("schema not valid");
-              setRpcRequest((currentValues) => {
+              setRpcPanelState((currentValues) => {
                 return {
                   ...currentValues,
                   config: value,
+                  dataHasErrors: false,
+                };
+              });
+              // syncPanelPasswords(value);
+            } else {
+              setRpcPanelState((currentValues) => {
+                return {
+                  ...currentValues,
+                  config: value,
+                  dataHasErrors: true,
                 };
               });
             }
           }}
           className={`${
-            isValidSchema ? "focus:ring-blue-700" : "focus:ring-red-700"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
-          value={rpcRequest.config}
+            !rpcPanelState.dataHasErrors
+              ? "focus:ring-blue-700"
+              : "focus:ring-red-700 focus:ring-2"
+          } p-3 mr-1 h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+          value={rpcPanelState.config}
         ></textarea>
       </div>
     );
   }, [
-    isMm2Running,
+    mm2PanelState.mm2Running,
     methods,
-    rpcRequest,
-    setRpcRequest,
-    mm2Config,
+    rpcPanelState,
+    setRpcPanelState,
+    mm2PanelState.mm2Config,
     isValidSchema,
   ]);
 
