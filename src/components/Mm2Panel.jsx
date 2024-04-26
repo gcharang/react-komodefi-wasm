@@ -280,10 +280,13 @@ const Mm2Panel = () => {
 
   useEffect(() => {
     if (methods && isMm2Initialized)
-      // if (window.opener) {
-      window.addEventListener("storage", listenOnEventsFromLocalStorage);
-    // window.postMessage("👍", "http://localhost:3000");
-    // }
+      if (window.opener) {
+        console.log(window.opener[0].window);
+        localStorage.setItem("mm2-tab-open", "true");
+
+        window.addEventListener("storage", listenOnEventsFromLocalStorage);
+      }
+
     return () => {
       window.removeEventListener("storage", listenOnEventsFromLocalStorage);
     };

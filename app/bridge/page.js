@@ -14,22 +14,35 @@ const page = () => {
   useEffect(() => {
     window.addEventListener("message", listenOnEventsFromDocs);
 
-    return () => {};
+    window.addEventListener("beforeunload", () => {
+      localStorage.removeItem("docs-code-rpc");
+      localStorage.removeItem("mm2-tab-open");
+    });
+
+    return () => {
+      window.removeEventListener("message", listenOnEventsFromDocs);
+    };
   }, []);
 
   function listenOnEventsFromMM2Response(event) {
-    if (event.key !== "docs-code-rpc-response") return;
-    // Handle the received data
-    let receivedData = JSON.parse(event.newValue);
+    if (event.key === "mm2-tab-open") {
+      if (event.newValue === null)
+        window.parent.postMessage("mm2-tab-closing", "*");
+      else window.parent.postMessage("mm2-tab-open", "*");
+    }
+    if (event.key === "docs-code-rpc-response") {
+      // Handle the received data
+      let receivedData = JSON.parse(event.newValue);
 
-    window.parent.postMessage(receivedData, "*");
-    localStorage.removeItem("docs-code-rpc");
+      window.parent.postMessage(receivedData, "*");
+      localStorage.removeItem("docs-code-rpc");
+    }
   }
   useEffect(() => {
     window.addEventListener("storage", listenOnEventsFromMM2Response);
 
     return () => {
-      window.removeEventListener("message", listenOnEventsFromMM2Response);
+      window.removeEventListener("storage", listenOnEventsFromMM2Response);
     };
   }, []);
 
