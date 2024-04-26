@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PlayIcon, StopIcon } from "../components/IconComponents";
 
 import init, {
@@ -40,11 +40,14 @@ const Mm2Panel = () => {
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
+        JSON.parse(docsProperties.instance.newValue).jsonDataForRpcRequest
       ).then((response) => {
-        docsProperties.instance.source.postMessage(
-          { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
+        const rpcResponse =
+          JSON.parse(localStorage.getItem("docs-code-rpc-response")) ?? [];
+        rpcResponse.push({ requestId: docsProperties.requestId, response });
+        localStorage.setItem(
+          "docs-code-rpc-response",
+          JSON.stringify(rpcResponse)
         );
         setDocsProperties({
           instance: null,
@@ -53,7 +56,7 @@ const Mm2Panel = () => {
         });
         // stopping to free up agent CPU resource
         toggleMm2().then(() => {
-          window.close();
+          // window.close();
         });
       });
     }
@@ -130,7 +133,7 @@ const Mm2Panel = () => {
             ...current.outputMessages,
             [
               "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`,
+                `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
@@ -246,12 +249,15 @@ const Mm2Panel = () => {
     }
   };
 
-  async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+  async function listenOnEventsFromLocalStorage(event) {
+    if (event.url !== "http://localhost:3001/bridge") {
       return;
     }
+    if (event.key !== "docs-code-rpc") return;
+    if (!event.newValue) return; // means we did a cleanup for next code-run
+
     // Handle the received data
-    let receivedData = event.data;
+    let receivedData = JSON.parse(event.newValue);
     setRpcPanelState({
       ...rpcPanelState,
       config: receivedData.jsonDataForRpcRequest,
@@ -274,17 +280,18 @@ const Mm2Panel = () => {
 
   useEffect(() => {
     if (methods && isMm2Initialized)
-      if (window.opener) {
-        window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
-      }
+      // if (window.opener) {
+      window.addEventListener("storage", listenOnEventsFromLocalStorage);
+    // window.postMessage("👍", "http://localhost:3000");
+    // }
     return () => {
-      window.removeEventListener("message", listenOnEventsFromDocs);
+      window.removeEventListener("storage", listenOnEventsFromLocalStorage);
     };
   }, [methods, isMm2Initialized]);
 
   return (
     <div className="h-full flex flex-col">
+      <iframe id="sandbox" src="/bridge" className="w-0 h-0"></iframe>
       <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between">
           <div className="flex gap-3">
@@ -340,10 +347,11 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
-          ? "focus:ring-blue-700"
-          : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+        className={`${
+          !mm2PanelState.dataHasErrors
+            ? "focus:ring-blue-700"
+            : "focus:ring-red-700 focus:ring-2"
+        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
