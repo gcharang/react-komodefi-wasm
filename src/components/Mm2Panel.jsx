@@ -16,10 +16,8 @@ import { useMm2LogsPanelState } from "../store/mm2Logs";
 import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
 import { rpc_request } from "../shared-functions/rpcRequest";
+import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
 
-const getBaseUrl = () => {
-  return window.location.protocol + "//" + window.location.host;
-};
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
@@ -250,7 +248,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromLocalStorage(event) {
-    if (event.url !== "http://localhost:3001/bridge") {
+    if (event.url !== `${getBaseUrl()}/bridge`) {
       return;
     }
     if (event.key !== "docs-code-rpc") return;
@@ -281,7 +279,6 @@ const Mm2Panel = () => {
   useEffect(() => {
     if (methods && isMm2Initialized)
       if (window.opener) {
-        console.log(window.opener[0].window);
         localStorage.setItem("mm2-tab-open", "true");
 
         window.addEventListener("storage", listenOnEventsFromLocalStorage);

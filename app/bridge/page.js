@@ -2,9 +2,11 @@
 
 import React, { useEffect } from "react";
 
+const docsBaseUrl = process.env.DOCS_BASE_URL ?? "http://localhost:3000";
+
 const page = () => {
   function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+    if (event.origin !== docsBaseUrl) {
       return;
     }
     let receivedData = event.data;
