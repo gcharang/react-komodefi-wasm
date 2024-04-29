@@ -750,11 +750,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-sysend@^1.17.4:
-  version "1.17.4"
-  resolved "https://registry.yarnpkg.com/sysend/-/sysend-1.17.4.tgz#5867b65808a41abda0c6e022420b167a65a81c71"
-  integrity sha512-Z1uwOpQJ8/RtvJTWQNk/ir8fHfwnNKVKIu1im6t/60I6WW5/K75zg9NKVYdep4KGWwBdn0kc1fuRocCptHms4w==
-
 tailwindcss@^3.2.4:
   version "3.2.4"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.2.4.tgz"
