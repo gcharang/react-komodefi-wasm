@@ -248,9 +248,9 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromLocalStorage(event) {
-    if (event.url !== `${getBaseUrl()}/bridge`) {
-      return;
-    }
+    // if (event.url !== `${getBaseUrl()}/bridge`) {
+    //   return;
+    // }
     if (event.key !== "docs-code-rpc") return;
     if (!event.newValue) return; // means we did a cleanup for next code-run
 

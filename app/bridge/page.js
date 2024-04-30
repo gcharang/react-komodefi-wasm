@@ -7,9 +7,9 @@ const docsBaseUrl =
 
 const page = () => {
   function listenOnEventsFromDocs(event) {
-    if (event.origin !== docsBaseUrl) {
-      return;
-    }
+    // if (event.origin !== docsBaseUrl) {
+    //   return;
+    // }
     let receivedData = event.data;
     localStorage.setItem("docs-code-rpc", JSON.stringify(receivedData));
   }
