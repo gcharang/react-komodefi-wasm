@@ -2,7 +2,9 @@
 
 import React, { useEffect } from "react";
 
-const docsBaseUrl = process.env.DOCS_BASE_URL ?? "http://localhost:3000";
+const docsBaseUrl =
+  process.env.DOCS_BASE_URL ??
+  "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev";
 
 const page = () => {
   function listenOnEventsFromDocs(event) {
