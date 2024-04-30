@@ -291,7 +291,11 @@ const Mm2Panel = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <iframe id="sandbox" src="/bridge" className="w-0 h-0"></iframe>
+      <iframe
+        id="sandbox"
+        src={`${getBaseUrl()}/bridge`}
+        className="w-0 h-0"
+      ></iframe>
       <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between">
           <div className="flex gap-3">
