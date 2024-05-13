@@ -1,4 +1,5 @@
 "use client";
+import Head from "next/head";
 
 import React, { useEffect } from "react";
 
@@ -49,7 +50,13 @@ const page = () => {
     };
   }, []);
 
-  return null;
+  // TODO: revisit reasons why next/head isn't injecting meta tags to <head> here
+  return (
+    <head>
+      <meta name="robots" content="noindex,nofollow" />
+      <meta http-equiv="Access-Control-Allow-Origin" content={docsBaseUrl} />
+    </head>
+  );
 };
 
 export default page;
