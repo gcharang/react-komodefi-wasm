@@ -31,14 +31,14 @@ const page = () => {
   function listenOnEventsFromMM2Response(event) {
     if (event.key === "mm2-tab-open") {
       if (event.newValue === null)
-        window.parent.postMessage("mm2-tab-closing", docsBaseUrl);
-      else window.parent.postMessage("mm2-tab-open", docsBaseUrl);
+        window.parent.postMessage("mm2-tab-closing", "*");
+      else window.parent.postMessage("mm2-tab-open", "*");
     }
     if (event.key === "docs-code-rpc-response") {
       // Handle the received data
       let receivedData = JSON.parse(event.newValue);
 
-      window.parent.postMessage(receivedData, docsBaseUrl);
+      window.parent.postMessage(receivedData, "*");
       localStorage.removeItem("docs-code-rpc");
     }
   }
