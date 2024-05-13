@@ -1,9 +1,6 @@
 "use client";
-import sysend from "sysend";
-import Head from "next/head";
-import Script from "next/script";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 // const docsBaseUrl = "http://localhost:3000";
 const docsBaseUrl =
