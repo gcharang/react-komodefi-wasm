@@ -8,6 +8,7 @@ const docsBaseUrl =
 
 const page = () => {
   function listenOnEventsFromDocs(event) {
+    console.log("in event listener for message event in iframe ", event);
     // if (event.origin !== docsBaseUrl) {
     //   return;
     // }
@@ -29,17 +30,22 @@ const page = () => {
   }, []);
 
   function listenOnEventsFromMM2Response(event) {
-    if (event.key === "mm2-tab-open") {
-      if (event.newValue === null)
-        window.parent.postMessage("mm2-tab-closing", "*");
-      else window.parent.postMessage("mm2-tab-open", "*");
-    }
-    if (event.key === "docs-code-rpc-response") {
-      // Handle the received data
-      let receivedData = JSON.parse(event.newValue);
+    console.log("IN iframe event listener for storage events", event);
+    try {
+      if (event.key === "mm2-tab-open") {
+        if (event.newValue === null)
+          window.parent.postMessage("mm2-tab-closing", "*");
+        else window.parent.postMessage("mm2-tab-open", "*");
+      }
+      if (event.key === "docs-code-rpc-response") {
+        // Handle the received data
+        let receivedData = JSON.parse(event.newValue);
 
-      window.parent.postMessage(receivedData, "*");
-      localStorage.removeItem("docs-code-rpc");
+        window.parent.postMessage(receivedData, "*");
+        localStorage.removeItem("docs-code-rpc");
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
   useEffect(() => {

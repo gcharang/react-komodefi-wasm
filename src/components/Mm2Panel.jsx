@@ -251,6 +251,10 @@ const Mm2Panel = () => {
     // if (event.url !== `${getBaseUrl()}/bridge`) {
     //   return;
     // }
+    console.log(
+      "listenOnEventsFromLocalStorage method called inside mm2panel",
+      event
+    );
     if (event.key !== "docs-code-rpc") return;
     if (!event.newValue) return; // means we did a cleanup for next code-run
 
