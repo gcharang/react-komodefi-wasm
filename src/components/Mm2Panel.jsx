@@ -285,7 +285,7 @@ const Mm2Panel = () => {
       if (window.opener) {
         window.addEventListener("storage", listenOnEventsFromLocalStorage);
 
-        // localStorage.setItem("mm2-tab-open", "true");
+        localStorage.setItem("mm2-tab-open", "true");
       }
 
     return () => {
@@ -293,25 +293,8 @@ const Mm2Panel = () => {
     };
   }, [methods, isMm2Initialized]);
 
-  useEffect(() => {
-    const iframe = document.getElementById("sandbox");
-    iframe.onload = () => {
-      console.log("iframe loaded");
-      setTimeout(() => {
-        localStorage.setItem("mm2-tab-open", "true");
-      }, 3000);
-    };
-
-    return () => {};
-  }, []);
-
   return (
     <div className="h-full flex flex-col">
-      <iframe
-        id="sandbox"
-        src={`${getBaseUrl()}/bridge`}
-        className="w-0 h-0"
-      ></iframe>
       <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between">
           <div className="flex gap-3">
