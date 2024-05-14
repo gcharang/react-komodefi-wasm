@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
-// const docsBaseUrl = "http://localhost:3000";
-const docsBaseUrl =
-  "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev";
+const docsBaseUrl = "http://localhost:3000";
+// const docsBaseUrl =
+//   "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev";
 
 const page = () => {
   function listenOnEventsFromDocs(event) {
@@ -17,6 +17,8 @@ const page = () => {
   }
 
   useEffect(() => {
+    console.log("in message use Effect - iframe");
+
     window.addEventListener("message", listenOnEventsFromDocs);
 
     window.addEventListener("beforeunload", () => {
@@ -49,6 +51,7 @@ const page = () => {
     }
   }
   useEffect(() => {
+    console.log("in storage use Effect - iframe");
     window.addEventListener("storage", listenOnEventsFromMM2Response);
 
     return () => {
