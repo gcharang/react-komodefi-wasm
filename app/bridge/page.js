@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
-const docsBaseUrl = "http://localhost:3000";
-// const docsBaseUrl =
-//   "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev";
+// const docsBaseUrl = "http://localhost:3000";
+const docsBaseUrl =
+  "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev";
 
 const page = () => {
   function listenOnEventsFromDocs(event) {
@@ -36,14 +36,14 @@ const page = () => {
     try {
       if (event.key === "mm2-tab-open") {
         if (event.newValue === null)
-          window.parent.postMessage("mm2-tab-closing", "*");
-        else window.parent.postMessage("mm2-tab-open", "*");
+          window.parent.postMessage("mm2-tab-closing", docsBaseUrl);
+        else window.parent.postMessage("mm2-tab-open", docsBaseUrl);
       }
       if (event.key === "docs-code-rpc-response") {
         // Handle the received data
         let receivedData = JSON.parse(event.newValue);
 
-        window.parent.postMessage(receivedData, "*");
+        window.parent.postMessage(receivedData, docsBaseUrl);
         localStorage.removeItem("docs-code-rpc");
       }
     } catch (error) {
