@@ -17,6 +17,7 @@ import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
 import { rpc_request } from "../shared-functions/rpcRequest";
 import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
+import { docsBaseUrl } from "../store/staticData/index.js";
 
 const LOG_LEVEL = LogLevel.Debug;
 
@@ -286,6 +287,9 @@ const Mm2Panel = () => {
         window.addEventListener("storage", listenOnEventsFromLocalStorage);
 
         localStorage.setItem("mm2-tab-open", "true");
+        window.opener.postMessage("mm2-tab-open", {
+          targetOrigin: docsBaseUrl,
+        });
       }
 
     return () => {

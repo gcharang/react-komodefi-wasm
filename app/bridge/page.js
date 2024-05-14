@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { docsBaseUrl } from "../../src/store/staticData";
 
 // const docsBaseUrl = "http://localhost:3000";
-const docsBaseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev"
-    : "http://localhost:3000";
 
 const page = () => {
   const listenOnEventsFromDocs = (event) => {
