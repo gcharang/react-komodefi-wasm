@@ -283,15 +283,27 @@ const Mm2Panel = () => {
   useEffect(() => {
     if (methods && isMm2Initialized)
       if (window.opener) {
-        localStorage.setItem("mm2-tab-open", "true");
-
         window.addEventListener("storage", listenOnEventsFromLocalStorage);
+
+        // localStorage.setItem("mm2-tab-open", "true");
       }
 
     return () => {
       window.removeEventListener("storage", listenOnEventsFromLocalStorage);
     };
   }, [methods, isMm2Initialized]);
+
+  useEffect(() => {
+    const iframe = document.getElementById("sandbox");
+    iframe.onload = () => {
+      console.log("iframe loaded");
+      setTimeout(() => {
+        localStorage.setItem("mm2-tab-open", "true");
+      }, 3000);
+    };
+
+    return () => {};
+  }, []);
 
   return (
     <div className="h-full flex flex-col">
