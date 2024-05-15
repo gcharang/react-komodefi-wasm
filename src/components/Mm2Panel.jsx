@@ -41,13 +41,6 @@ const Mm2Panel = () => {
       rpc_request(
         JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
       ).then((response) => {
-        // const rpcResponse =
-        //   JSON.parse(localStorage.getItem("docs-code-rpc-response")) ?? [];
-        // rpcResponse.push({ requestId: docsProperties.requestId, response });
-        // localStorage.setItem(
-        //   "docs-code-rpc-response",
-        //   JSON.stringify(rpcResponse)
-        // );
         docsProperties.instance.source.postMessage(
           JSON.stringify({ requestId: docsProperties.requestId, response }),
           {
@@ -254,36 +247,6 @@ const Mm2Panel = () => {
     }
   };
 
-  async function listenOnEventsFromLocalStorage(event) {
-    // if (event.url !== `${getBaseUrl()}/bridge`) {
-    //   return;
-    // }
-    console.log(
-      "listenOnEventsFromLocalStorage method called inside mm2panel",
-      event
-    );
-    if (event.key === "mm2-tab-open") {
-      if (event.newValue === null)
-        window.opener.postMessage("mm2-tab-closing", {
-          targetOrigin: docsBaseUrl,
-        });
-      else
-        window.opener.postMessage("mm2-tab-open", {
-          targetOrigin: docsBaseUrl,
-        });
-    }
-    if (event.key === "docs-code-rpc-response") {
-      // Handle the received data
-      let receivedData = JSON.parse(event.newValue);
-
-      window.parent.postMessage(receivedData, { targetOrigin: docsBaseUrl });
-      localStorage.removeItem("docs-code-rpc");
-    }
-
-    if (event.key !== "docs-code-rpc") return;
-    if (!event.newValue) return; // means we did a cleanup for next code-run
-  }
-
   useEffect(() => {
     init_wasm().then(function () {
       spawn_mm2_status_checking();
@@ -292,14 +255,11 @@ const Mm2Panel = () => {
   }, []);
 
   function listenOnEventsFromDocs(event) {
-    console.log("message coming from docs: ", event);
-    // if (event.origin !== docsBaseUrl) {
-    //   return;
-    // }
+    if (event.origin !== docsBaseUrl) {
+      return;
+    }
     let receivedData = event.data;
-    // localStorage.setItem("docs-code-rpc", JSON.stringify(receivedData));
-    // Handle the received data
-    // let receivedData = JSON.parse(event.newValue);
+
     setRpcPanelState({
       ...rpcPanelState,
       config: receivedData.jsonDataForRpcRequest,
@@ -315,21 +275,16 @@ const Mm2Panel = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", () => {
-      // localStorage.removeItem("docs-code-rpc");
       if (window.opener)
         window.opener.postMessage("mm2-tab-closing", {
           targetOrigin: docsBaseUrl,
         });
-      // localStorage.removeItem("mm2-tab-open");
     });
   }, []);
 
   useEffect(() => {
     if (methods && isMm2Initialized)
       if (window.opener) {
-        // window.addEventListener("storage", listenOnEventsFromLocalStorage);
-
-        // localStorage.setItem("mm2-tab-open", "true");
         window.opener.postMessage("mm2-tab-open", {
           targetOrigin: docsBaseUrl,
         });
