@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #a2a3bd;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #11182f;
+  border-radius: 10px;
+}
+
+@layer components {
+  .thumb::-webkit-slider-thumb {
+    background-color: #11182f;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 1px #ced4da;
+    cursor: pointer;
+    height: 3rem;
+    width: 3rem;
+    pointer-events: all;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+  }
+}

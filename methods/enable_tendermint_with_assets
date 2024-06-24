@@ -1,0 +1,13 @@
+{
+    "method":"enable_tendermint_with_assets",
+    "mmrpc":"2.0",
+    "params": {
+        "ticker":"IRIS",
+        "tx_history": true,
+        "tokens_params": [
+             {"ticker":"ATOM-IBC_IRIS"
+        }],
+       "rpc_urls": ["https://iris.komodo.earth/"]
+    },
+    "userpass":"testpsw"
+}
