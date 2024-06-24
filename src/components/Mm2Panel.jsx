@@ -257,7 +257,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+    if (event.origin !== "https://komodo-test.vercel.app") {
       return;
     }
     // Handle the received data
@@ -286,7 +286,7 @@ const Mm2Panel = () => {
     if (methods && isMm2Initialized)
       if (window.opener) {
         window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
+        window.opener.postMessage("👍", "https://komodo-test.vercel.app");
       }
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
