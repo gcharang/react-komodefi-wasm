@@ -257,7 +257,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "https://komodo-test.vercel.app") {
+    if (event.origin !== LISTENER_SITE_URL) {
       return;
     }
     // Handle the received data
@@ -286,7 +286,7 @@ const Mm2Panel = () => {
     if (methods && isMm2Initialized)
       if (window.opener) {
         window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "https://komodo-test.vercel.app");
+        window.opener.postMessage("👍", LISTENER_SITE_URL);
       }
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
@@ -362,3 +362,5 @@ const Mm2Panel = () => {
 };
 
 export default Mm2Panel;
+
+const LISTENER_SITE_URL = "https://komodo-test.vercel.app";

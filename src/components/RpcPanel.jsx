@@ -25,6 +25,7 @@ const RpcPanel = () => {
   const { genericModalState, setGenericModalState } = useGenericModal();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isEnteringManualConfig, setIsEnteringManualConfig] = useState(false);
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
@@ -44,6 +45,8 @@ const RpcPanel = () => {
 
   // get the command from the url and set it in the rpc panel state if it exists
   useEffect(() => {
+    if (isEnteringManualConfig) return;
+
     const command = searchParams.get("command");
 
     if (!command) return;
@@ -55,11 +58,12 @@ const RpcPanel = () => {
         dataHasErrors: false,
       };
     });
+
     if (mm2PanelState.mm2Running) {
       sendRpcRequest();
       window.opener.focus();
     }
-  }, [rpcPanelState.config, mm2PanelState.mm2Running]);
+  }, [rpcPanelState.config, isEnteringManualConfig, mm2PanelState.mm2Running]);
 
   const loadMethodFromUrl = ({ method, methodName }) => {
     if (!method || !methodName) return;
@@ -308,6 +312,7 @@ const RpcPanel = () => {
         </div>
         <textarea
           onChange={(e) => {
+            setIsEnteringManualConfig(true);
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
               setRpcPanelState((currentValues) => {
