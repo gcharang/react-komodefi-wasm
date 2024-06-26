@@ -91,7 +91,6 @@ const RpcPanel = () => {
 
     let response = await rpc_request(request_js);
     window.opener.postMessage(JSON.stringify(response), EVENT_ORIGIN_URL);
-    window.blur(); // remove focus from the current window
     setRpcPanelState({
       ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),

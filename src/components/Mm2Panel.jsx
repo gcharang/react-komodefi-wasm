@@ -38,15 +38,6 @@ const Mm2Panel = () => {
     mm2PanelState.mm2Config,
   );
 
-  // // Initialize mm2 when the auto-run query param is set to true
-  // useEffect(() => {
-  //   if (searchParams.get("auto-run")) {
-  //     setTimeout(() => {
-  //       toggleMm2();
-  //     }, 2000);
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(
@@ -258,7 +249,6 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
-    console.log(event);
     if (event.origin !== EVENT_ORIGIN_URL) {
       return;
     }
