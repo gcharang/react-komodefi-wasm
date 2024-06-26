@@ -258,6 +258,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
+    console.log(event);
     if (event.origin !== EVENT_ORIGIN_URL) {
       return;
     }
