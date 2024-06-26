@@ -38,14 +38,14 @@ const Mm2Panel = () => {
     mm2PanelState.mm2Config,
   );
 
-  // Initialize mm2 when the auto-run query param is set to true
-  useEffect(() => {
-    if (searchParams.get("auto-run")) {
-      setTimeout(() => {
-        toggleMm2();
-      }, 2000);
-    }
-  }, []);
+  // // Initialize mm2 when the auto-run query param is set to true
+  // useEffect(() => {
+  //   if (searchParams.get("auto-run")) {
+  //     setTimeout(() => {
+  //       toggleMm2();
+  //     }, 2000);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
@@ -62,9 +62,10 @@ const Mm2Panel = () => {
           requestId: null,
         });
         // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          window.close();
-        });
+        // toggleMm2().then(() => {
+        //   window.opener.focus();
+        //   // window.close();
+        // });
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
@@ -363,5 +364,5 @@ const Mm2Panel = () => {
 
 export default Mm2Panel;
 
-const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
-// const EVENT_ORIGIN_URL = "http://localhost:3000";
+// export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
+export const EVENT_ORIGIN_URL = "http://localhost:3000";

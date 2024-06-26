@@ -17,6 +17,7 @@ import { useRpcPanelState } from "../store/rpc";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";
+import { EVENT_ORIGIN_URL } from "./Mm2Panel";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
@@ -42,28 +43,6 @@ const RpcPanel = () => {
   useEffect(() => {
     generateRpcMethods();
   }, []);
-
-  // get the command from the url and set it in the rpc panel state if it exists
-  useEffect(() => {
-    if (isEnteringManualConfig) return;
-
-    const command = searchParams.get("command");
-
-    if (!command) return;
-
-    setRpcPanelState((currentValues) => {
-      return {
-        ...currentValues,
-        config: command,
-        dataHasErrors: false,
-      };
-    });
-
-    if (mm2PanelState.mm2Running) {
-      sendRpcRequest();
-      window.opener.focus();
-    }
-  }, [rpcPanelState.config, isEnteringManualConfig, mm2PanelState.mm2Running]);
 
   const loadMethodFromUrl = ({ method, methodName }) => {
     if (!method || !methodName) return;
@@ -111,11 +90,12 @@ const RpcPanel = () => {
     }
 
     let response = await rpc_request(request_js);
+    window.opener.postMessage(JSON.stringify(response), EVENT_ORIGIN_URL);
+    window.blur(); // remove focus from the current window
     setRpcPanelState({
       ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),
     });
-    window.opener.postMessage(response, "*");
   };
 
   const grabMM2RpcPassword = () => {
