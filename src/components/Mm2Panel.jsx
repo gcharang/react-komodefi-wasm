@@ -23,6 +23,7 @@ const getBaseUrl = () => {
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
+  const searchParams = new URLSearchParams(window.location.search);
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
@@ -34,17 +35,17 @@ const Mm2Panel = () => {
     requestId: null,
   });
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config
+    mm2PanelState.mm2Config,
   );
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
+        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest),
       ).then((response) => {
         docsProperties.instance.source.postMessage(
           { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
+          docsProperties.instance.origin,
         );
         setDocsProperties({
           instance: null,
@@ -52,9 +53,10 @@ const Mm2Panel = () => {
           requestId: null,
         });
         // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          window.close();
-        });
+        // toggleMm2().then(() => {
+        //   window.opener.focus();
+        //   // window.close();
+        // });
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
@@ -130,14 +132,14 @@ const Mm2Panel = () => {
             ...current.outputMessages,
             [
               "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`,
+                `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
         };
       });
       console.info(
-        `run_mm2() version=${version.result} datetime=${version.datetime}`
+        `run_mm2() version=${version.result} datetime=${version.datetime}`,
       );
       mm2_main(params, handle_log);
       return true;
@@ -234,7 +236,7 @@ const Mm2Panel = () => {
         };
       } catch (e) {
         alert(
-          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
+          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`,
         );
         return;
       }
@@ -247,7 +249,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+    if (event.origin !== EVENT_ORIGIN_URL) {
       return;
     }
     // Handle the received data
@@ -276,7 +278,7 @@ const Mm2Panel = () => {
     if (methods && isMm2Initialized)
       if (window.opener) {
         window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
+        window.opener.postMessage("👍", EVENT_ORIGIN_URL);
       }
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
@@ -340,10 +342,11 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
-          ? "focus:ring-blue-700"
-          : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+        className={`${
+          !mm2PanelState.dataHasErrors
+            ? "focus:ring-blue-700"
+            : "focus:ring-red-700 focus:ring-2"
+        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
@@ -351,3 +354,6 @@ const Mm2Panel = () => {
 };
 
 export default Mm2Panel;
+
+export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
+// export const EVENT_ORIGIN_URL = "http://localhost:3000";

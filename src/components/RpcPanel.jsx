@@ -17,6 +17,7 @@ import { useRpcPanelState } from "../store/rpc";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";
+import { EVENT_ORIGIN_URL } from "./Mm2Panel";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
@@ -25,10 +26,11 @@ const RpcPanel = () => {
   const { genericModalState, setGenericModalState } = useGenericModal();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isEnteringManualConfig, setIsEnteringManualConfig] = useState(false);
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcPanelState.config
+    rpcPanelState.config,
   );
   const generateRpcMethods = async (collectionUrl) => {
     const methods = await fetchRpcMethods(collectionUrl);
@@ -63,7 +65,7 @@ const RpcPanel = () => {
       return;
     }
     const requiredValue = methods[method].find(
-      (value) => value?.name === methodName
+      (value) => value?.name === methodName,
     );
     if (requiredValue) {
       const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
@@ -82,12 +84,13 @@ const RpcPanel = () => {
       request_js = JSON.parse(rpcPanelState.config);
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`,
       );
       return;
     }
 
     let response = await rpc_request(request_js);
+    window.opener.postMessage(JSON.stringify(response), EVENT_ORIGIN_URL);
     setRpcPanelState({
       ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),
@@ -100,7 +103,7 @@ const RpcPanel = () => {
     } catch (error) {
       console.error(
         "An error occurred while trying to parse MM2 config",
-        error
+        error,
       );
       return undefined;
     }
@@ -113,7 +116,7 @@ const RpcPanel = () => {
         rpcRequestConfig
           ? JSON.parse(rpcRequestConfig)
           : JSON.parse(rpcPanelState.config),
-        rpcPassword
+        rpcPassword,
       );
       if (updatedUserPassword)
         setRpcPanelState((prev) => {
@@ -224,11 +227,11 @@ const RpcPanel = () => {
                               onClick={() => {
                                 router.push(
                                   `?method=${methodList}&methodName=${encodeURIComponent(
-                                    methodJson?.name
+                                    methodJson?.name,
                                   )}`,
                                   {
                                     scroll: false,
-                                  }
+                                  },
                                 );
                               }}
                               className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
@@ -288,6 +291,7 @@ const RpcPanel = () => {
         </div>
         <textarea
           onChange={(e) => {
+            setIsEnteringManualConfig(true);
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
               setRpcPanelState((currentValues) => {
