@@ -230,7 +230,7 @@ const RpcPanel = () => {
                                     methodJson?.name
                                   )}`,
                                   {
-                                    scroll: false,
+                                    scroll: false
                                   },
                                 );
                               }}
