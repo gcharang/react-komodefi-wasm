@@ -30,7 +30,7 @@ const RpcPanel = () => {
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcPanelState.config,
+    rpcPanelState.config
   );
   const generateRpcMethods = async (collectionUrl) => {
     const methods = await fetchRpcMethods(collectionUrl);
@@ -65,7 +65,7 @@ const RpcPanel = () => {
       return;
     }
     const requiredValue = methods[method].find(
-      (value) => value?.name === methodName,
+      (value) => value?.name === methodName
     );
     if (requiredValue) {
       const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
@@ -84,7 +84,7 @@ const RpcPanel = () => {
       request_js = JSON.parse(rpcPanelState.config);
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`,
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
       );
       return;
     }
@@ -103,7 +103,7 @@ const RpcPanel = () => {
     } catch (error) {
       console.error(
         "An error occurred while trying to parse MM2 config",
-        error,
+        error
       );
       return undefined;
     }
@@ -116,7 +116,7 @@ const RpcPanel = () => {
         rpcRequestConfig
           ? JSON.parse(rpcRequestConfig)
           : JSON.parse(rpcPanelState.config),
-        rpcPassword,
+        rpcPassword
       );
       if (updatedUserPassword)
         setRpcPanelState((prev) => {
@@ -227,7 +227,7 @@ const RpcPanel = () => {
                               onClick={() => {
                                 router.push(
                                   `?method=${methodList}&methodName=${encodeURIComponent(
-                                    methodJson?.name,
+                                    methodJson?.name
                                   )}`,
                                   {
                                     scroll: false,
