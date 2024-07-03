@@ -35,17 +35,17 @@ const Mm2Panel = () => {
     requestId: null,
   });
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config,
+    mm2PanelState.mm2Config
   );
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest),
+        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
       ).then((response) => {
         docsProperties.instance.source.postMessage(
           { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin,
+          docsProperties.instance.origin
         );
         setDocsProperties({
           instance: null,
