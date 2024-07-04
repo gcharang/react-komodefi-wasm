@@ -369,5 +369,5 @@ const Mm2Panel = () => {
 
 export default Mm2Panel;
 
-// export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
-export const EVENT_ORIGIN_URL = "http://localhost:3000";
+export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
+// export const EVENT_ORIGIN_URL = "http://localhost:3000";
