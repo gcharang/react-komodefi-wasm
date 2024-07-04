@@ -36,18 +36,18 @@ const Mm2Panel = () => {
     requestId: null,
   });
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config
+    mm2PanelState.mm2Config,
   );
   const mm2RunningRef = useRef(mm2PanelState.mm2Running);
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
+        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest),
       ).then((response) => {
         docsProperties.instance.source.postMessage(
           { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
+          docsProperties.instance.origin,
         );
         setDocsProperties({
           instance: null,
@@ -133,14 +133,14 @@ const Mm2Panel = () => {
             ...current.outputMessages,
             [
               "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`
+                `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
         };
       });
       console.info(
-        `run_mm2() version=${version.result} datetime=${version.datetime}`
+        `run_mm2() version=${version.result} datetime=${version.datetime}`,
       );
       mm2_main(params, handle_log);
       return true;
@@ -237,7 +237,7 @@ const Mm2Panel = () => {
         };
       } catch (e) {
         alert(
-          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
+          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`,
         );
         return;
       }
@@ -356,7 +356,8 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
+        className={`${
+          !mm2PanelState.dataHasErrors
             ? "focus:ring-blue-700"
             : "focus:ring-red-700 focus:ring-2"
         } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
@@ -368,5 +369,5 @@ const Mm2Panel = () => {
 
 export default Mm2Panel;
 
-export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
-// export const EVENT_ORIGIN_URL = "http://localhost:3000";
+// export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
+export const EVENT_ORIGIN_URL = "http://localhost:3000";
