@@ -16,6 +16,8 @@ import { useMm2LogsPanelState } from "../store/mm2Logs";
 import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
 import { rpc_request } from "../shared-functions/rpcRequest";
+import { useReducer } from "react";
+import { useRef } from "react";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -23,7 +25,6 @@ const getBaseUrl = () => {
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
-  const searchParams = new URLSearchParams(window.location.search);
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
@@ -37,6 +38,7 @@ const Mm2Panel = () => {
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config,
   );
+  const mm2RunningRef = useRef(mm2PanelState.mm2Running);
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
@@ -53,10 +55,9 @@ const Mm2Panel = () => {
           requestId: null,
         });
         // stopping to free up agent CPU resource
-        // toggleMm2().then(() => {
-        //   window.opener.focus();
-        //   // window.close();
-        // });
+        toggleMm2().then(() => {
+          window.opener.focus(); // focus on the parent window
+        });
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
@@ -258,13 +259,21 @@ const Mm2Panel = () => {
       ...rpcPanelState,
       config: receivedData.jsonDataForRpcRequest,
     });
-    toggleMm2().then(() => {
+    if (mm2RunningRef.current) {
       setDocsProperties({
         instance: event,
         shouldSendRpcRequest: true,
         requestId: receivedData.requestId,
       });
-    });
+    } else {
+      toggleMm2().then(() => {
+        setDocsProperties({
+          instance: event,
+          shouldSendRpcRequest: true,
+          requestId: receivedData.requestId,
+        });
+      });
+    }
   }
 
   useEffect(() => {
@@ -273,6 +282,11 @@ const Mm2Panel = () => {
       setIsMm2Initialized(true);
     });
   }, []);
+
+  useEffect(() => {
+    // update the ref value to the latest value of mm2Running state
+    mm2RunningRef.current = mm2PanelState.mm2Running;
+  }, [mm2PanelState.mm2Running]);
 
   useEffect(() => {
     if (methods && isMm2Initialized)
