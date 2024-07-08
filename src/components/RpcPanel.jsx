@@ -90,7 +90,6 @@ const RpcPanel = () => {
     }
 
     let response = await rpc_request(request_js);
-    window.opener.postMessage(JSON.stringify(response), EVENT_ORIGIN_URL);
     setRpcPanelState({
       ...rpcPanelState,
       requestResponse: JSON.stringify(response, null, 2),
