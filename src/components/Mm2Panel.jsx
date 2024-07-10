@@ -45,6 +45,7 @@ const Mm2Panel = () => {
       rpc_request(
         JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest),
       ).then((response) => {
+        window.opener.focus(); // focus on the parent window
         docsProperties.instance.source.postMessage(
           { requestId: docsProperties.requestId, response },
           docsProperties.instance.origin,
@@ -55,9 +56,7 @@ const Mm2Panel = () => {
           requestId: null,
         });
         // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          window.opener.focus(); // focus on the parent window
-        });
+        // toggleMm2()
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
@@ -369,5 +368,5 @@ const Mm2Panel = () => {
 
 export default Mm2Panel;
 
-export const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
+const EVENT_ORIGIN_URL = "https://komodo-test.vercel.app";
 // export const EVENT_ORIGIN_URL = "http://localhost:3000";
