@@ -48,5 +48,5 @@ export const mm2DefaultConfig = `{
 
 export const docsBaseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://mm2-code-runner-from-docs.komodo-docs-revamp-2023.pages.dev"
+    ? "https://code-runner-from-docs.react-atomicdex-wasm.pages.dev"
     : "http://localhost:3000";
