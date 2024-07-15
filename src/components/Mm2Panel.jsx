@@ -25,7 +25,8 @@ const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
-  const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  // const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  const isMm2Initialized = useRef(false);
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const [docsProperties, setDocsProperties] = useState({
     instance: null,
@@ -250,7 +251,8 @@ const Mm2Panel = () => {
   useEffect(() => {
     init_wasm().then(function () {
       spawn_mm2_status_checking();
-      setIsMm2Initialized(true);
+      isMm2Initialized.current = true;
+      //  setIsMm2Initialized(true);
     });
   }, []);
 
@@ -283,7 +285,7 @@ const Mm2Panel = () => {
   }, []);
 
   useEffect(() => {
-    if (methods && isMm2Initialized)
+    if (methods && isMm2Initialized.current)
       if (window.opener) {
         window.opener.postMessage("mm2-tab-open", {
           targetOrigin: docsBaseUrl,
@@ -295,7 +297,7 @@ const Mm2Panel = () => {
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
     };
-  }, [methods, isMm2Initialized]);
+  }, [methods, isMm2Initialized.current]);
 
   return (
     <div className="h-full flex flex-col">
