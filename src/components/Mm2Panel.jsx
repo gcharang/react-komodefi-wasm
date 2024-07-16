@@ -208,14 +208,20 @@ const Mm2Panel = () => {
     }, 300);
   }
 
-  const toggleMm2 = async () => {
+  const toggleMm2 = async (optionalPassword) => {
     if (mm2PanelState.mm2Running) {
       mm2_stop();
     } else {
       let params;
       try {
         // setLoading({ id: "mm2CommandInitiated" });
+        let updatedConfigWithPassword = null;
         const conf_js = JSON.parse(mm2PanelState.mm2Config);
+        if (optionalPassword) {
+          conf_js.rpc_password = optionalPassword;
+          updatedConfigWithPassword = JSON.parse(mm2PanelState.mm2Config);
+          updatedConfigWithPassword.rpc_password = optionalPassword;
+        }
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
           let coinsUrl = new URL(baseUrl + "/coins");
@@ -227,6 +233,9 @@ const Mm2Panel = () => {
         setMm2PanelState((currentValues) => {
           return {
             ...currentValues,
+            mm2Config: updatedConfigWithPassword
+              ? JSON.stringify(updatedConfigWithPassword, null, 2)
+              : currentValues.mm2Config,
             mm2UserPass: conf_js.rpc_password,
           };
         });
@@ -266,7 +275,10 @@ const Mm2Panel = () => {
       ...rpcPanelState,
       config: receivedData.jsonDataForRpcRequest,
     });
-    toggleMm2().then(() => {
+    const temporaryPassword = JSON.parse(
+      receivedData.jsonDataForRpcRequest
+    ).userpass;
+    toggleMm2(temporaryPassword).then(() => {
       setDocsProperties({
         instance: event,
         shouldSendRpcRequest: true,

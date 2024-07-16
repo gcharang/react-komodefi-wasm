@@ -41,7 +41,6 @@ export const mm2DefaultConfig = `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
-    "allow_weak_password": true,
     "rpc_password": "testpsw",
     "netid": 8762
   }`;
