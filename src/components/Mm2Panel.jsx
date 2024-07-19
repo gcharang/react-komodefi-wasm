@@ -10,13 +10,14 @@ import init, {
   mm2_stop,
   mm2_version,
 } from "../js/mm2lib.js";
+import { generatePassword } from "../shared-functions/generateDynamicPassword.js";
+import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
+import { rpc_request } from "../shared-functions/rpcRequest";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useRpcMethods } from "../store/methods";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
-import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
-import { rpc_request } from "../shared-functions/rpcRequest";
-import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
 import { docsBaseUrl } from "../store/staticData/index.js";
 
 const LOG_LEVEL = LogLevel.Debug;
@@ -36,6 +37,17 @@ const Mm2Panel = () => {
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
+
+  const createRandomMm2Password = () => {
+    let mm2Config = JSON.parse(mm2PanelState.mm2Config);
+    mm2Config.rpc_password = generatePassword();
+    setMm2PanelState((current) => {
+      return {
+        ...current,
+        mm2Config: JSON.stringify(mm2Config, null, 2),
+      };
+    });
+  };
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
@@ -208,20 +220,13 @@ const Mm2Panel = () => {
     }, 300);
   }
 
-  const toggleMm2 = async (optionalPassword) => {
+  const toggleMm2 = async () => {
     if (mm2PanelState.mm2Running) {
       mm2_stop();
     } else {
       let params;
       try {
-        // setLoading({ id: "mm2CommandInitiated" });
-        let updatedConfigWithPassword = null;
         const conf_js = JSON.parse(mm2PanelState.mm2Config);
-        if (optionalPassword) {
-          conf_js.rpc_password = optionalPassword;
-          updatedConfigWithPassword = JSON.parse(mm2PanelState.mm2Config);
-          updatedConfigWithPassword.rpc_password = optionalPassword;
-        }
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
           let coinsUrl = new URL(baseUrl + "/coins");
@@ -230,15 +235,6 @@ const Mm2Panel = () => {
           conf_js.coins = coinsJson;
           // console.log(conf_js)
         }
-        setMm2PanelState((currentValues) => {
-          return {
-            ...currentValues,
-            mm2Config: updatedConfigWithPassword
-              ? JSON.stringify(updatedConfigWithPassword, null, 2)
-              : currentValues.mm2Config,
-            mm2UserPass: conf_js.rpc_password,
-          };
-        });
         params = {
           conf: conf_js,
           log_level: LOG_LEVEL,
@@ -271,14 +267,14 @@ const Mm2Panel = () => {
     }
     let receivedData = event.data;
 
+    let jsonData = JSON.parse(receivedData.jsonDataForRpcRequest);
+    jsonData.userpass = JSON.parse(mm2PanelState.mm2Config).rpc_password;
+
     setRpcPanelState({
       ...rpcPanelState,
-      config: receivedData.jsonDataForRpcRequest,
+      config: JSON.stringify(jsonData, null, 2),
     });
-    const temporaryPassword = JSON.parse(
-      receivedData.jsonDataForRpcRequest
-    ).userpass;
-    toggleMm2(temporaryPassword).then(() => {
+    toggleMm2().then(() => {
       setDocsProperties({
         instance: event,
         shouldSendRpcRequest: true,
@@ -310,6 +306,10 @@ const Mm2Panel = () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
     };
   }, [methods, isMm2Initialized.current]);
+
+  useEffect(() => {
+    createRandomMm2Password();
+  }, []);
 
   return (
     <div className="h-full flex flex-col">
