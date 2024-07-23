@@ -51,15 +51,20 @@ const Mm2Panel = () => {
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
-      rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
-      ).then((response) => {
+      rpc_request(JSON.parse(rpcPanelState.config)).then((response) => {
         docsProperties.instance.source.postMessage(
           JSON.stringify({ requestId: docsProperties.requestId, response }),
           {
             targetOrigin: docsBaseUrl,
           }
         );
+        setRpcPanelState((prevState) => {
+          return {
+            ...prevState,
+            requestResponse: JSON.stringify(response, null, 2),
+          };
+        });
+
         setDocsProperties({
           instance: null,
           shouldSendRpcRequest: false,
