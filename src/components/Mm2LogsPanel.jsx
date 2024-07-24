@@ -44,27 +44,35 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
     "text-neutral-300",
   ];
   return (
-    <div className="w-1/2 grid grid-flow-row border-r border-r-gray-700">
+    <div
+      className={`${
+        windowSizes ? "w-1/2" : "w-full"
+      } grid grid-flow-row border-r border-r-gray-700`}
+    >
       <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <Tooltip
-              label={
-                windowSizes.bottomBar <= 40 ? "Expand panel" : "Collapse Panel"
-              }
-            >
-              <DoubleDown
-                onClick={() => {
-                  setWindowSizes({
-                    ...windowSizes,
-                    bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
-                  });
-                }}
-                className={`w-6 h-6 cursor-pointer hover:text-white transition ${
-                  windowSizes.bottomBar <= 40 ? "rotate-180" : ""
-                }`}
-              />
-            </Tooltip>
+            {windowSizes && (
+              <Tooltip
+                label={
+                  windowSizes.bottomBar <= 40
+                    ? "Expand panel"
+                    : "Collapse Panel"
+                }
+              >
+                <DoubleDown
+                  onClick={() => {
+                    setWindowSizes({
+                      ...windowSizes,
+                      bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
+                    });
+                  }}
+                  className={`w-6 h-6 cursor-pointer hover:text-white transition ${
+                    windowSizes.bottomBar <= 40 ? "rotate-180" : ""
+                  }`}
+                />
+              </Tooltip>
+            )}
             <Tooltip label={"Clear console"}>
               <NoSymbol
                 onClick={() => {
@@ -139,7 +147,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
           mm2Ref = mm2LogsRef;
         }}
         className={`p-2 overflow-hidden overflow-y-auto break-words ${
-          windowSizes.bottomBar <= 40 && "hidden"
+          windowSizes?.bottomBar <= 40 && "hidden"
         }`}
       >
         {mm2LogsPanelState.outputMessages.map((message, index) => {
