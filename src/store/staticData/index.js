@@ -41,7 +41,11 @@ export const mm2DefaultConfig = `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
-    "allow_weak_password": true,
     "rpc_password": "testpsw",
     "netid": 8762
   }`;
+
+export const docsBaseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://mm2-code-runner.komodo-docs-revamp-2023.pages.dev"
+    : "http://localhost:3000";

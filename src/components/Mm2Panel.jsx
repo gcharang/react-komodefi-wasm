@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PlayIcon, StopIcon } from "../components/IconComponents";
 
 import init, {
@@ -10,23 +10,24 @@ import init, {
   mm2_stop,
   mm2_version,
 } from "../js/mm2lib.js";
+import { generatePassword } from "../shared-functions/generateDynamicPassword.js";
+import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
+import { rpc_request } from "../shared-functions/rpcRequest";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useRpcMethods } from "../store/methods";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
-import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
-import { rpc_request } from "../shared-functions/rpcRequest";
+import { docsBaseUrl } from "../store/staticData/index.js";
 
-const getBaseUrl = () => {
-  return window.location.protocol + "//" + window.location.host;
-};
 const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
-  const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  // const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  const isMm2Initialized = useRef(false);
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const [docsProperties, setDocsProperties] = useState({
     instance: null,
@@ -37,15 +38,33 @@ const Mm2Panel = () => {
     mm2PanelState.mm2Config
   );
 
+  const createRandomMm2Password = () => {
+    let mm2Config = JSON.parse(mm2PanelState.mm2Config);
+    mm2Config.rpc_password = generatePassword();
+    setMm2PanelState((current) => {
+      return {
+        ...current,
+        mm2Config: JSON.stringify(mm2Config, null, 2),
+      };
+    });
+  };
+
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
-      rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
-      ).then((response) => {
+      rpc_request(JSON.parse(rpcPanelState.config)).then((response) => {
         docsProperties.instance.source.postMessage(
-          { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
+          JSON.stringify({ requestId: docsProperties.requestId, response }),
+          {
+            targetOrigin: docsBaseUrl,
+          }
         );
+        setRpcPanelState((prevState) => {
+          return {
+            ...prevState,
+            requestResponse: JSON.stringify(response, null, 2),
+          };
+        });
+
         setDocsProperties({
           instance: null,
           shouldSendRpcRequest: false,
@@ -53,7 +72,7 @@ const Mm2Panel = () => {
         });
         // stopping to free up agent CPU resource
         toggleMm2().then(() => {
-          window.close();
+          // window.close();
         });
       });
     }
@@ -130,7 +149,7 @@ const Mm2Panel = () => {
             ...current.outputMessages,
             [
               "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`,
+                `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
@@ -212,7 +231,6 @@ const Mm2Panel = () => {
     } else {
       let params;
       try {
-        // setLoading({ id: "mm2CommandInitiated" });
         const conf_js = JSON.parse(mm2PanelState.mm2Config);
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
@@ -222,12 +240,6 @@ const Mm2Panel = () => {
           conf_js.coins = coinsJson;
           // console.log(conf_js)
         }
-        setMm2PanelState((currentValues) => {
-          return {
-            ...currentValues,
-            mm2UserPass: conf_js.rpc_password,
-          };
-        });
         params = {
           conf: conf_js,
           log_level: LOG_LEVEL,
@@ -246,15 +258,26 @@ const Mm2Panel = () => {
     }
   };
 
-  async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+  useEffect(() => {
+    init_wasm().then(function () {
+      spawn_mm2_status_checking();
+      isMm2Initialized.current = true;
+      //  setIsMm2Initialized(true);
+    });
+  }, []);
+
+  function listenOnEventsFromDocs(event) {
+    if (event.origin !== docsBaseUrl) {
       return;
     }
-    // Handle the received data
     let receivedData = event.data;
+
+    let jsonData = JSON.parse(receivedData.jsonDataForRpcRequest);
+    jsonData.userpass = JSON.parse(mm2PanelState.mm2Config).rpc_password;
+
     setRpcPanelState({
       ...rpcPanelState,
-      config: receivedData.jsonDataForRpcRequest,
+      config: JSON.stringify(jsonData, null, 2),
     });
     toggleMm2().then(() => {
       setDocsProperties({
@@ -266,22 +289,32 @@ const Mm2Panel = () => {
   }
 
   useEffect(() => {
-    init_wasm().then(function () {
-      spawn_mm2_status_checking();
-      setIsMm2Initialized(true);
+    window.addEventListener("beforeunload", () => {
+      if (window.opener)
+        window.opener.postMessage("mm2-tab-closing", {
+          targetOrigin: docsBaseUrl,
+        });
     });
   }, []);
 
   useEffect(() => {
-    if (methods && isMm2Initialized)
+    if (methods && isMm2Initialized.current)
       if (window.opener) {
+        window.opener.postMessage("mm2-tab-open", {
+          targetOrigin: docsBaseUrl,
+        });
+
         window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
       }
+
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
     };
-  }, [methods, isMm2Initialized]);
+  }, [methods, isMm2Initialized.current]);
+
+  useEffect(() => {
+    createRandomMm2Password();
+  }, []);
 
   return (
     <div className="h-full flex flex-col">
@@ -340,10 +373,11 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
-          ? "focus:ring-blue-700"
-          : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+        className={`${
+          !mm2PanelState.dataHasErrors
+            ? "focus:ring-blue-700"
+            : "focus:ring-red-700 focus:ring-2"
+        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
