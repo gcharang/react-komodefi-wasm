@@ -11,13 +11,13 @@
 
 ## Misc notes
 
-To change the mm2 bin being used, replace the file: `public/mm2lib_bg.wasm` with it
+To change the kdf bin being used, replace the file: `public/kdflib_bg.wasm` with it
 
-To keep multiple versions of mm2 bins in the public folder and test them one by one, make sure all of them have different names, then replace the name `mm2lib_bg.wasm` in https://github.com/gcharang/react-komodefi-wasm/blob/master/src/components/Mm2Panel.jsx
+To keep multiple versions of kdf bins in the public folder and test them one by one, make sure all of them have different names, then replace the name `kdflib_bg.wasm` in https://github.com/gcharang/react-komodefi-wasm/blob/master/src/components/kdfPanel.jsx
 
-Might want to restart the dev server and hard refresh(shift + f5) the browser window when the mm2 binary being used is changed in code or replaced with same name in the file system
+Might want to restart the dev server and hard refresh(shift + f5) the browser window when the kdf binary being used is changed in code or replaced with same name in the file system
 
-Best to open/reopen the url: http://localhost:3000/ in a private/incognito window when testing code/mm2 changes, to be completely sure that cached mm2 bins/other code aren't interfering
+Best to open/reopen the url: http://localhost:3000/ in a private/incognito window when testing code/kdf changes, to be completely sure that cached kdf bins/other code aren't interfering
 
 To update the API version using a url to a zipfile, use `./update_wasm.sh $zipfile_url`
 
