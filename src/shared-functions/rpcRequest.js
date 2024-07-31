@@ -1,4 +1,4 @@
-import { Mm2RpcErr, mm2_rpc } from "../js/mm2lib.js";
+import { Mm2RpcErr, mm2_rpc } from "../js/kdflib.js";
 
 export async function rpc_request(request_js) {
   try {
@@ -8,13 +8,13 @@ export async function rpc_request(request_js) {
   } catch (e) {
     switch (e) {
       case Mm2RpcErr.NotRunning:
-        alert("MM2 is not running yet");
+        alert("KDF is not running yet");
         break;
       case Mm2RpcErr.InvalidPayload:
         alert(`Invalid payload: ${request_js}`);
         break;
       case Mm2RpcErr.InternalError:
-        alert(`An MM2 internal error`);
+        alert(`An KDF internal error`);
         break;
       default:
         alert(`Unexpected error: ${e}`);
