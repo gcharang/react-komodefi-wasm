@@ -7,10 +7,14 @@ fn=${1##*/}
 mkdir temp
 unzip $fn -d temp
 cd temp
-mv mm2lib_bg.wasm ../../public/mm2lib_bg.wasm
-sed -i "s|input = new URL('mm2lib_bg.wasm', import.meta.url);|input = new URL('mm2lib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" mm2lib.js
+mv kdflib_bg.wasm ../../public/kdflib_bg.wasm
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s|input = new URL('kdflib_bg.wasm', import.meta.url);|input = new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
+else
+    sed -i "s|input = new URL('kdflib_bg.wasm', import.meta.url);|input = new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
+fi
 
-mv mm2lib.js ../../src/js/mm2lib.js
+mv kdflib.js ../../src/js/kdflib.js
 cp -r snippets/* ../../src/js/snippets/
 cd ..
 rm -rf temp

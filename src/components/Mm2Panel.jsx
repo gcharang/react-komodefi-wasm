@@ -9,7 +9,7 @@ import init, {
   mm2_main_status,
   mm2_stop,
   mm2_version,
-} from "../js/mm2lib.js";
+} from "../js/kdflib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
@@ -164,9 +164,9 @@ const Mm2Panel = () => {
       const baseUrl = getBaseUrl();
       let wasm_bin_path;
       if (process.env.NODE_ENV !== "production") {
-        wasm_bin_path = `/mm2lib_bg.wasm?v=${Date.now()}`;
+        wasm_bin_path = `/kdflib_bg.wasm?v=${Date.now()}`;
       } else {
-        wasm_bin_path = `/mm2_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
+        wasm_bin_path = `/kdf_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
       }
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
       await init(mm2BinUrl);
@@ -294,7 +294,7 @@ const Mm2Panel = () => {
             >
               {!mm2PanelState.mm2Running ? (
                 <>
-                  <span>Run MM2</span>
+                  <span>Run KDF</span>
                   <PlayIcon
                     role="image"
                     className="w-5 h-5 cursor-pointer fill-green-500"
@@ -302,7 +302,7 @@ const Mm2Panel = () => {
                 </>
               ) : (
                 <>
-                  <span>Stop MM2</span>
+                  <span>Stop KDF</span>
                   <StopIcon
                     role="image"
                     className="w-5 h-5 cursor-pointer fill-red-500"
