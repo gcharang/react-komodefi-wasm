@@ -3,11 +3,11 @@ export const rpcDefaultConfig = `[
         "userpass": "testpsw",
         "method": "electrum",
         "mm2": 1,
-        "coin": "RICK",
+        "coin": "DOC",
         "tx_history": true,
         "servers": [
             {
-                "url": "electrum1.cipig.net:30017",
+                "url": "electrum1.cipig.net:30020",
                 "protocol": "WSS"
             }
         ]
@@ -16,11 +16,11 @@ export const rpcDefaultConfig = `[
         "userpass": "testpsw",
         "method": "electrum",
         "mm2": 1,
-        "coin": "MORTY",
+        "coin": "MARTY",
         "tx_history": true,
         "servers": [
             {
-                "url": "electrum1.cipig.net:30018",
+                "url": "electrum1.cipig.net:30021",
                 "protocol": "WSS"
             }
         ]
