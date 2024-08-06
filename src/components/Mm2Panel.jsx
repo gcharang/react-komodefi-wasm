@@ -268,7 +268,6 @@ const Mm2Panel = () => {
   }, []);
 
   function listenOnEventsFromDocs(event) {
-    console.log("docs sent a message");
     if (event.origin !== docsBaseUrl) {
       return;
     }
@@ -315,7 +314,6 @@ const Mm2Panel = () => {
   }, [methods, isMm2Initialized.current]);
 
   useEffect(() => {
-    console.log("is iframe: " + window !== window.top);
     createRandomMm2Password();
   }, []);
 
