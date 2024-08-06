@@ -22,6 +22,22 @@ import { docsBaseUrl } from "../store/staticData/index.js";
 
 const LOG_LEVEL = LogLevel.Debug;
 
+export async function init_wasm() {
+  try {
+    const baseUrl = getBaseUrl();
+    let wasm_bin_path;
+    if (process.env.NODE_ENV !== "production") {
+      wasm_bin_path = `/mm2lib_bg.wasm?v=${Date.now()}`;
+    } else {
+      wasm_bin_path = `/mm2_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
+    }
+    let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
+    await init(mm2BinUrl);
+  } catch (e) {
+    alert(`Oops: ${e}`);
+  }
+}
+
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
@@ -178,21 +194,6 @@ const Mm2Panel = () => {
     }
   }
 
-  async function init_wasm() {
-    try {
-      const baseUrl = getBaseUrl();
-      let wasm_bin_path;
-      if (process.env.NODE_ENV !== "production") {
-        wasm_bin_path = `/mm2lib_bg.wasm?v=${Date.now()}`;
-      } else {
-        wasm_bin_path = `/mm2_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
-      }
-      let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
-      await init(mm2BinUrl);
-    } catch (e) {
-      alert(`Oops: ${e}`);
-    }
-  }
   function spawn_mm2_status_checking() {
     setInterval(function () {
       const status = mm2_main_status();
@@ -267,6 +268,7 @@ const Mm2Panel = () => {
   }, []);
 
   function listenOnEventsFromDocs(event) {
+    console.log("docs sent a message");
     if (event.origin !== docsBaseUrl) {
       return;
     }
@@ -313,6 +315,7 @@ const Mm2Panel = () => {
   }, [methods, isMm2Initialized.current]);
 
   useEffect(() => {
+    console.log("is iframe: " + window !== window.top);
     createRandomMm2Password();
   }, []);
 
