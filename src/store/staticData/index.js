@@ -47,5 +47,16 @@ export const mm2DefaultConfig = `{
 
 export const docsBaseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://mm2-code-runner.komodo-docs-revamp-2023.pages.dev"
+    ? "https://code-runner-iframe-version.komodo-docs-revamp-2023.pages.dev"
     : "http://localhost:3000";
+
+export const isAllowedDomain = (domain) => {
+  const localDomains = ["http://localhost:3000", "http://localhost:3001"];
+  if (localDomains.includes(domain)) return true;
+  else if (
+    domain.startsWith("https://") &&
+    domain.endsWith(".komodo-docs-revamp-2023.pages.dev")
+  )
+    return true;
+  else return;
+};

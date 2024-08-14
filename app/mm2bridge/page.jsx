@@ -22,78 +22,78 @@ const isAllowedDomain = (domain) => {
 
 const staticPassword = "2!CRawzBL";
 const Page = () => {
-  const wasmInit = useRef(false);
+  // const wasmInit = useRef(false);
 
-  async function listenOnEventsFromDocs(event) {
-    if (!isAllowedDomain(event.origin)) return;
+  // async function listenOnEventsFromDocs(event) {
+  //   if (!isAllowedDomain(event.origin)) return;
 
-    // console.log("message from docs" + event.origin + " " + event.data);
-    let receivedData = JSON.parse(event.data);
+  //   // console.log("message from docs" + event.origin + " " + event.data);
+  //   let receivedData = JSON.parse(event.data);
 
-    if (wasmInit.current) {
-      try {
-        let updatedData = updateUserPass(receivedData, staticPassword);
-        const response = await mm2_rpc(updatedData);
-        // console.log("rpc response", response);
-        event.source.postMessage(
-          JSON.stringify({
-            requestId: event.data,
-            response: response,
-          }),
-          {
-            targetOrigin: "*",
-          }
-        );
-      } catch (error) {
-        console.log("couldn't send rpc request", error);
-      }
-    }
-  }
+  //   if (wasmInit.current) {
+  //     try {
+  //       let updatedData = updateUserPass(receivedData, staticPassword);
+  //       const response = await mm2_rpc(updatedData);
+  //       // console.log("rpc response", response);
+  //       event.source.postMessage(
+  //         JSON.stringify({
+  //           requestId: event.data,
+  //           response: response,
+  //         }),
+  //         {
+  //           targetOrigin: "*",
+  //         }
+  //       );
+  //     } catch (error) {
+  //       console.log("couldn't send rpc request", error);
+  //     }
+  //   }
+  // }
 
-  function handle_log(level, line) {
-    // log_level: 0, disables this
-    console.log(level, line);
-  }
-  useEffect(() => {
-    if (wasmInit.current) return;
-    init_wasm().then(async () => {
-      wasmInit.current = true;
-      try {
-        // default config from static data file
-        const conf_js = {
-          gui: "WASMTEST",
-          mm2: 1,
-          passphrase: "wasmtest",
-          rpc_password: staticPassword,
-          netid: 8762,
-        };
-        const baseUrl = getBaseUrl();
-        let coinsUrl = new URL(baseUrl + "/coins");
-        let coins = await fetch(coinsUrl);
-        let coinsJson = await coins.json();
-        conf_js.coins = coinsJson;
-        console.log(conf_js);
-        mm2_main(
-          {
-            conf: conf_js,
-            log_level: 0,
-          },
-          handle_log
-        );
-      } catch (error) {
-        console.error("Couldn't initialize MM2 Instance", error);
-      }
-    });
-    return () => {};
-  }, []);
+  // function handle_log(level, line) {
+  //   // log_level: 0, disables this
+  //   console.log(level, line);
+  // }
+  // useEffect(() => {
+  //   if (wasmInit.current) return;
+  //   init_wasm().then(async () => {
+  //     wasmInit.current = true;
+  //     try {
+  //       // default config from static data file
+  //       const conf_js = {
+  //         gui: "WASMTEST",
+  //         mm2: 1,
+  //         passphrase: "wasmtest",
+  //         rpc_password: staticPassword,
+  //         netid: 8762,
+  //       };
+  //       const baseUrl = getBaseUrl();
+  //       let coinsUrl = new URL(baseUrl + "/coins");
+  //       let coins = await fetch(coinsUrl);
+  //       let coinsJson = await coins.json();
+  //       conf_js.coins = coinsJson;
+  //       console.log(conf_js);
+  //       mm2_main(
+  //         {
+  //           conf: conf_js,
+  //           log_level: 0,
+  //         },
+  //         handle_log
+  //       );
+  //     } catch (error) {
+  //       console.error("Couldn't initialize MM2 Instance", error);
+  //     }
+  //   });
+  //   return () => {};
+  // }, []);
 
-  useEffect(() => {
-    window.addEventListener("message", listenOnEventsFromDocs);
+  // useEffect(() => {
+  //   window.addEventListener("message", listenOnEventsFromDocs);
 
-    return () => {
-      window.removeEventListener("message", listenOnEventsFromDocs);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("message", listenOnEventsFromDocs);
+  //   };
+  // }, []);
 
   return null;
 };

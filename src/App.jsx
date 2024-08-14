@@ -9,6 +9,7 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import SideBar from "./components/SideBar";
 import { WarningDialog } from "./components/WarningModal";
 import { debounce } from "./shared-functions/debounce";
+import { DocsModal } from "./components/Docs";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ function App() {
     <div
       className={`${inter.className} h-full bg-primaryBg-900 min-h-screen relative`}
     >
+      <DocsModal />
       <WarningDialog />
       {currentLayout === "initializing" ||
         (currentLayout === "desktop" && (

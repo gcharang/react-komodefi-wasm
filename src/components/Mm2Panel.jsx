@@ -87,9 +87,9 @@ const Mm2Panel = () => {
           requestId: null,
         });
         // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          // window.close();
-        });
+        // toggleMm2().then(() => {
+        //   // window.close();
+        // });
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
@@ -179,7 +179,8 @@ const Mm2Panel = () => {
     } catch (e) {
       switch (e) {
         case Mm2MainErr.AlreadyRuns:
-          alert("MM2 is already running, please wait...");
+          // alert("MM2 is already running, please wait...");
+          console.error("MM2 is already running, please wait");
           return;
         case Mm2MainErr.InvalidParams:
           alert("Invalid config");
@@ -304,9 +305,8 @@ const Mm2Panel = () => {
         window.opener.postMessage("mm2-tab-open", {
           targetOrigin: docsBaseUrl,
         });
-
-        window.addEventListener("message", listenOnEventsFromDocs);
       }
+    window.addEventListener("message", listenOnEventsFromDocs);
 
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);
