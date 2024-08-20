@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
 import { useRpcPanelState } from "../store/rpc";
@@ -7,6 +8,14 @@ import Tooltip from "./Tooltip";
 const RpcResponsePanel = () => {
   const { rpcPanelState } = useRpcPanelState();
   const [copied, setCopied] = useState(false);
+  const [highlightedCode, setHighlightedCode] = useState("");
+
+  useEffect(() => {
+    if (!rpcPanelState.requestResponse) return;
+    const highlightedJSON = highlightJSON(rpcPanelState.requestResponse);
+    const highlightedHTML = renderHighlightedJSON(highlightedJSON);
+    setHighlightedCode(highlightedHTML);
+  }, [rpcPanelState.requestResponse]);
 
   const copyToClipboard = () => {
     try {
@@ -44,9 +53,9 @@ const RpcResponsePanel = () => {
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <p className="p-2 whitespace-pre-wrap">
-          {rpcPanelState.requestResponse}
-        </p>
+        <pre className="text-sm text-gray-400 whitespace-pre-wrap p-2">
+          <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+        </pre>
       </div>
     </div>
   );
