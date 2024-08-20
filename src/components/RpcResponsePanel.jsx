@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-import { CheckCircle, Clipboard } from "./IconComponents";
 import { useRpcPanelState } from "../store/rpc";
+import { CheckCircle, Clipboard, DownloadIcon } from "./IconComponents";
 import Tooltip from "./Tooltip";
+import DownloadFile from "./downloadFile";
 
 const RpcResponsePanel = () => {
   const { rpcPanelState } = useRpcPanelState();
@@ -40,6 +41,24 @@ const RpcResponsePanel = () => {
                 className="w-6 h-6 Check hover:text-green-600"
               />
             </Tooltip>
+          )}
+          {rpcPanelState.requestResponse && (
+            <DownloadIcon
+              onClick={() =>
+                DownloadFile(
+                  JSON.stringify(
+                    JSON.parse(rpcPanelState.requestResponse),
+                    null,
+                    2
+                  ),
+                  "application/json",
+                  "kdf-response.json"
+                )
+              }
+              role="button"
+              title="download response"
+              className="w-6 h-6 cursor-pointer hover:text-white"
+            />
           )}
         </div>
       </div>
