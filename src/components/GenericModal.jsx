@@ -1,10 +1,12 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
-import { useGenericModal } from "../store/genericModal";
+import { Fragment, useState } from 'react';
+import { useEffect } from 'react';
+
+import { Dialog, Transition } from '@headlessui/react';
+import Cookies from 'js-cookie';
+
+import { useGenericModal } from '../store/genericModal';
+import { useVisibilityState } from '../store/modals';
+import { ModalIds } from '../store/modals/modalIds';
 
 export const GenericModal = () => {
   const { imVisible, hideModal } = useVisibilityState();
@@ -13,11 +15,7 @@ export const GenericModal = () => {
   return (
     <>
       <Transition appear show={imVisible(ModalIds.genericModal)} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => hideModal(ModalIds.genericModal)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => hideModal(ModalIds.genericModal)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -42,10 +40,7 @@ export const GenericModal = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryLighter p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-slate-300"
-                  >
+                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-slate-300">
                     {genericModalState.titleComponent}
                   </Dialog.Title>
                   <div className="mt-2 text-sm text-gray-400">

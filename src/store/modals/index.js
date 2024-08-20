@@ -1,6 +1,6 @@
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilState } from 'recoil';
 
-import { atomKeys } from "../atomKeys";
+import { atomKeys } from '../atomKeys';
 
 const modalVisibilityState = atom({
   key: atomKeys.modalVisibility,
@@ -8,8 +8,7 @@ const modalVisibilityState = atom({
 });
 
 export const useVisibilityState = () => {
-  const [visibleModals, setVisibleModals] =
-    useRecoilState(modalVisibilityState);
+  const [visibleModals, setVisibleModals] = useRecoilState(modalVisibilityState);
 
   const hideModal = (id) => {
     setVisibleModals((currentValues) => {
@@ -23,7 +22,7 @@ export const useVisibilityState = () => {
       () => {
         showModal(modalToShow);
       },
-      delay ? delay : 500
+      delay ? delay : 500,
     );
   };
 

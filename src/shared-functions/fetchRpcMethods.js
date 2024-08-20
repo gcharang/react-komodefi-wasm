@@ -2,7 +2,7 @@ export async function fetchRpcMethods(collectionUrl) {
   const result = await fetch(
     collectionUrl
       ? collectionUrl
-      : "https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/dev/postman/collections/komodo_defi.postman_collection.json"
+      : 'https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/dev/postman/collections/komodo_defi.postman_collection.json',
   );
   const json = await result.json();
   return json;
@@ -16,10 +16,9 @@ export const getRawValues = (arr) => {
     if (item?.request?.body?.raw) {
       // get the stringified `raw` data
       let rawData = JSON.parse(
-        item.request.body.raw.replace(
-          /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g,
-          (m, g) => (g ? "" : m)
-        )
+        item.request.body.raw.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) =>
+          g ? '' : m,
+        ),
       );
       if (item?.name) {
         // This will be used as the method name in the dropdown
@@ -27,10 +26,7 @@ export const getRawValues = (arr) => {
       }
       // This is where we store all the methods. bigData `key`s itself is gotten from the
       // `name` key in each level that gets us to the `raw` data. This can be found to be the identifier dropdown sections
-      bigData[levels.join(" > ")] = [
-        ...(bigData[levels.join(" > ")] ?? []),
-        rawData,
-      ];
+      bigData[levels.join(' > ')] = [...(bigData[levels.join(' > ')] ?? []), rawData];
       // rawValues.push(rawData);
     }
     if (item.item) {

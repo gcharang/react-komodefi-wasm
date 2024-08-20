@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 
 const useIsValidSchema = (schema) => {
   const [isValid, setIsValid] = useState(true);

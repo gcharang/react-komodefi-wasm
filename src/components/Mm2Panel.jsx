@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { PlayIcon, StopIcon } from "../components/IconComponents";
+import React, { useEffect, useState } from 'react';
 
+import { PlayIcon, StopIcon } from '../components/IconComponents';
 import init, {
   LogLevel,
   MainStatus,
@@ -9,16 +9,16 @@ import init, {
   mm2_main_status,
   mm2_stop,
   mm2_version,
-} from "../js/kdflib.js";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useMm2PanelState } from "../store/mm2";
-import { useMm2LogsPanelState } from "../store/mm2Logs";
-import { useRpcMethods } from "../store/methods";
-import { useRpcPanelState } from "../store/rpc";
-import { rpc_request } from "../shared-functions/rpcRequest";
+} from '../js/kdflib.js';
+import { rpc_request } from '../shared-functions/rpcRequest';
+import useIsValidSchema from '../shared-functions/useIsValidSchema';
+import { useRpcMethods } from '../store/methods';
+import { useMm2PanelState } from '../store/mm2';
+import { useMm2LogsPanelState } from '../store/mm2Logs';
+import { useRpcPanelState } from '../store/rpc';
 
 const getBaseUrl = () => {
-  return window.location.protocol + "//" + window.location.host;
+  return window.location.protocol + '//' + window.location.host;
 };
 const LOG_LEVEL = LogLevel.Debug;
 
@@ -33,29 +33,27 @@ const Mm2Panel = () => {
     shouldSendRpcRequest: false,
     requestId: null,
   });
-  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config
-  );
+  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(mm2PanelState.mm2Config);
 
   useEffect(() => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
-      rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
-      ).then((response) => {
-        docsProperties.instance.source.postMessage(
-          { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
-        );
-        setDocsProperties({
-          instance: null,
-          shouldSendRpcRequest: false,
-          requestId: null,
-        });
-        // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          window.close();
-        });
-      });
+      rpc_request(JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)).then(
+        (response) => {
+          docsProperties.instance.source.postMessage(
+            { requestId: docsProperties.requestId, response },
+            docsProperties.instance.origin,
+          );
+          setDocsProperties({
+            instance: null,
+            shouldSendRpcRequest: false,
+            requestId: null,
+          });
+          // stopping to free up agent CPU resource
+          toggleMm2().then(() => {
+            window.close();
+          });
+        },
+      );
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
 
@@ -67,10 +65,7 @@ const Mm2Panel = () => {
         setMm2LogsPanelState((current) => {
           return {
             ...current,
-            outputMessages: [
-              ...current.outputMessages,
-              ["[Error] " + line, "red"],
-            ],
+            outputMessages: [...current.outputMessages, ['[Error] ' + line, 'red']],
           };
         });
         console.error(line);
@@ -79,10 +74,7 @@ const Mm2Panel = () => {
         setMm2LogsPanelState((current) => {
           return {
             ...current,
-            outputMessages: [
-              ...current.outputMessages,
-              ["[Warn] " + line, "yellow"],
-            ],
+            outputMessages: [...current.outputMessages, ['[Warn] ' + line, 'yellow']],
           };
         });
         console.warn(line);
@@ -91,10 +83,7 @@ const Mm2Panel = () => {
         setMm2LogsPanelState((current) => {
           return {
             ...current,
-            outputMessages: [
-              ...current.outputMessages,
-              ["[Info] " + line, "violet"],
-            ],
+            outputMessages: [...current.outputMessages, ['[Info] ' + line, 'violet']],
           };
         });
         console.info(line);
@@ -108,10 +97,7 @@ const Mm2Panel = () => {
         setMm2LogsPanelState((current) => {
           return {
             ...current,
-            outputMessages: [
-              ...current.outputMessages,
-              ["[default] " + line, "neutral"],
-            ],
+            outputMessages: [...current.outputMessages, ['[default] ' + line, 'neutral']],
           };
         });
         console.debug(line);
@@ -129,25 +115,22 @@ const Mm2Panel = () => {
           outputMessages: [
             ...current.outputMessages,
             [
-              "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`,
-              "violet",
+              '[Info] ' + `run_mm2() version=${version.result} datetime=${version.datetime}`,
+              'violet',
             ],
           ],
         };
       });
-      console.info(
-        `run_mm2() version=${version.result} datetime=${version.datetime}`
-      );
+      console.info(`run_mm2() version=${version.result} datetime=${version.datetime}`);
       mm2_main(params, handle_log);
       return true;
     } catch (e) {
       switch (e) {
         case Mm2MainErr.AlreadyRuns:
-          alert("MM2 is already running, please wait...");
+          alert('MM2 is already running, please wait...');
           return;
         case Mm2MainErr.InvalidParams:
-          alert("Invalid config");
+          alert('Invalid config');
           return;
         case Mm2MainErr.NoCoinsInConf:
           alert("No 'coins' field in config");
@@ -163,7 +146,7 @@ const Mm2Panel = () => {
     try {
       const baseUrl = getBaseUrl();
       let wasm_bin_path;
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         wasm_bin_path = `/kdflib_bg.wasm?v=${Date.now()}`;
       } else {
         wasm_bin_path = `/kdf_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
@@ -216,7 +199,7 @@ const Mm2Panel = () => {
         const conf_js = JSON.parse(mm2PanelState.mm2Config);
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
-          let coinsUrl = new URL(baseUrl + "/coins");
+          let coinsUrl = new URL(baseUrl + '/coins');
           let coins = await fetch(coinsUrl);
           let coinsJson = await coins.json();
           conf_js.coins = coinsJson;
@@ -233,9 +216,7 @@ const Mm2Panel = () => {
           log_level: LOG_LEVEL,
         };
       } catch (e) {
-        alert(
-          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
-        );
+        alert(`Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`);
         return;
       }
       // finally {
@@ -247,7 +228,7 @@ const Mm2Panel = () => {
   };
 
   async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
+    if (event.origin !== 'http://localhost:3000') {
       return;
     }
     // Handle the received data
@@ -275,11 +256,11 @@ const Mm2Panel = () => {
   useEffect(() => {
     if (methods && isMm2Initialized)
       if (window.opener) {
-        window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
+        window.addEventListener('message', listenOnEventsFromDocs);
+        window.opener.postMessage('👍', 'http://localhost:3000');
       }
     return () => {
-      window.removeEventListener("message", listenOnEventsFromDocs);
+      window.removeEventListener('message', listenOnEventsFromDocs);
     };
   }, [methods, isMm2Initialized]);
 
@@ -295,26 +276,18 @@ const Mm2Panel = () => {
               {!mm2PanelState.mm2Running ? (
                 <>
                   <span>Run KDF</span>
-                  <PlayIcon
-                    role="image"
-                    className="w-5 h-5 cursor-pointer fill-green-500"
-                  />
+                  <PlayIcon role="image" className="w-5 h-5 cursor-pointer fill-green-500" />
                 </>
               ) : (
                 <>
                   <span>Stop KDF</span>
-                  <StopIcon
-                    role="image"
-                    className="w-5 h-5 cursor-pointer fill-red-500"
-                  />
+                  <StopIcon role="image" className="w-5 h-5 cursor-pointer fill-red-500" />
                 </>
               )}
             </button>
           </div>
           <div>
-            <p className="text-sm">
-              Version: {process.env.NEXT_PUBLIC_WASM_VERSION}
-            </p>
+            <p className="text-sm">Version: {process.env.NEXT_PUBLIC_WASM_VERSION}</p>
           </div>
         </div>
       </div>
@@ -340,10 +313,9 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
-          ? "focus:ring-blue-700"
-          : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+        className={`${
+          !mm2PanelState.dataHasErrors ? 'focus:ring-blue-700' : 'focus:ring-red-700 focus:ring-2'
+        } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>

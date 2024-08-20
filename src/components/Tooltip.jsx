@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-const Tooltip = ({ label, dir = "top", children }) => {
+const Tooltip = ({ label, dir = 'top', children }) => {
   return (
     <div className="group cursor-pointer relative text-center">
       {children}
       <div
         className={`transition opacity-0 shadow-md w-28 bg-primaryLighter text-slate-300 text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 group-hover:-translate-y-[0.5rem] ${
-          dir === "top" ? "bottom-full" : "-bottom-[200%]"
+          dir === 'top' ? 'bottom-full' : '-bottom-[200%]'
         } -translate-y-[1rem] left-1/2 -translate-x-1/2  pointer-events-none`}
       >
         {label}
@@ -17,7 +17,7 @@ const Tooltip = ({ label, dir = "top", children }) => {
           viewBox="0 0 255 255"
         >
           <polygon
-            className={`fill-current ${dir === "top" ? "" : "hidden"}`}
+            className={`fill-current ${dir === 'top' ? '' : 'hidden'}`}
             points="0,0 127.5,127.5 255,0"
           />
         </svg>

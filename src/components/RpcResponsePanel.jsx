@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { CheckCircle, Clipboard } from "./IconComponents";
-import { useRpcPanelState } from "../store/rpc";
-import Tooltip from "./Tooltip";
+import { useRpcPanelState } from '../store/rpc';
+import { CheckCircle, Clipboard } from './IconComponents';
+import Tooltip from './Tooltip';
 
 const RpcResponsePanel = () => {
   const { rpcPanelState } = useRpcPanelState();
@@ -23,7 +23,7 @@ const RpcResponsePanel = () => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3 items-center">
           {!copied && (
-            <Tooltip label={"Copy Response"}>
+            <Tooltip label={'Copy Response'}>
               <Clipboard
                 onClick={() => copyToClipboard()}
                 role="button"
@@ -33,7 +33,7 @@ const RpcResponsePanel = () => {
             </Tooltip>
           )}
           {copied && (
-            <Tooltip label={"Copied!"}>
+            <Tooltip label={'Copied!'}>
               <CheckCircle
                 onClick={() => copyToClipboard()}
                 role="image"
@@ -44,9 +44,7 @@ const RpcResponsePanel = () => {
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <p className="p-2 whitespace-pre-wrap">
-          {rpcPanelState.requestResponse}
-        </p>
+        <p className="p-2 whitespace-pre-wrap">{rpcPanelState.requestResponse}</p>
       </div>
     </div>
   );

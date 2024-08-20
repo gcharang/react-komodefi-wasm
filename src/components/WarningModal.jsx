@@ -1,29 +1,28 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
+import { Fragment, useState } from 'react';
+import { useEffect } from 'react';
+
+import { Dialog, Transition } from '@headlessui/react';
+import Cookies from 'js-cookie';
+
+import { useVisibilityState } from '../store/modals';
+import { ModalIds } from '../store/modals/modalIds';
 
 export const WarningDialog = () => {
   const { imVisible, hideModal, showModal } = useVisibilityState();
 
   useEffect(() => {
-    const lastDisplayTimestamp = +Cookies.get("lastDisplayTimestamp");
+    const lastDisplayTimestamp = +Cookies.get('lastDisplayTimestamp');
     const currentTimestamp = new Date().getTime();
 
     // If the last display timestamp is not set or more than 24 hours have passed, show the modal
-    if (
-      !lastDisplayTimestamp ||
-      currentTimestamp - lastDisplayTimestamp > 24 * 60 * 60 * 1000
-    ) {
+    if (!lastDisplayTimestamp || currentTimestamp - lastDisplayTimestamp > 24 * 60 * 60 * 1000) {
       showModal(ModalIds.usageWarning);
     }
   }, []);
 
   const handleCloseModal = () => {
     // Set a cookie with the current timestamp to record when the modal was last displayed
-    Cookies.set("lastDisplayTimestamp", new Date().getTime(), { expires: 1 }); // Expires in 1 day
+    Cookies.set('lastDisplayTimestamp', new Date().getTime(), { expires: 1 }); // Expires in 1 day
 
     // Close the modal
     hideModal(ModalIds.usageWarning);
@@ -31,11 +30,7 @@ export const WarningDialog = () => {
   return (
     <>
       <Transition appear show={imVisible(ModalIds.usageWarning)} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => hideModal(ModalIds.usageWarning)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => hideModal(ModalIds.usageWarning)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -60,16 +55,13 @@ export const WarningDialog = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryLighter p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-red-500"
-                  >
+                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-red-500">
                     Important Info!
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-400">
-                      Use at your own risk. Do not store/load seeds/wallets with
-                      coins/tokens of any significant value
+                      Use at your own risk. Do not store/load seeds/wallets with coins/tokens of any
+                      significant value
                     </p>
                   </div>
 

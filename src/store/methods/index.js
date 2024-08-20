@@ -1,5 +1,6 @@
-import { atom, useRecoilState } from "recoil";
-import { atomKeys } from "../atomKeys.js";
+import { atom, useRecoilState } from 'recoil';
+
+import { atomKeys } from '../atomKeys.js';
 
 const rpcAtom = atom({
   key: atomKeys.methods,

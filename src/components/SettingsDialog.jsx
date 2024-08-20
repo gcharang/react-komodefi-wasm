@@ -1,5 +1,6 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useState } from 'react';
+
+import { Dialog, Transition } from '@headlessui/react';
 
 export const SettingsDialog = ({
   isDialogOpen = false,
@@ -15,11 +16,7 @@ export const SettingsDialog = ({
   return (
     <>
       <Transition appear show={isDialogOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setIsDialogOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => setIsDialogOpen(false)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -44,16 +41,12 @@ export const SettingsDialog = ({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryLighter p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-white"
-                  >
+                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-white">
                     Import collection URL
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-400">
-                      Allows you to use new methods from the dropdown in the
-                      menu bar above
+                      Allows you to use new methods from the dropdown in the menu bar above
                     </p>
                     <input
                       className="bg-transparent w-full rounded my-2 text-white"

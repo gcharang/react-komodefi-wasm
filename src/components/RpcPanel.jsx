@@ -1,22 +1,21 @@
-import { nanoid } from "nanoid";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  fetchRpcMethods,
-  getRawValues,
-} from "../shared-functions/fetchRpcMethods";
-import { rpc_request } from "../shared-functions/rpcRequest";
-import { updateUserPass } from "../shared-functions/updateUserPassword";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useGenericModal } from "../store/genericModal";
-import { useRpcMethods } from "../store/methods";
-import { useMm2PanelState } from "../store/mm2";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
-import { useRpcPanelState } from "../store/rpc";
-import { Send, SettingsIcon } from "./IconComponents";
-import { SettingsDialog } from "./SettingsDialog";
-import Tooltip from "./Tooltip";
+import React, { useEffect, useMemo, useState } from 'react';
+
+import { nanoid } from 'nanoid';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { fetchRpcMethods, getRawValues } from '../shared-functions/fetchRpcMethods';
+import { rpc_request } from '../shared-functions/rpcRequest';
+import { updateUserPass } from '../shared-functions/updateUserPassword';
+import useIsValidSchema from '../shared-functions/useIsValidSchema';
+import { useGenericModal } from '../store/genericModal';
+import { useRpcMethods } from '../store/methods';
+import { useMm2PanelState } from '../store/mm2';
+import { useVisibilityState } from '../store/modals';
+import { ModalIds } from '../store/modals/modalIds';
+import { useRpcPanelState } from '../store/rpc';
+import { Send, SettingsIcon } from './IconComponents';
+import { SettingsDialog } from './SettingsDialog';
+import Tooltip from './Tooltip';
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
@@ -27,9 +26,7 @@ const RpcPanel = () => {
   const router = useRouter();
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcPanelState.config
-  );
+  const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(rpcPanelState.config);
   const generateRpcMethods = async (collectionUrl) => {
     const methods = await fetchRpcMethods(collectionUrl);
     let result = getRawValues(methods.item);
@@ -46,33 +43,26 @@ const RpcPanel = () => {
     if (!method || !methodName) return;
     if (
       (method && !methods[method]) ||
-      (methodName &&
-        !methods[method].find((value) => value?.name === methodName))
+      (methodName && !methods[method].find((value) => value?.name === methodName))
     ) {
       setGenericModalState({
         ...genericModalState,
-        titleComponent: (
-          <span className="text-lg font-medium leading-6 text-red-500">
-            Error
-          </span>
-        ),
+        titleComponent: <span className="text-lg font-medium leading-6 text-red-500">Error</span>,
         messageComponent:
           "This method doesn't exist. Pick a method from the dropdown in the navbar or copy/paste the method data in the input-box to the right side",
       });
       showModal(ModalIds.genericModal);
       return;
     }
-    const requiredValue = methods[method].find(
-      (value) => value?.name === methodName
-    );
+    const requiredValue = methods[method].find((value) => value?.name === methodName);
     if (requiredValue) {
       const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
       syncPanelPasswords(prettifiedJSON);
     }
   };
   useEffect(() => {
-    const method = searchParams.get("method");
-    const methodName = searchParams.get("methodName");
+    const method = searchParams.get('method');
+    const methodName = searchParams.get('methodName');
     if (methods) loadMethodFromUrl({ method, methodName });
   }, [searchParams, methods]);
 
@@ -81,9 +71,7 @@ const RpcPanel = () => {
     try {
       request_js = JSON.parse(rpcPanelState.config);
     } catch (e) {
-      alert(
-        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
-      );
+      alert(`Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`);
       return;
     }
 
@@ -98,10 +86,7 @@ const RpcPanel = () => {
     try {
       return JSON.parse(mm2PanelState.mm2Config).rpc_password;
     } catch (error) {
-      console.error(
-        "An error occurred while trying to parse MM2 config",
-        error
-      );
+      console.error('An error occurred while trying to parse MM2 config', error);
       return undefined;
     }
   };
@@ -110,10 +95,8 @@ const RpcPanel = () => {
     const rpcPassword = grabMM2RpcPassword();
     if (rpcPassword) {
       const updatedUserPassword = updateUserPass(
-        rpcRequestConfig
-          ? JSON.parse(rpcRequestConfig)
-          : JSON.parse(rpcPanelState.config),
-        rpcPassword
+        rpcRequestConfig ? JSON.parse(rpcRequestConfig) : JSON.parse(rpcPanelState.config),
+        rpcPassword,
       );
       if (updatedUserPassword)
         setRpcPanelState((prev) => {
@@ -126,9 +109,7 @@ const RpcPanel = () => {
   };
 
   useEffect(() => {
-    !mm2PanelState.dataHasErrors &&
-      !rpcPanelState.dataHasErrors &&
-      syncPanelPasswords();
+    !mm2PanelState.dataHasErrors && !rpcPanelState.dataHasErrors && syncPanelPasswords();
   }, [mm2PanelState.mm2Config]);
 
   const ListBox = () => {
@@ -136,7 +117,7 @@ const RpcPanel = () => {
 
     const MenuItem = ({ label, children }) => {
       const toggleSubMenu = (menuLabel) => {
-        setActiveMenuItem(activeMenuItem === menuLabel ? "" : menuLabel);
+        setActiveMenuItem(activeMenuItem === menuLabel ? '' : menuLabel);
       };
 
       return (
@@ -144,16 +125,13 @@ const RpcPanel = () => {
           role="menuitem"
           className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-slate-900 border-b border-b-gray-600 last:border-none"
         >
-          <button
-            onClick={() => toggleSubMenu(label)}
-            className="block w-full text-left"
-          >
+          <button onClick={() => toggleSubMenu(label)} className="block w-full text-left">
             {label}
             {children && (
               <span className="absolute top-0 right-0 mt-2 mr-4">
                 <svg
                   className={`w-5 h-5 ml-2 -mr-1 transition-all duration-200 ${
-                    activeMenuItem === label ? "rotate-180" : "rotate-0"
+                    activeMenuItem === label ? 'rotate-180' : 'rotate-0'
                   }`}
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -187,11 +165,7 @@ const RpcPanel = () => {
             aria-controls="mm2-methods"
           >
             <span>Methods</span>
-            <svg
-              className="w-5 h-5 ml-2 -mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
+            <svg className="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path
                 fillRule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -224,11 +198,11 @@ const RpcPanel = () => {
                               onClick={() => {
                                 router.push(
                                   `?method=${methodList}&methodName=${encodeURIComponent(
-                                    methodJson?.name
+                                    methodJson?.name,
                                   )}`,
                                   {
                                     scroll: false,
-                                  }
+                                  },
                                 );
                               }}
                               className="px-4 flex justify-between gap-2 items-center hover:bg-[#131d3b] w-full py-2 text-sm cursor-pointer leading-5 text-left"
@@ -260,21 +234,15 @@ const RpcPanel = () => {
                 }}
                 disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
-                  mm2PanelState.mm2Running
-                    ? "bg-blue-900 text-white"
-                    : "bg-transparent"
+                  mm2PanelState.mm2Running ? 'bg-blue-900 text-white' : 'bg-transparent'
                 }`}
               >
-                <span>Send</span>{" "}
-                <Send
-                  role="image"
-                  className={`w-5 h-5 cursor-pointer`}
-                  title="Send RPC request"
-                />
+                <span>Send</span>{' '}
+                <Send role="image" className={`w-5 h-5 cursor-pointer`} title="Send RPC request" />
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <Tooltip label={"Open Settings"} dir="bottom">
+              <Tooltip label={'Open Settings'} dir="bottom">
                 <SettingsIcon
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
@@ -309,9 +277,7 @@ const RpcPanel = () => {
             }
           }}
           className={`${
-            !rpcPanelState.dataHasErrors
-              ? "focus:ring-blue-700"
-              : "focus:ring-red-700 focus:ring-2"
+            !rpcPanelState.dataHasErrors ? 'focus:ring-blue-700' : 'focus:ring-red-700 focus:ring-2'
           } p-3 mr-1 h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
           value={rpcPanelState.config}
         ></textarea>

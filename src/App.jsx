@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import Mm2LogsPanel from "./components/Mm2LogsPanel";
-import Mm2Panel from "./components/Mm2Panel";
-import RpcPanel from "./components/RpcPanel";
-import SideBar from "./components/SideBar";
-import RpcResponsePanel from "./components/RpcResponsePanel";
-import { rpcDefaultConfig } from "./state-machine/staticData";
-import { MenuIcon } from "./components/IconComponents";
-import { WarningDialog } from "./components/WarningModal";
+import { useEffect, useState } from 'react';
+
+import { MenuIcon } from './components/IconComponents';
+import Mm2LogsPanel from './components/Mm2LogsPanel';
+import Mm2Panel from './components/Mm2Panel';
+import RpcPanel from './components/RpcPanel';
+import RpcResponsePanel from './components/RpcResponsePanel';
+import SideBar from './components/SideBar';
+import { WarningDialog } from './components/WarningModal';
+import { rpcDefaultConfig } from './state-machine/staticData';
 
 function App() {
   const [windowSizes, setWindowSizes] = useState({
@@ -48,11 +49,7 @@ function App() {
             <div className="flex w-full h-full">
               <div
                 style={{
-                  flex: `0 0 ${
-                    !windowSizes.leftPane
-                      ? "50%"
-                      : `calc(${windowSizes.leftPane}px)`
-                  }`,
+                  flex: `0 0 ${!windowSizes.leftPane ? '50%' : `calc(${windowSizes.leftPane}px)`}`,
                 }}
                 className="h-full text-gray-300"
               >
@@ -95,10 +92,7 @@ function App() {
               }}
               className="flex text-white"
             >
-              <Mm2LogsPanel
-                windowSizes={windowSizes}
-                setWindowSizes={setWindowSizes}
-              />
+              <Mm2LogsPanel windowSizes={windowSizes} setWindowSizes={setWindowSizes} />
               <RpcResponsePanel />
             </div>
           </div>
