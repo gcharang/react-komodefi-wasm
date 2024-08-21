@@ -28,6 +28,9 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   };
 
   useEffect(() => {
+    if (!shouldAlwaysScrollToBottom) {
+      mm2Ref.scrollBy(0, -mm2Ref.scrollHeight);
+    }
     if (shouldAlwaysScrollToBottom && mm2Ref) {
       mm2Ref.scrollBy(0, mm2Ref.scrollHeight);
     }
