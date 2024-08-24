@@ -5,7 +5,13 @@
   "singleQuote": true,
   "printWidth": 100,
   "trailingComma": "all",
-  "importOrder": ["^(^react$|@react|react|^recoil$)", "<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
+  "importOrder": [
+    "^(^react$|@react|react|^recoil$)",
+    "^next",
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^[./]"
+  ],
   "importOrderGroupNamespaceSpecifiers": true,
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
