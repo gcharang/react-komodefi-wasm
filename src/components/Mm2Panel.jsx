@@ -20,6 +20,8 @@ import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
 import { useRpcPanelState } from "../store/rpc";
 import { docsBaseUrl } from "../store/staticData/index.js";
+import { usePathname, useParams, useSearchParams } from "next/navigation";
+import { useExternalDocsState } from "../store/externalDocs/index.js";
 
 const LOG_LEVEL = LogLevel.Debug;
 
@@ -43,9 +45,14 @@ const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
+  const searchParams = useSearchParams();
+
+  // const [externalDocsDetails, setExternalDocsDetails] = useState(null);
+
   // const [isMm2Initialized, setIsMm2Initialized] = useState(false);
   const isMm2Initialized = useRef(false);
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
+  const { externalDocsState, setExternalDocsState } = useExternalDocsState();
   const [docsProperties, setDocsProperties] = useState({
     instance: null,
     shouldSendRpcRequest: false,
@@ -54,6 +61,24 @@ const Mm2Panel = () => {
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
+
+  const externalDocsHelper = () => {
+    let docsKeys = ["id", "sourceUrl", "json"];
+
+    return {
+      isRunningFromExternalDocs: () =>
+        !docsKeys.some((key) => {
+          return !searchParams.get(key);
+        }),
+      externalDocsDetails: () =>
+        docsKeys.reduce((accumulator, current) => {
+          return {
+            ...accumulator,
+            [current]: searchParams.get(current),
+          };
+        }, {}),
+    };
+  };
 
   const createRandomMm2Password = () => {
     let mm2Config = JSON.parse(mm2PanelState.mm2Config);
@@ -70,7 +95,7 @@ const Mm2Panel = () => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(JSON.parse(rpcPanelState.config)).then((response) => {
         docsProperties.instance.source.postMessage(
-          JSON.stringify({ requestId: docsProperties.requestId, response }),
+          { requestId: docsProperties.requestId, response },
           {
             targetOrigin: docsBaseUrl,
           }
@@ -94,6 +119,47 @@ const Mm2Panel = () => {
       });
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
+
+  useEffect(() => {
+    if (externalDocsHelper().isRunningFromExternalDocs())
+      setExternalDocsState({
+        ...externalDocsState,
+        isComingFromDocsLink: true,
+        ...externalDocsHelper().externalDocsDetails(),
+      });
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!isMm2Initialized.current || externalDocsState.response) return;
+    // if (externalDocsState.response) return;
+    if (externalDocsState.isComingFromDocsLink) {
+      let jsonData = JSON.parse(externalDocsState.json);
+      jsonData.userpass = JSON.parse(mm2PanelState.mm2Config).rpc_password;
+
+      setRpcPanelState({
+        ...rpcPanelState,
+        config: JSON.stringify(jsonData, null, 2),
+      });
+      toggleMm2().then(() => {
+        // TODO: remove timeout and use effect - much more accurate
+        setTimeout(() => {
+          rpc_request(jsonData).then((response) => {
+            setRpcPanelState((prevState) => {
+              return {
+                ...prevState,
+                requestResponse: JSON.stringify(response, null, 2),
+              };
+            });
+            setExternalDocsState({
+              ...externalDocsState,
+              // canSendResponseToDocs: true,
+              response: JSON.stringify(response, null, 2),
+            });
+          });
+        }, 1000);
+      });
+    }
+  }, [externalDocsState, isMm2Initialized.current]);
 
   function handle_log(level, line) {
     switch (level) {
@@ -291,23 +357,23 @@ const Mm2Panel = () => {
     });
   }
 
-  useEffect(() => {
-    window.addEventListener("beforeunload", () => {
-      if (window.opener)
-        window.opener.postMessage("mm2-tab-closing", {
-          targetOrigin: docsBaseUrl,
-        });
-    });
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", () => {
+  //     if (window.opener)
+  //       window.opener.postMessage("mm2-tab-closing", {
+  //         targetOrigin: docsBaseUrl,
+  //       });
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (methods && isMm2Initialized.current)
-      if (window.opener) {
-        window.opener.postMessage("mm2-tab-open", {
-          targetOrigin: docsBaseUrl,
-        });
-      }
-    window.addEventListener("message", listenOnEventsFromDocs);
+      // if (window.opener) {
+      //   window.opener.postMessage("mm2-tab-open", {
+      //     targetOrigin: docsBaseUrl,
+      //   });
+      // }
+      window.addEventListener("message", listenOnEventsFromDocs);
 
     return () => {
       window.removeEventListener("message", listenOnEventsFromDocs);

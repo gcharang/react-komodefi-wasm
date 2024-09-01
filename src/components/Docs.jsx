@@ -1,21 +1,35 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useRef, useState } from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+import { useEffect, useRef, useState } from "react";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { docsBaseUrl } from "../store/staticData";
-import { useMm2PanelState } from "../store/mm2";
+import { useExternalDocsState } from "../store/externalDocs";
 
 export const DocsModal = () => {
-  const { imVisible, hideModal, showModal } = useVisibilityState();
-  const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
+  const { imVisible, hideModal } = useVisibilityState();
+  const { externalDocsState } = useExternalDocsState();
 
   const [isIframeLoading, setIsIframeLoading] = useState(true); // Add loading state
   const iframeRef = useRef(null);
 
   const handleIframeLoad = () => {
     setIsIframeLoading(false);
+  };
+  useEffect(() => {
+    if (!isIframeLoading && externalDocsState.response) {
+      iframeRef.current.contentWindow.postMessage(
+        {
+          id: externalDocsState.id,
+          response: externalDocsState.response,
+        },
+        {
+          targetOrigin: docsBaseUrl,
+        }
+      );
+    }
+  }, [externalDocsState, isIframeLoading]);
+
+  const removeTrailingSlash = (string) => {
+    return string.replace(/\/+$/, "");
   };
 
   return (
@@ -34,9 +48,6 @@ export const DocsModal = () => {
             >
               Close Docs
             </button>
-            <span className="text-white">
-              {mm2PanelState.mm2Running ? "true" : "false"}
-            </span>
           </div>
           {isIframeLoading && (
             <p className="text-white font-semibold text-center m-2">
@@ -51,7 +62,11 @@ export const DocsModal = () => {
             height={"100%"}
             onLoad={handleIframeLoad}
             className="w-full h-full"
-            src={docsBaseUrl + "/en/docs"}
+            src={
+              externalDocsState.sourceUrl
+                ? `${removeTrailingSlash(externalDocsState.sourceUrl)}#${externalDocsState.id}`
+                : docsBaseUrl + "/en/docs"
+            }
           />
         </div>
       </div>
