@@ -1,6 +1,7 @@
 import { Tab } from "@headlessui/react";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
+import { DocsModal } from "./components/Docs";
 import { MenuIcon } from "./components/IconComponents";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
@@ -9,7 +10,7 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import SideBar from "./components/SideBar";
 import { WarningDialog } from "./components/WarningModal";
 import { debounce } from "./shared-functions/debounce";
-import { DocsModal } from "./components/Docs";
+import { mobileBreakPoint } from "./store/staticData";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,7 +31,7 @@ function App() {
   const [currentLayout, setCurrentLayout] = useState("initializing");
 
   const handleUiLayoutBtwMobileAndDesktop = () => {
-    if (window.innerWidth >= 640) setCurrentLayout("desktop");
+    if (window.innerWidth >= mobileBreakPoint) setCurrentLayout("desktop");
     else setCurrentLayout("mobile");
   };
   const debounceOnResize = debounce(handleUiLayoutBtwMobileAndDesktop);

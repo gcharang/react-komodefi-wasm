@@ -60,3 +60,5 @@ export const isAllowedDomain = (domain) => {
     return true;
   else return;
 };
+
+export const mobileBreakPoint = 640;
