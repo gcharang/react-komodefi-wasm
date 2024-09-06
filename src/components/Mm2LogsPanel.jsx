@@ -1,8 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
+import React, { useEffect, useRef, useState } from "react";
 import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
+import {
+  CheckCircle,
+  Clipboard,
+  DoubleDown,
+  DownloadIcon,
+  NoSymbol,
+} from "./IconComponents";
 import Tooltip from "./Tooltip";
+import DownloadFile from "./downloadFile";
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();
@@ -21,6 +28,9 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   };
 
   useEffect(() => {
+    if (!shouldAlwaysScrollToBottom) {
+      mm2Ref.scrollBy(0, -mm2Ref.scrollHeight);
+    }
     if (shouldAlwaysScrollToBottom && mm2Ref) {
       mm2Ref.scrollBy(0, mm2Ref.scrollHeight);
     }
@@ -52,27 +62,24 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            {windowSizes && (
-              <Tooltip
-                label={
-                  windowSizes.bottomBar <= 40
-                    ? "Expand panel"
-                    : "Collapse Panel"
-                }
-              >
-                <DoubleDown
-                  onClick={() => {
-                    setWindowSizes({
-                      ...windowSizes,
-                      bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
-                    });
-                  }}
-                  className={`w-6 h-6 cursor-pointer hover:text-white transition ${
-                    windowSizes.bottomBar <= 40 ? "rotate-180" : ""
-                  }`}
-                />
-              </Tooltip>
-            )}
+            <Tooltip
+              label={
+                windowSizes.bottomBar <= 40 ? "Expand panel" : "Collapse Panel"
+              }
+            >
+              <DoubleDown
+                role="button"
+                onClick={() => {
+                  setWindowSizes({
+                    ...windowSizes,
+                    bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
+                  });
+                }}
+                className={`w-6 h-6 cursor-pointer hover:text-white transition ${
+                  windowSizes.bottomBar <= 40 ? "rotate-180" : ""
+                }`}
+              />
+            </Tooltip>
             <Tooltip label={"Clear console"}>
               <NoSymbol
                 onClick={() => {
@@ -122,6 +129,22 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
                   className="w-6 h-6 text-green-600"
                 />
               </Tooltip>
+            )}
+            {mm2LogsPanelState.outputMessages.length > 1 && (
+              <DownloadIcon
+                onClick={() =>
+                  DownloadFile(
+                    mm2LogsPanelState.outputMessages
+                      .map((messages) => messages[0])
+                      .join("\n\n"),
+                    "application/text",
+                    "kdf-logs.txt"
+                  )
+                }
+                role="button"
+                title="download logs"
+                className="w-6 h-6 cursor-pointer hover:text-white"
+              />
             )}
           </div>
           <div>
