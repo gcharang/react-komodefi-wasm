@@ -34,7 +34,7 @@ export const DocsSpotlight = () => {
             }); // Expires in 1 day
             setShouldHideSpotlight(true);
           }}
-          className={`${externalDocsState.response && !shouldHideSpotlight ? "block" : "hidden"} fixed top-0 left-0 w-full h-full z-50 bg-black/60`}
+          className={`${externalDocsState.response && !shouldHideSpotlight ? "block" : "hidden"} fixed top-0 left-0 w-full h-full z-10 bg-black/60`}
         >
           <div
             ref={contentRef}

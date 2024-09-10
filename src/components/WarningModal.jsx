@@ -33,7 +33,7 @@ export const WarningDialog = () => {
       <Transition appear show={imVisible(ModalIds.usageWarning)} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-50"
           onClose={() => hideModal(ModalIds.usageWarning)}
         >
           <Transition.Child
