@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useExternalDocsState } from "../store/externalDocs";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { docsBaseUrl } from "../store/staticData";
-import { useExternalDocsState } from "../store/externalDocs";
 
 export const DocsModal = () => {
   const { imVisible, hideModal } = useVisibilityState();
@@ -18,8 +18,10 @@ export const DocsModal = () => {
     if (!isIframeLoading && externalDocsState.response) {
       iframeRef.current.contentWindow.postMessage(
         {
-          id: externalDocsState.id,
+          requestId: externalDocsState.id,
           response: externalDocsState.response,
+          label: externalDocsState.label,
+          tag: externalDocsState.tag,
         },
         {
           targetOrigin: docsBaseUrl,
@@ -56,6 +58,7 @@ export const DocsModal = () => {
           )}
           <iframe
             ref={iframeRef}
+            allow="clipboard-read *; clipboard-write *"
             id="docs-iframe"
             aria-hidden
             width={"100%"}

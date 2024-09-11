@@ -14,14 +14,14 @@ import { generatePassword } from "../shared-functions/generateDynamicPassword.js
 import { getBaseUrl } from "../shared-functions/getBaseUrl.js";
 import { rpc_request } from "../shared-functions/rpcRequest";
 
+import { useSearchParams } from "next/navigation";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
+import { useExternalDocsState } from "../store/externalDocs/index.js";
 import { useRpcMethods } from "../store/methods";
 import { useMm2PanelState } from "../store/mm2";
 import { useMm2LogsPanelState } from "../store/mm2Logs";
 import { useRpcPanelState } from "../store/rpc";
 import { docsBaseUrl } from "../store/staticData/index.js";
-import { usePathname, useParams, useSearchParams } from "next/navigation";
-import { useExternalDocsState } from "../store/externalDocs/index.js";
 
 const LOG_LEVEL = LogLevel.Debug;
 
@@ -63,7 +63,7 @@ const Mm2Panel = () => {
   );
 
   const externalDocsHelper = () => {
-    let docsKeys = ["id", "sourceUrl", "json"];
+    let docsKeys = ["id", "sourceUrl", "json", "label", "tag"];
 
     return {
       isRunningFromExternalDocs: () =>
@@ -95,7 +95,12 @@ const Mm2Panel = () => {
     if (docsProperties.instance && mm2PanelState.mm2Running) {
       rpc_request(JSON.parse(rpcPanelState.config)).then((response) => {
         docsProperties.instance.source.postMessage(
-          { requestId: docsProperties.requestId, response },
+          {
+            requestId: docsProperties.requestId,
+            response,
+            label: docsProperties.instance.data.label,
+            tag: docsProperties.instance.data.tag,
+          },
           {
             targetOrigin: docsBaseUrl,
           }

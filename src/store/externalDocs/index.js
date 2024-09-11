@@ -7,6 +7,8 @@ const defaultState = {
   json: "{}",
   isComingFromDocsLink: false,
   response: "",
+  label: "",
+  tag: "",
 };
 const externalDocsAtom = atom({
   key: atomKeys.externalDocs,
