@@ -23,7 +23,6 @@ const RpcResponsePanel = () => {
   useEffect(() => {
     if (!rpcPanelState.requestResponse) return;
     const jsonSize = checkJSONSize(rpcPanelState.requestResponse);
-    console.log(jsonSize);
     if (jsonSize.exceedsThreshold) setIsJsonTooLargeToDisplay(true);
     else setIsJsonTooLargeToDisplay(false);
   }, [rpcPanelState.requestResponse]);
@@ -88,7 +87,7 @@ const RpcResponsePanel = () => {
           <div className="flex justify-center items-center">
             <div className="text-center">
               <p className="text-orange-500">
-                Response data too large, download instead
+                Response data too large, download instead.
               </p>
               <button
                 onClick={() =>
