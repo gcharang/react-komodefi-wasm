@@ -55,5 +55,3 @@ export function generatePassword() {
   // Ensure the password length is within the required range
   return password.substring(0, Math.min(password.length, 32));
 }
-
-console.log(generatePassword());

@@ -5,7 +5,7 @@ import { ModalIds } from "../store/modals/modalIds";
 import { docsBaseUrl } from "../store/staticData";
 
 export const DocsModal = () => {
-  const { imVisible, hideModal } = useVisibilityState();
+  const { imVisible, hideModal, visibleModals } = useVisibilityState();
   const { externalDocsState } = useExternalDocsState();
 
   const [isIframeLoading, setIsIframeLoading] = useState(true); // Add loading state
@@ -29,6 +29,11 @@ export const DocsModal = () => {
       );
     }
   }, [externalDocsState, isIframeLoading]);
+
+  useEffect(() => {
+    if (imVisible(ModalIds.docsModal))
+      iframeRef.current?.contentWindow?.focus();
+  }, [imVisible(ModalIds.docsModal)]);
 
   const removeTrailingSlash = (string) => {
     return string.replace(/\/+$/, "");
@@ -68,7 +73,7 @@ export const DocsModal = () => {
             src={
               externalDocsState.sourceUrl
                 ? `${removeTrailingSlash(externalDocsState.sourceUrl)}#${externalDocsState.id}`
-                : docsBaseUrl + "/en/docs"
+                : docsBaseUrl + "/en/docs/start-here/"
             }
           />
         </div>
