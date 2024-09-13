@@ -14,6 +14,7 @@ import { useMm2PanelState } from "../store/mm2";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { useRpcPanelState } from "../store/rpc";
+import DocsSpotlight from "./DocsSpotlight.jsx";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";
@@ -21,12 +22,13 @@ import Tooltip from "./Tooltip";
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
-  const { showModal } = useVisibilityState();
+  const { showModal, visibleModals } = useVisibilityState();
   const { genericModalState, setGenericModalState } = useGenericModal();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
@@ -272,6 +274,16 @@ const RpcPanel = () => {
                   title="Send RPC request"
                 />
               </button>
+              <button
+                id="docs-selector"
+                onClick={() => showModal(ModalIds.docsModal)}
+                className="relative inline-block overflow-hidden rounded-full p-[1px]"
+              >
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#11182f_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-blue-900 p-[2px] px-2 text-xs font-medium text-gray-50 backdrop-blur-3xl">
+                  Read Docs
+                </span>
+              </button>
             </div>
             <div className="flex items-center gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
@@ -324,6 +336,7 @@ const RpcPanel = () => {
     setRpcPanelState,
     mm2PanelState.mm2Config,
     isValidSchema,
+    visibleModals,
   ]);
 
   return (
@@ -333,6 +346,8 @@ const RpcPanel = () => {
         setIsDialogOpen={setIsDialogOpen}
         generateRpcMethods={generateRpcMethods}
       />
+      <DocsSpotlight />
+
       {panel}
     </>
   );

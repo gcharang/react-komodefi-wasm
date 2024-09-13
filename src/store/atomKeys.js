@@ -6,4 +6,5 @@ export const atomKeys = {
   modalVisibility: "modalVisibility",
   genericModal: "genericModal",
   methods: "methods",
+  externalDocs: "externalDocs",
 };

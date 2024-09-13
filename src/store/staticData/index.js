@@ -41,7 +41,24 @@ export const mm2DefaultConfig = `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
-    "allow_weak_password": true,
     "rpc_password": "testpsw",
     "netid": 8762
   }`;
+
+export const docsBaseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://code-runner-iframe-version.komodo-docs-revamp-2023.pages.dev"
+    : "http://localhost:3000";
+
+export const isAllowedDomain = (domain) => {
+  const localDomains = ["http://localhost:3000", "http://localhost:3001"];
+  if (localDomains.includes(domain)) return true;
+  else if (
+    domain.startsWith("https://") &&
+    domain.endsWith(".komodo-docs-revamp-2023.pages.dev")
+  )
+    return true;
+  else return;
+};
+
+export const mobileBreakPoint = 640;
