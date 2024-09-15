@@ -24,16 +24,6 @@ export const rpcDefaultConfig = `[
                 "protocol": "WSS"
             }
         ]
-    },
-    {
-        "userpass": "testpsw",
-        "method": "enable",
-        "mm2": 1,
-        "coin": "ETH",
-        "swap_contract_address": "0x8500AFc0bc5214728082163326C2FF0C73f4a871",
-        "urls": [
-            "http://eth1.cipig.net:8555"
-        ]
     }
 ]`;
 
