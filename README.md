@@ -22,3 +22,59 @@ Best to open/reopen the url: http://localhost:3000/ in a private/incognito windo
 To update the API version using a url to a zipfile, use `./update_wasm.sh $zipfile_url`
 
 To update the `coins` file version using a url to a raw github data, use `./update_coins.sh https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins`
+
+### Compiling and Integrating the Wasm Binary into the React Komodefi Project
+
+If you don't have the `kdf` Wasm binary locally, you can compile it from the source code and integrate it into the React project using the following steps.
+
+---
+
+#### **Step 1: Compiling the Wasm Binary from Source**
+
+1. **Set up the development environment** for the [KomodoDeFi Framework](https://github.com/KomodoPlatform/komodo-defi-framework).
+
+2. **Compile the Wasm binary** using `wasm-pack` based on your platform:
+
+    - **For Mac Silicon:**
+
+    ```bash
+    cd ~/RustroverProjects/komodo-defi-framework
+    CC=/opt/homebrew/opt/llvm/bin/clang AR=/opt/homebrew/opt/llvm/bin/llvm-ar wasm-pack build --release mm2src/mm2_bin_lib --target web --out-dir ../../target/target-wasm-release
+    ```
+
+    - **For Linux:**
+
+    ```bash
+    cd ~/RustroverProjects/komodo-defi-framework
+    wasm-pack build --release mm2src/mm2_bin_lib --target web --out-dir ../../target/target-wasm-release
+    ```
+
+3. **Navigate to the output folder** where the Wasm files are compiled:
+
+    ```bash
+    cd ~/RustroverProjects/komodo-defi-framework/target/target-wasm-release
+    ```
+
+4. **Create a zip archive** of the compiled files:
+
+    ```bash
+    zip -r ../target-wasm-release.zip ./*
+    ```
+
+---
+
+#### **Step 2: Integrating the Wasm Binary**
+
+Once the `kdf` binary has been compiled into a zip archive, follow these steps to update the React Komodefi project:
+
+1. **Run the `update_wasm_path.sh` script**, passing the zip archive path as the first argument, and the version as the second argument:
+
+    ```bash
+    cd ~/RustroverProjects/react-komodefi-wasm
+    ./update_wasm_path.sh /Users/username/RustroverProjects/komodo-defi-framework/target/target-wasm-release.zip 1ver
+    ```
+
+2. The script will:
+    - Extract the Wasm files from the provided zip.
+    - Update the relevant files in the `public` and `src/js` directories.
+    - Modify the `.env` file to reflect the version you provided.
