@@ -55,7 +55,11 @@ If you don't have the `kdf` Wasm binary locally, you can compile it from the sou
     cd ~/RustroverProjects/komodo-defi-framework/target/target-wasm-release
     ```
 
-4. **Create a zip archive** of the compiled files:
+4. You have two options:
+
+   - **Option 1: If you want to use the directory directly** with the integration script, you can skip zipping the folder and proceed to Step 2.
+
+   - **Option 2: If you prefer to create a zip archive** of the compiled files, follow this step:
 
     ```bash
     zip -r ../target-wasm-release.zip ./*
@@ -65,16 +69,26 @@ If you don't have the `kdf` Wasm binary locally, you can compile it from the sou
 
 #### **Step 2: Integrating the Wasm Binary**
 
-Once the `kdf` binary has been compiled into a zip archive, follow these steps to update the React Komodefi project:
+Once the `kdf` binary is compiled (either as a folder or a zip archive), follow these steps to update the React Komodefi project:
 
-1. **Run the `update_wasm_path.sh` script**, passing the zip archive path as the first argument, and the version as the second argument:
+1. **Run the `update_wasm_path.sh` script**, passing the zip archive path or the directory path as the first argument, and the version as the second argument:
+
+   - **Using a zip archive**:
 
     ```bash
     cd ~/RustroverProjects/react-komodefi-wasm
     ./update_wasm_path.sh /Users/username/RustroverProjects/komodo-defi-framework/target/target-wasm-release.zip 1ver
     ```
 
+   - **Using a directory**:
+
+    ```bash
+    cd ~/RustroverProjects/react-komodefi-wasm
+    ./update_wasm_path.sh /Users/username/RustroverProjects/komodo-defi-framework/target/target-wasm-release 1ver
+    ```
+
 2. The script will:
-    - Extract the Wasm files from the provided zip.
-    - Update the relevant files in the `public` and `src/js` directories.
-    - Modify the `.env` file to reflect the version you provided.
+   - For zip files: Extract the Wasm files from the provided zip.
+   - For directories: Copy the contents directly.
+   - Update the relevant files in the `public` and `src/js` directories.
+   - Modify the `.env` file to reflect the version you provided.
