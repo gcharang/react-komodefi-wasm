@@ -77,14 +77,14 @@ Once the `kdf` binary is compiled (either as a folder or a zip archive), follow 
 
     ```bash
     cd ~/RustroverProjects/react-komodefi-wasm
-    ./update_wasm_path.sh /Users/username/RustroverProjects/komodo-defi-framework/target/target-wasm-release.zip 1ver
+    ./update_wasm_path.sh ~/RustroverProjects/komodo-defi-framework/target/target-wasm-release.zip 1ver
     ```
 
    - **Using a directory**:
 
     ```bash
     cd ~/RustroverProjects/react-komodefi-wasm
-    ./update_wasm_path.sh /Users/username/RustroverProjects/komodo-defi-framework/target/target-wasm-release 1ver
+    ./update_wasm_path.sh ~/RustroverProjects/komodo-defi-framework/target/target-wasm-release 1ver
     ```
 
 2. The script will:
