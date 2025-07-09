@@ -144,6 +144,7 @@ const Mm2Panel = () => {
     } catch (e) {
       console.error(e);
       alert(`Unexpected error: ${e}`);
+      return false;
     }
   }
 
