@@ -15,7 +15,8 @@ else
 fi
 
 mv kdflib.js ../../src/js/kdflib.js
-cp -r snippets/* ../../src/js/snippets/
+rm -rf ../../src/js/snippets/
+cp -r snippets ../../src/js/
 cd ..
 rm -rf temp
 cd ..
