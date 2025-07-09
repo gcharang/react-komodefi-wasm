@@ -5,7 +5,7 @@ const mm2LogsPanelAtom = atom({
   key: atomKeys.mm2Logs,
   default: {
     outputMessages: [
-      ["Once mm2 is run, daemon output is rendered here", "blue"],
+      ["Once kdf is run, daemon output is rendered here", "blue"],
     ],
   },
 });
