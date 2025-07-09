@@ -6,6 +6,7 @@
 
 ## Build steps
 
+- `./update_coins.sh` -> get latest coins and seed nodes
 - `yarn` -> the first time
 - `yarn dev` -> starts a server at http://localhost:3000/
 
@@ -21,4 +22,4 @@ Best to open/reopen the url: http://localhost:3000/ in a private/incognito windo
 
 To update the API version using a url to a zipfile, use `./update_wasm.sh $zipfile_url`
 
-To update the `coins` file version using a url to a raw github data, use `./update_coins.sh https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins`
+To update the `coins` file version using a url to a raw github data, use `./update_coins_url.sh https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins`

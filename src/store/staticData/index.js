@@ -1,6 +1,8 @@
+import seedNodes from "./seed-nodes.json";
+
 export const rpcDefaultConfig = `[
     {
-        "userpass": "testpsw",
+        "userpass": "3i1upE_GY4YZaj8uMjm@",
         "method": "electrum",
         "mm2": 1,
         "coin": "DOC",
@@ -13,7 +15,7 @@ export const rpcDefaultConfig = `[
         ]
     },
     {
-        "userpass": "testpsw",
+        "userpass": "3i1upE_GY4YZaj8uMjm@",
         "method": "electrum",
         "mm2": 1,
         "coin": "MARTY",
@@ -31,7 +33,9 @@ export const mm2DefaultConfig = `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
-    "allow_weak_password": true,
-    "rpc_password": "testpsw",
-    "netid": 8762
+    "i_am_seed": false,
+    "disable_p2p": false,
+    "rpc_password": "3i1upE_GY4YZaj8uMjm@",
+    "netid": 8762,
+    "seednodes": ${JSON.stringify(seedNodes.filter(node => node.wss).map(node => (node.host)))}
   }`;

@@ -4,7 +4,6 @@ import { PlayIcon, StopIcon } from "../components/IconComponents";
 import init, {
   LogLevel,
   MainStatus,
-  Mm2MainErr,
   mm2_main,
   mm2_main_status,
   mm2_stop,
@@ -142,20 +141,21 @@ const Mm2Panel = () => {
       mm2_main(params, handle_log);
       return true;
     } catch (e) {
-      switch (e) {
-        case Mm2MainErr.AlreadyRuns:
-          alert("MM2 is already running, please wait...");
-          return;
-        case Mm2MainErr.InvalidParams:
-          alert("Invalid config");
-          return;
-        case Mm2MainErr.NoCoinsInConf:
-          alert("No 'coins' field in config");
-          return;
-        default:
-          alert(`Oops: ${e}`);
-          return;
-      }
+      console.error(e);
+      // switch (e.code) {
+      //   case StartupResultCode.AlreadyRunning:
+      //     alert("MarketMaker2 already runs...");
+      //     return;
+      //   case StartupResultCode.InvalidParams:
+      //     alert("Invalid config");
+      //     return;
+      //   case StartupResultCode.NoCoinsInConf:
+      //     alert("No 'coins' field in config");
+      //     return;
+      //   default:
+      //     alert(`Unexpected error: ${e}`);
+      //     return;
+      // }
     }
   }
 
