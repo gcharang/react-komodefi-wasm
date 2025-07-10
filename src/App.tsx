@@ -16,9 +16,9 @@ interface WindowSizes {
 
 function App() {
   const [windowSizes, setWindowSizes] = useState<WindowSizes>({
-    sidebar: 40,
-    bottomBar: 220, // the menubar above it is 40px
-    leftPane: null,
+    sidebar: 48, // Slightly wider for better visual balance
+    bottomBar: 280, // More space for logs
+    leftPane: null, // Will use 50% by default
     rightPane: null,
   });
 
@@ -69,13 +69,27 @@ function App() {
                 onDragEnd={(elem) => {
                   console.log(elem.clientX);
 
-                  setWindowSizes((previousValues) => ({
+                  const newWidth = elem.clientX - windowSizes.sidebar;
+                  const minWidth = 300; // Minimum width for panels
+                  const maxWidth = window.innerWidth - windowSizes.sidebar - 300; // Leave space for right panel
+                  
+                  setWindowSizes({
                     ...windowSizes,
-                    leftPane: elem.clientX - windowSizes.sidebar,
-                  }));
+                    leftPane: Math.max(minWidth, Math.min(maxWidth, newWidth)),
+                  });
                 }}
-                className="cursor-ew-resize bg-primary-bg-800/50 border-r border-border-primary hover:bg-accent/20 transition-colors duration-200 p-1 h-full"
-              ></div>
+                className="cursor-ew-resize w-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 h-full relative group resize-handle"
+                title="Drag to resize panels"
+              >
+                <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="flex flex-col gap-1">
+                    <div className="w-1 h-1 bg-accent rounded-full"></div>
+                    <div className="w-1 h-1 bg-accent rounded-full"></div>
+                    <div className="w-1 h-1 bg-accent rounded-full"></div>
+                  </div>
+                </div>
+              </div>
               <div className="flex-1 h-full text-gray-300">
                 <RpcPanel />
               </div>
@@ -85,27 +99,46 @@ function App() {
             <div
               draggable
               onDragEnd={(elem) => {
+                const newHeight = window.innerHeight - elem.clientY;
+                const minHeight = 100; // Minimum height for bottom panel
+                const maxHeight = window.innerHeight * 0.6; // Max 60% of viewport
+                
                 setWindowSizes({
                   ...windowSizes,
-                  bottomBar:
-                    window.innerHeight - elem.clientY >= 80
-                      ? window.innerHeight - elem.clientY
-                      : 40,
+                  bottomBar: Math.max(minHeight, Math.min(maxHeight, newHeight)),
                 });
               }}
-              className="cursor-ns-resize w-full bg-primary-bg-800/50 border-t border-border-primary hover:bg-accent/20 transition-colors duration-200 p-1"
-            ></div>
+              className="cursor-ns-resize w-full h-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 relative group resize-handle"
+              title="Drag to resize panels"
+            >
+              <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="flex gap-1">
+                  <div className="w-1 h-1 bg-accent rounded-full"></div>
+                  <div className="w-1 h-1 bg-accent rounded-full"></div>
+                  <div className="w-1 h-1 bg-accent rounded-full"></div>
+                </div>
+              </div>
+            </div>
             <div
               style={{
                 height: windowSizes.bottomBar,
               }}
-              className="flex text-white"
+              className="flex text-white bg-primary-bg-900/50 relative rounded-b-lg overflow-hidden shadow-lg"
             >
-              <Mm2LogsPanel
-                windowSizes={windowSizes}
-                setWindowSizes={setWindowSizes}
-              />
-              <RpcResponsePanel />
+              <div className="flex-1 overflow-hidden">
+                <Mm2LogsPanel
+                  windowSizes={windowSizes}
+                  setWindowSizes={setWindowSizes}
+                />
+              </div>
+              <div className="relative">
+                <div className="w-px h-full bg-gradient-to-b from-transparent via-border-primary to-transparent"></div>
+                <div className="absolute inset-0 w-px bg-gradient-to-b from-transparent via-accent/20 to-transparent blur-sm"></div>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <RpcResponsePanel />
+              </div>
             </div>
           </div>
         </div>

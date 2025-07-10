@@ -63,24 +63,24 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
     "text-text-primary",
   ];
   return (
-    <div className="w-1/2 grid grid-flow-row border-r border-border-primary">
+    <div className="h-full grid grid-flow-row">
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Tooltip
               label={
-                windowSizes.bottomBar <= 40 ? "Expand panel" : "Collapse Panel"
+                windowSizes.bottomBar <= 100 ? "Expand panel" : "Collapse Panel"
               }
             >
               <DoubleDown
                 onClick={() => {
                   setWindowSizes({
                     ...windowSizes,
-                    bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
+                    bottomBar: windowSizes.bottomBar <= 100 ? 280 : 100,
                   });
                 }}
                 className={`w-6 h-6 cursor-pointer hover:text-accent transition ${
-                  windowSizes.bottomBar <= 40 ? "rotate-180" : ""
+                  windowSizes.bottomBar <= 100 ? "rotate-180" : ""
                 }`}
               />
             </Tooltip>
@@ -150,8 +150,8 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       </div>
       <div
         ref={mm2Ref}
-        className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/30 ${
-          windowSizes.bottomBar <= 40 && "hidden"
+        className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/30 h-full ${
+          windowSizes.bottomBar <= 100 && "hidden"
         }`}
       >
         {mm2LogsPanelState.outputMessages.map((message, index) => {

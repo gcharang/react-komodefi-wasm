@@ -28,7 +28,7 @@ const RpcResponsePanel = () => {
   };
 
   return (
-    <div className="w-1/2 grid grid-flow-row">
+    <div className="h-full grid grid-flow-row">
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex gap-3 items-center">
           {!copied && (
@@ -51,8 +51,8 @@ const RpcResponsePanel = () => {
           )}
         </div>
       </div>
-      <div className="overflow-hidden overflow-y-auto border-r border-border-primary">
-        <pre className="text-sm text-text-secondary whitespace-pre-wrap p-3 min-h-[200px] bg-primary-bg-900/30 rounded-md">
+      <div className="overflow-hidden overflow-y-auto">
+        <pre className="text-sm text-text-secondary whitespace-pre-wrap p-3 h-full bg-primary-bg-900/30">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </pre>
       </div>
