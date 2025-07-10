@@ -24,7 +24,13 @@ const Mm2Panel = () => {
   const { methods } = useRpcMethods();
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
-  const [docsProperties, setDocsProperties] = useState({
+  interface DocsProperties {
+    instance: MessageEvent<any> | null;
+    shouldSendRpcRequest: boolean;
+    requestId: string | null;
+  }
+  
+  const [docsProperties, setDocsProperties] = useState<DocsProperties>({
     instance: null,
     shouldSendRpcRequest: false,
     requestId: null,
@@ -55,7 +61,7 @@ const Mm2Panel = () => {
     }
   }, [docsProperties, mm2PanelState.mm2Running]);
 
-  function handle_log(level, line) {
+  function handle_log(level: LogLevel, line: string) {
     switch (level) {
       case LogLevel.Off:
         break;
@@ -115,7 +121,7 @@ const Mm2Panel = () => {
     }
   }
 
-  async function run_mm2(params, handle_log) {
+  async function run_mm2(params: any, handle_log: (level: LogLevel, line: string) => void) {
     // run an MM2 instance
     try {
       const version = mm2_version();
@@ -208,11 +214,8 @@ const Mm2Panel = () => {
           conf_js.coins = coinsJson;
           // console.log(conf_js)
         }
-        setMm2PanelState((currentValues) => {
-          return {
-            ...currentValues,
-            mm2UserPass: conf_js.rpc_password,
-          };
+        setMm2PanelState({
+          mm2UserPass: conf_js.rpc_password,
         });
         params = {
           conf: conf_js,

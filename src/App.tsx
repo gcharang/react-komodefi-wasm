@@ -7,8 +7,15 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 
+interface WindowSizes {
+  sidebar: number;
+  bottomBar: number;
+  leftPane: number | null;
+  rightPane: number | null;
+}
+
 function App() {
-  const [windowSizes, setWindowSizes] = useState({
+  const [windowSizes, setWindowSizes] = useState<WindowSizes>({
     sidebar: 40,
     bottomBar: 220, // the menubar above it is 40px
     leftPane: null,

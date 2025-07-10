@@ -67,7 +67,7 @@ export const GenericModal = () => {
                         type="button"
                         className="min-w-[100px] inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={() => {
-                          genericModalState.onProceed();
+                          genericModalState.onProceed?.();
                           hideModal(ModalIds.genericModal);
                         }}
                       >

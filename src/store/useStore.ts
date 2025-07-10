@@ -1,8 +1,19 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import React from 'react';
 import { mm2DefaultConfig, rpcDefaultConfig } from '../staticData';
+import type { 
+  StoreState, 
+  UseMm2PanelStateReturn, 
+  UseRpcPanelStateReturn, 
+  UseMm2LogsPanelStateReturn, 
+  UseRpcResponseStateReturn, 
+  UseVisibilityStateReturn, 
+  UseGenericModalReturn, 
+  UseRpcMethodsReturn 
+} from '../types/store';
 
-export const useStore = create(
+export const useStore = create<StoreState>()(
   devtools(
     (set, get) => ({
       // MM2 Panel State
@@ -74,17 +85,15 @@ export const useStore = create(
       // Generic Modal State
       genericModal: {
         titleComponent: "Hello, world!",
-        messageComponent: (
-          <p className="text-sm text-gray-400">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.
-          </p>
+        messageComponent: React.createElement(
+          'p',
+          { className: "text-sm text-gray-400" },
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         ),
         proceedBtnMessage: "I understand",
         cancelBtnMessage: "Close",
         onProceed: null,
-        onCancel: () => null,
+        onCancel: () => {},
       },
       setGenericModal: (updates) =>
         set((state) => ({
@@ -102,7 +111,7 @@ export const useStore = create(
 );
 
 // Export individual hooks for backward compatibility
-export const useMm2PanelState = () => {
+export const useMm2PanelState = (): UseMm2PanelStateReturn => {
   const mm2PanelState = useStore((state) => state.mm2Panel);
   const setMm2PanelState = useStore((state) => state.setMm2Panel);
   return {
@@ -111,7 +120,7 @@ export const useMm2PanelState = () => {
   };
 };
 
-export const useRpcPanelState = () => {
+export const useRpcPanelState = (): UseRpcPanelStateReturn => {
   const rpcPanelState = useStore((state) => state.rpcPanel);
   const setRpcPanelState = useStore((state) => state.setRpcPanel);
   return {
@@ -120,7 +129,7 @@ export const useRpcPanelState = () => {
   };
 };
 
-export const useMm2LogsPanelState = () => {
+export const useMm2LogsPanelState = (): UseMm2LogsPanelStateReturn => {
   const mm2LogsPanelState = useStore((state) => state.mm2Logs);
   const setMm2LogsPanelState = useStore((state) => state.setMm2Logs);
   const addMm2Log = useStore((state) => state.addMm2Log);
@@ -131,7 +140,7 @@ export const useMm2LogsPanelState = () => {
   };
 };
 
-export const useRpcResponseState = () => {
+export const useRpcResponseState = (): UseRpcResponseStateReturn => {
   const rpcResponseState = useStore((state) => state.rpcResponse);
   const setRpcResponseState = useStore((state) => state.setRpcResponse);
   return {
@@ -140,7 +149,7 @@ export const useRpcResponseState = () => {
   };
 };
 
-export const useVisibilityState = () => {
+export const useVisibilityState = (): UseVisibilityStateReturn => {
   const modalVisibilityState = useStore((state) => state.modalVisibility);
   const showModal = useStore((state) => state.showModal);
   const hideModal = useStore((state) => state.hideModal);
@@ -156,7 +165,7 @@ export const useVisibilityState = () => {
   };
 };
 
-export const useGenericModal = () => {
+export const useGenericModal = (): UseGenericModalReturn => {
   const genericModalState = useStore((state) => state.genericModal);
   const setGenericModalState = useStore((state) => state.setGenericModal);
   return {
@@ -165,7 +174,7 @@ export const useGenericModal = () => {
   };
 };
 
-export const useRpcMethods = () => {
+export const useRpcMethods = (): UseRpcMethodsReturn => {
   const methods = useStore((state) => state.methods);
   const setMethods = useStore((state) => state.setMethods);
   return {

@@ -4,15 +4,30 @@ import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/useStore";
 import Tooltip from "./Tooltip";
 
-const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
+interface Mm2LogsPanelProps {
+  windowSizes: {
+    sidebar: number;
+    bottomBar: number;
+    leftPane: number | null;
+    rightPane: number | null;
+  };
+  setWindowSizes: React.Dispatch<React.SetStateAction<{
+    sidebar: number;
+    bottomBar: number;
+    leftPane: number | null;
+    rightPane: number | null;
+  }>>;
+}
+
+const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();
   const [copied, setCopied] = useState(false);
   const [isInlineCopied, setIsInlineCopied] = useState({ id: "" });
   const [shouldAlwaysScrollToBottom, setShouldAlwaysScrollToBottom] =
     useState(true);
-  let mm2Ref = useRef(null);
+  let mm2Ref = useRef<HTMLDivElement | null>(null);
 
-  const copyToClipboard = (data) => {
+  const copyToClipboard = (data: string) => {
     try {
       navigator.clipboard.writeText(data);
     } catch (error) {
@@ -21,21 +36,21 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   };
 
   useEffect(() => {
-    if (shouldAlwaysScrollToBottom && mm2Ref) {
-      mm2Ref.scrollBy(0, mm2Ref.scrollHeight);
+    if (shouldAlwaysScrollToBottom && mm2Ref.current) {
+      mm2Ref.current.scrollBy(0, mm2Ref.current.scrollHeight);
     }
   }, [shouldAlwaysScrollToBottom, mm2LogsPanelState.outputMessages, mm2Ref]);
 
   useEffect(() => {
-    if (mm2Ref) {
+    if (mm2Ref.current) {
       const debouncedHandler = debounce(() => {
         setShouldAlwaysScrollToBottom(false);
       }, 300);
       
-      mm2Ref.addEventListener("mouseenter", debouncedHandler);
+      mm2Ref.current.addEventListener("mouseenter", debouncedHandler);
       
       return () => {
-        mm2Ref.removeEventListener("mouseenter", debouncedHandler);
+        mm2Ref.current?.removeEventListener("mouseenter", debouncedHandler);
       };
     }
   }, [mm2Ref]);
@@ -72,11 +87,8 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
             <Tooltip label={"Clear console"}>
               <NoSymbol
                 onClick={() => {
-                  setMm2LogsPanelState((currentValues) => {
-                    return {
-                      ...currentValues,
-                      outputMessages: [],
-                    };
+                  setMm2LogsPanelState({
+                    outputMessages: [],
                   });
                 }}
                 role="button"
@@ -139,9 +151,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
         </div>
       </div>
       <div
-        ref={(mm2LogsRef) => {
-          mm2Ref = mm2LogsRef;
-        }}
+        ref={mm2Ref}
         className={`p-2 overflow-hidden overflow-y-auto break-words ${
           windowSizes.bottomBar <= 40 && "hidden"
         }`}
@@ -151,20 +161,20 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
             <p
               onClick={() => {
                 copyToClipboard(message[0]);
-                setIsInlineCopied({ id: index });
+                setIsInlineCopied({ id: String(index) });
                 setTimeout(() => {
                   setIsInlineCopied({ id: "" });
                 }, 1000);
               }}
               key={index}
-              className={`whitespace-pre-wrap text-${message[1]}-300 ${
-                isInlineCopied.id === index &&
+              className={`whitespace-pre-wrap ${message[1] === 'blue' ? 'text-blue-300' : message[1] === 'violet' ? 'text-violet-300' : message[1] === 'red' ? 'text-red-300' : message[1] === 'yellow' ? 'text-yellow-300' : 'text-neutral-300'} ${
+                isInlineCopied.id === String(index) &&
                 "text-green-600 hover:text-green-600"
               } flex group hover:text-white hover:cursor-pointer text-base font-bold border-slate-700 border-b`}
             >
               {message[0]}
               <span className="ml-1">
-                {isInlineCopied.id !== index && (
+                {isInlineCopied.id !== String(index) && (
                   <Clipboard
                     role="image"
                     alt="copy to clipboard icon"

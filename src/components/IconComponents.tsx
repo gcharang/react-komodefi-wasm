@@ -1,4 +1,8 @@
-export const PlayIcon = (props) => {
+import React from 'react';
+
+type IconProps = React.SVGProps<SVGSVGElement>;
+
+export const PlayIcon = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +22,7 @@ export const PlayIcon = (props) => {
   );
 };
 
-export const StopIcon = (props) => {
+export const StopIcon = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +41,7 @@ export const StopIcon = (props) => {
     </svg>
   );
 };
-export const Clipboard = (props) => {
+export const Clipboard = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +61,7 @@ export const Clipboard = (props) => {
   );
 };
 
-export const UpDow = (props) => {
+export const UpDow = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +81,7 @@ export const UpDow = (props) => {
   );
 };
 
-export const Code = (props) => {
+export const Code = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +101,7 @@ export const Code = (props) => {
   );
 };
 
-export const NoSymbol = (props) => {
+export const NoSymbol = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +121,7 @@ export const NoSymbol = (props) => {
   );
 };
 
-export const Folder = (props) => {
+export const Folder = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +141,7 @@ export const Folder = (props) => {
   );
 };
 
-export const Check = (props) => {
+export const Check = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +160,7 @@ export const Check = (props) => {
     </svg>
   );
 };
-export const CheckCircle = (props) => {
+export const CheckCircle = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +180,7 @@ export const CheckCircle = (props) => {
   );
 };
 
-export const Send = (props) => {
+export const Send = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +200,7 @@ export const Send = (props) => {
   );
 };
 
-export const DoubleDown = (props) => {
+export const DoubleDown = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +220,7 @@ export const DoubleDown = (props) => {
   );
 };
 
-export const MenuIcon = (props) => {
+export const MenuIcon = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +240,7 @@ export const MenuIcon = (props) => {
   );
 };
 
-export const SettingsIcon = (props) => {
+export const SettingsIcon = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
