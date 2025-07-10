@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { mm2DefaultConfig, rpcDefaultConfig } from './staticData';
+import { mm2DefaultConfig, rpcDefaultConfig } from '../staticData';
 
 export const useStore = create(
   devtools(
