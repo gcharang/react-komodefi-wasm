@@ -4,7 +4,6 @@ import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
 import SideBar from "./components/SideBar";
 import RpcResponsePanel from "./components/RpcResponsePanel";
-import { rpcDefaultConfig } from "./state-machine/staticData";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 
