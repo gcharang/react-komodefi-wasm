@@ -1,4 +1,4 @@
-export async function fetchRpcMethods(collectionUrl) {
+export async function fetchRpcMethods(collectionUrl?: string): Promise<any> {
   const result = await fetch(
     collectionUrl
       ? collectionUrl
@@ -8,17 +8,17 @@ export async function fetchRpcMethods(collectionUrl) {
   return json;
 }
 
-export const getRawValues = (arr) => {
+export const getRawValues = (arr: any[]): Record<string, any[]> => {
   // let rawValues = [];
-  let levels = [];
-  let bigData = {};
-  const findRaw = (item, isLastIteration) => {
+  let levels: string[] = [];
+  let bigData: Record<string, any[]> = {};
+  const findRaw = (item: any, isLastIteration?: boolean) => {
     if (item?.request?.body?.raw) {
       // get the stringified `raw` data
       let rawData = JSON.parse(
         item.request.body.raw.replace(
           /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g,
-          (m, g) => (g ? "" : m)
+          (m: string, g: string) => (g ? "" : m)
         )
       );
       if (item?.name) {
@@ -38,7 +38,7 @@ export const getRawValues = (arr) => {
         // This is how we keep track of the levels using the `name` key
         levels.push(item.name);
       }
-      item.item.forEach((data, index) => {
+      item.item.forEach((data: any, index: number) => {
         findRaw(data, item.item.length === index + 1);
       });
     }

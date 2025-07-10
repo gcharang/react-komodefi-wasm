@@ -1,4 +1,4 @@
-export function updateUserPass(jsonData, newPassword) {
+export function updateUserPass(jsonData: any, newPassword: string): any {
   try {
     // Check if the input data is an object
     if (typeof jsonData === "object") {

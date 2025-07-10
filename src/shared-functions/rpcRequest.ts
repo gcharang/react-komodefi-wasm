@@ -1,6 +1,6 @@
 import { Mm2RpcErr, mm2_rpc } from "../js/kdflib.js";
 
-export async function rpc_request(request_js) {
+export async function rpc_request(request_js: any): Promise<any> {
   try {
     const response = await mm2_rpc(request_js);
     console.log(response);

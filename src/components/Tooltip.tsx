@@ -1,6 +1,12 @@
 import React from "react";
 
-const Tooltip = ({ label, dir = "top", children }) => {
+interface TooltipProps {
+  label: string;
+  dir?: "top" | "bottom";
+  children: React.ReactNode;
+}
+
+const Tooltip = ({ label, dir = "top", children }: TooltipProps) => {
   return (
     <div className="group cursor-pointer relative text-center">
       {children}

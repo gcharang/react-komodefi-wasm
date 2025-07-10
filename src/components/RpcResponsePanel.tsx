@@ -37,7 +37,6 @@ const RpcResponsePanel = () => {
                 onClick={() => copyToClipboard()}
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-white"
-                title="Copy Logs"
               />
             </Tooltip>
           )}

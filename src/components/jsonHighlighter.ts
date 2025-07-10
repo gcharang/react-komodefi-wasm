@@ -1,6 +1,16 @@
-export function highlightJSON(json) {
+type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue };
+
+type ParsedValue = 
+  | { type: "string"; value: string }
+  | { type: "number"; value: number }
+  | { type: "boolean"; value: boolean }
+  | { type: "null"; value: null }
+  | { type: "array"; value: ParsedValue[] }
+  | { type: "object"; value: { [key: string]: ParsedValue } };
+
+export function highlightJSON(json: JSONValue | string): ParsedValue {
   if (!json) return { type: "string", value: "" };
-  const parse = (data) => {
+  const parse = (data: JSONValue): ParsedValue => {
     if (typeof data === "string") {
       return { type: "string", value: data };
     }
@@ -17,9 +27,9 @@ export function highlightJSON(json) {
       return { type: "array", value: data.map(parse) };
     }
     if (isPlainObject(data)) {
-      const obj = {};
+      const obj: { [key: string]: ParsedValue } = {};
       for (const [key, value] of Object.entries(data)) {
-        obj[key] = parse(value);
+        obj[key] = parse(value as JSONValue);
       }
       return { type: "object", value: obj };
     }
@@ -30,10 +40,10 @@ export function highlightJSON(json) {
   return parse(jsonObj);
 }
 
-export function renderHighlightedJSON(json, indentLevel = 0) {
+export function renderHighlightedJSON(json: ParsedValue, indentLevel = 0): string {
   const indent = "  ".repeat(indentLevel);
 
-  const renderValue = (value, level) => {
+  const renderValue = (value: ParsedValue, level: number): string => {
     switch (value.type) {
       case "string":
         return `<span class="text-green-500">"${value.value}"</span>`;
@@ -44,13 +54,13 @@ export function renderHighlightedJSON(json, indentLevel = 0) {
       case "null":
         return '<span class="text-red-500">null</span>';
       case "array":
-        return `[\n${value.value
+        return `[\n${(value.value as ParsedValue[])
           .map(
             (item) => `${"  ".repeat(level + 1)}${renderValue(item, level + 1)}`
           )
           .join(",\n")}\n${"  ".repeat(level)}]`;
       case "object":
-        return `{\n${Object.entries(value.value)
+        return `{\n${Object.entries(value.value as { [key: string]: ParsedValue })
           .map(
             ([key, val]) =>
               `${"  ".repeat(
@@ -62,14 +72,14 @@ export function renderHighlightedJSON(json, indentLevel = 0) {
           )
           .join(",\n")}\n${"  ".repeat(level)}}`;
       default:
-        throw new Error(`Unknown type: ${value.type}`);
+        throw new Error(`Unknown type: ${(value as any).type}`);
     }
   };
 
   return `${indent}${renderValue(json, indentLevel)}`;
 }
 
-function isPlainObject(value) {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
     typeof value === "object" && value !== null && value.constructor === Object
   );

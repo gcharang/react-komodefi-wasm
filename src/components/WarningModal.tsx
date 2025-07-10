@@ -9,7 +9,7 @@ export const WarningDialog = () => {
   const { imVisible, hideModal, showModal } = useVisibilityState();
 
   useEffect(() => {
-    const lastDisplayTimestamp = +Cookies.get("lastDisplayTimestamp");
+    const lastDisplayTimestamp = +(Cookies.get("lastDisplayTimestamp") || 0);
     const currentTimestamp = new Date().getTime();
 
     // If the last display timestamp is not set or more than 24 hours have passed, show the modal
@@ -23,7 +23,7 @@ export const WarningDialog = () => {
 
   const handleCloseModal = () => {
     // Set a cookie with the current timestamp to record when the modal was last displayed
-    Cookies.set("lastDisplayTimestamp", new Date().getTime(), { expires: 1 }); // Expires in 1 day
+    Cookies.set("lastDisplayTimestamp", new Date().getTime().toString(), { expires: 1 }); // Expires in 1 day
 
     // Close the modal
     hideModal(ModalIds.usageWarning);

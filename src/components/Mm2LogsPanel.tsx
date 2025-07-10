@@ -93,7 +93,6 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-white"
-                title="Clear Logs"
               />
             </Tooltip>
             {!copied && (
@@ -110,7 +109,6 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   }}
                   role="button"
                   className="w-6 h-6 cursor-pointer hover:text-white"
-                  title="Copy Logs"
                 />
               </Tooltip>
             )}
@@ -177,15 +175,12 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 {isInlineCopied.id !== String(index) && (
                   <Clipboard
                     role="image"
-                    alt="copy to clipboard icon"
                     className="opacity-0 transition group-hover:opacity-100 w-6 h-6"
-                    title="Copy Logs"
                   />
                 )}
-                {isInlineCopied.id === index && (
+                {isInlineCopied.id === String(index) && (
                   <CheckCircle
                     role="image"
-                    alt="copied to clipboard icon"
                     className="opacity-0 transition group-hover:opacity-100 w-6 h-6 text-green-600"
                   />
                 )}

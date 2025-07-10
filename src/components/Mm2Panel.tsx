@@ -11,8 +11,7 @@ import init, {
   mm2_version,
 } from "../js/kdflib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useStore, useMm2PanelState, useRpcMethods, useRpcPanelState } from "../store/useStore";
-import { rpc_request } from "../shared-functions/rpcRequest";
+import { useStore, useMm2PanelState } from "../store/useStore";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -21,47 +20,13 @@ const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
-  const { methods } = useRpcMethods();
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
-  const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
-  interface DocsProperties {
-    instance: MessageEvent<any> | null;
-    shouldSendRpcRequest: boolean;
-    requestId: string | null;
-  }
-  
-  const [docsProperties, setDocsProperties] = useState<DocsProperties>({
-    instance: null,
-    shouldSendRpcRequest: false,
-    requestId: null,
-  });
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
 
-  useEffect(() => {
-    if (docsProperties.instance && mm2PanelState.mm2Running) {
-      rpc_request(
-        JSON.parse(docsProperties.instance.data.jsonDataForRpcRequest)
-      ).then((response) => {
-        docsProperties.instance.source.postMessage(
-          { requestId: docsProperties.requestId, response },
-          docsProperties.instance.origin
-        );
-        setDocsProperties({
-          instance: null,
-          shouldSendRpcRequest: false,
-          requestId: null,
-        });
-        // stopping to free up agent CPU resource
-        toggleMm2().then(() => {
-          window.close();
-        });
-      });
-    }
-  }, [docsProperties, mm2PanelState.mm2Running]);
 
-  function handle_log(level: LogLevel, line: string) {
+  function handle_log(level: typeof LogLevel[keyof typeof LogLevel], line: string) {
     switch (level) {
       case LogLevel.Off:
         break;
@@ -121,7 +86,7 @@ const Mm2Panel = () => {
     }
   }
 
-  async function run_mm2(params: any, handle_log: (level: LogLevel, line: string) => void) {
+  async function run_mm2(params: any, handle_log: (level: typeof LogLevel[keyof typeof LogLevel], line: string) => void) {
     // run an MM2 instance
     try {
       const version = mm2_version();
@@ -235,27 +200,9 @@ const Mm2Panel = () => {
     }
   };
 
-  async function listenOnEventsFromDocs(event) {
-    if (event.origin !== "http://localhost:3000") {
-      return;
-    }
-    // Handle the received data
-    let receivedData = event.data;
-    setRpcPanelState((currentState) => ({
-      ...currentState,
-      config: receivedData.jsonDataForRpcRequest,
-    }));
-    toggleMm2().then(() => {
-      setDocsProperties({
-        instance: event,
-        shouldSendRpcRequest: true,
-        requestId: receivedData.requestId,
-      });
-    });
-  }
 
   useEffect(() => {
-    let intervalId;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
     init_wasm().then(function () {
       intervalId = spawn_mm2_status_checking();
       setIsMm2Initialized(true);
@@ -269,16 +216,6 @@ const Mm2Panel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (methods && isMm2Initialized)
-      if (window.opener) {
-        window.addEventListener("message", listenOnEventsFromDocs);
-        window.opener.postMessage("👍", "http://localhost:3000");
-      }
-    return () => {
-      window.removeEventListener("message", listenOnEventsFromDocs);
-    };
-  }, [methods, isMm2Initialized]);
 
   return (
     <div className="h-full flex flex-col">
@@ -320,20 +257,14 @@ const Mm2Panel = () => {
         onChange={(e) => {
           let value = e.target.value;
           if (checkIfSchemaValid(value)) {
-            setMm2PanelState((currentValues) => {
-              return {
-                ...currentValues,
-                mm2Config: e.target.value,
-                dataHasErrors: false,
-              };
+            setMm2PanelState({
+              mm2Config: e.target.value,
+              dataHasErrors: false,
             });
           } else {
-            setMm2PanelState((currentValues) => {
-              return {
-                ...currentValues,
-                mm2Config: e.target.value,
-                dataHasErrors: true,
-              };
+            setMm2PanelState({
+              mm2Config: e.target.value,
+              dataHasErrors: true,
             });
           }
         }}

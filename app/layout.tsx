@@ -7,6 +7,10 @@ const APP_DEFAULT_TITLE = "Atomic Swap from any Crypto to any Other";
 const APP_TITLE_TEMPLATE = "%s - Atomic Swap from any Crypto to any Other";
 const APP_DESCRIPTION = "Swap on Komodo DeFi Framework";
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
+
 export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: {

@@ -27,7 +27,7 @@ const RpcPanel = () => {
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
-  const generateRpcMethods = async (collectionUrl) => {
+  const generateRpcMethods = async (collectionUrl?: string) => {
     const methods = await fetchRpcMethods(collectionUrl);
     let result = getRawValues(methods.item);
     if (result) {
@@ -39,12 +39,12 @@ const RpcPanel = () => {
     generateRpcMethods();
   }, []);
 
-  const loadMethodFromUrl = ({ method, methodName }) => {
+  const loadMethodFromUrl = ({ method, methodName }: { method: string; methodName: string }) => {
     if (!method || !methodName) return;
     if (
       (method && !methods[method]) ||
       (methodName &&
-        !methods[method].find((value) => value?.name === methodName))
+        !methods[method].find((value: any) => value?.name === methodName))
     ) {
       setGenericModalState({
         ...genericModalState,
@@ -60,7 +60,7 @@ const RpcPanel = () => {
       return;
     }
     const requiredValue = methods[method].find(
-      (value) => value?.name === methodName
+      (value: any) => value?.name === methodName
     );
     if (requiredValue) {
       const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
@@ -70,7 +70,9 @@ const RpcPanel = () => {
   useEffect(() => {
     const method = searchParams.get("method");
     const methodName = searchParams.get("methodName");
-    if (methods) loadMethodFromUrl({ method, methodName });
+    if (methods && method && methodName) {
+      loadMethodFromUrl({ method, methodName });
+    }
   }, [searchParams, methods]);
 
   const sendRpcRequest = async () => {
@@ -102,7 +104,7 @@ const RpcPanel = () => {
     }
   };
 
-  const syncPanelPasswords = (rpcRequestConfig) => {
+  const syncPanelPasswords = (rpcRequestConfig?: string) => {
     const rpcPassword = grabMM2RpcPassword();
     if (rpcPassword) {
       const updatedUserPassword = updateUserPass(
@@ -112,11 +114,8 @@ const RpcPanel = () => {
         rpcPassword
       );
       if (updatedUserPassword)
-        setRpcPanelState((prev) => {
-          return {
-            ...prev,
-            config: JSON.stringify(updatedUserPassword, null, 2),
-          };
+        setRpcPanelState({
+          config: JSON.stringify(updatedUserPassword, null, 2),
         });
     }
   };
@@ -128,10 +127,10 @@ const RpcPanel = () => {
   }, [mm2PanelState.mm2Config]);
 
   const ListBox = () => {
-    const [activeMenuItem, setActiveMenuItem] = useState();
+    const [activeMenuItem, setActiveMenuItem] = useState<string>("");
 
-    const MenuItem = ({ label, children }) => {
-      const toggleSubMenu = (menuLabel) => {
+    const MenuItem = ({ label, children }: { label: string; children: React.ReactNode }) => {
+      const toggleSubMenu = (menuLabel: string) => {
         setActiveMenuItem(activeMenuItem === menuLabel ? "" : menuLabel);
       };
 
@@ -211,7 +210,7 @@ const RpcPanel = () => {
                 Object.keys(methods).map((methodList) => {
                   return (
                     <MenuItem key={nanoid(24)} label={methodList}>
-                      {methods[methodList].map((methodJson) => {
+                      {methods[methodList].map((methodJson: any) => {
                         return (
                           <li role="menuitem" key={nanoid(24)}>
                             <button
@@ -265,7 +264,6 @@ const RpcPanel = () => {
                 <Send
                   role="image"
                   className={`w-5 h-5 cursor-pointer`}
-                  title="Send RPC request"
                 />
               </button>
             </div>
@@ -286,21 +284,15 @@ const RpcPanel = () => {
           onChange={(e) => {
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {
-              setRpcPanelState((currentValues) => {
-                return {
-                  ...currentValues,
-                  config: value,
-                  dataHasErrors: false,
-                };
+              setRpcPanelState({
+                config: value,
+                dataHasErrors: false,
               });
               // syncPanelPasswords(value);
             } else {
-              setRpcPanelState((currentValues) => {
-                return {
-                  ...currentValues,
-                  config: value,
-                  dataHasErrors: true,
-                };
+              setRpcPanelState({
+                config: value,
+                dataHasErrors: true,
               });
             }
           }}

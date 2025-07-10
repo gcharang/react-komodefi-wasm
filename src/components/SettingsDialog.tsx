@@ -1,12 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
+interface SettingsDialogProps {
+  isDialogOpen?: boolean;
+  setIsDialogOpen?: (value: boolean) => void;
+  generateRpcMethods: (url?: string) => void;
+}
+
 export const SettingsDialog = ({
   isDialogOpen = false,
-  setIsDialogOpen = () => null,
+  setIsDialogOpen = () => {},
   generateRpcMethods,
-}) => {
-  const [url, setUrl] = useState();
+}: SettingsDialogProps) => {
+  const [url, setUrl] = useState<string>("");
   const processRequest = () => {
     generateRpcMethods(url);
     setIsDialogOpen(false);
