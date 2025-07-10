@@ -27,13 +27,17 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
   }, [shouldAlwaysScrollToBottom, mm2LogsPanelState.outputMessages, mm2Ref]);
 
   useEffect(() => {
-    if (mm2Ref)
-      mm2Ref.addEventListener(
-        "mouseenter",
-        debounce(() => {
-          setShouldAlwaysScrollToBottom((currentValue) => false);
-        }, 300)
-      );
+    if (mm2Ref) {
+      const debouncedHandler = debounce(() => {
+        setShouldAlwaysScrollToBottom(false);
+      }, 300);
+      
+      mm2Ref.addEventListener("mouseenter", debouncedHandler);
+      
+      return () => {
+        mm2Ref.removeEventListener("mouseenter", debouncedHandler);
+      };
+    }
   }, [mm2Ref]);
 
   const classes = [

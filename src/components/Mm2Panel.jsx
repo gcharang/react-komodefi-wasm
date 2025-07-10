@@ -12,9 +12,9 @@ import init, {
 } from "../js/kdflib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useMm2PanelState } from "../store/mm2";
-import { useMm2LogsPanelState } from "../store/mm2Logs";
 import { useRpcMethods } from "../store/methods";
 import { useRpcPanelState } from "../store/rpc";
+import { useStore } from "../store/useStore";
 import { rpc_request } from "../shared-functions/rpcRequest";
 
 const getBaseUrl = () => {
@@ -24,7 +24,6 @@ const LOG_LEVEL = LogLevel.Debug;
 
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
-  const { setMm2LogsPanelState } = useMm2LogsPanelState();
   const { methods } = useRpcMethods();
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
@@ -64,39 +63,39 @@ const Mm2Panel = () => {
       case LogLevel.Off:
         break;
       case LogLevel.Error:
-        setMm2LogsPanelState((current) => {
-          return {
-            ...current,
+        useStore.setState((state) => ({
+          mm2Logs: {
+            ...state.mm2Logs,
             outputMessages: [
-              ...current.outputMessages,
+              ...state.mm2Logs.outputMessages,
               ["[Error] " + line, "red"],
             ],
-          };
-        });
+          },
+        }));
         console.error(line);
         break;
       case LogLevel.Warn:
-        setMm2LogsPanelState((current) => {
-          return {
-            ...current,
+        useStore.setState((state) => ({
+          mm2Logs: {
+            ...state.mm2Logs,
             outputMessages: [
-              ...current.outputMessages,
+              ...state.mm2Logs.outputMessages,
               ["[Warn] " + line, "yellow"],
             ],
-          };
-        });
+          },
+        }));
         console.warn(line);
         break;
       case LogLevel.Info:
-        setMm2LogsPanelState((current) => {
-          return {
-            ...current,
+        useStore.setState((state) => ({
+          mm2Logs: {
+            ...state.mm2Logs,
             outputMessages: [
-              ...current.outputMessages,
+              ...state.mm2Logs.outputMessages,
               ["[Info] " + line, "violet"],
             ],
-          };
-        });
+          },
+        }));
         console.info(line);
         break;
       case LogLevel.Debug:
@@ -105,15 +104,15 @@ const Mm2Panel = () => {
       case LogLevel.Trace:
       default:
         // The console.trace method outputs some extra trace from the generated JS glue code which we don't want.
-        setMm2LogsPanelState((current) => {
-          return {
-            ...current,
+        useStore.setState((state) => ({
+          mm2Logs: {
+            ...state.mm2Logs,
             outputMessages: [
-              ...current.outputMessages,
+              ...state.mm2Logs.outputMessages,
               ["[default] " + line, "neutral"],
             ],
-          };
-        });
+          },
+        }));
         console.debug(line);
         break;
     }
@@ -123,19 +122,19 @@ const Mm2Panel = () => {
     // run an MM2 instance
     try {
       const version = mm2_version();
-      setMm2LogsPanelState((current) => {
-        return {
-          ...current,
+      useStore.setState((state) => ({
+        mm2Logs: {
+          ...state.mm2Logs,
           outputMessages: [
-            ...current.outputMessages,
+            ...state.mm2Logs.outputMessages,
             [
               "[Info] " +
               `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
-        };
-      });
+        },
+      }));
       console.info(
         `run_mm2() version=${version.result} datetime=${version.datetime}`
       );
@@ -164,7 +163,8 @@ const Mm2Panel = () => {
     }
   }
   function spawn_mm2_status_checking() {
-    setInterval(function () {
+    // This function now just returns the interval ID
+    return setInterval(function () {
       const status = mm2_main_status();
       switch (status) {
         case MainStatus.NotRunning:
@@ -173,21 +173,21 @@ const Mm2Panel = () => {
         // console.log("NoContext")
         case MainStatus.NoRpc:
           //  console.log("NoRpc")
-          setMm2PanelState((currentValues) => {
-            return {
-              ...currentValues,
+          useStore.setState((state) => ({
+            mm2Panel: {
+              ...state.mm2Panel,
               mm2Running: false,
-            };
-          });
+            },
+          }));
           break;
         case MainStatus.RpcIsUp:
           //  console.log("RpcIsUp")
-          setMm2PanelState((currentValues) => {
-            return {
-              ...currentValues,
+          useStore.setState((state) => ({
+            mm2Panel: {
+              ...state.mm2Panel,
               mm2Running: true,
-            };
-          });
+            },
+          }));
           break;
         default:
           throw new Error(`Expected MainStatus, found: ${status}`);
@@ -241,10 +241,10 @@ const Mm2Panel = () => {
     }
     // Handle the received data
     let receivedData = event.data;
-    setRpcPanelState({
-      ...rpcPanelState,
+    setRpcPanelState((currentState) => ({
+      ...currentState,
       config: receivedData.jsonDataForRpcRequest,
-    });
+    }));
     toggleMm2().then(() => {
       setDocsProperties({
         instance: event,
@@ -255,10 +255,18 @@ const Mm2Panel = () => {
   }
 
   useEffect(() => {
+    let intervalId;
     init_wasm().then(function () {
-      spawn_mm2_status_checking();
+      intervalId = spawn_mm2_status_checking();
       setIsMm2Initialized(true);
     });
+    
+    // Cleanup interval on unmount
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, []);
 
   useEffect(() => {

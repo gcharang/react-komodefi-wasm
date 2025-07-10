@@ -14,6 +14,7 @@ import { useMm2PanelState } from "../store/mm2";
 import { useVisibilityState } from "../store/modals";
 import { ModalIds } from "../store/modals/modalIds";
 import { useRpcPanelState } from "../store/rpc";
+import { useRpcResponseState } from "../store/rpcResponse";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";
@@ -21,6 +22,7 @@ import Tooltip from "./Tooltip";
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
+  const { setRpcResponseState } = useRpcResponseState();
   const { showModal } = useVisibilityState();
   const { genericModalState, setGenericModalState } = useGenericModal();
   const searchParams = useSearchParams();
@@ -88,8 +90,7 @@ const RpcPanel = () => {
     }
 
     let response = await rpc_request(request_js);
-    setRpcPanelState({
-      ...rpcPanelState,
+    setRpcResponseState({
       requestResponse: JSON.stringify(response, null, 2),
     });
   };

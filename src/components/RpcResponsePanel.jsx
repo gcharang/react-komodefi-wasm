@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
-import { useRpcPanelState } from "../store/rpc";
+import { useRpcResponseState } from "../store/rpcResponse";
 import Tooltip from "./Tooltip";
 
 const RpcResponsePanel = () => {
-  const { rpcPanelState } = useRpcPanelState();
+  const { rpcResponseState } = useRpcResponseState();
   const [copied, setCopied] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState("");
 
   useEffect(() => {
-    if (!rpcPanelState.requestResponse) return;
-    const highlightedJSON = highlightJSON(rpcPanelState.requestResponse);
+    if (!rpcResponseState.requestResponse) return;
+    const highlightedJSON = highlightJSON(rpcResponseState.requestResponse);
     const highlightedHTML = renderHighlightedJSON(highlightedJSON);
     setHighlightedCode(highlightedHTML);
-  }, [rpcPanelState.requestResponse]);
+  }, [rpcResponseState.requestResponse]);
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(rpcPanelState.requestResponse);
+      navigator.clipboard.writeText(rpcResponseState.requestResponse);
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     } catch (error) {
