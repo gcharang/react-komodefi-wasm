@@ -23,17 +23,17 @@ function App() {
   });
 
   return (
-    <div className="h-full bg-primaryBg-900 min-h-screen relative">
+    <div className="h-full bg-primary-bg-900 min-h-screen relative">
       <WarningDialog />
       <div className="flex h-full m-auto max-w-[2200px]">
-        <div className="h-full flex justify-between bg-primaryLight text-[#a2a3bd]">
+        <div className="h-full flex justify-between bg-primary-light text-[#a2a3bd]">
           <div
             style={{
               width: windowSizes.sidebar,
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10">
+            <div className="w-full p-2 flex-[0_0_auto] bg-primary-light text-[#a2a3bd] h-10">
               <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-white" />
             </div>
             <SideBar />

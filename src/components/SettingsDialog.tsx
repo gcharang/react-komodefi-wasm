@@ -35,7 +35,7 @@ export const SettingsDialog = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black/25" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -49,7 +49,7 @@ export const SettingsDialog = ({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryLighter p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primary-lighter p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-white"
@@ -62,7 +62,7 @@ export const SettingsDialog = ({
                       menu bar above
                     </p>
                     <input
-                      className="bg-transparent w-full rounded my-2 text-white"
+                      className="bg-transparent w-full rounded-sm my-2 text-white"
                       type="url"
                       placeholder="postman collection url"
                       value={url}
@@ -73,7 +73,7 @@ export const SettingsDialog = ({
                   <div className="mt-4 flex justify-end">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => processRequest()}
                     >
                       Import Collection

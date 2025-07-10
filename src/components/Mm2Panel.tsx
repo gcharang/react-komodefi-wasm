@@ -219,7 +219,7 @@ const Mm2Panel = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="w-full p-2 bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex justify-between">
           <div className="flex gap-3">
             <button
@@ -271,7 +271,7 @@ const Mm2Panel = () => {
         className={`${!mm2PanelState.dataHasErrors
           ? "focus:ring-blue-700"
           : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-none bg-transparent text-gray-400 disabled:opacity-[50%]`}
+          } p-3 w-full h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-50`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>

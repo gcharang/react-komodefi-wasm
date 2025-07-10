@@ -29,7 +29,7 @@ const RpcResponsePanel = () => {
 
   return (
     <div className="w-1/2 grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primaryLight text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
         <div className="flex gap-3 items-center">
           {!copied && (
             <Tooltip label={"Copy Response"}>

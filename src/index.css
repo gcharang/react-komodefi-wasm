@@ -1,34 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-input[type="checkbox"] {
-  cursor: pointer;
+@plugin '@tailwindcss/forms';
+
+@theme {
+  --color-primary-light: #11182f;
+  --color-primary-lighter: #131d3b;
+
+  --color-primary-bg-50: #f8fafc;
+  --color-primary-bg-100: #f1f5f9;
+  --color-primary-bg-200: #e2e8f0;
+  --color-primary-bg-300: #cbd5e1;
+  --color-primary-bg-400: #94a3b8;
+  --color-primary-bg-500: #64748b;
+  --color-primary-bg-600: #475569;
+  --color-primary-bg-700: #334155;
+  --color-primary-bg-800: #1e293b;
+  --color-primary-bg-900: #0f172a;
+  --color-primary-bg-950: #020617;
+
+  --color-secondary-50: #eff6ff;
+  --color-secondary-100: #dbeafe;
+  --color-secondary-200: #bfdbfe;
+  --color-secondary-300: #93c5fd;
+  --color-secondary-400: #60a5fa;
+  --color-secondary-500: #3b82f6;
+  --color-secondary-600: #2563eb;
+  --color-secondary-700: #1d4ed8;
+  --color-secondary-800: #1e40af;
+  --color-secondary-900: #1e3a8a;
+  --color-secondary-950: #172554;
+
+  --color-accent: ;
 }
 
-html {
-  scroll-behavior: smooth;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 5px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-  background: #a2a3bd;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #11182f;
-  border-radius: 10px;
-}
-
-@layer components {
-  .thumb::-webkit-slider-thumb {
+@utility thumb {
+  &::-webkit-slider-thumb {
     background-color: #11182f;
     border: none;
     border-radius: 50%;
@@ -40,5 +64,32 @@ html {
     position: relative;
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
+  }
+}
+
+@layer utilities {
+  input[type='checkbox'] {
+    cursor: pointer;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #a2a3bd;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #11182f;
+    border-radius: 10px;
   }
 }

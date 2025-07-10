@@ -110,27 +110,27 @@ The app uses resizable panels with draggable dividers:
 | `placeholder-opacity-*` | Use opacity modifiers like `placeholder-black/50` |
 | `flex-shrink-*`         | `shrink-*`                                        |
 | `flex-grow-*`           | `grow-*`                                          |
-| `overflow-ellipsis`     | `text-ellipsis`                                   |
-| `decoration-slice`      | `box-decoration-slice`                            |
-| `decoration-clone`      | `box-decoration-clone`                            |
+| `text-ellipsis`     | `text-ellipsis`                                   |
+| `box-decoration-slice`      | `box-decoration-slice`                            |
+| `box-decoration-clone`      | `box-decoration-clone`                            |
 
 #### Renamed Utilities (ALWAYS use the v4 name)
 
 | ❌ v3              | ✅ v4              |
 | ------------------ | ------------------ |
 | `bg-gradient-*`    | `bg-linear-*`      |
-| `shadow-sm`        | `shadow-xs`        |
-| `shadow`           | `shadow-sm`        |
-| `drop-shadow-sm`   | `drop-shadow-xs`   |
-| `drop-shadow`      | `drop-shadow-sm`   |
-| `blur-sm`          | `blur-xs`          |
-| `blur`             | `blur-sm`          |
-| `backdrop-blur-sm` | `backdrop-blur-xs` |
-| `backdrop-blur`    | `backdrop-blur-sm` |
-| `rounded-sm`       | `rounded-xs`       |
-| `rounded`          | `rounded-sm`       |
-| `outline-none`     | `outline-hidden`   |
-| `ring`             | `ring-3`           |
+| `shadow-xs`        | `shadow-2xs`        |
+| `shadow-sm`           | `shadow-xs`        |
+| `drop-shadow-xs`   | `drop-shadow-xs`   |
+| `drop-shadow-sm`      | `drop-shadow-xs`   |
+| `blur-xs`          | `blur-xs`          |
+| `blur-sm`             | `blur-xs`          |
+| `backdrop-blur-xs` | `backdrop-blur-xs` |
+| `backdrop-blur-sm`    | `backdrop-blur-xs` |
+| `rounded-xs`       | `rounded-xs`       |
+| `rounded-sm`          | `rounded-xs`       |
+| `outline-hidden`     | `outline-hidden`   |
+| `ring-3`             | `ring-3`           |
 
 ### Layout and Spacing Rules
 
@@ -275,7 +275,7 @@ Be precise with font sizes - know the actual pixel values:
 ></div>
 
 <!-- ❌ Do not use bg-gradient-* utilities -->
-<div class="h-14 bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+<div class="h-14 bg-linear-to-br from-violet-500 to-fuchsia-500"></div>
 ```
 
 ### Working with CSS Variables
