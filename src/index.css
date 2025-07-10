@@ -166,6 +166,14 @@
     inset: -4px;
     cursor: inherit;
   }
+  
+  /* Prevent text selection while resizing */
+  body.resizing {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
 
   /* Modern scrollbar styles */
   ::-webkit-scrollbar {

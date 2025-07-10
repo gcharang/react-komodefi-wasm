@@ -65,18 +65,36 @@ function App() {
                 <Mm2Panel />
               </div>
               <div
-                draggable
-                onDragEnd={(elem) => {
-                  console.log(elem.clientX);
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  const startX = e.clientX;
+                  // Calculate the actual current width of the left panel
+                  const leftPanelElement = e.currentTarget.previousElementSibling as HTMLElement;
+                  const startWidth = windowSizes.leftPane || leftPanelElement.offsetWidth;
 
-                  const newWidth = elem.clientX - windowSizes.sidebar;
-                  const minWidth = 300; // Minimum width for panels
-                  const maxWidth = window.innerWidth - windowSizes.sidebar - 300; // Leave space for right panel
-                  
-                  setWindowSizes({
-                    ...windowSizes,
-                    leftPane: Math.max(minWidth, Math.min(maxWidth, newWidth)),
-                  });
+                  const handleMouseMove = (e: MouseEvent) => {
+                    const deltaX = e.clientX - startX;
+                    const newWidth = startWidth + deltaX;
+                    const minWidth = 300;
+                    const maxWidth = window.innerWidth - windowSizes.sidebar - 300;
+                    
+                    setWindowSizes(prev => ({
+                      ...prev,
+                      leftPane: Math.max(minWidth, Math.min(maxWidth, newWidth)),
+                    }));
+                  };
+
+                  const handleMouseUp = () => {
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                    document.body.style.cursor = '';
+                    document.body.classList.remove('resizing');
+                  };
+
+                  document.addEventListener('mousemove', handleMouseMove);
+                  document.addEventListener('mouseup', handleMouseUp);
+                  document.body.style.cursor = 'ew-resize';
+                  document.body.classList.add('resizing');
                 }}
                 className="cursor-ew-resize w-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 h-full relative group resize-handle"
                 title="Drag to resize panels"
@@ -97,16 +115,34 @@ function App() {
           </div>
           <div className="flex-[0_0_auto]">
             <div
-              draggable
-              onDragEnd={(elem) => {
-                const newHeight = window.innerHeight - elem.clientY;
-                const minHeight = 100; // Minimum height for bottom panel
-                const maxHeight = window.innerHeight * 0.6; // Max 60% of viewport
-                
-                setWindowSizes({
-                  ...windowSizes,
-                  bottomBar: Math.max(minHeight, Math.min(maxHeight, newHeight)),
-                });
+              onMouseDown={(e) => {
+                e.preventDefault();
+                const startY = e.clientY;
+                const startHeight = windowSizes.bottomBar;
+
+                const handleMouseMove = (e: MouseEvent) => {
+                  const deltaY = startY - e.clientY;
+                  const newHeight = startHeight + deltaY;
+                  const minHeight = 100;
+                  const maxHeight = window.innerHeight * 0.6;
+                  
+                  setWindowSizes(prev => ({
+                    ...prev,
+                    bottomBar: Math.max(minHeight, Math.min(maxHeight, newHeight)),
+                  }));
+                };
+
+                const handleMouseUp = () => {
+                  document.removeEventListener('mousemove', handleMouseMove);
+                  document.removeEventListener('mouseup', handleMouseUp);
+                  document.body.style.cursor = '';
+                  document.body.classList.remove('resizing');
+                };
+
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+                document.body.style.cursor = 'ns-resize';
+                document.body.classList.add('resizing');
               }}
               className="cursor-ns-resize w-full h-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 relative group resize-handle"
               title="Drag to resize panels"
