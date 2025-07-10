@@ -257,7 +257,7 @@ const Mm2Panel = () => {
       intervalId = spawn_mm2_status_checking();
       setIsMm2Initialized(true);
     });
-    
+
     // Cleanup interval on unmount
     return () => {
       if (intervalId) {
@@ -307,7 +307,7 @@ const Mm2Panel = () => {
           </div>
           <div>
             <p className="text-sm">
-              Version: {process.env.NEXT_PUBLIC_WASM_VERSION}
+              KDF Version: {process.env.NEXT_PUBLIC_WASM_VERSION}
             </p>
           </div>
         </div>

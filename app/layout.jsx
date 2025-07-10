@@ -7,8 +7,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <title>Komodo DeFi Framework + WASM</title>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
       </head>
       <body className="h-full">{children}</body>
     </html>
