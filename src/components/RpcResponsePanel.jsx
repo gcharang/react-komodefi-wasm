@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
-import { useRpcResponseState } from "../store/rpcResponse";
+import { useRpcResponseState } from "../store/useStore";
 import Tooltip from "./Tooltip";
 
 const RpcResponsePanel = () => {

@@ -2,9 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
-import { useGenericModal } from "../store/genericModal";
+import { useVisibilityState, useGenericModal } from "../store/useStore";
+import { ModalIds } from "../store/modalIds";
 
 export const GenericModal = () => {
   const { imVisible, hideModal } = useVisibilityState();

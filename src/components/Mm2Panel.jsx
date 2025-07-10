@@ -11,10 +11,7 @@ import init, {
   mm2_version,
 } from "../js/kdflib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useMm2PanelState } from "../store/mm2";
-import { useRpcMethods } from "../store/methods";
-import { useRpcPanelState } from "../store/rpc";
-import { useStore } from "../store/useStore";
+import { useStore, useMm2PanelState, useRpcMethods, useRpcPanelState } from "../store/useStore";
 import { rpc_request } from "../shared-functions/rpcRequest";
 
 const getBaseUrl = () => {

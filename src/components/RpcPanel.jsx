@@ -8,13 +8,8 @@ import {
 import { rpc_request } from "../shared-functions/rpcRequest";
 import { updateUserPass } from "../shared-functions/updateUserPassword";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useGenericModal } from "../store/genericModal";
-import { useRpcMethods } from "../store/methods";
-import { useMm2PanelState } from "../store/mm2";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
-import { useRpcPanelState } from "../store/rpc";
-import { useRpcResponseState } from "../store/rpcResponse";
+import { useGenericModal, useRpcMethods, useMm2PanelState, useVisibilityState, useRpcPanelState, useRpcResponseState } from "../store/useStore";
+import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import Tooltip from "./Tooltip";

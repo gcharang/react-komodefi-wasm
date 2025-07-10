@@ -2,8 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { useVisibilityState } from "../store/modals";
-import { ModalIds } from "../store/modals/modalIds";
+import { useVisibilityState } from "../store/useStore";
+import { ModalIds } from "../store/modalIds";
 
 export const WarningDialog = () => {
   const { imVisible, hideModal, showModal } = useVisibilityState();

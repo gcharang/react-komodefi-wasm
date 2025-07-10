@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
-import { useMm2LogsPanelState } from "../store/mm2Logs";
+import { useMm2LogsPanelState } from "../store/useStore";
 import Tooltip from "./Tooltip";
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }) => {
