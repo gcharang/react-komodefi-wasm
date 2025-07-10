@@ -22,15 +22,21 @@
     "@heroicons/react": "^2.0.13",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/postcss": "^4.1.11",
+    "@types/eslint-plugin-tailwindcss": "^3",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^24.0.13",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint-config-next": "^14.2.30",
+    "eslint-config-next": "^15.3.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "eslint-plugin-unicorn": "^59.0.1",
     "postcss": "^8.4.20",
     "serwist": "^9.0.15",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.36.0"
   },
   "packageManager": "yarn@4.9.2",
   "resolutions": {
