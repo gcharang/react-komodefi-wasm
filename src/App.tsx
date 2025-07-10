@@ -23,18 +23,18 @@ function App() {
   });
 
   return (
-    <div className="h-full bg-primary-bg-900 min-h-screen relative">
+    <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
       <WarningDialog />
       <div className="flex h-full m-auto max-w-[2200px]">
-        <div className="h-full flex justify-between bg-primary-light text-[#a2a3bd]">
+        <div className="h-full flex justify-between bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary border-r border-border-primary">
           <div
             style={{
               width: windowSizes.sidebar,
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-primary-light text-[#a2a3bd] h-10">
-              <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-white" />
+            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 text-text-secondary h-10 border-b border-border-primary">
+              <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-accent transition-colors duration-200" />
             </div>
             <SideBar />
           </div>
@@ -74,7 +74,7 @@ function App() {
                     leftPane: elem.clientX - windowSizes.sidebar,
                   }));
                 }}
-                className="cursor-ew-resize hover:border-t-gray-300 border-r border-r-gray-800 hover:bg-gray-700 hover:border-none p-1 h-full"
+                className="cursor-ew-resize bg-primary-bg-800/50 border-r border-border-primary hover:bg-accent/20 transition-colors duration-200 p-1 h-full"
               ></div>
               <div className="flex-1 h-full text-gray-300">
                 <RpcPanel />
@@ -93,7 +93,7 @@ function App() {
                       : 40,
                 });
               }}
-              className="cursor-ns-resize hover:border-t-gray-300 w-full border-b border-b-gray-800 hover:bg-gray-700 hover:border-none p-1"
+              className="cursor-ns-resize w-full bg-primary-bg-800/50 border-t border-border-primary hover:bg-accent/20 transition-colors duration-200 p-1"
             ></div>
             <div
               style={{

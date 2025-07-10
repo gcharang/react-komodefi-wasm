@@ -8,7 +8,14 @@ import {
 import { rpc_request } from "../shared-functions/rpcRequest";
 import { updateUserPass } from "../shared-functions/updateUserPassword";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useGenericModal, useRpcMethods, useMm2PanelState, useVisibilityState, useRpcPanelState, useRpcResponseState } from "../store/useStore";
+import {
+  useGenericModal,
+  useRpcMethods,
+  useMm2PanelState,
+  useVisibilityState,
+  useRpcPanelState,
+  useRpcResponseState,
+} from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
@@ -39,7 +46,13 @@ const RpcPanel = () => {
     generateRpcMethods();
   }, []);
 
-  const loadMethodFromUrl = ({ method, methodName }: { method: string; methodName: string }) => {
+  const loadMethodFromUrl = ({
+    method,
+    methodName,
+  }: {
+    method: string;
+    methodName: string;
+  }) => {
     if (!method || !methodName) return;
     if (
       (method && !methods[method]) ||
@@ -129,7 +142,13 @@ const RpcPanel = () => {
   const ListBox = () => {
     const [activeMenuItem, setActiveMenuItem] = useState<string>("");
 
-    const MenuItem = ({ label, children }: { label: string; children: React.ReactNode }) => {
+    const MenuItem = ({
+      label,
+      children,
+    }: {
+      label: string;
+      children: React.ReactNode;
+    }) => {
       const toggleSubMenu = (menuLabel: string) => {
         setActiveMenuItem(activeMenuItem === menuLabel ? "" : menuLabel);
       };
@@ -175,7 +194,7 @@ const RpcPanel = () => {
       <div className="relative inline-block text-left dropdown group">
         <span className="rounded-md shadow-xs">
           <button
-            className="inline-flex justify-center w-full border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out  hover:text-gray-500 focus:outline-none"
+            className="inline-flex justify-center w-full border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out  hover:text-gray-500 focus:outline-none cursor-pointer"
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
@@ -254,17 +273,13 @@ const RpcPanel = () => {
                   sendRpcRequest();
                 }}
                 disabled={!mm2PanelState.mm2Running}
-                className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed ${
+                className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed cursor-pointer ${
                   mm2PanelState.mm2Running
                     ? "bg-blue-900 text-white"
                     : "bg-transparent"
                 }`}
               >
-                <span>Send</span>{" "}
-                <Send
-                  role="image"
-                  className={`w-5 h-5 cursor-pointer`}
-                />
+                <span>Send</span> <Send role="image" className={`w-5 h-5`} />
               </button>
             </div>
             <div className="flex items-center gap-3">
@@ -298,9 +313,9 @@ const RpcPanel = () => {
           }}
           className={`${
             !rpcPanelState.dataHasErrors
-              ? "focus:ring-blue-700"
-              : "focus:ring-red-700 focus:ring-2"
-          } p-3 mr-1 h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-[50%]`}
+              ? "focus:ring-2 focus:ring-accent/50"
+              : "ring-2 ring-danger/50"
+          } p-3 mr-1 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-md text-text-primary disabled:opacity-50 transition-all duration-200`}
           value={rpcPanelState.config}
         ></textarea>
       </div>

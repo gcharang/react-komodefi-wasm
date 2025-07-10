@@ -29,14 +29,14 @@ const RpcResponsePanel = () => {
 
   return (
     <div className="w-1/2 grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex gap-3 items-center">
           {!copied && (
             <Tooltip label={"Copy Response"}>
               <Clipboard
                 onClick={() => copyToClipboard()}
                 role="button"
-                className="w-6 h-6 cursor-pointer hover:text-white"
+                className="w-6 h-6 cursor-pointer hover:text-accent transition-colors duration-200"
               />
             </Tooltip>
           )}
@@ -45,14 +45,14 @@ const RpcResponsePanel = () => {
               <CheckCircle
                 onClick={() => copyToClipboard()}
                 role="image"
-                className="w-6 h-6 Check hover:text-green-600"
+                className="w-6 h-6 text-success animate-fadeIn"
               />
             </Tooltip>
           )}
         </div>
       </div>
-      <div className="overflow-hidden overflow-y-auto">
-        <pre className="text-sm text-gray-400 whitespace-pre-wrap p-2">
+      <div className="overflow-hidden overflow-y-auto border-r border-border-primary">
+        <pre className="text-sm text-text-secondary whitespace-pre-wrap p-3 min-h-[200px] bg-primary-bg-900/30 rounded-md">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </pre>
       </div>

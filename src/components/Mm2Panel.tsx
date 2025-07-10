@@ -128,25 +128,27 @@ const Mm2Panel = () => {
       const baseUrl = getBaseUrl();
       const wasm_bin_path = `/kdflib_bg.wasm`;
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
-      
+
       // Pre-fetch the WASM file to ensure it's cached by the service worker
       try {
         const response = await fetch(mm2BinUrl.toString(), {
-          method: 'GET',
-          cache: 'force-cache', // Use cache if available
+          method: "GET",
+          cache: "force-cache", // Use cache if available
         });
-        
+
         if (!response.ok) {
-          throw new Error(`Failed to fetch WASM: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Failed to fetch WASM: ${response.status} ${response.statusText}`
+          );
         }
-        
+
         // Wait for the response to be fully downloaded
         await response.blob();
-        console.log('WASM file pre-fetched successfully');
+        console.log("WASM file pre-fetched successfully");
       } catch (fetchError) {
-        console.warn('Pre-fetch failed, continuing with init:', fetchError);
+        console.warn("Pre-fetch failed, continuing with init:", fetchError);
       }
-      
+
       // Now initialize the WASM module
       await init(mm2BinUrl);
     } catch (e) {
@@ -240,28 +242,22 @@ const Mm2Panel = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="w-full p-2 bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="w-full p-2 bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex justify-between">
           <div className="flex gap-3">
             <button
               onClick={() => toggleMm2()}
-              className="flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347]"
+              className="flex items-center cursor-pointer gap-1 border border-border-primary rounded-full text-sm py-1 px-3 bg-primary-bg-800/50 hover:border-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
             >
               {!mm2PanelState.mm2Running ? (
                 <>
                   <span>Run KDF</span>
-                  <PlayIcon
-                    role="image"
-                    className="w-5 h-5 cursor-pointer fill-green-500"
-                  />
+                  <PlayIcon role="image" className="w-5 h-5 fill-green-500" />
                 </>
               ) : (
                 <>
                   <span>Stop KDF</span>
-                  <StopIcon
-                    role="image"
-                    className="w-5 h-5 cursor-pointer fill-red-500"
-                  />
+                  <StopIcon role="image" className="w-5 h-5 fill-red-500" />
                 </>
               )}
             </button>
@@ -291,9 +287,9 @@ const Mm2Panel = () => {
         }}
         className={`${
           !mm2PanelState.dataHasErrors
-            ? "focus:ring-blue-700"
-            : "focus:ring-red-700 focus:ring-2"
-        } p-3 w-full h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-50`}
+            ? "focus:ring-2 focus:ring-accent/50"
+            : "ring-2 ring-danger/50"
+        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-md text-text-primary disabled:opacity-50 transition-all duration-200`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>

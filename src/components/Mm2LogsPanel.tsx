@@ -56,15 +56,15 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   }, [mm2Ref]);
 
   const classes = [
-    "text-blue-300",
-    "text-violet-300",
-    "text-red-300",
-    "text-yellow-300",
-    "text-neutral-300",
+    "text-secondary-400",
+    "text-accent",
+    "text-danger",
+    "text-warning",
+    "text-text-primary",
   ];
   return (
-    <div className="w-1/2 grid grid-flow-row border-r border-r-gray-700">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
+    <div className="w-1/2 grid grid-flow-row border-r border-border-primary">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Tooltip
@@ -79,7 +79,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     bottomBar: windowSizes.bottomBar <= 40 ? 220 : 40,
                   });
                 }}
-                className={`w-6 h-6 cursor-pointer hover:text-white transition ${
+                className={`w-6 h-6 cursor-pointer hover:text-accent transition ${
                   windowSizes.bottomBar <= 40 ? "rotate-180" : ""
                 }`}
               />
@@ -92,7 +92,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   });
                 }}
                 role="button"
-                className="w-6 h-6 cursor-pointer hover:text-white"
+                className="w-6 h-6 cursor-pointer hover:text-accent"
               />
             </Tooltip>
             {!copied && (
@@ -108,7 +108,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     setTimeout(() => setCopied(false), 1000);
                   }}
                   role="button"
-                  className="w-6 h-6 cursor-pointer hover:text-white"
+                  className="w-6 h-6 cursor-pointer hover:text-accent"
                 />
               </Tooltip>
             )}
@@ -150,7 +150,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       </div>
       <div
         ref={mm2Ref}
-        className={`p-2 overflow-hidden overflow-y-auto break-words ${
+        className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/30 ${
           windowSizes.bottomBar <= 40 && "hidden"
         }`}
       >
@@ -165,10 +165,10 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }, 1000);
               }}
               key={index}
-              className={`whitespace-pre-wrap ${message[1] === 'blue' ? 'text-blue-300' : message[1] === 'violet' ? 'text-violet-300' : message[1] === 'red' ? 'text-red-300' : message[1] === 'yellow' ? 'text-yellow-300' : 'text-neutral-300'} ${
+              className={`whitespace-pre-wrap ${message[1] === 'blue' ? 'text-secondary-400' : message[1] === 'violet' ? 'text-accent' : message[1] === 'red' ? 'text-danger' : message[1] === 'yellow' ? 'text-warning' : 'text-text-primary'} ${
                 isInlineCopied.id === String(index) &&
-                "text-green-600 hover:text-green-600"
-              } flex group hover:text-white hover:cursor-pointer text-base font-bold border-slate-700 border-b`}
+                "text-success hover:text-success"
+              } flex group hover:text-accent hover:cursor-pointer text-sm font-medium border-border-primary border-b py-1 transition-colors duration-200`}
             >
               {message[0]}
               <span className="ml-1">
@@ -181,7 +181,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 {isInlineCopied.id === String(index) && (
                   <CheckCircle
                     role="image"
-                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6 text-green-600"
+                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6 text-success"
                   />
                 )}
               </span>
