@@ -126,13 +126,28 @@ const Mm2Panel = () => {
   async function init_wasm() {
     try {
       const baseUrl = getBaseUrl();
-      let wasm_bin_path;
-      if (process.env.NODE_ENV !== "production") {
-        wasm_bin_path = `/kdflib_bg.wasm?v=${Date.now()}`;
-      } else {
-        wasm_bin_path = `/kdf_${process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}_bg.wasm`;
-      }
+      const wasm_bin_path = `/kdflib_bg.wasm`;
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
+      
+      // Pre-fetch the WASM file to ensure it's cached by the service worker
+      try {
+        const response = await fetch(mm2BinUrl.toString(), {
+          method: 'GET',
+          cache: 'force-cache', // Use cache if available
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch WASM: ${response.status} ${response.statusText}`);
+        }
+        
+        // Wait for the response to be fully downloaded
+        await response.blob();
+        console.log('WASM file pre-fetched successfully');
+      } catch (fetchError) {
+        console.warn('Pre-fetch failed, continuing with init:', fetchError);
+      }
+      
+      // Now initialize the WASM module
       await init(mm2BinUrl);
     } catch (e) {
       alert(`Oops: ${e}`);

@@ -1,6 +1,5 @@
-import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import { Serwist, NetworkOnly } from "serwist";
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -16,10 +15,25 @@ declare const self: ServiceWorkerGlobalScope;
 
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
+  precacheOptions: {
+    // Whether outdated caches should be removed.
+    cleanupOutdatedCaches: true,
+    concurrency: 10,
+    ignoreURLParametersMatching: [],
+  },
   skipWaiting: true,
   clientsClaim: true,
-  navigationPreload: true,
-  runtimeCaching: defaultCache,
+  navigationPreload: false,
+  // Handle external URLs with NetworkOnly (no caching)
+  runtimeCaching: [
+    {
+      matcher: ({ url }) => {
+        // Match any external URL (different origin than the app)
+        return url.origin !== self.location.origin;
+      },
+      handler: new NetworkOnly(),
+    },
+  ],
 });
 
 serwist.addEventListeners();
