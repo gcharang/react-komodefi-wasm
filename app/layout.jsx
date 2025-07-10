@@ -1,4 +1,7 @@
-export const metadata = {
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+
+export const metadata: Metadata = {
   title: "Komodo DeFi Framework + WASM",
   description: "KDF Playground"
 };
