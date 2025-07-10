@@ -56,8 +56,8 @@ function App() {
                 style={{
                   flex: `0 0 ${
                     !windowSizes.leftPane
-                      ? "50%"
-                      : `calc(${windowSizes.leftPane}px)`
+                      ? "calc(50% - 0.25rem)" // Account for half of the w-2 (0.5rem) divider
+                      : `${windowSizes.leftPane}px`
                   }`,
                 }}
                 className="h-full text-gray-300"
