@@ -1,5 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, Description } from "@headlessui/react";
+import { useState } from "react";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useVisibilityState } from "../store/useStore";
@@ -31,67 +31,40 @@ export const WarningDialog = () => {
     hideModal(ModalIds.usageWarning);
   };
   return (
-    <>
-      <Transition appear show={imVisible(ModalIds.usageWarning)} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => hideModal(ModalIds.usageWarning)}
+    <Dialog
+      open={imVisible(ModalIds.usageWarning)}
+      onClose={() => hideModal(ModalIds.usageWarning)}
+      className="relative z-50"
+    >
+      <DialogBackdrop 
+        transition
+        className="fixed inset-0 bg-black/30 transition duration-300 ease-out data-[closed]:opacity-0" 
+      />
+      
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+        <DialogPanel
+          transition
+          className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primary-lighter p-6 text-left align-middle shadow-xl transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/25" />
-          </Transition.Child>
+          <DialogTitle className="text-lg font-medium leading-6 text-red-500">
+            Important Info!
+          </DialogTitle>
+          <Description className="mt-2 text-sm text-gray-400">
+            Use at your own risk. Do not store/load seeds/wallets with
+            coins/tokens of any significant value
+          </Description>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primary-lighter p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-red-500"
-                  >
-                    Important Info!
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-400">
-                      Use at your own risk. Do not store/load seeds/wallets with
-                      coins/tokens of any significant value
-                    </p>
-                  </div>
-
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => {
-                        handleCloseModal();
-                      }}
-                    >
-                      I understand
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+          <div className="mt-4 flex justify-end">
+            <button
+              type="button"
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={handleCloseModal}
+            >
+              I understand
+            </button>
           </div>
-        </Dialog>
-      </Transition>
-    </>
+        </DialogPanel>
+      </div>
+    </Dialog>
   );
 };

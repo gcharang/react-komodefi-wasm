@@ -175,7 +175,7 @@ const RpcPanel = () => {
       <div className="relative inline-block text-left dropdown group">
         <span className="rounded-md shadow-xs">
           <button
-            className="inline-flex justify-center w-full border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out  hover:text-gray-500 focus:outline-hidden"
+            className="inline-flex justify-center w-full border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out  hover:text-gray-500 focus:outline-none"
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
@@ -197,14 +197,14 @@ const RpcPanel = () => {
         </span>
         <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
           <div
-            className="absolute z-10 max-h-160 right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-lighter divide-y rounded-md shadow-lg outline-hidden"
+            className="absolute z-10 max-h-[40rem] right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-lighter divide-y rounded-md shadow-lg outline-none"
             aria-labelledby="RPC methods dropdown menu"
             id=""
           >
             <ul
               role="menu"
               id="mm2-methods"
-              className="py-1 flex flex-col h-160 overflow-hidden overflow-y-auto"
+              className="py-1 flex flex-col h-[40rem] overflow-hidden overflow-y-auto"
             >
               {methods &&
                 Object.keys(methods).map((methodList) => {
@@ -300,7 +300,7 @@ const RpcPanel = () => {
             !rpcPanelState.dataHasErrors
               ? "focus:ring-blue-700"
               : "focus:ring-red-700 focus:ring-2"
-          } p-3 mr-1 h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-50`}
+          } p-3 mr-1 h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-[50%]`}
           value={rpcPanelState.config}
         ></textarea>
       </div>

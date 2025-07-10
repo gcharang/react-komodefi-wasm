@@ -120,7 +120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^2.2.4":
+"@headlessui/react@npm:^2.2.0":
   version: 2.2.4
   resolution: "@headlessui/react@npm:2.2.4"
   dependencies:
@@ -2516,7 +2516,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "komodefi-guaranteed-swap-ui@workspace:."
   dependencies:
-    "@headlessui/react": "npm:^2.2.4"
+    "@headlessui/react": "npm:^2.2.0"
     "@heroicons/react": "npm:^2.0.13"
     "@serwist/next": "npm:^9.0.15"
     "@tailwindcss/forms": "npm:^0.5.3"
