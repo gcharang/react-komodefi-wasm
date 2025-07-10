@@ -25,8 +25,10 @@ const Mm2Panel = () => {
     mm2PanelState.mm2Config
   );
 
-
-  function handle_log(level: typeof LogLevel[keyof typeof LogLevel], line: string) {
+  function handle_log(
+    level: (typeof LogLevel)[keyof typeof LogLevel],
+    line: string
+  ) {
     switch (level) {
       case LogLevel.Off:
         break;
@@ -86,7 +88,13 @@ const Mm2Panel = () => {
     }
   }
 
-  async function run_mm2(params: any, handle_log: (level: typeof LogLevel[keyof typeof LogLevel], line: string) => void) {
+  async function run_mm2(
+    params: any,
+    handle_log: (
+      level: (typeof LogLevel)[keyof typeof LogLevel],
+      line: string
+    ) => void
+  ) {
     // run an MM2 instance
     try {
       const version = mm2_version();
@@ -97,7 +105,7 @@ const Mm2Panel = () => {
             ...state.mm2Logs.outputMessages,
             [
               "[Info] " +
-              `run_mm2() version=${version.result} datetime=${version.datetime}`,
+                `run_mm2() version=${version.result} datetime=${version.datetime}`,
               "violet",
             ],
           ],
@@ -122,7 +130,7 @@ const Mm2Panel = () => {
       if (process.env.NODE_ENV !== "production") {
         wasm_bin_path = `/kdflib_bg.wasm?v=${Date.now()}`;
       } else {
-        wasm_bin_path = `/kdf_${process.env.NEXT_PUBLIC_WASM_VERSION}_bg.wasm`;
+        wasm_bin_path = `/kdf_${process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}_bg.wasm`;
       }
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
       await init(mm2BinUrl);
@@ -200,7 +208,6 @@ const Mm2Panel = () => {
     }
   };
 
-
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval> | undefined;
     init_wasm().then(function () {
@@ -215,7 +222,6 @@ const Mm2Panel = () => {
       }
     };
   }, []);
-
 
   return (
     <div className="h-full flex flex-col">
@@ -247,7 +253,7 @@ const Mm2Panel = () => {
           </div>
           <div>
             <p className="text-sm">
-              KDF Version: {process.env.NEXT_PUBLIC_WASM_VERSION}
+              KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}
             </p>
           </div>
         </div>
@@ -268,10 +274,11 @@ const Mm2Panel = () => {
             });
           }
         }}
-        className={`${!mm2PanelState.dataHasErrors
-          ? "focus:ring-blue-700"
-          : "focus:ring-red-700 focus:ring-2"
-          } p-3 w-full h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-50`}
+        className={`${
+          !mm2PanelState.dataHasErrors
+            ? "focus:ring-blue-700"
+            : "focus:ring-red-700 focus:ring-2"
+        } p-3 w-full h-full resize-none border-none outline-hidden bg-transparent text-gray-400 disabled:opacity-50`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>
