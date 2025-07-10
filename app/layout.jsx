@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Komodo DeFi Framework + WASM",
-  description: "KDF Playground",
+  description: "KDF Playground"
 };
 import "../src/index.css";
 export default function RootLayout({ children }) {
