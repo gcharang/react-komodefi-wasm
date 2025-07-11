@@ -52,7 +52,7 @@ const RpcResponsePanel = () => {
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <pre className="text-sm text-text-primary whitespace-pre-wrap p-3 h-full bg-primary-bg-900/50 font-mono">
+        <pre className="text-sm text-text-primary whitespace-pre-wrap p-3 min-h-full bg-primary-bg-900/50 font-mono">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </pre>
       </div>
