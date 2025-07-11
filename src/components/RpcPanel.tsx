@@ -193,7 +193,7 @@ const RpcPanel = () => {
     };
 
     return (
-      <div className="relative inline-block text-left dropdown group">
+      <div className="relative inline-block text-left dropdown group z-50">
         <span className="rounded-md shadow-xs">
           <button
             className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
@@ -218,14 +218,14 @@ const RpcPanel = () => {
         </span>
         <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
           <div
-            className="absolute z-10 max-h-[40rem] -right-2 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
+            className="absolute z-50 max-h-[60vh] -right-2 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
             aria-labelledby="RPC methods dropdown menu"
             id=""
           >
             <ul
               role="menu"
               id="mm2-methods"
-              className="py-1 flex flex-col h-[40rem] overflow-hidden overflow-y-auto"
+              className="py-1 flex flex-col max-h-[60vh] overflow-hidden overflow-y-auto"
             >
               {methods &&
                 Object.keys(methods).map((methodList) => {
@@ -266,7 +266,7 @@ const RpcPanel = () => {
 
   const panel = useMemo(() => {
     return (
-      <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
+      <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20 relative z-30">
         <div className="relative flex justify-between w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
           <div className="relative flex justify-between w-full">
             <div className="flex gap-3">
