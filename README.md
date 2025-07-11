@@ -1,4 +1,4 @@
-# Komodo DeFi Guaranteed Swap UI
+# Use Komodo DeFi Framework's wasm module with react/next
 
 A Next.js-based web interface for interacting with the Komodo DeFi Framework (KDF) WebAssembly module.
 
