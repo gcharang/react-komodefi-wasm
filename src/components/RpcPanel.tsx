@@ -320,6 +320,8 @@ const RpcPanel = () => {
           </div>
         </div>
         <textarea
+          id="rpc-config"
+          name="rpcConfig"
           onChange={(e) => {
             let value = e.target.value;
             if (checkIfSchemaValid(value)) {

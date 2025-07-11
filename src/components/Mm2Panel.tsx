@@ -270,6 +270,8 @@ const Mm2Panel = () => {
         </div>
       </div>
       <textarea
+        id="mm2-config"
+        name="mm2Config"
         disabled={mm2PanelState.mm2Running}
         onChange={(e) => {
           let value = e.target.value;

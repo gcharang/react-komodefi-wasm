@@ -244,6 +244,8 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             <div className="w-1/3 border-r border-border-primary">
               <div className="p-4">
                 <input
+                  id="electrum-coin-search"
+                  name="electrum-coin-search"
                   type="text"
                   placeholder="Search coins..."
                   value={searchTerm}
@@ -282,6 +284,8 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   </div>
                   <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
                     <input
+                      id="show-selected-only"
+                      name="show-selected-only"
                       type="checkbox"
                       checked={showSelectedOnly}
                       onChange={(e) => setShowSelectedOnly(e.target.checked)}

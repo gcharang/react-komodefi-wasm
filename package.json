@@ -1,5 +1,5 @@
 {
-  "name": "komodefi-guaranteed-swap-ui",
+  "name": "react-komodefi-wasm",
   "private": true,
   "version": "0.0.1",
   "type": "module",
