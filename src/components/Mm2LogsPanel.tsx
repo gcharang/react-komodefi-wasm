@@ -64,7 +64,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   ];
   return (
     <div className="h-full grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Tooltip

@@ -158,7 +158,7 @@ const RpcPanel = () => {
       return (
         <li
           role="menuitem"
-          className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-primary-bg-700/50 border-b border-border-primary last:border-none"
+          className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-primary-bg-800 hover:text-accent border-b border-border-primary last:border-none"
         >
           <button
             onClick={() => toggleSubMenu(label)}
@@ -196,7 +196,7 @@ const RpcPanel = () => {
       <div className="relative inline-block text-left dropdown group">
         <span className="rounded-md shadow-xs">
           <button
-            className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
+            className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
@@ -247,7 +247,7 @@ const RpcPanel = () => {
                                   }
                                 );
                               }}
-                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-700/50 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
+                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-800 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
                             >
                               <span>{methodJson?.name}</span>
                             </button>
@@ -267,7 +267,7 @@ const RpcPanel = () => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-        <div className="w-full p-2 bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
+        <div className="w-full p-2 bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
           <div className="flex justify-between">
             <div className="flex gap-3">
               <button
@@ -277,8 +277,8 @@ const RpcPanel = () => {
                 disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 rounded-lg text-sm py-1 px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running
-                    ? "bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent"
-                    : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
+                    ? "bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent"
+                    : "bg-primary-bg-800/50 text-text-muted cursor-not-allowed"
                 }`}
               >
                 <span>Send</span> <Send role="image" className={`w-5 h-5`} />
@@ -296,7 +296,7 @@ const RpcPanel = () => {
               <Tooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
-                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />

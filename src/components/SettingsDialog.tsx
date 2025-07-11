@@ -1,4 +1,9 @@
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { useState } from "react";
 
 interface SettingsDialogProps {
@@ -32,15 +37,15 @@ export const SettingsDialog = ({
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <DialogPanel
           transition
-          className="w-full max-w-md transform overflow-hidden rounded-lg bg-primary-bg-800/95 backdrop-blur-xl p-6 text-left align-middle shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="w-full max-w-md transform overflow-hidden rounded-lg bg-primary-bg-900/95 backdrop-blur-xl p-6 text-left align-middle shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
           <DialogTitle className="text-lg font-semibold text-text-primary">
             Import collection URL
           </DialogTitle>
           <div className="mt-4">
-            <p className="text-sm text-text-muted mb-3">
-              Allows you to use new methods from the dropdown in the
-              menu bar above
+            <p className="text-sm text-text-secondary mb-3">
+              Allows you to use new methods from the dropdown in the menu bar
+              above
             </p>
             <input
               className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
@@ -54,7 +59,7 @@ export const SettingsDialog = ({
           <div className="mt-4 flex justify-end">
             <button
               type="button"
-              className="flex items-center gap-2 rounded-lg bg-primary-bg-700 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
               onClick={() => processRequest()}
             >
               Import Collection

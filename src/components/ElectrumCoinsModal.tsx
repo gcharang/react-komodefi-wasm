@@ -158,7 +158,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       className={`w-full px-4 py-2 text-left text-sm transition-colors ${
                         selectedCoin === coin.coin
                           ? 'bg-accent/20 text-accent'
-                          : 'text-text-secondary hover:bg-primary-bg-700/50 hover:text-text-primary'
+                          : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -183,7 +183,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     </h3>
                     <button
                       onClick={copyToClipboard}
-                      className="flex items-center gap-2 rounded-lg bg-primary-bg-700 px-3 py-1.5 text-sm text-text-secondary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200"
+                      className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-1.5 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200"
                     >
                       {copied ? (
                         <>
@@ -199,7 +199,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     </button>
                   </div>
                   <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-4">
-                    <pre className="text-sm text-text-secondary">
+                    <pre className="text-sm text-text-primary">
                       <code>{JSON.stringify(selectedCoinData, null, 2)}</code>
                     </pre>
                   </div>

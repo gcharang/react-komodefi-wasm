@@ -26,14 +26,14 @@ function App() {
     <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
       <WarningDialog />
       <div className="flex h-full m-auto max-w-[2200px] p-4">
-        <div className="h-full flex justify-between bg-primary-bg-800/95 backdrop-blur-xl text-text-secondary rounded-lg shadow-2xl ring-1 ring-accent/20 mr-4">
+        <div className="h-full flex justify-between bg-primary-bg-800/95 backdrop-blur-xl text-text-primary rounded-lg shadow-2xl ring-1 ring-accent/20 mr-4">
           <div
             style={{
               width: windowSizes.sidebar,
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
+            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
               <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-accent transition-colors duration-200" />
             </div>
             <SideBar />

@@ -242,12 +242,12 @@ const Mm2Panel = () => {
 
   return (
     <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-      <div className="w-full p-2 bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
+      <div className="w-full p-2 bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
         <div className="flex justify-between">
           <div className="flex gap-3">
             <button
               onClick={() => toggleMm2()}
-              className="flex items-center cursor-pointer gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
+              className="flex items-center cursor-pointer gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
             >
               {!mm2PanelState.mm2Running ? (
                 <>

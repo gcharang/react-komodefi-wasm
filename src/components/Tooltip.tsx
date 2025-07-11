@@ -11,7 +11,7 @@ const Tooltip = ({ label, dir = "top", children }: TooltipProps) => {
     <div className="group cursor-pointer relative text-center">
       {children}
       <div
-        className={`transition opacity-0 shadow-2xl ring-1 ring-accent/20 w-28 bg-primary-bg-800/95 backdrop-blur-xl text-text-secondary text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 group-hover:-translate-y-2 ${
+        className={`transition opacity-0 shadow-2xl ring-1 ring-accent/20 w-28 bg-primary-bg-800/95 backdrop-blur-xl text-text-primary text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 group-hover:-translate-y-2 ${
           dir === "top" ? "bottom-full" : "-bottom-[200%]"
         } -translate-y-4 left-1/2 -translate-x-1/2  pointer-events-none`}
       >
