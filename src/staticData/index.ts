@@ -2,6 +2,7 @@ import seedNodes from "./seed-nodes.json";
 import DOC_ELECTRUMS from "./electrums/DOC.json";
 import MARTY_ELECTRUMS from "./electrums/MARTY.json";
 import coins_config_wss from "./coins_config_wss.json";
+import { extractWssElectrumsFromConfig } from "../shared-functions/getWssElectrumsFromCoinConfigWss";
 
 const DOC_WSS_ELECTRUMS = DOC_ELECTRUMS.filter(
   (server) =>
@@ -18,34 +19,8 @@ const MARTY_WSS_ELECTRUMS = MARTY_ELECTRUMS.filter(
   protocol: "WSS",
 }));
 
-export const ALL_COIN_ELECTRUMS = Object.entries(coins_config_wss)
-  .filter(
-    ([_, coinData]: [string, any]) =>
-      coinData.electrum && coinData.electrum.length > 0
-  )
-  .map(([coinSymbol, coinData]: [string, any]) => {
-    // Filter for WSS servers only
-    const wssServers = coinData.electrum
-      .filter((server: any) => server.protocol === "WSS")
-      .map((server: any) => ({
-        url: server.url,
-        protocol: "WSS",
-      }));
-
-    // Only return if there are WSS servers
-    if (wssServers.length > 0) {
-      return {
-        userpass: "3i1upE_GY4YZaj8uMjm@",
-        method: "electrum",
-        mm2: 1,
-        coin: coinSymbol,
-        tx_history: true,
-        servers: wssServers,
-      };
-    }
-    return null;
-  })
-  .filter(Boolean); // Remove null entries
+// Use the shared function to extract WSS electrums
+export const ALL_COIN_ELECTRUMS = extractWssElectrumsFromConfig(coins_config_wss);
 
 export const rpcDefaultConfig = `[
     {

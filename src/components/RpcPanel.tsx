@@ -19,6 +19,7 @@ import {
 import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
+import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
 
 const RpcPanel = () => {
@@ -31,6 +32,7 @@ const RpcPanel = () => {
   const router = useRouter();
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isElectrumModalOpen, setIsElectrumModalOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
@@ -291,6 +293,17 @@ const RpcPanel = () => {
                   className="w-5 h-5 cursor-pointer"
                 />
               </Tooltip>
+              <Tooltip label={"Select Electrum Coins"} dir="bottom">
+                <button
+                  onClick={() => setIsElectrumModalOpen(true)}
+                  className="inline-flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] transition duration-150 ease-in-out hover:text-gray-500 focus:outline-none cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>Electrum</span>
+                </button>
+              </Tooltip>
               <ListBox />
             </div>
           </div>
@@ -335,6 +348,10 @@ const RpcPanel = () => {
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         generateRpcMethods={generateRpcMethods}
+      />
+      <ElectrumCoinsModal
+        isOpen={isElectrumModalOpen}
+        onClose={() => setIsElectrumModalOpen(false)}
       />
       {panel}
     </>
