@@ -267,7 +267,7 @@ const RpcPanel = () => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-        <div className="relative flex justify-between w-full p-2 bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
+        <div className="relative flex justify-between w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
           <div className="relative flex justify-between w-full">
             <div className="flex gap-3">
               <button
@@ -337,9 +337,9 @@ const RpcPanel = () => {
           }}
           className={`${
             !rpcPanelState.dataHasErrors
-              ? "focus:ring-2 focus:ring-accent/50"
-              : "ring-2 ring-danger/50"
-          } p-3 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-b-lg text-text-primary disabled:opacity-50 transition-all duration-200`}
+              ? "focus:ring-2 focus:ring-accent/50 focus:ring-inset"
+              : "ring-2 ring-danger/50 ring-inset"
+          } p-3 h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary disabled:opacity-50 transition-all duration-200`}
           value={rpcPanelState.config}
         ></textarea>
       </div>

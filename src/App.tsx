@@ -33,7 +33,7 @@ function App() {
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
+            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
               <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-accent transition-colors duration-200" />
             </div>
             <SideBar />

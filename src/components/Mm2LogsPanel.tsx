@@ -11,12 +11,14 @@ interface Mm2LogsPanelProps {
     leftPane: number | null;
     rightPane: number | null;
   };
-  setWindowSizes: React.Dispatch<React.SetStateAction<{
-    sidebar: number;
-    bottomBar: number;
-    leftPane: number | null;
-    rightPane: number | null;
-  }>>;
+  setWindowSizes: React.Dispatch<
+    React.SetStateAction<{
+      sidebar: number;
+      bottomBar: number;
+      leftPane: number | null;
+      rightPane: number | null;
+    }>
+  >;
 }
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
@@ -46,9 +48,9 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       const debouncedHandler = debounce(() => {
         setShouldAlwaysScrollToBottom(false);
       }, 300);
-      
+
       mm2Ref.current.addEventListener("mouseenter", debouncedHandler);
-      
+
       return () => {
         mm2Ref.current?.removeEventListener("mouseenter", debouncedHandler);
       };
@@ -64,7 +66,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   ];
   return (
     <div className="h-full grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Tooltip
@@ -165,7 +167,17 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }, 1000);
               }}
               key={index}
-              className={`whitespace-pre-wrap ${message[1] === 'blue' ? 'text-secondary-400' : message[1] === 'violet' ? 'text-accent' : message[1] === 'red' ? 'text-danger' : message[1] === 'yellow' ? 'text-warning' : 'text-text-primary'} ${
+              className={`whitespace-pre-wrap ${
+                message[1] === "blue"
+                  ? "text-secondary-400"
+                  : message[1] === "violet"
+                  ? "text-accent"
+                  : message[1] === "red"
+                  ? "text-danger"
+                  : message[1] === "yellow"
+                  ? "text-warning"
+                  : "text-text-primary"
+              } ${
                 isInlineCopied.id === String(index) &&
                 "text-success hover:text-success"
               } flex group hover:text-accent hover:cursor-pointer text-sm font-medium border-border-primary border-b py-1 transition-colors duration-200`}
