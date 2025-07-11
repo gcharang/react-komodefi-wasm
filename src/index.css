@@ -1,12 +1,12 @@
-@import 'tailwindcss';
-
+@import "tailwindcss";
+@source not "public";
 @plugin '@tailwindcss/forms';
 
 @theme {
   /* Modern dark theme with better contrast */
   --color-primary-light: #1a1f2e;
   --color-primary-lighter: #242938;
-  
+
   /* Deep space background gradient */
   --color-primary-bg-50: #f8f9fb;
   --color-primary-bg-100: #e8eaf0;
@@ -40,12 +40,12 @@
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
   --color-info: #3b82f6;
-  
+
   /* Text colors with better contrast */
   --color-text-primary: #f8f9fa;
   --color-text-secondary: #a8b2c1;
-  --color-text-muted: #6b7280;
-  
+  --color-text-muted: #9ca3af;
+
   /* Border colors */
   --color-border-primary: #2d3748;
   --color-border-secondary: #1a202c;
@@ -71,7 +71,11 @@
 
 @utility thumb {
   &::-webkit-slider-thumb {
-    background: linear-gradient(135deg, var(--color-secondary-500), var(--color-accent));
+    background: linear-gradient(
+      135deg,
+      var(--color-secondary-500),
+      var(--color-accent)
+    );
     border: none;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
@@ -83,7 +87,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
     transition: all 0.2s ease;
-    
+
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 132, 255, 0.5);
       transform: scale(1.05);
@@ -94,22 +98,33 @@
 @layer utilities {
   /* Global animations */
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  
+
   @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+    0%,
+    100% {
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+    }
   }
-  
+
   /* Base styles */
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
     antialiased: true;
   }
-  
-  input[type='checkbox'] {
+
+  input[type="checkbox"] {
     cursor: pointer;
     accent-color: var(--color-accent);
   }
@@ -117,7 +132,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Glassmorphism effect utility */
   .glass {
     background: rgba(26, 31, 46, 0.7);
@@ -125,48 +140,52 @@
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   /* Gradient text utility */
   .gradient-text {
-    background: linear-gradient(135deg, var(--color-secondary-400), var(--color-accent));
+    background: linear-gradient(
+      135deg,
+      var(--color-secondary-400),
+      var(--color-accent)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   /* Glow effect for important elements */
   .glow {
     box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
   }
-  
+
   /* Smooth transitions for interactive elements */
   .interactive {
     transition: all 0.2s ease;
   }
-  
+
   /* Modern button styles */
   .btn-primary {
     @apply bg-gradient-to-r from-accent to-secondary-500 text-white font-medium px-4 py-2 rounded-lg hover:from-accent-hover hover:to-secondary-600 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(0,212,255,0.5)] transition-all duration-200;
   }
-  
+
   .btn-secondary {
     @apply bg-primary-bg-800/50 border border-border-primary text-text-primary font-medium px-4 py-2 rounded-lg hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200;
   }
-  
+
   /* Panel resize handles */
   .resize-handle {
     position: relative;
     user-select: none;
     -webkit-user-select: none;
   }
-  
+
   .resize-handle::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -4px;
     cursor: inherit;
   }
-  
+
   /* Prevent text selection while resizing */
   body.resizing {
     user-select: none;
@@ -180,7 +199,7 @@
     width: 8px;
     height: 8px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
     background: var(--color-primary-bg-800);
@@ -189,12 +208,20 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--color-secondary-600), var(--color-secondary-700));
+    background: linear-gradient(
+      180deg,
+      var(--color-secondary-600),
+      var(--color-secondary-700)
+    );
     border-radius: 10px;
     transition: all 0.2s ease;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--color-secondary-500), var(--color-secondary-600));
+    background: linear-gradient(
+      180deg,
+      var(--color-secondary-500),
+      var(--color-secondary-600)
+    );
   }
 }

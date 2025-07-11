@@ -196,7 +196,7 @@ const RpcPanel = () => {
       <div className="relative inline-block text-left dropdown group">
         <span className="rounded-md shadow-xs">
           <button
-            className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
+            className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
@@ -218,7 +218,7 @@ const RpcPanel = () => {
         </span>
         <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
           <div
-            className="absolute z-10 max-h-[40rem] right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
+            className="absolute z-10 max-h-[40rem] -right-2 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
             aria-labelledby="RPC methods dropdown menu"
             id=""
           >
@@ -267,8 +267,8 @@ const RpcPanel = () => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-        <div className="w-full p-2 bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
-          <div className="flex justify-between">
+        <div className="relative flex justify-between w-full p-2 bg-primary-bg-900/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
+          <div className="relative flex justify-between w-full">
             <div className="flex gap-3">
               <button
                 onClick={() => {
@@ -277,8 +277,8 @@ const RpcPanel = () => {
                 disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 rounded-lg text-sm py-1 px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running
-                    ? "bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent"
-                    : "bg-primary-bg-800/50 text-text-muted cursor-not-allowed"
+                    ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent"
+                    : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                 }`}
               >
                 <span>Send</span> <Send role="image" className={`w-5 h-5`} />
@@ -296,10 +296,21 @@ const RpcPanel = () => {
               <Tooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
-                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-800 text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
                   <span>Electrum</span>
                 </button>
@@ -328,7 +339,7 @@ const RpcPanel = () => {
             !rpcPanelState.dataHasErrors
               ? "focus:ring-2 focus:ring-accent/50"
               : "ring-2 ring-danger/50"
-          } p-3 mr-1 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-b-lg text-text-primary disabled:opacity-50 transition-all duration-200`}
+          } p-3 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-b-lg text-text-primary disabled:opacity-50 transition-all duration-200`}
           value={rpcPanelState.config}
         ></textarea>
       </div>
