@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
-import SideBar from "./components/SideBar";
 import RpcResponsePanel from "./components/RpcResponsePanel";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 
 interface WindowSizes {
-  sidebar: number;
   bottomBar: number;
   leftPane: number | null;
   rightPane: number | null;
@@ -16,7 +14,6 @@ interface WindowSizes {
 
 function App() {
   const [windowSizes, setWindowSizes] = useState<WindowSizes>({
-    sidebar: 48, // Slightly wider for better visual balance
     bottomBar: 280, // More space for logs
     leftPane: null, // Will use 50% by default
     rightPane: null,
@@ -25,20 +22,7 @@ function App() {
   return (
     <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
       <WarningDialog />
-      <div className="flex h-full m-auto max-w-[2200px] p-4">
-        <div className="h-full flex justify-between bg-primary-bg-800/95 backdrop-blur-xl text-text-primary rounded-lg shadow-2xl ring-1 ring-accent/20 mr-1">
-          <div
-            style={{
-              width: windowSizes.sidebar,
-            }}
-            className="w-40"
-          >
-            <div className="w-full p-2 flex items-center justify-center bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
-              <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-accent transition-colors duration-200" />
-            </div>
-            <SideBar />
-          </div>
-        </div>
+      <div className="h-full m-auto max-w-[2200px] p-4">
         <div className="w-full h-full flex flex-col">
           <div className="flex-[1_0_auto]">
             <div className="flex w-full h-full">
@@ -68,8 +52,7 @@ function App() {
                     const deltaX = e.clientX - startX;
                     const newWidth = startWidth + deltaX;
                     const minWidth = 300;
-                    const maxWidth =
-                      window.innerWidth - windowSizes.sidebar - 300;
+                    const maxWidth = window.innerWidth - 300;
 
                     setWindowSizes((prev) => ({
                       ...prev,

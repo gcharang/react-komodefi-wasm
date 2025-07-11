@@ -6,14 +6,12 @@ import Tooltip from "./Tooltip";
 
 interface Mm2LogsPanelProps {
   windowSizes: {
-    sidebar: number;
     bottomBar: number;
     leftPane: number | null;
     rightPane: number | null;
   };
   setWindowSizes: React.Dispatch<
     React.SetStateAction<{
-      sidebar: number;
       bottomBar: number;
       leftPane: number | null;
       rightPane: number | null;
