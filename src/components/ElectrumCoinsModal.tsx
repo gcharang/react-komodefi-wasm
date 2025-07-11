@@ -34,9 +34,10 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [selectedCoin, setSelectedCoin] = useState<string>('');
+  const [selectedCoins, setSelectedCoins] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
   const { mm2PanelState } = useMm2PanelState();
   
   // Initialize with password-synced coins
@@ -116,29 +117,76 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
     }
   }, [mm2PanelState.mm2Config, isOpen]);
 
-  // Filter coins based on search term
+  // Filter coins based on search term and selection filter
   const filteredCoins = useMemo(() => {
-    return electrumCoins.filter((coin) =>
-      coin && coin.coin.toLowerCase().includes(searchTerm.toLowerCase())
-    ).filter(Boolean);
-  }, [searchTerm, electrumCoins]);
+    return electrumCoins.filter((coin) => {
+      if (!coin) return false;
+      const matchesSearch = coin.coin.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSelection = !showSelectedOnly || selectedCoins.has(coin.coin);
+      return matchesSearch && matchesSelection;
+    });
+  }, [searchTerm, electrumCoins, showSelectedOnly, selectedCoins]);
 
-  // Get selected coin data with synced password
-  const selectedCoinData = useMemo(() => {
-    const coinData = electrumCoins.find((coin) => coin && coin.coin === selectedCoin);
-    if (coinData) {
-      const currentPassword = getCurrentRpcPassword();
-      if (currentPassword) {
-        // Return a copy with updated password
-        return updateUserPass(JSON.parse(JSON.stringify(coinData)), currentPassword);
-      }
+  // Get selected coins data with synced password
+  const selectedCoinsData = useMemo(() => {
+    const coinsData = electrumCoins.filter((coin) => coin && selectedCoins.has(coin.coin));
+    const currentPassword = getCurrentRpcPassword();
+    if (currentPassword && coinsData.length > 0) {
+      // Return copies with updated password
+      return coinsData.map(coinData => 
+        updateUserPass(JSON.parse(JSON.stringify(coinData)), currentPassword)
+      );
     }
-    return coinData;
-  }, [selectedCoin, electrumCoins, mm2PanelState.mm2Config]);
+    return coinsData;
+  }, [selectedCoins, electrumCoins, mm2PanelState.mm2Config]);
+
+  // Toggle coin selection
+  const toggleCoinSelection = (coinName: string) => {
+    setSelectedCoins(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(coinName)) {
+        newSet.delete(coinName);
+      } else {
+        newSet.add(coinName);
+      }
+      return newSet;
+    });
+  };
+
+  // Select/Deselect all filtered coins
+  const toggleSelectAll = () => {
+    if (filteredCoins.length === 0) return;
+    
+    const allFilteredSelected = filteredCoins.every(coin => selectedCoins.has(coin.coin));
+    if (allFilteredSelected) {
+      // Deselect all filtered coins
+      setSelectedCoins(prev => {
+        const newSet = new Set(prev);
+        filteredCoins.forEach(coin => newSet.delete(coin.coin));
+        return newSet;
+      });
+    } else {
+      // Select all filtered coins
+      setSelectedCoins(prev => {
+        const newSet = new Set(prev);
+        filteredCoins.forEach(coin => newSet.add(coin.coin));
+        return newSet;
+      });
+    }
+  };
+
+  // Clear all selections
+  const clearSelection = () => {
+    setSelectedCoins(new Set());
+  };
 
   const copyToClipboard = () => {
-    if (selectedCoinData) {
-      navigator.clipboard.writeText(JSON.stringify(selectedCoinData, null, 2));
+    if (selectedCoinsData.length > 0) {
+      // Format for multiple coins - wrap in array if multiple
+      const dataToExport = selectedCoinsData.length === 1 
+        ? selectedCoinsData[0] 
+        : selectedCoinsData;
+      navigator.clipboard.writeText(JSON.stringify(dataToExport, null, 2));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -163,8 +211,13 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
           <div className="flex items-center justify-between border-b border-border-primary p-4">
             <div className="flex items-center gap-3">
               <DialogTitle className="text-lg font-semibold text-text-primary">
-                Select Electrum Coin
+                Select Electrum Coins
               </DialogTitle>
+              {selectedCoins.size > 0 && (
+                <span className="text-sm text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+                  {selectedCoins.size} selected
+                </span>
+              )}
               {isLoading && (
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <svg className="animate-spin h-4 w-4 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -197,11 +250,48 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
                 />
-                <div className="mt-2 text-xs text-text-muted">
-                  {filteredCoins.length} of {electrumCoins.length} coins
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-text-muted">
+                      {filteredCoins.length} of {electrumCoins.length} coins
+                    </span>
+                    {selectedCoins.size > 0 && (
+                      <span className="text-xs font-medium text-accent">
+                        {selectedCoins.size} selected
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 border-t border-border-primary pt-2">
+                    <button
+                      onClick={toggleSelectAll}
+                      className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={filteredCoins.length === 0}
+                    >
+                      {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
+                        ? 'Deselect All' 
+                        : 'Select All'}
+                    </button>
+                    {selectedCoins.size > 0 && (
+                      <button
+                        onClick={clearSelection}
+                        className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-error/20 hover:text-error transition-all duration-200"
+                      >
+                        Clear Selection
+                      </button>
+                    )}
+                  </div>
+                  <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={showSelectedOnly}
+                      onChange={(e) => setShowSelectedOnly(e.target.checked)}
+                      className="h-3.5 w-3.5 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
+                    />
+                    <span className="text-xs text-text-secondary">Show selected only</span>
+                  </label>
                 </div>
               </div>
-              <div className="h-[calc(100%-5rem)] overflow-y-auto">
+              <div className="h-[calc(100%-8rem)] overflow-y-auto">
                 {isLoading && electrumCoins.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
                     <div className="flex flex-col items-center gap-2">
@@ -217,18 +307,27 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   return (
                     <button
                       key={coin.coin}
-                      onClick={() => setSelectedCoin(coin.coin)}
+                      onClick={() => toggleCoinSelection(coin.coin)}
                       className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                        selectedCoin === coin.coin
+                        selectedCoins.has(coin.coin)
                           ? 'bg-accent/20 text-accent'
                           : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{coin.coin}</span>
-                        <span className="text-xs text-text-muted">
-                          {coin.servers.length} server{coin.servers.length !== 1 ? 's' : ''}
-                        </span>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedCoins.has(coin.coin)}
+                          onChange={() => toggleCoinSelection(coin.coin)}
+                          className="h-4 w-4 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className="flex-1 flex items-center justify-between">
+                          <span className="font-medium">{coin.coin}</span>
+                          <span className="text-xs text-text-muted">
+                            {coin.servers.length} server{coin.servers.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
                       </div>
                     </button>
                   );
@@ -236,13 +335,16 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
               </div>
             </div>
 
-            {/* Right panel - Selected coin data */}
+            {/* Right panel - Selected coins data */}
             <div className="flex-1 p-4">
-              {selectedCoinData ? (
+              {selectedCoinsData.length > 0 ? (
                 <div className="h-full flex flex-col">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-medium text-text-primary">
-                      {selectedCoinData.coin} Configuration
+                      {selectedCoinsData.length === 1 
+                        ? `${selectedCoinsData[0].coin} Configuration`
+                        : `${selectedCoinsData.length} Coins Configuration`
+                      }
                     </h3>
                     <button
                       onClick={copyToClipboard}
@@ -263,13 +365,17 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   </div>
                   <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-4">
                     <pre className="text-sm text-text-primary font-mono">
-                      <code>{JSON.stringify(selectedCoinData, null, 2)}</code>
+                      <code>{JSON.stringify(
+                        selectedCoinsData.length === 1 ? selectedCoinsData[0] : selectedCoinsData, 
+                        null, 
+                        2
+                      )}</code>
                     </pre>
                   </div>
                 </div>
               ) : (
                 <div className="flex h-full items-center justify-center">
-                  <p className="text-text-muted">Select a coin to view its configuration</p>
+                  <p className="text-text-muted">Select coins to view their configuration</p>
                 </div>
               )}
             </div>

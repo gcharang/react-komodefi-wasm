@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source not "public";
+@source not "../public/";
 @plugin '@tailwindcss/forms';
 
 @theme {
