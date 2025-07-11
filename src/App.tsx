@@ -96,11 +96,11 @@ function App() {
                 title="Drag to resize panels"
               >
                 <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 transition-opacity duration-200">
                   <div className="flex flex-col gap-1">
-                    <div className="w-1 h-1 bg-accent rounded-full"></div>
-                    <div className="w-1 h-1 bg-accent rounded-full"></div>
-                    <div className="w-1 h-1 bg-accent rounded-full"></div>
+                    <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
+                    <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
+                    <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
                   </div>
                 </div>
               </div>
@@ -147,11 +147,11 @@ function App() {
               title="Drag to resize panels"
             >
               <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 transition-opacity duration-200">
                 <div className="flex gap-1">
-                  <div className="w-1 h-1 bg-accent rounded-full"></div>
-                  <div className="w-1 h-1 bg-accent rounded-full"></div>
-                  <div className="w-1 h-1 bg-accent rounded-full"></div>
+                  <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
+                  <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
+                  <div className="w-1 h-1 bg-text-muted group-hover:bg-accent rounded-full transition-colors duration-200"></div>
                 </div>
               </div>
             </div>
