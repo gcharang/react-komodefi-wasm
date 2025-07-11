@@ -21,7 +21,8 @@ const MARTY_WSS_ELECTRUMS = MARTY_ELECTRUMS.filter(
 }));
 
 // Use the shared function to extract WSS electrums
-export const ALL_COIN_ELECTRUMS = extractWssElectrumsFromConfig(coins_config_wss);
+export const ALL_COIN_ELECTRUMS =
+  extractWssElectrumsFromConfig(coins_config_wss);
 
 // Get dynamic configs with generated password
 export const getRpcDefaultConfig = () => {
@@ -61,9 +62,5 @@ export const getMm2DefaultConfig = () => {
         .filter((node) => node.wss && node.netid === 8762)
         .map((node) => node.host)
     )}
-  }`;
+}`;
 };
-
-// Keep the old exports for backward compatibility but mark as deprecated
-export const rpcDefaultConfig = getRpcDefaultConfig();
-export const mm2DefaultConfig = getMm2DefaultConfig();
