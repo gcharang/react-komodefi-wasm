@@ -54,6 +54,6 @@ Might want to restart the dev server and hard refresh(shift + f5) the browser wi
 
 Best to open/reopen the url: http://localhost:3000/ in a private/incognito window when testing code/kdf changes, to be completely sure that cached kdf bins/other code aren't interfering
 
-To update the API version using a url to a zipfile, use `./update_wasm.sh $zipfile_url`
+To update the KDF version using a url to a zip file from releases, use `./update_wasm.sh $zipfile_url`
 
 To update the `coins` file version using a url to a raw github data, use `./update_coins_url.sh https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins`
