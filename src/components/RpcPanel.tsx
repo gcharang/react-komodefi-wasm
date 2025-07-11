@@ -158,7 +158,7 @@ const RpcPanel = () => {
       return (
         <li
           role="menuitem"
-          className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-slate-900 border-b border-b-gray-600 last:border-none"
+          className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-primary-bg-700/50 border-b border-border-primary last:border-none"
         >
           <button
             onClick={() => toggleSubMenu(label)}
@@ -196,7 +196,7 @@ const RpcPanel = () => {
       <div className="relative inline-block text-left dropdown group">
         <span className="rounded-md shadow-xs">
           <button
-            className="inline-flex justify-center w-full border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out  hover:text-gray-500 focus:outline-none cursor-pointer"
+            className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
             type="button"
             aria-haspopup="true"
             aria-expanded="true"
@@ -218,7 +218,7 @@ const RpcPanel = () => {
         </span>
         <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
           <div
-            className="absolute z-10 max-h-[40rem] right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-lighter divide-y rounded-md shadow-lg outline-none"
+            className="absolute z-10 max-h-[40rem] right-0 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
             aria-labelledby="RPC methods dropdown menu"
             id=""
           >
@@ -247,7 +247,7 @@ const RpcPanel = () => {
                                   }
                                 );
                               }}
-                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-lighter w-full py-2 text-sm cursor-pointer leading-5 text-left"
+                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-700/50 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
                             >
                               <span>{methodJson?.name}</span>
                             </button>
@@ -266,8 +266,8 @@ const RpcPanel = () => {
 
   const panel = useMemo(() => {
     return (
-      <div className="h-full flex flex-col">
-        <div className="w-full p-2 bg-primary-light text-[#a2a3bd] h-10 border-b border-b-gray-800">
+      <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
+        <div className="w-full p-2 bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
           <div className="flex justify-between">
             <div className="flex gap-3">
               <button
@@ -275,10 +275,10 @@ const RpcPanel = () => {
                   sendRpcRequest();
                 }}
                 disabled={!mm2PanelState.mm2Running}
-                className={`flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] disabled:text-gray-600 disabled:cursor-not-allowed cursor-pointer ${
+                className={`flex items-center gap-1 rounded-lg text-sm py-1 px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running
-                    ? "bg-blue-900 text-white"
-                    : "bg-transparent"
+                    ? "bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent"
+                    : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                 }`}
               >
                 <span>Send</span> <Send role="image" className={`w-5 h-5`} />
@@ -296,7 +296,7 @@ const RpcPanel = () => {
               <Tooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
-                  className="inline-flex items-center gap-1 border border-gray-600 rounded-full text-sm p-[2px] px-2 hover:bg-[#182347] transition duration-150 ease-in-out hover:text-gray-500 focus:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -328,7 +328,7 @@ const RpcPanel = () => {
             !rpcPanelState.dataHasErrors
               ? "focus:ring-2 focus:ring-accent/50"
               : "ring-2 ring-danger/50"
-          } p-3 mr-1 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-md text-text-primary disabled:opacity-50 transition-all duration-200`}
+          } p-3 mr-1 h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-b-lg text-text-primary disabled:opacity-50 transition-all duration-200`}
           value={rpcPanelState.config}
         ></textarea>
       </div>

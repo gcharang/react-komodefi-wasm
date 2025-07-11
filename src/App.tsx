@@ -25,29 +25,19 @@ function App() {
   return (
     <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
       <WarningDialog />
-      <div className="flex h-full m-auto max-w-[2200px]">
-        <div className="h-full flex justify-between bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary border-r border-border-primary">
+      <div className="flex h-full m-auto max-w-[2200px] p-4">
+        <div className="h-full flex justify-between bg-primary-bg-800/95 backdrop-blur-xl text-text-secondary rounded-lg shadow-2xl ring-1 ring-accent/20 mr-4">
           <div
             style={{
               width: windowSizes.sidebar,
             }}
             className="w-40"
           >
-            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 text-text-secondary h-10 border-b border-border-primary">
+            <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
               <MenuIcon className="cursor-not-allowed w-6 h-6 hover:text-accent transition-colors duration-200" />
             </div>
             <SideBar />
           </div>
-          {/* <div
-            draggable
-            onDragEnd={(elem) => {
-              setWindowSizes({
-                ...windowSizes,
-                sidebar: elem.clientX,
-              });
-            }}
-            className="cursor-ew-resize hover:border-t-gray-300 border-r border-r-gray-800 hover:bg-gray-700 hover:border-none p-1 h-full"
-          ></div> */}
         </div>
         <div className="w-full h-full flex flex-col">
           <div className="flex-[1_0_auto]">
@@ -69,34 +59,40 @@ function App() {
                   e.preventDefault();
                   const startX = e.clientX;
                   // Calculate the actual current width of the left panel
-                  const leftPanelElement = e.currentTarget.previousElementSibling as HTMLElement;
-                  const startWidth = windowSizes.leftPane || leftPanelElement.offsetWidth;
+                  const leftPanelElement = e.currentTarget
+                    .previousElementSibling as HTMLElement;
+                  const startWidth =
+                    windowSizes.leftPane || leftPanelElement.offsetWidth;
 
                   const handleMouseMove = (e: MouseEvent) => {
                     const deltaX = e.clientX - startX;
                     const newWidth = startWidth + deltaX;
                     const minWidth = 300;
-                    const maxWidth = window.innerWidth - windowSizes.sidebar - 300;
-                    
-                    setWindowSizes(prev => ({
+                    const maxWidth =
+                      window.innerWidth - windowSizes.sidebar - 300;
+
+                    setWindowSizes((prev) => ({
                       ...prev,
-                      leftPane: Math.max(minWidth, Math.min(maxWidth, newWidth)),
+                      leftPane: Math.max(
+                        minWidth,
+                        Math.min(maxWidth, newWidth)
+                      ),
                     }));
                   };
 
                   const handleMouseUp = () => {
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                    document.body.style.cursor = '';
-                    document.body.classList.remove('resizing');
+                    document.removeEventListener("mousemove", handleMouseMove);
+                    document.removeEventListener("mouseup", handleMouseUp);
+                    document.body.style.cursor = "";
+                    document.body.classList.remove("resizing");
                   };
 
-                  document.addEventListener('mousemove', handleMouseMove);
-                  document.addEventListener('mouseup', handleMouseUp);
-                  document.body.style.cursor = 'ew-resize';
-                  document.body.classList.add('resizing');
+                  document.addEventListener("mousemove", handleMouseMove);
+                  document.addEventListener("mouseup", handleMouseUp);
+                  document.body.style.cursor = "ew-resize";
+                  document.body.classList.add("resizing");
                 }}
-                className="cursor-ew-resize w-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 h-full relative group resize-handle"
+                className="cursor-ew-resize w-2 bg-primary-bg-500/50 hover:bg-accent/30 transition-all duration-200 h-full relative group resize-handle"
                 title="Drag to resize panels"
               >
                 <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
@@ -125,26 +121,29 @@ function App() {
                   const newHeight = startHeight + deltaY;
                   const minHeight = 100;
                   const maxHeight = window.innerHeight * 0.6;
-                  
-                  setWindowSizes(prev => ({
+
+                  setWindowSizes((prev) => ({
                     ...prev,
-                    bottomBar: Math.max(minHeight, Math.min(maxHeight, newHeight)),
+                    bottomBar: Math.max(
+                      minHeight,
+                      Math.min(maxHeight, newHeight)
+                    ),
                   }));
                 };
 
                 const handleMouseUp = () => {
-                  document.removeEventListener('mousemove', handleMouseMove);
-                  document.removeEventListener('mouseup', handleMouseUp);
-                  document.body.style.cursor = '';
-                  document.body.classList.remove('resizing');
+                  document.removeEventListener("mousemove", handleMouseMove);
+                  document.removeEventListener("mouseup", handleMouseUp);
+                  document.body.style.cursor = "";
+                  document.body.classList.remove("resizing");
                 };
 
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-                document.body.style.cursor = 'ns-resize';
-                document.body.classList.add('resizing');
+                document.addEventListener("mousemove", handleMouseMove);
+                document.addEventListener("mouseup", handleMouseUp);
+                document.body.style.cursor = "ns-resize";
+                document.body.classList.add("resizing");
               }}
-              className="cursor-ns-resize w-full h-2 bg-primary-bg-800/50 hover:bg-accent/30 transition-all duration-200 relative group resize-handle"
+              className="cursor-ns-resize w-full h-2 bg-primary-bg-500/50 hover:bg-accent/30 transition-all duration-200 relative group resize-handle"
               title="Drag to resize panels"
             >
               <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-px bg-border-primary group-hover:bg-accent/50 transition-colors duration-200"></div>
@@ -160,7 +159,7 @@ function App() {
               style={{
                 height: windowSizes.bottomBar,
               }}
-              className="flex text-white bg-primary-bg-900/50 relative rounded-b-lg overflow-hidden shadow-lg"
+              className="flex text-white bg-primary-bg-800/95 backdrop-blur-xl relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-accent/20"
             >
               <div className="flex-1 overflow-hidden">
                 <Mm2LogsPanel
@@ -168,8 +167,9 @@ function App() {
                   setWindowSizes={setWindowSizes}
                 />
               </div>
-              <div className="relative">
-                <div className="w-px h-full bg-gradient-to-b from-transparent via-border-primary to-transparent"></div>
+              <div className="relative mx-1">
+                {/* <div className="w-px h-full bg-gradient-to-b from-transparent via-border-primary to-transparent"></div> */}
+                <div className="w-px h-full bg-primary-bg-500/50"></div>
                 <div className="absolute inset-0 w-px bg-gradient-to-b from-transparent via-accent/20 to-transparent blur-sm"></div>
               </div>
               <div className="flex-1 overflow-hidden">

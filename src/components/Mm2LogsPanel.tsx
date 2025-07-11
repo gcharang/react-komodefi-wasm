@@ -64,7 +64,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   ];
   return (
     <div className="h-full grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Tooltip
@@ -139,7 +139,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   onChange={(e) => {
                     setShouldAlwaysScrollToBottom(!shouldAlwaysScrollToBottom);
                   }}
-                  className="rounded-xs bg-gray-700"
+                  className="rounded bg-primary-bg-700 accent-accent"
                   id="scrollInput"
                   type="checkbox"
                 />
@@ -150,7 +150,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       </div>
       <div
         ref={mm2Ref}
-        className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/30 h-full ${
+        className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/50 h-full ${
           windowSizes.bottomBar <= 100 && "hidden"
         }`}
       >

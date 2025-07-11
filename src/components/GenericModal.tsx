@@ -14,25 +14,25 @@ export const GenericModal = () => {
     >
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-black/30 transition duration-300 ease-out data-[closed]:opacity-0"
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0"
       />
 
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <DialogPanel
           transition
-          className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primary-lighter p-6 text-left align-middle shadow-xl transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="w-full max-w-md transform overflow-hidden rounded-lg bg-primary-bg-800/95 backdrop-blur-xl p-6 text-left align-middle shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
-          <DialogTitle className="text-lg font-medium leading-6 text-slate-300">
+          <DialogTitle className="text-lg font-semibold text-text-primary">
             {genericModalState.titleComponent}
           </DialogTitle>
-          <div className="mt-2 text-sm text-gray-400">
+          <div className="mt-2 text-sm text-text-muted">
             {genericModalState.messageComponent}
           </div>
 
           <div className="mt-4 flex justify-between items-center">
             <button
               type="button"
-              className="min-w-[100px] inline-flex justify-center rounded-md border bg-transparent border-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-[#182347] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-700 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-primary-bg-600 hover:text-text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
               onClick={() => {
                 genericModalState.onCancel();
                 hideModal(ModalIds.genericModal);
@@ -43,7 +43,7 @@ export const GenericModal = () => {
             {genericModalState.onProceed && (
               <button
                 type="button"
-                className="min-w-[100px] inline-flex justify-center rounded-md border border-transparent bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-700 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
                 onClick={() => {
                   genericModalState.onProceed?.();
                   hideModal(ModalIds.genericModal);

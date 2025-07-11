@@ -29,7 +29,7 @@ const RpcResponsePanel = () => {
 
   return (
     <div className="h-full grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
+      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
         <div className="flex gap-3 items-center">
           {!copied && (
             <Tooltip label={"Copy Response"}>
@@ -52,7 +52,7 @@ const RpcResponsePanel = () => {
         </div>
       </div>
       <div className="overflow-hidden overflow-y-auto">
-        <pre className="text-sm text-text-secondary whitespace-pre-wrap p-3 h-full bg-primary-bg-900/30">
+        <pre className="text-sm text-text-secondary whitespace-pre-wrap p-3 h-full bg-primary-bg-900/50">
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </pre>
       </div>

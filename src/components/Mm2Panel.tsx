@@ -241,13 +241,13 @@ const Mm2Panel = () => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="w-full p-2 bg-primary-bg-800/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary">
+    <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
+      <div className="w-full p-2 bg-primary-bg-700/50 backdrop-blur-sm text-text-secondary h-10 border-b border-border-primary rounded-t-lg">
         <div className="flex justify-between">
           <div className="flex gap-3">
             <button
               onClick={() => toggleMm2()}
-              className="flex items-center cursor-pointer gap-1 border border-border-primary rounded-full text-sm py-1 px-3 bg-primary-bg-800/50 hover:border-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
+              className="flex items-center cursor-pointer gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
             >
               {!mm2PanelState.mm2Running ? (
                 <>
@@ -289,7 +289,7 @@ const Mm2Panel = () => {
           !mm2PanelState.dataHasErrors
             ? "focus:ring-2 focus:ring-accent/50"
             : "ring-2 ring-danger/50"
-        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-md text-text-primary disabled:opacity-50 transition-all duration-200`}
+        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 rounded-b-lg text-text-primary disabled:opacity-50 transition-all duration-200`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>

@@ -38,18 +38,18 @@ export const WarningDialog = () => {
     >
       <DialogBackdrop 
         transition
-        className="fixed inset-0 bg-black/30 transition duration-300 ease-out data-[closed]:opacity-0" 
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0" 
       />
       
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <DialogPanel
           transition
-          className="w-full max-w-md transform overflow-hidden rounded-2xl bg-primary-lighter p-6 text-left align-middle shadow-xl transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="w-full max-w-md transform overflow-hidden rounded-lg bg-primary-bg-800/95 backdrop-blur-xl p-6 text-left align-middle shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
-          <DialogTitle className="text-lg font-medium leading-6 text-red-500">
+          <DialogTitle className="text-lg font-semibold text-warning">
             Important Info!
           </DialogTitle>
-          <Description className="mt-2 text-sm text-gray-400">
+          <Description className="mt-2 text-sm text-text-muted">
             Use at your own risk. Do not store/load seeds/wallets with
             coins/tokens of any significant value
           </Description>
@@ -57,7 +57,7 @@ export const WarningDialog = () => {
           <div className="mt-4 flex justify-end">
             <button
               type="button"
-              className="inline-flex justify-center rounded-lg bg-gradient-to-r from-accent to-secondary-500 px-5 py-2.5 text-sm font-medium text-white hover:from-accent-hover hover:to-secondary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 transform transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,212,255,0.5)]"
+              className="flex items-center gap-2 rounded-lg bg-primary-bg-700 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
               onClick={handleCloseModal}
             >
               I understand
