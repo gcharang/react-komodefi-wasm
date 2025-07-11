@@ -24,7 +24,11 @@ interface CoinData {
   [key: string]: any;
 }
 
+import { getSessionPassword } from './passwordGenerator';
+
 export function extractWssElectrumsFromConfig(coinsConfig: Record<string, CoinData>): CoinElectrumConfig[] {
+  const password = getSessionPassword();
+  
   return Object.entries(coinsConfig)
     .filter(([_, coinData]) => coinData.electrum && coinData.electrum.length > 0)
     .map(([coinSymbol, coinData]) => {
@@ -40,7 +44,7 @@ export function extractWssElectrumsFromConfig(coinsConfig: Record<string, CoinDa
       // Only return if there are WSS servers
       if (wssServers.length > 0) {
         return {
-          userpass: "3i1upE_GY4YZaj8uMjm@",
+          userpass: password,
           method: "electrum",
           mm2: 1,
           coin: coinSymbol,

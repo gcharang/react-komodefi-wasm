@@ -8,6 +8,8 @@ import {
 import { ALL_COIN_ELECTRUMS } from '../staticData';
 import coins_config_wss from '../staticData/coins_config_wss.json';
 import { fetchWssElectrums } from '../shared-functions/getWssElectrumsFromCoinConfigWss';
+import { updateUserPass } from '../shared-functions/updateUserPassword';
+import { useMm2PanelState } from '../store/useStore';
 import { CheckCircle, Clipboard, CloseIcon } from './IconComponents';
 
 interface ElectrumCoinsModalProps {
@@ -35,9 +37,36 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
   const [selectedCoin, setSelectedCoin] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
-  const [electrumCoins, setElectrumCoins] = useState<CoinElectrumConfig[]>(ALL_COIN_ELECTRUMS);
+  const { mm2PanelState } = useMm2PanelState();
+  
+  // Initialize with password-synced coins
+  const getInitialCoins = () => {
+    try {
+      const currentPassword = JSON.parse(mm2PanelState.mm2Config).rpc_password;
+      if (currentPassword) {
+        return ALL_COIN_ELECTRUMS.map(coin => 
+          updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
+        );
+      }
+    } catch (error) {
+      // Fall back to default if parsing fails
+    }
+    return ALL_COIN_ELECTRUMS;
+  };
+  
+  const [electrumCoins, setElectrumCoins] = useState<CoinElectrumConfig[]>(getInitialCoins());
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+
+  // Function to get the current RPC password from MM2 config
+  const getCurrentRpcPassword = () => {
+    try {
+      return JSON.parse(mm2PanelState.mm2Config).rpc_password;
+    } catch (error) {
+      console.error("Failed to parse MM2 config for password", error);
+      return null;
+    }
+  };
 
   // Fetch fresh data when modal opens
   useEffect(() => {
@@ -48,7 +77,16 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
       fetchWssElectrums(coins_config_wss as any)
         .then((data) => {
           if (data.length > 0) {
-            setElectrumCoins(data);
+            // Update with current password if available
+            const currentPassword = getCurrentRpcPassword();
+            if (currentPassword) {
+              const updatedData = data.map(coin => 
+                updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
+              );
+              setElectrumCoins(updatedData);
+            } else {
+              setElectrumCoins(data);
+            }
           }
         })
         .catch((error) => {
@@ -61,6 +99,23 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
     }
   }, [isOpen]);
 
+  // Update passwords when MM2 config changes
+  useEffect(() => {
+    if (electrumCoins.length > 0 && isOpen) {
+      const currentPassword = getCurrentRpcPassword();
+      if (currentPassword) {
+        // Only update if password actually changed
+        const firstCoin = electrumCoins[0];
+        if (firstCoin && firstCoin.userpass !== currentPassword) {
+          const updatedCoins = electrumCoins.map(coin => 
+            updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
+          );
+          setElectrumCoins(updatedCoins);
+        }
+      }
+    }
+  }, [mm2PanelState.mm2Config, isOpen]);
+
   // Filter coins based on search term
   const filteredCoins = useMemo(() => {
     return electrumCoins.filter((coin) =>
@@ -68,10 +123,18 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
     ).filter(Boolean);
   }, [searchTerm, electrumCoins]);
 
-  // Get selected coin data
+  // Get selected coin data with synced password
   const selectedCoinData = useMemo(() => {
-    return electrumCoins.find((coin) => coin && coin.coin === selectedCoin);
-  }, [selectedCoin, electrumCoins]);
+    const coinData = electrumCoins.find((coin) => coin && coin.coin === selectedCoin);
+    if (coinData) {
+      const currentPassword = getCurrentRpcPassword();
+      if (currentPassword) {
+        // Return a copy with updated password
+        return updateUserPass(JSON.parse(JSON.stringify(coinData)), currentPassword);
+      }
+    }
+    return coinData;
+  }, [selectedCoin, electrumCoins, mm2PanelState.mm2Config]);
 
   const copyToClipboard = () => {
     if (selectedCoinData) {
@@ -199,7 +262,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     </button>
                   </div>
                   <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-4">
-                    <pre className="text-sm text-text-primary">
+                    <pre className="text-sm text-text-primary font-mono">
                       <code>{JSON.stringify(selectedCoinData, null, 2)}</code>
                     </pre>
                   </div>

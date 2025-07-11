@@ -3,6 +3,7 @@ import DOC_ELECTRUMS from "./electrums/DOC.json";
 import MARTY_ELECTRUMS from "./electrums/MARTY.json";
 import coins_config_wss from "./coins_config_wss.json";
 import { extractWssElectrumsFromConfig } from "../shared-functions/getWssElectrumsFromCoinConfigWss";
+import { getSessionPassword } from "../shared-functions/passwordGenerator";
 
 const DOC_WSS_ELECTRUMS = DOC_ELECTRUMS.filter(
   (server) =>
@@ -22,9 +23,12 @@ const MARTY_WSS_ELECTRUMS = MARTY_ELECTRUMS.filter(
 // Use the shared function to extract WSS electrums
 export const ALL_COIN_ELECTRUMS = extractWssElectrumsFromConfig(coins_config_wss);
 
-export const rpcDefaultConfig = `[
+// Get dynamic configs with generated password
+export const getRpcDefaultConfig = () => {
+  const password = getSessionPassword();
+  return `[
     {
-        "userpass": "3i1upE_GY4YZaj8uMjm@",
+        "userpass": "${password}",
         "method": "electrum",
         "mm2": 1,
         "coin": "DOC",
@@ -32,7 +36,7 @@ export const rpcDefaultConfig = `[
         "servers": ${JSON.stringify(DOC_WSS_ELECTRUMS)}
     },
     {
-        "userpass": "3i1upE_GY4YZaj8uMjm@",
+        "userpass": "${password}",
         "method": "electrum",
         "mm2": 1,
         "coin": "MARTY",
@@ -40,14 +44,17 @@ export const rpcDefaultConfig = `[
         "servers": ${JSON.stringify(MARTY_WSS_ELECTRUMS)}
     }
 ]`;
+};
 
-export const mm2DefaultConfig = `{
+export const getMm2DefaultConfig = () => {
+  const password = getSessionPassword();
+  return `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
     "i_am_seed": false,
     "disable_p2p": false,
-    "rpc_password": "3i1upE_GY4YZaj8uMjm@",
+    "rpc_password": "${password}",
     "netid": 8762,
     "seednodes": ${JSON.stringify(
       seedNodes
@@ -55,3 +62,8 @@ export const mm2DefaultConfig = `{
         .map((node) => node.host)
     )}
   }`;
+};
+
+// Keep the old exports for backward compatibility but mark as deprecated
+export const rpcDefaultConfig = getRpcDefaultConfig();
+export const mm2DefaultConfig = getMm2DefaultConfig();

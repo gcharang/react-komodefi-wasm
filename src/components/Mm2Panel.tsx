@@ -289,7 +289,7 @@ const Mm2Panel = () => {
           !mm2PanelState.dataHasErrors
             ? "focus:ring-2 focus:ring-accent/50 focus:ring-inset"
             : "ring-2 ring-danger/50 ring-inset"
-        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary disabled:opacity-50 transition-all duration-200`}
+        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary font-mono text-sm disabled:opacity-50 transition-all duration-200`}
         value={mm2PanelState.mm2Config}
       ></textarea>
     </div>

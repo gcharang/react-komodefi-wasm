@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import React from 'react';
-import { mm2DefaultConfig, rpcDefaultConfig } from '../staticData';
+import { getMm2DefaultConfig, getRpcDefaultConfig } from '../staticData';
 import type { 
   StoreState, 
   UseMm2PanelStateReturn, 
@@ -21,7 +21,7 @@ export const useStore = create<StoreState>()(
         mm2Running: false,
         startCommand: "Run MM2",
         mm2UserPass: "",
-        mm2Config: mm2DefaultConfig,
+        mm2Config: getMm2DefaultConfig(),
         dataHasErrors: false,
       },
       setMm2Panel: (updates) =>
@@ -31,7 +31,7 @@ export const useStore = create<StoreState>()(
 
       // RPC Panel State
       rpcPanel: {
-        config: rpcDefaultConfig,
+        config: getRpcDefaultConfig(),
         dataHasErrors: false,
       },
       setRpcPanel: (updates) =>

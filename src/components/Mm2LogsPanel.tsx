@@ -180,7 +180,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
               } ${
                 isInlineCopied.id === String(index) &&
                 "text-success hover:text-success"
-              } flex group hover:text-accent hover:cursor-pointer text-sm font-medium border-border-primary border-b py-1 transition-colors duration-200`}
+              } flex group hover:text-accent hover:cursor-pointer text-sm font-mono border-border-primary border-b py-1 transition-colors duration-200`}
             >
               {message[0]}
               <span className="ml-1">
