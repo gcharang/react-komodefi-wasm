@@ -1,38 +1,84 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source not "../public/";
+@plugin '@tailwindcss/forms';
 
-input[type="checkbox"] {
-  cursor: pointer;
+@theme {
+  /* Modern dark theme with better contrast */
+  --color-primary-light: #1a1f2e;
+  --color-primary-lighter: #242938;
+
+  /* Deep space background gradient */
+  --color-primary-bg-50: #f8f9fb;
+  --color-primary-bg-100: #e8eaf0;
+  --color-primary-bg-200: #d1d5df;
+  --color-primary-bg-300: #a8afbf;
+  --color-primary-bg-400: #7f8a9f;
+  --color-primary-bg-500: #5e6b84;
+  --color-primary-bg-600: #4a5568;
+  --color-primary-bg-700: #3a4252;
+  --color-primary-bg-800: #252b3b;
+  --color-primary-bg-900: #0f1419;
+  --color-primary-bg-950: #0a0c10;
+
+  /* Electric blue accent */
+  --color-secondary-50: #e6f3ff;
+  --color-secondary-100: #cce7ff;
+  --color-secondary-200: #99ceff;
+  --color-secondary-300: #66b5ff;
+  --color-secondary-400: #339cff;
+  --color-secondary-500: #0084ff;
+  --color-secondary-600: #0066cc;
+  --color-secondary-700: #004d99;
+  --color-secondary-800: #003366;
+  --color-secondary-900: #001a33;
+  --color-secondary-950: #000d1a;
+
+  /* Accent colors for UI elements */
+  --color-accent: #00d4ff;
+  --color-accent-hover: #00a8cc;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Text colors with better contrast */
+  --color-text-primary: #f8f9fa;
+  --color-text-secondary: #a8b2c1;
+  --color-text-muted: #9ca3af;
+
+  /* Border colors */
+  --color-border-primary: #2d3748;
+  --color-border-secondary: #1a202c;
 }
 
-html {
-  scroll-behavior: smooth;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 5px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-  background: #a2a3bd;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #11182f;
-  border-radius: 10px;
-}
-
-@layer components {
-  .thumb::-webkit-slider-thumb {
-    background-color: #11182f;
+@utility thumb {
+  &::-webkit-slider-thumb {
+    background: linear-gradient(
+      135deg,
+      var(--color-secondary-500),
+      var(--color-accent)
+    );
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #ced4da;
+    box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
     cursor: pointer;
     height: 3rem;
     width: 3rem;
@@ -40,5 +86,142 @@ html {
     position: relative;
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 132, 255, 0.5);
+      transform: scale(1.05);
+    }
+  }
+}
+
+@layer utilities {
+  /* Global animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+    }
+  }
+
+  /* Base styles */
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    antialiased: true;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--color-accent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Glassmorphism effect utility */
+  .glass {
+    background: rgba(26, 31, 46, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      var(--color-secondary-400),
+      var(--color-accent)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effect for important elements */
+  .glow {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  /* Smooth transitions for interactive elements */
+  .interactive {
+    transition: all 0.2s ease;
+  }
+
+  /* Modern button styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-accent to-secondary-500 text-white font-medium px-4 py-2 rounded-lg hover:from-accent-hover hover:to-secondary-600 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(0,212,255,0.5)] transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-primary-bg-800/50 border border-border-primary text-text-primary font-medium px-4 py-2 rounded-lg hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200;
+  }
+
+  /* Panel resize handles */
+  .resize-handle {
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .resize-handle::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    cursor: inherit;
+  }
+
+  /* Prevent text selection while resizing */
+  body.resizing {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  /* Modern scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--color-primary-bg-800);
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      var(--color-secondary-600),
+      var(--color-secondary-700)
+    );
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      var(--color-secondary-500),
+      var(--color-secondary-600)
+    );
   }
 }

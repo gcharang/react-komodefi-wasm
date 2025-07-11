@@ -15,6 +15,7 @@ else
 fi
 
 mv kdflib.js ../../src/js/kdflib.js
+mv kdflib.d.ts ../../src/types/kdflib.d.ts
 rm -rf ../../src/js/snippets/
 cp -r snippets ../../src/js/
 cd ..
@@ -23,5 +24,5 @@ cd ..
 basename=$(basename "$fn" .zip) # Remove .zip from filename
 temp=${basename#*_}
 version=${temp%-wasm} # Remove everything up to and including the first underscore
-echo "NEXT_PUBLIC_WASM_VERSION=$version" > .env
-echo "NEXT_PUBLIC_BASE_PATH=\"\"" >> .env
+echo "NEXT_PUBLIC_KDF_WASM_LIB_VERSION=$version" >.env
+echo "NEXT_PUBLIC_BASE_PATH=\"\"" >>.env
