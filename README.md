@@ -1,14 +1,48 @@
-# react-atomicdex-wasm
+# Komodo DeFi Guaranteed Swap UI
 
-## Pre-requisites
+A Next.js-based web interface for interacting with the Komodo DeFi Framework (KDF) WebAssembly module.
 
-- NodejsV16 or newer. Recommendation: use `nvm`: https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/
+## Prerequisites
 
-## Build steps
+- Node.js v22 or newer (recommended: use [nvm](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/))
+- Yarn v4.9.2 (managed via Corepack)
 
-- `./update_coins.sh` -> get latest coins and seed nodes
-- `yarn` -> the first time
-- `yarn dev` -> starts a server at http://localhost:3000/
+## Installation
+
+### Enable Corepack and Install Dependencies
+
+```bash
+# Enable Corepack
+corepack enable
+
+# Install Yarn version specified in package.json
+corepack install
+
+# Install project dependencies
+yarn install
+```
+
+## Development
+
+```bash
+# Update coins configuration and seed nodes info
+./update_coins.sh
+
+# Start development server
+yarn dev
+```
+
+The development server will be available at http://localhost:3000/
+
+## Build and Production
+
+```bash
+# Build for production
+yarn build
+
+# Start production server
+yarn start
+```
 
 ## Misc notes
 
