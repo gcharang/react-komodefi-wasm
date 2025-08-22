@@ -1,10 +1,10 @@
 /**
- * Utility to load and decompress Brotli-compressed WASM files
+ * Utility to load and decompress gzip-compressed WASM files
  */
 
 /**
- * Fetches and decompresses a Brotli-compressed WASM file
- * @param url - URL to the .wasm.br file
+ * Fetches and decompresses a gzip-compressed WASM file
+ * @param url - URL to the .wasm.gz file
  * @returns Promise resolving to the decompressed WASM ArrayBuffer
  */
 export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer> {
@@ -28,8 +28,8 @@ export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer
       );
     }
 
-    // Create a decompression stream for Brotli
-    const decompressionStream = new DecompressionStream('brotli' as CompressionFormat);
+    // Create a decompression stream for gzip
+    const decompressionStream = new DecompressionStream('gzip');
 
     // Pipe the response through the decompression stream
     const decompressedStream = response.body!.pipeThrough(decompressionStream);
@@ -64,9 +64,9 @@ export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer
 }
 
 /**
- * Checks if the browser supports Brotli decompression
+ * Checks if the browser supports gzip decompression
  * @returns boolean indicating support
  */
-export function supportsBrotliDecompression(): boolean {
+export function supportsGzipDecompression(): boolean {
   return 'DecompressionStream' in globalThis;
 }

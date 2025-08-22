@@ -127,7 +127,7 @@ const Mm2Panel = () => {
   async function init_wasm() {
     try {
       const baseUrl = getBaseUrl();
-      const wasm_bin_path = `/kdflib_bg.wasm.br`;
+      const wasm_bin_path = `/kdflib_bg.wasm.gz`;
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
 
       console.log("Loading compressed WASM from:", mm2BinUrl.toString());

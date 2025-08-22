@@ -9,9 +9,9 @@ unzip $fn -d temp
 cd temp
 # Move the original WASM file
 mv kdflib_bg.wasm ../../public/kdflib_bg.wasm
-# Compress the WASM file with Brotli
-echo "Compressing WASM with Brotli..."
-brotli -q 11 -f ../../public/kdflib_bg.wasm -o ../../public/kdflib_bg.wasm.br
+# Compress the WASM file with gzip
+echo "Compressing WASM with gzip..."
+gzip -9 -f -k ../../public/kdflib_bg.wasm
 echo "WASM compressed successfully"
 echo "WASM file sizes:"
 ls -lh ../../public/kdflib_bg.wasm*
