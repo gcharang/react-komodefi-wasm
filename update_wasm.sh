@@ -15,7 +15,7 @@ else
 fi
 
 mv kdflib.js ../../src/js/kdflib.js
-mv kdflib.d.ts ../../src/types/kdflib.d.ts
+#mv kdflib.d.ts ../../src/types/kdflib.d.ts
 rm -rf ../../src/js/snippets/
 cp -r snippets ../../src/js/
 cd ..
