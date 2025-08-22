@@ -81,8 +81,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -183,8 +183,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -382,8 +380,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -444,8 +442,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -537,8 +535,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -726,8 +722,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -831,8 +827,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -893,8 +887,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -1142,8 +1134,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -1257,8 +1249,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -1490,8 +1482,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -1599,8 +1591,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -1722,8 +1712,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -1884,8 +1874,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -2021,8 +2009,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -2099,17 +2087,17 @@
                     "hash": "44797f3bb78323a7717007f1e289a3689e0b5b3433385dbd8e6f6a1700000000",
                     "sapling_tree": "01e40c26f4a28071535b95ae637d30a209531e92a33de0a649e51183771025fd0f016cdc51442fcb328d047a709dc0f41e0173953404711045b3ef3036d7fd4151271501d6c94c5ce6787826af809aaee83768c4b7d4f02c8dc2d24cf60ed5f127a5d730018a752ea9d9efb3e1ac0e6e705ac9f7f9863cfa8f612ad43802175338d8d7cc6000000001fc3542434eff03075ea5f0a64f1dfb2f042d281b1a057e9f6c765b533ce51219013ad9484b1e901e62b93e7538f913dcb27695380c3bc579e79f5cc900f28e596e0001431da5f01fe11d58300134caf5ac76e0b1b7486fd02425dd8871bca4afa94d4b01bb39de1c1d10a25ce0cc775bc74b6b0f056c28639e7c5b7651bb8460060085530000000001732ddf661e68c9e335599bb0b18b048d2f1c06b20eabd18239ad2f3cc45fa910014496bab5eedab205b5f2a206bd1db30c5bc8bc0c1914a102f87010f3431be21a0000010b5fd8e7610754075f936463780e85841f3ab8ca2978f9afdf7c2c250f16a75f01db56bc66eb1cd54ec6861e5cf24af2f4a17991556a52ca781007569e95b9842401c03877ecdd98378b321250640a1885604d675aaa50380e49da8cfa6ff7deaf15"
                 },
-                "z_derivation_path": "m/32'/133'"
+                "z_derivation_path": "m/32'/141'"
             }
         },
-        "derivation_path": "m/44'/133'",
+        "derivation_path": "m/44'/141'",
         "required_confirmations": 2,
         "requires_notarization": true,
         "checkpoint_height": 1900000,
         "checkpoint_blocktime": 1652512363,
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30008",
+                "url": "arrr.electrum1.cipig.net:30008",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2121,7 +2109,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30008",
+                "url": "arrr.electrum2.cipig.net:30008",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2133,7 +2121,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30008",
+                "url": "arrr.electrum3.cipig.net:30008",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2231,8 +2219,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -2309,8 +2295,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -2360,15 +2346,6 @@
         },
         "derivation_path": "m/44'/85'",
         "electrum": [
-            {
-                "url": "electrum1.valhala.is:50004",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "discord": "388437778624413706"
-                    }
-                ]
-            },
             {
                 "url": "electrumx.aur.ewmcx.info:50003",
                 "protocol": "WSS",
@@ -2518,6 +2495,7 @@
         "chain_id": 43114,
         "use_access_list": true,
         "max_eth_tx_type": 2,
+        "swap_gas_fee_policy": "Medium",
         "required_confirmations": 3,
         "avg_blocktime": 2.4,
         "protocol": {
@@ -2575,8 +2553,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -2708,8 +2684,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -2824,7 +2800,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30057",
+                "url": "axe.electrum1.cipig.net:30057",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2836,7 +2812,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30057",
+                "url": "axe.electrum2.cipig.net:30057",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2848,7 +2824,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30057",
+                "url": "axe.electrum3.cipig.net:30057",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -2891,8 +2867,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -3262,8 +3236,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -3363,8 +3337,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -3539,8 +3511,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -3696,8 +3668,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -3765,8 +3735,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -3825,6 +3795,18 @@
         },
         "electrum": [
             {
+                "url": "bch.electrum3.cipig.net:30055",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "email": "cipi@komodoplatform.com"
+                    },
+                    {
+                        "discord": "cipi#4502"
+                    }
+                ]
+            },
+            {
                 "url": "bch.imaginary.cash:50004",
                 "protocol": "WSS"
             },
@@ -3835,18 +3817,6 @@
             {
                 "url": "cashnode.bch.ninja:50004",
                 "protocol": "WSS"
-            },
-            {
-                "url": "electrum3.cipig.net:30055",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "cipi@komodoplatform.com"
-                    },
-                    {
-                        "discord": "cipi#4502"
-                    }
-                ]
             }
         ],
         "explorer_block_url": "block/",
@@ -3949,8 +3919,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -4164,8 +4134,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -4373,6 +4343,9 @@
         "asset": "BCZERO",
         "fname": "Buggyra Coin Zero",
         "rpcport": 46856,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -4389,7 +4362,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30003",
+                "url": "bczero.electrum1.cipig.net:30003",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -4401,7 +4374,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30003",
+                "url": "bczero.electrum2.cipig.net:30003",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -4413,7 +4386,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30003",
+                "url": "bczero.electrum3.cipig.net:30003",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -4473,6 +4446,16 @@
             },
             {
                 "url": "electrum2.blackcoin.nl:20004",
+                "protocol": "WSS",
+                "disable_cert_verification": false,
+                "contact": [
+                    {
+                        "discord": "michelvankessel#7656"
+                    }
+                ]
+            },
+            {
+                "url": "electrum3.blackcoin.nl:30004",
                 "protocol": "WSS",
                 "disable_cert_verification": false,
                 "contact": [
@@ -4591,52 +4574,16 @@
                         "discord": "michelvankessel#7656"
                     }
                 ]
-            }
-        ],
-        "explorer_block_url": "block/"
-    },
-    "BLOCX": {
-        "coin": "BLOCX",
-        "type": "UTXO",
-        "name": "BLOCX.",
-        "coinpaprika_id": "blocx-blocx",
-        "coingecko_id": "blocx-2",
-        "livecoinwatch_id": "BLOCX",
-        "explorer_url": "https://explorer.blocx.space/",
-        "explorer_tx_url": "tx/",
-        "explorer_address_url": "address/",
-        "supported": [],
-        "active": false,
-        "is_testnet": false,
-        "currently_enabled": false,
-        "wallet_only": false,
-        "sign_message_prefix": "DarkCoin Signed Message:\n",
-        "fname": "BLOCX.",
-        "rpcport": 12973,
-        "pubtype": 25,
-        "p2shtype": 26,
-        "wiftype": 153,
-        "segwit": false,
-        "txfee": 1000,
-        "mm2": 1,
-        "required_confirmations": 3,
-        "avg_blocktime": 90,
-        "protocol": {
-            "type": "UTXO"
-        },
-        "derivation_path": "m/44'/5'",
-        "links": {
-            "github": "https://github.com/BLOCXTECH/BLOCX",
-            "homepage": "https://blocx.tech"
-        },
-        "electrum": [
-            {
-                "url": "electrum2.blocx.live:50004",
-                "protocol": "WSS"
             },
             {
-                "url": "electrum3.blocx.live:50004",
-                "protocol": "WSS"
+                "url": "electrum3.blackcoin.nl:30014",
+                "protocol": "WSS",
+                "disable_cert_verification": true,
+                "contact": [
+                    {
+                        "discord": "michelvankessel#7656"
+                    }
+                ]
             }
         ],
         "explorer_block_url": "block/"
@@ -4661,8 +4608,7 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 56,
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
+        "max_eth_tx_type": 0,
         "required_confirmations": 3,
         "protocol": {
             "type": "ETH",
@@ -4833,8 +4779,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -4968,8 +4912,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -5211,8 +5155,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -5357,7 +5301,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30000",
+                "url": "btc.electrum1.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5369,7 +5313,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30000",
+                "url": "btc.electrum2.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5381,7 +5325,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30000",
+                "url": "btc.electrum3.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5395,6 +5339,58 @@
         ],
         "explorer_block_url": "block/",
         "binance_id": "BTC"
+    },
+    "BKC": {
+        "coin": "BKC",
+        "type": "UTXO",
+        "name": "Briskcoin",
+        "coinpaprika_id": "bkc-briskcoin",
+        "coingecko_id": "",
+        "livecoinwatch_id": "__BKC",
+        "explorer_url": "https://explorer.briskcoin.org/",
+        "explorer_tx_url": "tx/",
+        "explorer_address_url": "address/",
+        "supported": [],
+        "active": false,
+        "is_testnet": false,
+        "currently_enabled": false,
+        "wallet_only": false,
+        "sign_message_prefix": "Briskcoin Signed Message:\n",
+        "fname": "Briskcoin",
+        "rpcport": 8552,
+        "pubtype": 25,
+        "p2shtype": 33,
+        "wiftype": 153,
+        "txfee": 0,
+        "segwit": true,
+        "bech32_hrp": "bc",
+        "mm2": 1,
+        "required_confirmations": 5,
+        "avg_blocktime": 30,
+        "protocol": {
+            "type": "UTXO"
+        },
+        "derivation_path": "m/44'/1918'",
+        "trezor_coin": "Briskcoin",
+        "links": {
+            "github": "https://github.com/briskcoin-project/briskcoin",
+            "homepage": "https://briskcoin.org"
+        },
+        "electrum": [
+            {
+                "url": "electrumx1.briskcoin.org:50003",
+                "protocol": "WSS"
+            },
+            {
+                "url": "electrumx2.briskcoin.org:50003",
+                "protocol": "WSS"
+            },
+            {
+                "url": "electrumx3.briskcoin.org:50003",
+                "protocol": "WSS"
+            }
+        ],
+        "explorer_block_url": "block/"
     },
     "BTC-segwit": {
         "coin": "BTC-segwit",
@@ -5439,7 +5435,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30000",
+                "url": "btc.electrum1.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5451,7 +5447,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30000",
+                "url": "btc.electrum2.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5463,7 +5459,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30000",
+                "url": "btc.electrum3.cipig.net:30000",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -5507,8 +5503,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -5574,15 +5568,6 @@
         },
         "derivation_path": "m/44'/177'",
         "electrum": [
-            {
-                "url": "electrum1.btcz.rocks:50004",
-                "contact": [
-                    {
-                        "discord": "VandarGR#6065"
-                    }
-                ],
-                "protocol": "WSS"
-            },
             {
                 "url": "electrum2.btcz.rocks:50004",
                 "contact": [
@@ -5915,8 +5900,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -6050,8 +6033,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -6116,7 +6099,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30069",
+                "url": "btx.electrum3.cipig.net:30069",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -6182,7 +6165,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30069",
+                "url": "btx.electrum3.cipig.net:30069",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -6316,9 +6299,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 18,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -6502,8 +6485,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -6625,8 +6608,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -6672,8 +6655,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -6779,6 +6760,9 @@
         "asset": "CCL",
         "fname": "CoinCollect",
         "rpcport": 20849,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -6792,7 +6776,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30029",
+                "url": "ccl.electrum1.cipig.net:30029",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -6804,7 +6788,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30029",
+                "url": "ccl.electrum2.cipig.net:30029",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -6816,7 +6800,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30029",
+                "url": "ccl.electrum3.cipig.net:30029",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -6962,8 +6946,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -7077,8 +7061,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -7191,8 +7175,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -7308,8 +7290,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -7360,6 +7340,9 @@
         "asset": "CHIPS",
         "fname": "CHIPS",
         "rpcport": 22778,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -7375,7 +7358,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30012",
+                "url": "chips.electrum1.cipig.net:30012",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -7387,7 +7370,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30012",
+                "url": "chips.electrum2.cipig.net:30012",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -7399,7 +7382,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30012",
+                "url": "chips.electrum3.cipig.net:30012",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -7642,8 +7625,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -7757,8 +7740,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -7812,7 +7795,16 @@
         },
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30075",
+                "url": "clam-ex-one.ewmci.online:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "475820011634819072"
+                    }
+                ]
+            },
+            {
+                "url": "clam.electrum3.cipig.net:30075",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -7845,6 +7837,9 @@
         "asset": "CLC",
         "fname": "Collider Coin",
         "rpcport": 31034,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -8001,8 +7996,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -8144,8 +8137,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -8259,8 +8252,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -8318,7 +8311,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -8330,7 +8323,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -8342,7 +8335,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -8607,8 +8600,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -9052,8 +9045,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -9150,9 +9141,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 18,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -9225,8 +9216,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -9281,7 +9272,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30061",
+                "url": "dash.electrum1.cipig.net:30061",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9293,7 +9284,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30061",
+                "url": "dash.electrum2.cipig.net:30061",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9305,7 +9296,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30061",
+                "url": "dash.electrum3.cipig.net:30061",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9549,8 +9540,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -9606,7 +9597,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30059",
+                "url": "dgb.electrum1.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9618,7 +9609,7 @@
                 ]
             },
             {
-                "url": "electrum1.cipig.net:30059",
+                "url": "dgb.electrum2.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9630,7 +9621,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30059",
+                "url": "dgb.electrum3.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9688,7 +9679,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30059",
+                "url": "dgb.electrum1.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9700,7 +9691,7 @@
                 ]
             },
             {
-                "url": "electrum1.cipig.net:30059",
+                "url": "dgb.electrum2.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9712,7 +9703,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30059",
+                "url": "dgb.electrum3.cipig.net:30059",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -9856,8 +9847,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -10010,7 +9999,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30072",
+                "url": "diac.electrum1.cipig.net:30072",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10022,7 +10011,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30072",
+                "url": "diac.electrum2.cipig.net:30072",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10072,18 +10061,6 @@
         },
         "electrum": [
             {
-                "url": "electrumx1.dimecoinnetwork.com:50004",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "developer@dimecoinnetwork.com"
-                    },
-                    {
-                        "discord": "dhop14#9359"
-                    }
-                ]
-            },
-            {
                 "url": "electrumx2.dimecoinnetwork.com:50004",
                 "protocol": "WSS",
                 "contact": [
@@ -10105,7 +10082,7 @@
         "coinpaprika_id": "dimi-diminutive-coin",
         "coingecko_id": "diminutive-coin",
         "livecoinwatch_id": "DIMI",
-        "explorer_url": "https://explorer.diminutivecoin.com/",
+        "explorer_url": "https://explorer_new.diminutivecoin.com/",
         "explorer_tx_url": "tx/",
         "explorer_address_url": "address/",
         "supported": [],
@@ -10115,7 +10092,7 @@
         "wallet_only": false,
         "sign_message_prefix": "DiminutiveCoin Signed Message:\n",
         "fname": "Diminutive Coin",
-        "rpcport": 49122,
+        "rpcport": 49588,
         "pubtype": 32,
         "p2shtype": 30,
         "wiftype": 181,
@@ -10123,11 +10100,16 @@
         "txfee": 10000,
         "segwit": false,
         "mm2": 1,
-        "mature_confirmations": 75,
-        "required_confirmations": 4,
+        "mature_confirmations": 100,
+        "required_confirmations": 6,
         "avg_blocktime": 75,
         "protocol": {
             "type": "UTXO"
+        },
+        "derivation_path": "m/44'/745'",
+        "links": {
+            "github": "https://github.com/MadCatMining/DiminutiveCoin",
+            "homepage": "https://diminutivecoin.com"
         },
         "electrum": [
             {
@@ -10238,7 +10220,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10250,7 +10232,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10262,7 +10244,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10323,6 +10305,15 @@
             },
             {
                 "url": "elecx1.dingocoin.com:3341",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "115619332448321541"
+                    }
+                ]
+            },
+            {
+                "url": "elecx2.dingocoin.com:3341",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10470,8 +10461,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -10601,7 +10590,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30060",
+                "url": "doge.electrum1.cipig.net:30060",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10613,7 +10602,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30060",
+                "url": "doge.electrum2.cipig.net:30060",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10625,7 +10614,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30060",
+                "url": "doge.electrum3.cipig.net:30060",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -10874,8 +10863,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -11061,8 +11048,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -11184,8 +11169,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -11315,7 +11298,7 @@
         "derivation_path": "m/44'/41'",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30062",
+                "url": "emc2.electrum1.cipig.net:30062",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -11327,7 +11310,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30062",
+                "url": "emc2.electrum2.cipig.net:30062",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -11443,8 +11426,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -11490,8 +11473,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -11597,6 +11578,8 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1,
+        "max_eth_tx_type": 2,
+        "swap_gas_fee_policy": "Medium",
         "sign_message_prefix": "Ethereum Signed Message:\n",
         "required_confirmations": 3,
         "avg_blocktime": 15,
@@ -11765,8 +11748,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -11890,8 +11871,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -12014,8 +11995,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -12137,8 +12118,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -12265,8 +12246,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -12435,8 +12416,6 @@
         "links": {
             "homepage": "https://firstdigitallabs.com"
         },
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 70000,
             "erc20_payment": 110000,
@@ -12681,8 +12660,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -12728,8 +12707,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -13215,8 +13192,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 85000,
             "erc20_payment": 140000,
@@ -13410,7 +13385,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30054",
+                "url": "ftc.electrum1.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13422,7 +13397,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30054",
+                "url": "ftc.electrum2.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13434,7 +13409,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30054",
+                "url": "ftc.electrum3.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13490,7 +13465,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30054",
+                "url": "ftc.electrum1.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13502,7 +13477,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30054",
+                "url": "ftc.electrum2.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13514,7 +13489,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30054",
+                "url": "ftc.electrum3.cipig.net:30054",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -13728,8 +13703,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -13866,8 +13839,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -13950,8 +13923,8 @@
         "mm2": 1,
         "chain_id": 1285,
         "decimals": 18,
-        "avg_blocktime": 15,
-        "required_confirmations": 3,
+        "avg_blocktime": 6,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -14253,8 +14226,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -14356,8 +14329,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -14455,6 +14426,9 @@
         "asset": "GLEEC",
         "fname": "Gleec (OLD)",
         "rpcport": 23226,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -14468,7 +14442,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30022",
+                "url": "gleecold.electrum1.cipig.net:30022",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14480,7 +14454,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30022",
+                "url": "gleecold.electrum2.cipig.net:30022",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14492,7 +14466,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30022",
+                "url": "gleecold.electrum3.cipig.net:30022",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14525,6 +14499,9 @@
         "asset": "GLEEC",
         "fname": "Gleec",
         "rpcport": 23345,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -14538,7 +14515,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30025",
+                "url": "gleec.electrum1.cipig.net:30025",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14550,7 +14527,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30025",
+                "url": "gleec.electrum2.cipig.net:30025",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14562,7 +14539,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30025",
+                "url": "gleec.electrum3.cipig.net:30025",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -14681,8 +14658,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -14852,8 +14829,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -15079,8 +15056,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -15195,8 +15172,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -15658,8 +15635,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -15911,6 +15888,64 @@
         ],
         "explorer_block_url": "block/"
     },
+    "HBAR-BEP20": {
+        "coin": "HBAR-BEP20",
+        "type": "BEP-20",
+        "name": "Hedera",
+        "coinpaprika_id": "hbar-hedera-hashgraph",
+        "coingecko_id": "hedera-hashgraph",
+        "livecoinwatch_id": "HBAR",
+        "explorer_url": "https://bscscan.com/",
+        "explorer_tx_url": "tx/",
+        "explorer_address_url": "address/",
+        "supported": [],
+        "active": false,
+        "is_testnet": false,
+        "currently_enabled": false,
+        "wallet_only": false,
+        "fname": "Hedera",
+        "rpcport": 80,
+        "mm2": 1,
+        "chain_id": 56,
+        "decimals": 18,
+        "avg_blocktime": 0.75,
+        "required_confirmations": 5,
+        "protocol": {
+            "type": "ERC20",
+            "protocol_data": {
+                "platform": "BNB",
+                "contract_address": "0x0422f966Bf8E978075a97D47eF4c7EFd3563Fa51"
+            }
+        },
+        "derivation_path": "m/44'/60'",
+        "links": {
+            "homepage": "https://hedera.com"
+        },
+        "contract_address": "0x0422f966Bf8E978075a97D47eF4c7EFd3563Fa51",
+        "parent_coin": "BNB",
+        "swap_contract_address": "0xeDc5b89Fe1f0382F9E4316069971D90a0951DB31",
+        "fallback_swap_contract": "0xeDc5b89Fe1f0382F9E4316069971D90a0951DB31",
+        "nodes": [
+            {
+                "url": "https://bsc-rpc.publicnode.com",
+                "ws_url": "wss://bsc-rpc.publicnode.com"
+            },
+            {
+                "url": "https://bsc1.cipig.net:18655",
+                "ws_url": "wss://bsc1.cipig.net:38655"
+            },
+            {
+                "url": "https://bsc2.cipig.net:18655",
+                "ws_url": "wss://bsc2.cipig.net:38655"
+            },
+            {
+                "url": "https://bsc3.cipig.net:18655",
+                "ws_url": "wss://bsc3.cipig.net:38655"
+            }
+        ],
+        "token_address_url": "tokentxns?a=",
+        "explorer_block_url": "block/"
+    },
     "HEX-ERC20": {
         "coin": "HEX-ERC20",
         "type": "ERC-20",
@@ -16021,8 +16056,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16136,8 +16171,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16315,8 +16350,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16493,8 +16528,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16614,6 +16649,9 @@
         "asset": "ILN",
         "fname": "Ilien",
         "rpcport": 12986,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -16747,8 +16785,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16801,8 +16839,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -16910,8 +16948,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -17033,8 +17069,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -17155,8 +17189,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -17217,8 +17249,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -17286,8 +17316,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -17395,8 +17425,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -17526,8 +17554,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -17645,8 +17673,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -17708,8 +17736,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -17933,8 +17961,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -17995,8 +18023,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18220,8 +18248,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18398,8 +18426,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18452,8 +18480,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18515,8 +18543,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18570,8 +18598,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18633,8 +18661,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18696,8 +18724,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18751,8 +18779,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18806,8 +18834,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -18915,8 +18943,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19029,8 +19057,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19083,8 +19111,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19146,8 +19174,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19201,8 +19229,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19256,8 +19284,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19305,8 +19333,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -19574,8 +19600,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -19646,7 +19670,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30001",
+                "url": "kmd.electrum1.cipig.net:30001",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -19658,7 +19682,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30001",
+                "url": "kmd.electrum2.cipig.net:30001",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -19670,7 +19694,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30001",
+                "url": "kmd.electrum3.cipig.net:30001",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -19684,8 +19708,7 @@
         ],
         "explorer_block_url": "block/",
         "is_claimable": true,
-        "minimal_claim_amount": "10",
-        "binance_id": "KMD"
+        "minimal_claim_amount": "10"
     },
     "KMD-BEP20": {
         "coin": "KMD-BEP20",
@@ -19716,8 +19739,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -19747,8 +19768,7 @@
             }
         ],
         "token_address_url": "tokentxns?a=",
-        "explorer_block_url": "block/",
-        "binance_id": "KMD"
+        "explorer_block_url": "block/"
     },
     "KNC-BEP20": {
         "coin": "KNC-BEP20",
@@ -19913,8 +19933,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -19996,6 +20016,9 @@
         "asset": "KOIN",
         "fname": "Koinon",
         "rpcport": 10702,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -20009,7 +20032,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30024",
+                "url": "koin.electrum1.cipig.net:30024",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -20021,7 +20044,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30024",
+                "url": "koin.electrum2.cipig.net:30024",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -20033,7 +20056,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30024",
+                "url": "koin.electrum3.cipig.net:30024",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -20077,8 +20100,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -20143,17 +20164,17 @@
         "derivation_path": "m/44'/140'",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30067",
+                "url": "lbc.electrum1.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             },
             {
-                "url": "electrum2.cipig.net:30067",
+                "url": "lbc.electrum2.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             },
             {
-                "url": "electrum3.cipig.net:30067",
+                "url": "lbc.electrum3.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             }
@@ -20197,17 +20218,17 @@
         "derivation_path": "m/84'/140'",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30067",
+                "url": "lbc.electrum1.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             },
             {
-                "url": "electrum2.cipig.net:30067",
+                "url": "lbc.electrum2.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             },
             {
-                "url": "electrum3.cipig.net:30067",
+                "url": "lbc.electrum3.cipig.net:30067",
                 "disable_cert_verification": false,
                 "protocol": "WSS"
             }
@@ -20249,6 +20270,15 @@
         },
         "derivation_path": "m/44'/192'",
         "electrum": [
+            {
+                "url": "electrum-lcc.cascoin.net:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "635448663543644170"
+                    }
+                ]
+            },
             {
                 "url": "lcc-ex-one.ewmci.online:50003",
                 "protocol": "WSS",
@@ -20300,6 +20330,15 @@
         },
         "derivation_path": "m/84'/192'",
         "electrum": [
+            {
+                "url": "electrum-lcc.cascoin.net:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "635448663543644170"
+                    }
+                ]
+            },
             {
                 "url": "lcc-ex-one.ewmci.online:50003",
                 "protocol": "WSS",
@@ -20548,8 +20587,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -20686,8 +20723,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -20805,8 +20842,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -21073,8 +21110,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -21300,8 +21337,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -21369,8 +21404,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -21543,8 +21578,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -21670,7 +21703,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30063",
+                "url": "ltc.electrum1.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -21682,7 +21715,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30063",
+                "url": "ltc.electrum2.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -21694,7 +21727,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30063",
+                "url": "ltc.electrum3.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -21752,7 +21785,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30063",
+                "url": "ltc.electrum1.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -21764,7 +21797,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30063",
+                "url": "ltc.electrum2.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -21776,7 +21809,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30063",
+                "url": "ltc.electrum3.cipig.net:30063",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22011,8 +22044,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -22189,8 +22222,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -22228,6 +22261,7 @@
         "chain_id": 137,
         "use_access_list": true,
         "max_eth_tx_type": 2,
+        "swap_gas_fee_policy": "Medium",
         "avg_blocktime": 1.8,
         "required_confirmations": 20,
         "protocol": {
@@ -22245,8 +22279,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -22293,8 +22327,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -22528,6 +22560,9 @@
         "asset": "MCL",
         "fname": "Marmara Credit Loops",
         "rpcport": 33825,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -22541,7 +22576,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30023",
+                "url": "mcl.electrum1.cipig.net:30023",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22553,7 +22588,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30023",
+                "url": "mcl.electrum2.cipig.net:30023",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22565,7 +22600,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30023",
+                "url": "mcl.electrum3.cipig.net:30023",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22598,6 +22633,9 @@
         "asset": "MDX",
         "fname": "Mandala",
         "rpcport": 18482,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -22614,7 +22652,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30005",
+                "url": "mdx.electrum1.cipig.net:30005",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22626,7 +22664,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30005",
+                "url": "mdx.electrum2.cipig.net:30005",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -22638,7 +22676,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30005",
+                "url": "mdx.electrum3.cipig.net:30005",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -23159,8 +23197,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -23361,9 +23399,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 18,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -23428,8 +23466,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -23580,8 +23618,8 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "required_confirmations": 3,
-        "avg_blocktime": 15,
+        "required_confirmations": 6,
+        "avg_blocktime": 6,
         "protocol": {
             "type": "ETH",
             "protocol_data": {
@@ -23595,6 +23633,7 @@
         },
         "use_access_list": true,
         "max_eth_tx_type": 2,
+        "swap_gas_fee_policy": "Medium",
         "gas_limit": {
             "eth_payment": 100000,
             "eth_receiver_spend": 500000,
@@ -23796,8 +23835,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -24066,8 +24103,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -24080,6 +24117,64 @@
             {
                 "url": "https://polygon.gateway.tenderly.co",
                 "ws_url": "wss://polygon.gateway.tenderly.co"
+            }
+        ],
+        "explorer_block_url": "block/"
+    },
+    "NVC": {
+        "coin": "NVC",
+        "type": "UTXO",
+        "name": "Novacoin",
+        "coinpaprika_id": "nvc-novacoin",
+        "coingecko_id": "novacoin",
+        "livecoinwatch_id": "NVC",
+        "explorer_url": "https://explorer.novaco.in/",
+        "explorer_tx_url": "tx/",
+        "explorer_address_url": "address/",
+        "supported": [],
+        "active": false,
+        "is_testnet": false,
+        "currently_enabled": false,
+        "wallet_only": true,
+        "sign_message_prefix": "Novacoin Signed Message:\n",
+        "fname": "Novacoin",
+        "isPoS": 1,
+        "rpcport": 8344,
+        "pubtype": 8,
+        "p2shtype": 20,
+        "wiftype": 136,
+        "decimals": 6,
+        "txfee": 1000,
+        "dust": 10000,
+        "mm2": 1,
+        "mature_confirmations": 500,
+        "required_confirmations": 1,
+        "avg_blocktime": 450,
+        "protocol": {
+            "type": "UTXO"
+        },
+        "derivation_path": "m/44'/50'",
+        "electrum": [
+            {
+                "url": "failover.nvc.ewmcx.biz:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "email": "coins@ewmci.com"
+                    },
+                    {
+                        "discord": "[CryptoStan]#9341"
+                    },
+                    {
+                        "twitter": "EwmciL"
+                    },
+                    {
+                        "reddit": "NovacoinCommunity"
+                    },
+                    {
+                        "github": "novacoin-project"
+                    }
+                ]
             }
         ],
         "explorer_block_url": "block/"
@@ -24113,8 +24208,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -24187,7 +24280,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -24199,7 +24292,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -24211,7 +24304,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -24322,8 +24415,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -24339,6 +24432,53 @@
             }
         ],
         "explorer_block_url": "block/"
+    },
+    "NYC": {
+        "coin": "NYC",
+        "type": "UTXO",
+        "name": "NewYorkCoin",
+        "coinpaprika_id": "nyc-newyorkcoin",
+        "coingecko_id": "newyorkcoin",
+        "livecoinwatch_id": "NYC",
+        "explorer_url": "https://chainz.cryptoid.info/nyc/",
+        "explorer_tx_url": "tx.dws?",
+        "explorer_address_url": "address.dws?",
+        "supported": [],
+        "active": false,
+        "is_testnet": false,
+        "currently_enabled": false,
+        "wallet_only": false,
+        "sign_message_prefix": "NewYorkCoin Signed Message:\n",
+        "fname": "NewYorkCoin",
+        "rpcport": 22555,
+        "pubtype": 60,
+        "p2shtype": 22,
+        "wiftype": 188,
+        "segwit": false,
+        "txfee": 100000000,
+        "mm2": 1,
+        "required_confirmations": 7,
+        "avg_blocktime": 30,
+        "protocol": {
+            "type": "UTXO"
+        },
+        "derivation_path": "m/44'/179'",
+        "links": {
+            "github": "https://github.com/NewYorkCoinNYC/newyorkcoin",
+            "homepage": "https://newyorkcoin.online"
+        },
+        "electrum": [
+            {
+                "url": "nyc.newyorkcoin.online:50004",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "424152733218635787"
+                    }
+                ]
+            }
+        ],
+        "explorer_block_url": "block.dws?"
     },
     "NYC-BEP20": {
         "coin": "NYC-BEP20",
@@ -24550,8 +24690,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -24659,8 +24799,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -24736,8 +24874,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -24856,8 +24994,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -24944,8 +25082,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -25132,8 +25268,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -25314,8 +25450,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -25448,6 +25584,18 @@
                 "contact": [
                     {
                         "discord": "emgi2"
+                    }
+                ]
+            },
+            {
+                "url": "pep.electrum3.cipig.net:30076",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "email": "cipi@komodoplatform.com"
+                    },
+                    {
+                        "discord": "cipi#4502"
                     }
                 ]
             }
@@ -26046,8 +26194,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26165,8 +26313,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26333,8 +26481,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26502,8 +26650,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26625,8 +26773,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26805,8 +26953,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -26828,7 +26976,7 @@
         "type": "UTXO",
         "name": "Shibacoin",
         "coinpaprika_id": "shic-shibacoin",
-        "coingecko_id": "",
+        "coingecko_id": "shibacoin",
         "livecoinwatch_id": "SHIC",
         "explorer_url": "https://shibaexplorer.com/",
         "explorer_tx_url": "tx/",
@@ -26913,7 +27061,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -26925,7 +27073,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -26937,7 +27085,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -26992,7 +27140,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27004,7 +27152,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27016,7 +27164,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27071,7 +27219,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27083,7 +27231,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27095,7 +27243,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27138,8 +27286,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -27340,7 +27486,7 @@
         "fallback_swap_contract": "0xba8b71f3544b93e2f681f996da519a98ace0107a",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30071",
+                "url": "tqtum.electrum3.cipig.net:30071",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27397,7 +27543,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27409,7 +27555,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27421,7 +27567,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27538,7 +27684,7 @@
         "fallback_swap_contract": "0xba8b71f3544b93e2f681f996da519a98ace0107a",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30071",
+                "url": "tqtum.electrum3.cipig.net:30071",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27571,6 +27717,9 @@
         "asset": "RAPH",
         "fname": "Raphael",
         "rpcport": 30261,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -27584,7 +27733,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30004",
+                "url": "raph.electrum1.cipig.net:30004",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27596,7 +27745,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30004",
+                "url": "raph.electrum2.cipig.net:30004",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27608,7 +27757,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30004",
+                "url": "raph.electrum3.cipig.net:30004",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27912,8 +28061,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -27963,7 +28112,16 @@
         "derivation_path": "m/44'/143'",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30074",
+                "url": "ric-ex-two.ewmci.online:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "475820011634819072"
+                    }
+                ]
+            },
+            {
+                "url": "ric.electrum3.cipig.net:30074",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -27971,15 +28129,6 @@
                     },
                     {
                         "discord": "cipi#4502"
-                    }
-                ]
-            },
-            {
-                "url": "ric-ex-two.ewmci.online:50003",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "discord": "475820011634819072"
                     }
                 ]
             }
@@ -28023,7 +28172,16 @@
         "derivation_path": "m/84'/143'",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30074",
+                "url": "ric-ex-two.ewmci.online:50003",
+                "protocol": "WSS",
+                "contact": [
+                    {
+                        "discord": "475820011634819072"
+                    }
+                ]
+            },
+            {
+                "url": "ric.electrum3.cipig.net:30074",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28031,15 +28189,6 @@
                     },
                     {
                         "discord": "cipi#4502"
-                    }
-                ]
-            },
-            {
-                "url": "ric-ex-two.ewmci.online:50003",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "discord": "475820011634819072"
                     }
                 ]
             }
@@ -28120,6 +28269,9 @@
         "asset": "DOC",
         "fname": "DOC",
         "rpcport": 62415,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -28133,7 +28285,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30020",
+                "url": "doc.electrum1.cipig.net:30020",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28145,7 +28297,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30020",
+                "url": "doc.electrum2.cipig.net:30020",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28157,7 +28309,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30020",
+                "url": "doc.electrum3.cipig.net:30020",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28190,6 +28342,9 @@
         "asset": "MARTY",
         "fname": "MARTY",
         "rpcport": 52592,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -28203,7 +28358,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30021",
+                "url": "marty.electrum1.cipig.net:30021",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28215,7 +28370,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30021",
+                "url": "marty.electrum2.cipig.net:30021",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28227,7 +28382,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30021",
+                "url": "marty.electrum3.cipig.net:30021",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28342,8 +28497,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -28465,8 +28620,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -28748,7 +28903,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30051",
+                "url": "rvn.electrum1.cipig.net:30051",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28760,7 +28915,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30051",
+                "url": "rvn.electrum2.cipig.net:30051",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28772,7 +28927,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30051",
+                "url": "rvn.electrum3.cipig.net:30051",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -28947,8 +29102,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -28995,8 +29150,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -29058,8 +29211,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -29347,8 +29498,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -29464,8 +29615,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -29561,6 +29712,9 @@
         "asset": "SPACE",
         "fname": "Spacecoin",
         "rpcport": 35593,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -29574,7 +29728,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30011",
+                "url": "spacecoin.electrum1.cipig.net:30011",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -29586,7 +29740,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30011",
+                "url": "spacecoin.electrum2.cipig.net:30011",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -29598,7 +29752,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30011",
+                "url": "spacecoin.electrum3.cipig.net:30011",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -29856,8 +30010,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -29918,8 +30072,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -30033,8 +30187,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -30049,6 +30203,64 @@
                 "ws_url": "wss://polygon.gateway.tenderly.co"
             }
         ],
+        "explorer_block_url": "block/"
+    },
+    "SUI-BEP20": {
+        "coin": "SUI-BEP20",
+        "type": "BEP-20",
+        "name": "Sui",
+        "coinpaprika_id": "sui-sui",
+        "coingecko_id": "sui",
+        "livecoinwatch_id": "_SUI",
+        "explorer_url": "https://bscscan.com/",
+        "explorer_tx_url": "tx/",
+        "explorer_address_url": "address/",
+        "supported": [],
+        "active": false,
+        "is_testnet": false,
+        "currently_enabled": false,
+        "wallet_only": false,
+        "fname": "Sui",
+        "rpcport": 80,
+        "mm2": 1,
+        "chain_id": 56,
+        "decimals": 18,
+        "avg_blocktime": 0.75,
+        "required_confirmations": 5,
+        "protocol": {
+            "type": "ERC20",
+            "protocol_data": {
+                "platform": "BNB",
+                "contract_address": "0xd57f2e190C11cffc667AA5aD026Cd4C8DE0772a7"
+            }
+        },
+        "derivation_path": "m/44'/60'",
+        "links": {
+            "homepage": "https://sui.io"
+        },
+        "contract_address": "0xd57f2e190C11cffc667AA5aD026Cd4C8DE0772a7",
+        "parent_coin": "BNB",
+        "swap_contract_address": "0xeDc5b89Fe1f0382F9E4316069971D90a0951DB31",
+        "fallback_swap_contract": "0xeDc5b89Fe1f0382F9E4316069971D90a0951DB31",
+        "nodes": [
+            {
+                "url": "https://bsc-rpc.publicnode.com",
+                "ws_url": "wss://bsc-rpc.publicnode.com"
+            },
+            {
+                "url": "https://bsc1.cipig.net:18655",
+                "ws_url": "wss://bsc1.cipig.net:38655"
+            },
+            {
+                "url": "https://bsc2.cipig.net:18655",
+                "ws_url": "wss://bsc2.cipig.net:38655"
+            },
+            {
+                "url": "https://bsc3.cipig.net:18655",
+                "ws_url": "wss://bsc3.cipig.net:38655"
+            }
+        ],
+        "token_address_url": "tokentxns?a=",
         "explorer_block_url": "block/"
     },
     "SUSHI-AVX20": {
@@ -30282,9 +30494,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 18,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -30357,8 +30569,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -30704,8 +30916,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -30853,7 +31065,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30064",
+                "url": "sys.electrum1.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -30865,7 +31077,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30064",
+                "url": "sys.electrum2.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -30877,7 +31089,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30064",
+                "url": "sys.electrum3.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -30935,7 +31147,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30064",
+                "url": "sys.electrum1.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -30947,7 +31159,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30064",
+                "url": "sys.electrum2.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -30959,7 +31171,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30064",
+                "url": "sys.electrum3.cipig.net:30064",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -31195,8 +31407,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -31246,7 +31458,7 @@
         "derivation_path": "m/44'/1'",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30068",
+                "url": "testbtc.electrum3.cipig.net:30068",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -31297,7 +31509,7 @@
         "derivation_path": "m/84'/1'",
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30068",
+                "url": "testbtc.electrum3.cipig.net:30068",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -31416,8 +31628,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -31464,8 +31676,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -31571,6 +31781,9 @@
         "asset": "TOKEL",
         "fname": "Tokel",
         "rpcport": 29405,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -31842,8 +32055,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -32027,8 +32238,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -32353,8 +32564,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -32527,8 +32738,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -32736,8 +32947,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -32963,8 +33174,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -33269,8 +33480,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -33366,9 +33575,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 6,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -33441,8 +33650,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -33495,8 +33704,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -33648,9 +33857,9 @@
         "rpcport": 80,
         "mm2": 1,
         "chain_id": 1285,
-        "avg_blocktime": 15,
+        "avg_blocktime": 6,
         "decimals": 6,
-        "required_confirmations": 3,
+        "required_confirmations": 6,
         "protocol": {
             "type": "ERC20",
             "protocol_data": {
@@ -33769,8 +33978,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -33970,8 +34179,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 55000,
             "erc20_payment": 110000,
@@ -34086,6 +34293,9 @@
         "asset": "vARRR",
         "fname": "vARRR",
         "rpcport": 20778,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -34098,7 +34308,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30009",
+                "url": "varrr.electrum1.cipig.net:30009",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34110,7 +34320,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30009",
+                "url": "varrr.electrum2.cipig.net:30009",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34122,7 +34332,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30009",
+                "url": "varrr.electrum3.cipig.net:30009",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34155,6 +34365,9 @@
         "asset": "vDEX",
         "fname": "vDEX",
         "rpcport": 21778,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -34167,7 +34380,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30010",
+                "url": "vdex.electrum1.cipig.net:30010",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34179,7 +34392,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30010",
+                "url": "vdex.electrum2.cipig.net:30010",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34191,7 +34404,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30010",
+                "url": "vdex.electrum3.cipig.net:30010",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34262,6 +34475,16 @@
                         "discord": "michelvankessel#7656"
                     }
                 ]
+            },
+            {
+                "url": "e3.validitytech.com:11004",
+                "protocol": "WSS",
+                "disable_cert_verification": true,
+                "contact": [
+                    {
+                        "discord": "michelvankessel#7656"
+                    }
+                ]
             }
         ],
         "explorer_block_url": "block.dws?"
@@ -34296,8 +34519,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -34486,8 +34707,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -34544,7 +34765,7 @@
         },
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30073",
+                "url": "via.electrum3.cipig.net:30073",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34602,7 +34823,7 @@
         },
         "electrum": [
             {
-                "url": "electrum3.cipig.net:30073",
+                "url": "via.electrum3.cipig.net:30073",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -34645,8 +34866,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -34697,6 +34916,9 @@
         "asset": "VRSC",
         "fname": "Verus Coin",
         "rpcport": 27486,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "mm2": 1,
@@ -34709,39 +34931,7 @@
         "trezor_coin": "Komodo",
         "electrum": [
             {
-                "url": "el0.verus.io:17488",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "0x03-ctrlc@protonmail.com"
-                    },
-                    {
-                        "discord": "0x03#8822"
-                    },
-                    {
-                        "keybase": "bloodynora"
-                    }
-                ],
-                "disable_cert_verification": false
-            },
-            {
                 "url": "el1.verus.io:17488",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "0x03-ctrlc@protonmail.com"
-                    },
-                    {
-                        "discord": "0x03#8822"
-                    },
-                    {
-                        "keybase": "bloodynora"
-                    }
-                ],
-                "disable_cert_verification": false
-            },
-            {
-                "url": "el2.verus.io:17488",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -35046,8 +35236,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -35431,8 +35621,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -35794,8 +35984,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -35841,8 +36031,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -36151,8 +36339,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -36355,8 +36541,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -36402,8 +36588,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -36586,7 +36770,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -36598,7 +36782,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -36610,7 +36794,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -36649,9 +36833,9 @@
         "decimals": 6,
         "segwit": true,
         "bech32_hrp": "vg",
-        "txfee": 500000,
-        "dust": 500000,
-        "force_min_relay_fee": true,
+        "txfee": 200000,
+        "dingo_fee": true,
+        "dust": 200000,
         "mm2": 1,
         "required_confirmations": 10,
         "avg_blocktime": 30,
@@ -36701,8 +36885,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -36809,8 +36991,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -36998,8 +37178,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -37178,7 +37358,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30058",
+                "url": "zec.electrum1.cipig.net:30058",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37190,7 +37370,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30058",
+                "url": "zec.electrum2.cipig.net:30058",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37202,7 +37382,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30058",
+                "url": "zec.electrum3.cipig.net:30058",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37257,7 +37437,7 @@
         },
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30065",
+                "url": "zer.electrum1.cipig.net:30065",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37269,7 +37449,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30065",
+                "url": "zer.electrum2.cipig.net:30065",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37281,7 +37461,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30065",
+                "url": "zer.electrum3.cipig.net:30065",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37350,55 +37530,6 @@
         "token_address_url": "tokentxns?a=",
         "explorer_block_url": "block/"
     },
-    "ZET": {
-        "coin": "ZET",
-        "type": "UTXO",
-        "name": "Zetacoin",
-        "coinpaprika_id": "zet-zetacoin",
-        "coingecko_id": "zetacoin",
-        "livecoinwatch_id": "ZET",
-        "explorer_url": "https://chainz.cryptoid.info/zet/",
-        "explorer_tx_url": "tx.dws?",
-        "explorer_address_url": "address.dws?",
-        "supported": [],
-        "active": false,
-        "is_testnet": false,
-        "currently_enabled": false,
-        "wallet_only": false,
-        "sign_message_prefix": "Zetacoin Signed Message:\n",
-        "fname": "Zetacoin",
-        "isPoS": 1,
-        "rpcport": 22014,
-        "pubtype": 20,
-        "p2shtype": 85,
-        "wiftype": 153,
-        "txfee": 100000,
-        "dust": 100000,
-        "mm2": 1,
-        "mature_confirmations": 500,
-        "required_confirmations": 7,
-        "avg_blocktime": 45,
-        "protocol": {
-            "type": "UTXO"
-        },
-        "derivation_path": "m/44'/719'",
-        "links": {
-            "github": "https://github.com/WikiMin3R/ZetacoinE",
-            "homepage": "https://zetacoin.io"
-        },
-        "electrum": [
-            {
-                "url": "zet-ex-three.ewmci.online:50013",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "discord": "475820011634819072"
-                    }
-                ]
-            }
-        ],
-        "explorer_block_url": "block.dws?"
-    },
     "ZIL-BEP20": {
         "coin": "ZIL-BEP20",
         "type": "BEP-20",
@@ -37428,8 +37559,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -37609,8 +37738,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
@@ -37669,7 +37798,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37681,7 +37810,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37693,7 +37822,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37799,8 +37928,6 @@
             }
         },
         "derivation_path": "m/44'/60'",
-        "use_access_list": true,
-        "max_eth_tx_type": 2,
         "gas_limit": {
             "eth_send_erc20": 60000,
             "erc20_payment": 110000,
@@ -37875,7 +38002,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37887,7 +38014,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37899,7 +38026,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37955,7 +38082,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37967,7 +38094,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -37979,7 +38106,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38035,7 +38162,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38047,7 +38174,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38059,7 +38186,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38115,7 +38242,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38127,7 +38254,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38139,7 +38266,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38195,7 +38322,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38207,7 +38334,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38219,7 +38346,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38275,7 +38402,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38287,7 +38414,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38299,7 +38426,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38355,7 +38482,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38367,7 +38494,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38379,7 +38506,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38435,7 +38562,7 @@
         "fallback_swap_contract": "0x2f754733acd6d753731c00fee32cb484551cc15d",
         "electrum": [
             {
-                "url": "electrum1.cipig.net:30050",
+                "url": "qtum.electrum1.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38447,7 +38574,7 @@
                 ]
             },
             {
-                "url": "electrum2.cipig.net:30050",
+                "url": "qtum.electrum2.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -38459,7 +38586,7 @@
                 ]
             },
             {
-                "url": "electrum3.cipig.net:30050",
+                "url": "qtum.electrum3.cipig.net:30050",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -40003,10 +40130,10 @@
                         189
                     ]
                 },
-                "z_derivation_path": "m/32'/133'"
+                "z_derivation_path": "m/32'/141'"
             }
         },
-        "derivation_path": "m/44'/133'",
+        "derivation_path": "m/44'/141'",
         "required_confirmations": 3,
         "electrum": [
             {
@@ -40162,6 +40289,9 @@
         "asset": "ACTN",
         "fname": "Action Coin",
         "rpcport": 51677,
+        "pubtype": 60,
+        "p2shtype": 85,
+        "wiftype": 188,
         "txversion": 4,
         "overwintered": 1,
         "txfee": 1000,
@@ -40283,10 +40413,6 @@
             },
             {
                 "url": "https://cosmoshub.rpc.stakin-nodes.com/"
-            },
-            {
-                "url": "https://node.komodo.earth:8080/cosmos",
-                "komodo_proxy": true
             }
         ],
         "explorer_block_url": "block/",
@@ -40328,12 +40454,6 @@
         },
         "derivation_path": "m/44'/118'",
         "rpc_urls": [
-            {
-                "url": "https://iris-rpc.alpha.komodo.earth/",
-                "api_url": "https://iris-api.alpha.komodo.earth/",
-                "grpc_url": "https://iris-grpc.alpha.komodo.earth/",
-                "ws_url": "wss://iris-rpc.alpha.komodo.earth/websocket"
-            },
             {
                 "url": "https://rpc.irishub-1.irisnet.org"
             }
@@ -40438,9 +40558,6 @@
             },
             {
                 "url": "https://osmosis.rpc.stakin-nodes.com"
-            },
-            {
-                "url": "https://rpc-osmosis-ia.cosmosia.notional.ventures/"
             },
             {
                 "url": "https://rpc.osmosis.zone/"
@@ -40602,18 +40719,6 @@
         },
         "electrum": [
             {
-                "url": "coin.crionic.org:50005",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "diabatiis@gmail.com"
-                    },
-                    {
-                        "discord": "Diabaths#1919"
-                    }
-                ]
-            },
-            {
                 "url": "explorer.crionic.org:50005",
                 "protocol": "WSS",
                 "contact": [
@@ -40622,61 +40727,6 @@
                     },
                     {
                         "discord": "Diabaths#1919"
-                    }
-                ]
-            }
-        ],
-        "explorer_block_url": "block/"
-    },
-    "NITO-segwit": {
-        "coin": "NITO-segwit",
-        "type": "UTXO",
-        "name": "NITO",
-        "coinpaprika_id": "",
-        "coingecko_id": "",
-        "livecoinwatch_id": "_NITO",
-        "explorer_url": "https://explorer.nito.network/",
-        "explorer_tx_url": "tx/",
-        "explorer_address_url": "address/",
-        "supported": [],
-        "active": false,
-        "is_testnet": false,
-        "currently_enabled": false,
-        "wallet_only": true,
-        "sign_message_prefix": "Nito Signed Message:\n",
-        "fname": "NITO",
-        "rpcport": 8825,
-        "pubtype": 0,
-        "p2shtype": 5,
-        "wiftype": 128,
-        "txfee": 10000,
-        "segwit": true,
-        "bech32_hrp": "nito",
-        "address_format": {
-            "format": "segwit"
-        },
-        "orderbook_ticker": "NITO",
-        "mm2": 1,
-        "required_confirmations": 3,
-        "avg_blocktime": 60,
-        "protocol": {
-            "type": "UTXO"
-        },
-        "derivation_path": "m/84'/0'",
-        "links": {
-            "github": "https://github.com/NitoNetwork/Nito-core",
-            "homepage": "https://nito.network"
-        },
-        "electrum": [
-            {
-                "url": "electrum1.nito.network:50005",
-                "protocol": "WSS",
-                "contact": [
-                    {
-                        "email": "biigbang0001@zemzar.net"
-                    },
-                    {
-                        "discord": "biigbang0001"
                     }
                 ]
             }
@@ -40845,7 +40895,7 @@
                 ]
             },
             {
-                "url": "meowcoinelectrum.xyz:50004",
+                "url": "meowelectrum.xyz:50004",
                 "protocol": "WSS",
                 "contact": [
                     {
@@ -40855,42 +40905,6 @@
             }
         ],
         "explorer_block_url": "block/"
-    },
-    "IRISTEST": {
-        "coin": "IRISTEST",
-        "type": "TENDERMINT",
-        "name": "Iris Test",
-        "coinpaprika_id": "",
-        "coingecko_id": "",
-        "livecoinwatch_id": "",
-        "explorer_url": "https://nyancat.iobscan.io/",
-        "explorer_tx_url": "#/txs/",
-        "explorer_address_url": "#/address/",
-        "supported": [],
-        "active": false,
-        "is_testnet": true,
-        "currently_enabled": false,
-        "wallet_only": false,
-        "avg_blocktime": 7,
-        "fname": "Iris Test",
-        "mm2": 1,
-        "protocol": {
-            "type": "TENDERMINT",
-            "protocol_data": {
-                "decimals": 6,
-                "denom": "unyan",
-                "account_prefix": "iaa",
-                "chain_id": "nyancat-9",
-                "gas_price": 0.5
-            }
-        },
-        "derivation_path": "m/44'/118'",
-        "rpc_urls": [
-            {
-                "url": "https://evmrpc.nyancat.irisnet.org"
-            }
-        ],
-        "explorer_block_url": "#/blocks/"
     },
     "NUCLEUSTEST": {
         "coin": "NUCLEUSTEST",
@@ -40938,12 +40952,6 @@
                 "api_url": "https://nucleus-api.charlie.komodo.earth/",
                 "grpc_url": "https://nucleus-grpc.charlie.komodo.earth/",
                 "ws_url": "wss://nucleus-rpc.charlie.komodo.earth/websocket"
-            },
-            {
-                "url": "https://nucleus-rpc.delta.komodo.earth/",
-                "api_url": "https://nucleus-api.delta.komodo.earth/",
-                "grpc_url": "https://nucleus-grpc.delta.komodo.earth/",
-                "ws_url": "wss://nucleus-rpc.delta.komodo.earth/websocket"
             }
         ],
         "explorer_block_url": "nucleus/blocks/"
@@ -41343,8 +41351,8 @@
         "fallback_swap_contract": "0x9130b257D37A52E52F21054c4DA3450c72f595CE",
         "nodes": [
             {
-                "url": "https://electrum3.cipig.net:18755",
-                "ws_url": "wss://electrum3.cipig.net:38755"
+                "url": "https://pol3.cipig.net:18755",
+                "ws_url": "wss://pol3.cipig.net:38755"
             },
             {
                 "url": "https://polygon-bor-rpc.publicnode.com",
