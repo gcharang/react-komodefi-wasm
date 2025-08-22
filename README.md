@@ -57,3 +57,5 @@ Best to open/reopen the url: http://localhost:3000/ in a private/incognito windo
 To update the KDF version using a url to a zip file from releases, use `./update_wasm.sh $zipfile_url`
 
 To update the `coins` file version using a url to a raw github data, use `./update_coins_url.sh https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins`
+
+Builds: https://sdk.devbuilds.komodo.earth/dev/

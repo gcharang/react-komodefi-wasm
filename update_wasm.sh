@@ -7,7 +7,14 @@ fn=${1##*/}
 mkdir temp
 unzip $fn -d temp
 cd temp
+# Move the original WASM file
 mv kdflib_bg.wasm ../../public/kdflib_bg.wasm
+# Compress the WASM file with Brotli
+echo "Compressing WASM with Brotli..."
+brotli -q 11 -f ../../public/kdflib_bg.wasm -o ../../public/kdflib_bg.wasm.br
+echo "WASM compressed successfully"
+echo "WASM file sizes:"
+ls -lh ../../public/kdflib_bg.wasm*
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s|new URL('kdflib_bg.wasm', import.meta.url);|new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
 else

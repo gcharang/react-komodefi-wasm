@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "//build": "./prebuild.sh && next build && ./postbuild.sh",
-    "build": "next build",
+    "prebuild": "./prebuild.sh",
+    "build": "npm run prebuild && next build",
     "start": "next start"
   },
   "dependencies": {

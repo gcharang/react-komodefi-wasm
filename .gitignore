@@ -26,6 +26,9 @@ dist
 wasm_versions/
 coins_versions/
 
+# WASM files - we only commit the compressed version
+public/kdflib_bg.wasm
+
 .next
 next-env.d.ts
 

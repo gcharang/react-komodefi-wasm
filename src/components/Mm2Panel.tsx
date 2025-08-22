@@ -12,6 +12,7 @@ import init, {
 } from "../js/kdflib.js";
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useStore, useMm2PanelState } from "../store/useStore";
+import { loadCompressedWasm } from "../utils/wasmLoader";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -126,33 +127,21 @@ const Mm2Panel = () => {
   async function init_wasm() {
     try {
       const baseUrl = getBaseUrl();
-      const wasm_bin_path = `/kdflib_bg.wasm`;
+      const wasm_bin_path = `/kdflib_bg.wasm.br`;
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
 
-      // Pre-fetch the WASM file to ensure it's cached by the service worker
-      try {
-        const response = await fetch(mm2BinUrl.toString(), {
-          method: "GET",
-          cache: "force-cache", // Use cache if available
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch WASM: ${response.status} ${response.statusText}`
-          );
-        }
-
-        // Wait for the response to be fully downloaded
-        await response.blob();
-        console.log("WASM file pre-fetched successfully");
-      } catch (fetchError) {
-        console.warn("Pre-fetch failed, continuing with init:", fetchError);
-      }
-
-      // Now initialize the WASM module
-      await init(mm2BinUrl);
+      console.log("Loading compressed WASM from:", mm2BinUrl.toString());
+      
+      // Load and decompress the WASM file
+      const wasmBuffer = await loadCompressedWasm(mm2BinUrl);
+      
+      // Initialize the WASM module with the decompressed buffer
+      await init(wasmBuffer);
+      
+      console.log("WASM module initialized successfully");
     } catch (e) {
-      alert(`Oops: ${e}`);
+      console.error("Failed to initialize WASM:", e);
+      alert(`Failed to initialize WASM: ${e}`);
     }
   }
   function spawn_mm2_status_checking() {
