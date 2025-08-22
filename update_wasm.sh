@@ -9,9 +9,9 @@ unzip $fn -d temp
 cd temp
 mv kdflib_bg.wasm ../../public/kdflib_bg.wasm
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s|input = new URL('kdflib_bg.wasm', import.meta.url);|input = new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
+    sed -i '' "s|new URL('kdflib_bg.wasm', import.meta.url);|new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
 else
-    sed -i "s|input = new URL('kdflib_bg.wasm', import.meta.url);|input = new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
+    sed -i "s|new URL('kdflib_bg.wasm', import.meta.url);|new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
 fi
 
 mv kdflib.js ../../src/js/kdflib.js
