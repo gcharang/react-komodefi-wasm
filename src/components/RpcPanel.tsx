@@ -338,7 +338,7 @@ const RpcPanel = () => {
                 disabled={!mm2PanelState.mm2Running}
                 className={`flex items-center gap-1 rounded-lg text-sm py-1 px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running
-                    ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent"
+                    ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
                     : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                 }`}
               >
