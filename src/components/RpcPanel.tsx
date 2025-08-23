@@ -143,6 +143,7 @@ const RpcPanel = () => {
 
   const ListBox = () => {
     const [activeMenuItem, setActiveMenuItem] = useState<string>("");
+    const [filterText, setFilterText] = useState<string>("");
 
     const MenuItem = ({
       label,
@@ -158,11 +159,11 @@ const RpcPanel = () => {
       return (
         <li
           role="menuitem"
-          className="relative px-4 py-2 text-sm cursor-pointer leading-5 text-left hover:bg-primary-bg-800 hover:text-accent border-b border-border-primary last:border-none"
+          className="relative text-sm leading-5 text-left border-b border-border-primary last:border-none"
         >
           <button
             onClick={() => toggleSubMenu(label)}
-            className="block w-full text-left"
+            className="block w-full text-left px-4 py-2 cursor-pointer hover:bg-primary-bg-800 hover:text-accent transition-colors duration-200 font-bold"
           >
             {label}
             {children && (
@@ -191,6 +192,34 @@ const RpcPanel = () => {
         </li>
       );
     };
+
+    // Filter methods based on search text
+    const filteredMethods = useMemo(() => {
+      if (!methods || !filterText) return methods;
+      
+      const filtered: Record<string, any[]> = {};
+      const searchLower = filterText.toLowerCase();
+      
+      Object.keys(methods).forEach((methodList) => {
+        // Check if category name matches
+        const categoryMatches = methodList.toLowerCase().includes(searchLower);
+        
+        // Filter methods within the category
+        const filteredMethodsInCategory = methods[methodList].filter(
+          (methodJson: any) => 
+            methodJson?.name?.toLowerCase().includes(searchLower)
+        );
+        
+        // Include category if it matches or has matching methods
+        if (categoryMatches || filteredMethodsInCategory.length > 0) {
+          filtered[methodList] = categoryMatches 
+            ? methods[methodList] 
+            : filteredMethodsInCategory;
+        }
+      });
+      
+      return Object.keys(filtered).length > 0 ? filtered : null;
+    }, [methods, filterText]);
 
     return (
       <div className="relative inline-block text-left dropdown group z-50">
@@ -222,16 +251,43 @@ const RpcPanel = () => {
             aria-labelledby="RPC methods dropdown menu"
             id=""
           >
+            {/* Search/Filter Input */}
+            <div className="p-2 border-b border-border-primary">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Filter methods..."
+                  value={filterText}
+                  onChange={(e) => setFilterText(e.target.value)}
+                  className="w-full px-3 py-1.5 pr-8 text-sm bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary focus:outline-none focus:ring-1 focus:ring-accent/50 placeholder-text-muted"
+                  onClick={(e) => e.stopPropagation()}
+                />
+                {filterText && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFilterText("");
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+                    aria-label="Clear filter"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
             <ul
               role="menu"
               id="mm2-methods"
-              className="py-1 flex flex-col max-h-[60vh] overflow-hidden overflow-y-auto"
+              className="py-1 flex flex-col max-h-[calc(60vh-3.5rem)] overflow-hidden overflow-y-auto"
             >
-              {methods &&
-                Object.keys(methods).map((methodList) => {
+              {filteredMethods ? (
+                Object.keys(filteredMethods).map((methodList) => {
                   return (
                     <MenuItem key={nanoid(24)} label={methodList}>
-                      {methods[methodList].map((methodJson: any) => {
+                      {filteredMethods[methodList].map((methodJson: any) => {
                         return (
                           <li role="menuitem" key={nanoid(24)}>
                             <button
@@ -247,7 +303,7 @@ const RpcPanel = () => {
                                   }
                                 );
                               }}
-                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-800 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
+                              className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-700 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
                             >
                               <span>{methodJson?.name}</span>
                             </button>
@@ -256,7 +312,12 @@ const RpcPanel = () => {
                       })}
                     </MenuItem>
                   );
-                })}
+                })
+              ) : (
+                <li className="px-4 py-3 text-sm text-text-muted text-center">
+                  {filterText ? "No methods found" : "Loading methods..."}
+                </li>
+              )}
             </ul>
           </div>
         </div>
