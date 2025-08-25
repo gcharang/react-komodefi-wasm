@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
+import { Menu, MenuButton, MenuItems } from '@headlessui/react';
 import {
   fetchRpcMethods,
   getRawValues,
@@ -115,35 +116,26 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   }, [methods, debouncedFilter]);
 
   return (
-    <div className="relative inline-block text-left dropdown group z-50">
-      <span className="rounded-md shadow-xs">
-        <button
-          className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
-          type="button"
-          aria-haspopup="true"
-          aria-expanded="true"
-          aria-controls="mm2-methods"
+    <Menu as="div" className="relative inline-block text-left z-50">
+      <MenuButton className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer">
+        <span>Methods</span>
+        <svg
+          className="w-5 h-5 ml-2 -mr-1"
+          viewBox="0 0 20 20"
+          fill="currentColor"
         >
-          <span>Methods</span>
-          <svg
-            className="w-5 h-5 ml-2 -mr-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </button>
-      </span>
-      <div className="group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:visible opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
-        <div
-          className="absolute z-50 max-h-[60vh] -right-2 min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none"
-          aria-labelledby="RPC methods dropdown menu"
-          id=""
-        >
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      </MenuButton>
+      
+      <MenuItems
+        transition
+        className="absolute right-0 z-50 max-h-[60vh] min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+      >
           {/* Search/Filter Input */}
           <div className="p-2 border-b border-border-primary">
             <div className="relative">
@@ -216,9 +208,8 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
               </li>
             )}
           </ul>
-        </div>
-      </div>
-    </div>
+      </MenuItems>
+    </Menu>
   );
 });
 
