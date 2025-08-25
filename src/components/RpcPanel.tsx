@@ -251,6 +251,30 @@ const RpcPanel = () => {
     generateRpcMethods();
   }, []);
 
+  const grabMM2RpcPassword = useCallback(() => {
+    try {
+      return JSON.parse(mm2PanelState.mm2Config).rpc_password;
+    } catch (error) {
+      console.error(
+        "An error occurred while trying to parse MM2 config",
+        error
+      );
+      return undefined;
+    }
+  }, [mm2PanelState.mm2Config]);
+
+  // Utility function to prepare method for RPC (remove 'name' key and update password)
+  const prepareMethodForRpc = useCallback((methodData: any, password?: string) => {
+    // Create a shallow copy and remove the 'name' key
+    const { name, ...cleanedMethod } = methodData;
+    
+    // Update password if provided
+    if (password) {
+      return updateUserPass(cleanedMethod, password);
+    }
+    return cleanedMethod;
+  }, []);
+
   const loadMethodFromUrl = ({
     method,
     methodName,
@@ -281,8 +305,15 @@ const RpcPanel = () => {
       (value: any) => value?.name === methodName
     );
     if (requiredValue) {
-      const prettifiedJSON = JSON.stringify(requiredValue, null, 2);
-      syncPanelPasswords(prettifiedJSON);
+      // Clean the method and update password in one step
+      const rpcPassword = grabMM2RpcPassword();
+      const cleanedMethod = prepareMethodForRpc(requiredValue, rpcPassword);
+      
+      // Set the cleaned method directly
+      setRpcPanelState({
+        config: JSON.stringify(cleanedMethod, null, 2),
+        dataHasErrors: false,
+      });
     }
   };
   useEffect(() => {
@@ -291,12 +322,17 @@ const RpcPanel = () => {
     if (methods && method && methodName) {
       loadMethodFromUrl({ method, methodName });
     }
-  }, [searchParams, methods]);
+  }, [searchParams, methods, grabMM2RpcPassword, prepareMethodForRpc]);
 
   const sendRpcRequest = useCallback(async () => {
     let request_js;
     try {
       request_js = JSON.parse(rpcPanelState.config);
+      // Ensure 'name' key is removed before sending
+      if ('name' in request_js) {
+        const { name, ...cleanRequest } = request_js;
+        request_js = cleanRequest;
+      }
     } catch (e) {
       alert(
         `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
@@ -310,31 +346,27 @@ const RpcPanel = () => {
     });
   }, [rpcPanelState.config, setRpcResponseState]);
 
-  const grabMM2RpcPassword = useCallback(() => {
-    try {
-      return JSON.parse(mm2PanelState.mm2Config).rpc_password;
-    } catch (error) {
-      console.error(
-        "An error occurred while trying to parse MM2 config",
-        error
-      );
-      return undefined;
-    }
-  }, [mm2PanelState.mm2Config]);
-
-  const syncPanelPasswords = useCallback((rpcRequestConfig?: string) => {
+  // Improved password syncing - only updates when password actually changes
+  const syncPanelPasswords = useCallback(() => {
     const rpcPassword = grabMM2RpcPassword();
-    if (rpcPassword) {
-      const updatedUserPassword = updateUserPass(
-        rpcRequestConfig
-          ? JSON.parse(rpcRequestConfig)
-          : JSON.parse(rpcPanelState.config),
-        rpcPassword
-      );
-      if (updatedUserPassword)
-        setRpcPanelState({
-          config: JSON.stringify(updatedUserPassword, null, 2),
-        });
+    if (!rpcPassword || !rpcPanelState.config) return;
+    
+    try {
+      const currentConfig = JSON.parse(rpcPanelState.config);
+      
+      // Only update if password is different
+      if (currentConfig.userpass !== rpcPassword) {
+        const updatedConfig = updateUserPass(currentConfig, rpcPassword);
+        if (updatedConfig) {
+          setRpcPanelState({
+            config: JSON.stringify(updatedConfig, null, 2),
+            dataHasErrors: false,
+          });
+        }
+      }
+    } catch (error) {
+      // Config is not valid JSON, skip password sync
+      console.debug('Skipping password sync for invalid JSON config');
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState]);
 
@@ -407,7 +439,7 @@ const RpcPanel = () => {
                 config: value,
                 dataHasErrors: false,
               });
-              // syncPanelPasswords(value);
+              // Password will be synced automatically via useEffect
             } else {
               setRpcPanelState({
                 config: value,
