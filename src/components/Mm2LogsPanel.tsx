@@ -132,17 +132,20 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
           </div>
           <div>
             <div className="flex gap-3 items-center">
-              <label htmlFor="scrollInput" className="flex gap-1 items-center">
-                <span>Scroll to bottom</span>
-                <input
-                  checked={shouldAlwaysScrollToBottom}
-                  onChange={(e) => {
-                    setShouldAlwaysScrollToBottom(!shouldAlwaysScrollToBottom);
-                  }}
-                  className="rounded bg-primary-bg-700 accent-accent"
-                  id="scrollInput"
-                  type="checkbox"
-                />
+              <label htmlFor="scrollInput" className="flex gap-2 items-center cursor-pointer">
+                <span className="text-sm">Scroll to bottom</span>
+                <div className="relative">
+                  <input
+                    checked={shouldAlwaysScrollToBottom}
+                    onChange={(e) => {
+                      setShouldAlwaysScrollToBottom(!shouldAlwaysScrollToBottom);
+                    }}
+                    className="sr-only peer"
+                    id="scrollInput"
+                    type="checkbox"
+                  />
+                  <div className="w-10 h-5 bg-primary-bg-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-accent transition-colors duration-200"></div>
+                </div>
               </label>
             </div>
           </div>
