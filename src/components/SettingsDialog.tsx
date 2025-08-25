@@ -3,6 +3,10 @@ import {
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
+  Field,
+  Label,
+  Input,
+  Description,
 } from "@headlessui/react";
 import { useState } from "react";
 
@@ -42,19 +46,19 @@ export const SettingsDialog = ({
           <DialogTitle className="text-lg font-semibold text-text-primary">
             Import collection URL
           </DialogTitle>
-          <div className="mt-4">
-            <p className="text-sm text-text-secondary mb-3">
+          <Field className="mt-4">
+            <Description className="text-sm text-text-secondary mb-3">
               Allows you to use new methods from the dropdown in the menu bar
               above
-            </p>
-            <input
-              className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
+            </Description>
+            <Input
+              className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50 data-[invalid]:ring-danger data-[invalid]:ring-2"
               type="url"
               placeholder="postman collection url"
               value={url}
               onChange={({ target: { value } }) => setUrl(value)}
             />
-          </div>
+          </Field>
 
           <div className="mt-4 flex justify-end">
             <button

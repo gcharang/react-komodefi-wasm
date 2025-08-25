@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Textarea } from "@headlessui/react";
 import { PlayIcon, StopIcon } from "../components/IconComponents";
 
 import init, {
@@ -276,7 +277,7 @@ const Mm2Panel = () => {
           </div>
         </div>
       </div>
-      <textarea
+      <Textarea
         id="mm2-config"
         name="mm2Config"
         disabled={mm2PanelState.mm2Running}
@@ -300,7 +301,7 @@ const Mm2Panel = () => {
             : "ring-2 ring-danger/50 ring-inset"
         } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary font-mono text-sm disabled:opacity-50 transition-all duration-200`}
         value={mm2PanelState.mm2Config}
-      ></textarea>
+      />
     </div>
   );
 };

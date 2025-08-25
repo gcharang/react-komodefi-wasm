@@ -3,7 +3,7 @@ import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
 import { useRpcResponseState } from "../store/useStore";
-import Tooltip from "./Tooltip";
+import PopoverTooltip from "./PopoverTooltip";
 
 const RpcResponsePanel = () => {
   const { rpcResponseState } = useRpcResponseState();
@@ -32,22 +32,22 @@ const RpcResponsePanel = () => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex gap-3 items-center">
           {!copied && (
-            <Tooltip label={"Copy Response"}>
+            <PopoverTooltip label={"Copy Response"}>
               <Clipboard
                 onClick={() => copyToClipboard()}
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-accent transition-colors duration-200"
               />
-            </Tooltip>
+            </PopoverTooltip>
           )}
           {copied && (
-            <Tooltip label={"Copied!"}>
+            <PopoverTooltip label={"Copied!"}>
               <CheckCircle
                 onClick={() => copyToClipboard()}
                 role="image"
                 className="w-6 h-6 text-success animate-fadeIn"
               />
-            </Tooltip>
+            </PopoverTooltip>
           )}
         </div>
       </div>

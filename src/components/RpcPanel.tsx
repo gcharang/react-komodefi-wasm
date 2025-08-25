@@ -1,6 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
-import { Menu, MenuButton, MenuItems } from '@headlessui/react';
+import { Menu, MenuButton, MenuItems, Field, Input, Textarea } from '@headlessui/react';
 import {
   fetchRpcMethods,
   getRawValues,
@@ -20,7 +20,7 @@ import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
-import Tooltip from "./Tooltip";
+import PopoverTooltip from "./PopoverTooltip";
 
 // MenuItem component - defined outside to avoid hooks issues
 interface MenuItemProps {
@@ -138,8 +138,8 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
       >
           {/* Search/Filter Input */}
           <div className="p-2 border-b border-border-primary">
-            <div className="relative">
-              <input
+            <Field className="relative">
+              <Input
                 type="text"
                 placeholder="Filter methods..."
                 value={filterText}
@@ -161,7 +161,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                   </svg>
                 </button>
               )}
-            </div>
+            </Field>
           </div>
           <ul
             role="menu"
@@ -386,15 +386,15 @@ const RpcPanel = () => {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <Tooltip label={"Open Settings"} dir="bottom">
+              <PopoverTooltip label={"Open Settings"} dir="bottom">
                 <SettingsIcon
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
                   role="button"
                   className="w-5 h-5 cursor-pointer"
                 />
-              </Tooltip>
-              <Tooltip label={"Select Electrum Coins"} dir="bottom">
+              </PopoverTooltip>
+              <PopoverTooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
                   className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
@@ -415,12 +415,12 @@ const RpcPanel = () => {
                   </svg>
                   <span>Electrum</span>
                 </button>
-              </Tooltip>
+              </PopoverTooltip>
               <ListBox methods={methods} router={router} />
             </div>
           </div>
         </div>
-        <textarea
+        <Textarea
           id="rpc-config"
           name="rpcConfig"
           onChange={(e) => {
@@ -444,7 +444,7 @@ const RpcPanel = () => {
               : "ring-2 ring-danger/50 ring-inset"
           } p-3 h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary font-mono text-sm disabled:opacity-50 transition-all duration-200`}
           value={rpcPanelState.config}
-        ></textarea>
+        />
       </div>
     );
   }, [

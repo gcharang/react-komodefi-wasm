@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Switch } from "@headlessui/react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/useStore";
-import Tooltip from "./Tooltip";
+import PopoverTooltip from "./PopoverTooltip";
 
 interface Mm2LogsPanelProps {
   windowSizes: {
@@ -67,7 +68,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <Tooltip
+            <PopoverTooltip
               label={
                 windowSizes.bottomBar <= 100 ? "Expand panel" : "Collapse Panel"
               }
@@ -83,8 +84,8 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   windowSizes.bottomBar <= 100 ? "rotate-180" : ""
                 }`}
               />
-            </Tooltip>
-            <Tooltip label={"Clear console"}>
+            </PopoverTooltip>
+            <PopoverTooltip label={"Clear console"}>
               <NoSymbol
                 onClick={() => {
                   setMm2LogsPanelState({
@@ -94,9 +95,9 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 role="button"
                 className="w-6 h-6 cursor-pointer hover:text-accent"
               />
-            </Tooltip>
+            </PopoverTooltip>
             {!copied && (
-              <Tooltip label={"Copy Logs"}>
+              <PopoverTooltip label={"Copy Logs"}>
                 <Clipboard
                   onClick={() => {
                     copyToClipboard(
@@ -110,10 +111,10 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   role="button"
                   className="w-6 h-6 cursor-pointer hover:text-accent"
                 />
-              </Tooltip>
+              </PopoverTooltip>
             )}
             {copied && (
-              <Tooltip label={"Copied!"}>
+              <PopoverTooltip label={"Copied!"}>
                 <CheckCircle
                   onClick={() => {
                     copyToClipboard(
@@ -127,26 +128,28 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   role="image"
                   className="w-6 h-6 text-green-600"
                 />
-              </Tooltip>
+              </PopoverTooltip>
             )}
           </div>
           <div>
             <div className="flex gap-3 items-center">
-              <label htmlFor="scrollInput" className="flex gap-2 items-center cursor-pointer">
+              <div className="flex gap-2 items-center">
                 <span className="text-sm">Scroll to bottom</span>
-                <div className="relative">
-                  <input
-                    checked={shouldAlwaysScrollToBottom}
-                    onChange={(e) => {
-                      setShouldAlwaysScrollToBottom(!shouldAlwaysScrollToBottom);
-                    }}
-                    className="sr-only peer"
-                    id="scrollInput"
-                    type="checkbox"
+                <Switch
+                  checked={shouldAlwaysScrollToBottom}
+                  onChange={setShouldAlwaysScrollToBottom}
+                  className={`${
+                    shouldAlwaysScrollToBottom ? 'bg-accent' : 'bg-primary-bg-700'
+                  } relative inline-flex h-5 w-10 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary-bg-800`}
+                >
+                  <span className="sr-only">Enable scroll to bottom</span>
+                  <span
+                    className={`${
+                      shouldAlwaysScrollToBottom ? 'translate-x-5' : 'translate-x-0.5'
+                    } inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200`}
                   />
-                  <div className="w-10 h-5 bg-primary-bg-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-accent transition-colors duration-200"></div>
-                </div>
-              </label>
+                </Switch>
+              </div>
             </div>
           </div>
         </div>

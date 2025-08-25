@@ -4,6 +4,9 @@ import {
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
+  Field,
+  Input,
+  Checkbox,
 } from '@headlessui/react';
 import { ALL_COIN_ELECTRUMS } from '../staticData';
 import coins_config_wss from '../staticData/coins_config_wss.json';
@@ -56,13 +59,16 @@ const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
       }`}
     >
       <div className="flex items-center gap-3">
-        <input
-          type="checkbox"
+        <Checkbox
           checked={isSelected}
           onChange={handleClick}
-          className="h-4 w-4 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
+          className="group size-4 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
           onClick={handleCheckboxClick}
-        />
+        >
+          <svg className="hidden size-4 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
+            <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        </Checkbox>
         <div className="flex-1 flex items-center justify-between">
           <span className="font-medium">{coin.coin}</span>
           <span className="text-xs text-text-muted">
@@ -301,15 +307,17 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             {/* Left panel - Coin list */}
             <div className="w-1/3 border-r border-border-primary">
               <div className="p-4">
-                <input
-                  id="electrum-coin-search"
-                  name="electrum-coin-search"
-                  type="text"
-                  placeholder="Search coins..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
-                />
+                <Field>
+                  <Input
+                    id="electrum-coin-search"
+                    name="electrum-coin-search"
+                    type="text"
+                    placeholder="Search coins..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
+                  />
+                </Field>
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-text-muted">
@@ -341,14 +349,17 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     )}
                   </div>
                   <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
-                    <input
+                    <Checkbox
                       id="show-selected-only"
                       name="show-selected-only"
-                      type="checkbox"
                       checked={showSelectedOnly}
-                      onChange={(e) => setShowSelectedOnly(e.target.checked)}
-                      className="h-3.5 w-3.5 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
-                    />
+                      onChange={setShowSelectedOnly}
+                      className="group size-3.5 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
+                    >
+                      <svg className="hidden size-3.5 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
+                        <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    </Checkbox>
                     <span className="text-xs text-text-secondary">Show selected only</span>
                   </label>
                 </div>
