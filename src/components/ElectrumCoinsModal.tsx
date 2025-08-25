@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import {
   Dialog,
   DialogBackdrop,
@@ -30,6 +30,52 @@ interface CoinElectrumConfig {
   }>;
 }
 
+// Memoized coin item component for better performance
+interface CoinItemProps {
+  coin: CoinElectrumConfig;
+  isSelected: boolean;
+  onToggle: (coinName: string) => void;
+}
+
+const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
+  const handleClick = () => {
+    onToggle(coin.coin);
+  };
+
+  const handleCheckboxClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+        isSelected
+          ? 'bg-accent/20 text-accent'
+          : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={handleClick}
+          className="h-4 w-4 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
+          onClick={handleCheckboxClick}
+        />
+        <div className="flex-1 flex items-center justify-between">
+          <span className="font-medium">{coin.coin}</span>
+          <span className="text-xs text-text-muted">
+            {coin.servers.length} server{coin.servers.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+});
+
+CoinItem.displayName = 'CoinItem';
+
 export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
   isOpen,
   onClose,
@@ -40,22 +86,25 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
   const [showSelectedOnly, setShowSelectedOnly] = useState(false);
   const { mm2PanelState } = useMm2PanelState();
   
-  // Initialize with password-synced coins
-  const getInitialCoins = () => {
+  // Initialize with password-synced coins - optimized with useMemo
+  const getInitialCoins = useMemo(() => {
     try {
       const currentPassword = JSON.parse(mm2PanelState.mm2Config).rpc_password;
       if (currentPassword) {
-        return ALL_COIN_ELECTRUMS.map(coin => 
-          updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
-        );
+        return ALL_COIN_ELECTRUMS.map(coin => {
+          const cloned = typeof structuredClone !== 'undefined'
+            ? structuredClone(coin)
+            : JSON.parse(JSON.stringify(coin));
+          return updateUserPass(cloned, currentPassword);
+        });
       }
     } catch (error) {
       // Fall back to default if parsing fails
     }
     return ALL_COIN_ELECTRUMS;
-  };
+  }, []);
   
-  const [electrumCoins, setElectrumCoins] = useState<CoinElectrumConfig[]>(getInitialCoins());
+  const [electrumCoins, setElectrumCoins] = useState<CoinElectrumConfig[]>(getInitialCoins);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
@@ -81,9 +130,12 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             // Update with current password if available
             const currentPassword = getCurrentRpcPassword();
             if (currentPassword) {
-              const updatedData = data.map(coin => 
-                updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
-              );
+              const updatedData = data.map(coin => {
+                const cloned = typeof structuredClone !== 'undefined'
+                  ? structuredClone(coin)
+                  : JSON.parse(JSON.stringify(coin));
+                return updateUserPass(cloned, currentPassword);
+              });
               setElectrumCoins(updatedData);
             } else {
               setElectrumCoins(data);
@@ -108,9 +160,12 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
         // Only update if password actually changed
         const firstCoin = electrumCoins[0];
         if (firstCoin && firstCoin.userpass !== currentPassword) {
-          const updatedCoins = electrumCoins.map(coin => 
-            updateUserPass(JSON.parse(JSON.stringify(coin)), currentPassword)
-          );
+          const updatedCoins = electrumCoins.map(coin => {
+            const cloned = typeof structuredClone !== 'undefined'
+              ? structuredClone(coin)
+              : JSON.parse(JSON.stringify(coin));
+            return updateUserPass(cloned, currentPassword);
+          });
           setElectrumCoins(updatedCoins);
         }
       }
@@ -127,21 +182,24 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
     });
   }, [searchTerm, electrumCoins, showSelectedOnly, selectedCoins]);
 
-  // Get selected coins data with synced password
+  // Get selected coins data with synced password - optimized deep clone
   const selectedCoinsData = useMemo(() => {
     const coinsData = electrumCoins.filter((coin) => coin && selectedCoins.has(coin.coin));
     const currentPassword = getCurrentRpcPassword();
     if (currentPassword && coinsData.length > 0) {
-      // Return copies with updated password
-      return coinsData.map(coinData => 
-        updateUserPass(JSON.parse(JSON.stringify(coinData)), currentPassword)
-      );
+      // Use structuredClone for better performance (or fallback to JSON method)
+      return coinsData.map(coinData => {
+        const cloned = typeof structuredClone !== 'undefined' 
+          ? structuredClone(coinData)
+          : JSON.parse(JSON.stringify(coinData));
+        return updateUserPass(cloned, currentPassword);
+      });
     }
     return coinsData;
   }, [selectedCoins, electrumCoins, mm2PanelState.mm2Config]);
 
-  // Toggle coin selection
-  const toggleCoinSelection = (coinName: string) => {
+  // Toggle coin selection - optimized with useCallback
+  const toggleCoinSelection = useCallback((coinName: string) => {
     setSelectedCoins(prev => {
       const newSet = new Set(prev);
       if (newSet.has(coinName)) {
@@ -151,10 +209,10 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
       }
       return newSet;
     });
-  };
+  }, []);
 
-  // Select/Deselect all filtered coins
-  const toggleSelectAll = () => {
+  // Select/Deselect all filtered coins - optimized with useCallback
+  const toggleSelectAll = useCallback(() => {
     if (filteredCoins.length === 0) return;
     
     const allFilteredSelected = filteredCoins.every(coin => selectedCoins.has(coin.coin));
@@ -173,14 +231,14 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
         return newSet;
       });
     }
-  };
+  }, [filteredCoins, selectedCoins]);
 
-  // Clear all selections
-  const clearSelection = () => {
+  // Clear all selections - optimized with useCallback
+  const clearSelection = useCallback(() => {
     setSelectedCoins(new Set());
-  };
+  }, []);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = useCallback(() => {
     if (selectedCoinsData.length > 0) {
       // Format for multiple coins - wrap in array if multiple
       const dataToExport = selectedCoinsData.length === 1 
@@ -190,7 +248,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
-  };
+  }, [selectedCoinsData]);
 
   return (
     <Dialog
@@ -309,31 +367,12 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                 ) : filteredCoins.map((coin) => {
                   if (!coin) return null;
                   return (
-                    <button
+                    <CoinItem
                       key={coin.coin}
-                      onClick={() => toggleCoinSelection(coin.coin)}
-                      className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                        selectedCoins.has(coin.coin)
-                          ? 'bg-accent/20 text-accent'
-                          : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedCoins.has(coin.coin)}
-                          onChange={() => toggleCoinSelection(coin.coin)}
-                          className="h-4 w-4 rounded border-border-primary bg-primary-bg-900 text-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <div className="flex-1 flex items-center justify-between">
-                          <span className="font-medium">{coin.coin}</span>
-                          <span className="text-xs text-text-muted">
-                            {coin.servers.length} server{coin.servers.length !== 1 ? 's' : ''}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
+                      coin={coin}
+                      isSelected={selectedCoins.has(coin.coin)}
+                      onToggle={toggleCoinSelection}
+                    />
                   );
                 })}
               </div>

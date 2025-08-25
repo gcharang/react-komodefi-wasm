@@ -15,6 +15,7 @@ gzip -9 -f -k ../../public/kdflib_bg.wasm
 echo "WASM compressed successfully"
 echo "WASM file sizes:"
 ls -lh ../../public/kdflib_bg.wasm*
+rm ../../public/kdflib_bg.wasm
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s|new URL('kdflib_bg.wasm', import.meta.url);|new URL('kdflib_bg.wasm', process.env.NEXT_PUBLIC_BASE_PATH);|" kdflib.js
 else

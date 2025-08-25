@@ -253,7 +253,16 @@ const Mm2Panel = () => {
           </div>
           <div>
             <p className="text-sm">
-              KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}
+              KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
+              {process.env.NEXT_PUBLIC_KDF_PR_URL && (
+                <a
+                  className="ml-2 text-blue-300"
+                  href={process.env.NEXT_PUBLIC_KDF_PR_URL}
+                  target="_blank"
+                >
+                  🔗 <span className="underline">PR Link</span>
+                </a>
+              )}
             </p>
           </div>
         </div>

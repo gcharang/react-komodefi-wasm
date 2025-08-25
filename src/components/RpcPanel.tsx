@@ -246,6 +246,7 @@ const RpcPanel = () => {
       return result;
     }
   }, [setMethods]);
+
   useEffect(() => {
     generateRpcMethods();
   }, []);
