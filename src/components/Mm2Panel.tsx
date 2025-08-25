@@ -262,6 +262,15 @@ const Mm2Panel = () => {
                 >
                   🔗 <span className="underline">PR Link</span>
                 </a>
+              )}{" "}
+              {process.env.NEXT_PUBLIC_KDF_TREE && (
+                <a
+                  className="ml-2 text-blue-300"
+                  href={process.env.NEXT_PUBLIC_KDF_TREE}
+                  target="_blank"
+                >
+                  🔗 <span className="underline">GH Tree Link</span>
+                </a>
               )}
             </p>
           </div>
