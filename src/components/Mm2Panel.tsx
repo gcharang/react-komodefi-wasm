@@ -232,28 +232,37 @@ const Mm2Panel = () => {
 
   return (
     <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-      <div className="relative flex items-center justify-center w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
+      <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
         <div className="relative w-full flex items-center justify-between">
-          <div className="flex gap-3">
+          <div className="flex gap-1 md:gap-3">
             <button
               onClick={() => toggleMm2()}
-              className="flex items-center cursor-pointer gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
+              className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
             >
               {!mm2PanelState.mm2Running ? (
                 <>
-                  <span>Run KDF</span>
-                  <PlayIcon role="image" className="w-5 h-5 fill-green-500" />
+                  <span className="hidden md:inline">Run KDF</span>
+                  <span className="md:hidden">Run</span>
+                  <PlayIcon
+                    role="image"
+                    className="w-4 md:w-5 h-4 md:h-5 fill-green-500"
+                  />
                 </>
               ) : (
                 <>
-                  <span>Stop KDF</span>
-                  <StopIcon role="image" className="w-5 h-5 fill-red-500" />
+                  <span className="hidden md:inline">Stop KDF</span>
+                  <span className="md:hidden">Stop</span>
+                  <StopIcon
+                    role="image"
+                    className="w-4 md:w-5 h-4 md:h-5 fill-red-500"
+                  />
                 </>
               )}
             </button>
           </div>
-          <div>
-            <p className="text-sm">
+          <div className="flex max-w-[80%] max-h-full flex-row flex-wrap overflow-auto">
+            <p className="text-sm -md:text-xs">
+              {" "}
               KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
               {process.env.NEXT_PUBLIC_KDF_PR_URL && (
                 <a

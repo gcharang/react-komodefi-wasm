@@ -116,11 +116,11 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   }, [methods, debouncedFilter]);
 
   return (
-    <Menu as="div" className="relative inline-block text-left z-50">
-      <MenuButton className="inline-flex justify-center w-full rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer">
+    <Menu as="div" className="relative inline-block text-left z-50 ">
+      <MenuButton className="inline-flex justify-center w-full rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer">
         <span>Methods</span>
         <svg
-          className="w-5 h-5 ml-2 -mr-1"
+          className="w-4 md:w-5 h-4 md:h-5 ml-2 -mr-1"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -395,37 +395,40 @@ const RpcPanel = () => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20 relative z-30">
-        <div className="relative flex justify-between w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg z-30">
+        <div className="relative flex justify-between w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg z-30">
           <div className="relative flex flex-row justify-between w-full">
-            <div className="flex gap-3">
+            <div className="flex gap-1 md:gap-3">
               <button
                 onClick={sendRpcRequest}
-                disabled={!mm2PanelState.mm2Running || rpcPanelState.dataHasErrors}
-                className={`flex items-center gap-1 rounded-lg text-sm py-1 px-3 transition-all duration-200 ${
+                disabled={
+                  !mm2PanelState.mm2Running || rpcPanelState.dataHasErrors
+                }
+                className={`flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running && !rpcPanelState.dataHasErrors
                     ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
                     : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                 }`}
               >
-                <span>Send</span> <Send role="image" className={`w-5 h-5`} />
+                <span>Send</span>{" "}
+                <Send role="image" className={`w-4 md:w-5 h-4 md:h-5`} />
               </button>
             </div>
-            <div className="flex flex-row flex-wrap items-center gap-3">
+            <div className="flex flex-row flex-wrap items-center gap-1 md:gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
                 <SettingsIcon
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
                   role="button"
-                  className="w-5 h-5 cursor-pointer"
+                  className="w-4 md:w-5 h-4 md:h-5 cursor-pointer"
                 />
               </Tooltip>
               <Tooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
-                  className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
                 >
                   <svg
-                    className="w-4 h-4"
+                    className="w-3 md:w-4 h-3 md:h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

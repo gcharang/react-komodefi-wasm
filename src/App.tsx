@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { AppWindowSizes } from "./types/components";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
@@ -7,20 +7,100 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 
+type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
+
 function App() {
   const [windowSizes, setWindowSizes] = useState<AppWindowSizes>({
     bottomBar: 280, // More space for logs
     leftPane: null, // Will use 50% by default
     rightPane: null,
   });
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>('mm2');
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
       <WarningDialog />
-      <div className="h-full m-auto max-w-[2200px] p-4">
+      <div className="h-full m-auto max-w-[2200px] p-2 md:p-4">
         <div className="w-full h-full flex flex-col">
-          <div className="flex-1 min-h-0">
-            <div className="flex w-full h-full">
+          {isMobile ? (
+            // Mobile Layout with Tabs
+            <div className="flex flex-col h-full">
+              {/* Tab Navigation */}
+              <div className="flex border-b border-border-primary bg-primary-bg-800/95 backdrop-blur-xl rounded-t-lg">
+                <button
+                  onClick={() => setActiveTab('mm2')}
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                    activeTab === 'mm2'
+                      ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+                  }`}
+                >
+                  MM2 Config
+                </button>
+                <button
+                  onClick={() => setActiveTab('rpc')}
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                    activeTab === 'rpc'
+                      ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+                  }`}
+                >
+                  RPC
+                </button>
+                <button
+                  onClick={() => setActiveTab('logs')}
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                    activeTab === 'logs'
+                      ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+                  }`}
+                >
+                  Logs
+                </button>
+                <button
+                  onClick={() => setActiveTab('response')}
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                    activeTab === 'response'
+                      ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+                  }`}
+                >
+                  Response
+                </button>
+              </div>
+              
+              {/* Active Panel Content */}
+              <div className="flex-1 min-h-0 overflow-hidden">
+                {activeTab === 'mm2' && <Mm2Panel />}
+                {activeTab === 'rpc' && <RpcPanel />}
+                {activeTab === 'logs' && (
+                  <div className="h-full bg-primary-bg-800/95 backdrop-blur-xl rounded-b-lg shadow-2xl ring-1 ring-accent/20">
+                    <Mm2LogsPanel windowSizes={windowSizes} setWindowSizes={setWindowSizes} />
+                  </div>
+                )}
+                {activeTab === 'response' && (
+                  <div className="h-full bg-primary-bg-800/95 backdrop-blur-xl rounded-b-lg shadow-2xl ring-1 ring-accent/20">
+                    <RpcResponsePanel />
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            // Desktop Layout (existing)
+            <>
+              <div className="flex-1 min-h-0">
+                <div className="flex w-full h-full">
               <div
                 style={{
                   flex: `0 0 ${
@@ -153,8 +233,10 @@ function App() {
               <div className="flex-1 min-w-0 overflow-hidden">
                 <RpcResponsePanel />
               </div>
-            </div>
-          </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
