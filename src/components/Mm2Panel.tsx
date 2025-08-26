@@ -280,13 +280,13 @@ const Mm2Panel = () => {
       <div
         className={`${
           !mm2PanelState.dataHasErrors
-            ? "focus-within:ring-2 focus-within:ring-accent/50 focus-within:ring-inset"
-            : "ring-2 ring-danger/50 ring-inset"
+            ? "focus-within:ring-2 focus-within:ring-accent/50"
+            : "ring-4 ring-red-500"
         } relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
       >
         <div
           className={`absolute inset-0 p-2 h-full w-full z-10 bg-gray-100 ${
-            mm2PanelState.mm2Running ? "opacity-20" : "opacity-0"
+            mm2PanelState.mm2Running ? "opacity-20 block" : "opacity-0 hidden"
           }`}
         ></div>
         <JsonMonacoEditor
