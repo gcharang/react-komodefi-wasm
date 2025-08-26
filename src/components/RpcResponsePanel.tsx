@@ -3,7 +3,7 @@ import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
 
 import { CheckCircle, Clipboard } from "./IconComponents";
 import { useRpcResponseState } from "../store/useStore";
-import PopoverTooltip from "./PopoverTooltip";
+import Tooltip from "./Tooltip";
 
 const RpcResponsePanel = () => {
   const { rpcResponseState } = useRpcResponseState();
@@ -32,22 +32,24 @@ const RpcResponsePanel = () => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex gap-3 items-center">
           {!copied && (
-            <PopoverTooltip label={"Copy Response"}>
-              <Clipboard
+            <Tooltip label={"Copy Response"} dir="bottom-right">
+              <button
                 onClick={() => copyToClipboard()}
-                role="button"
-                className="w-6 h-6 cursor-pointer hover:text-accent transition-colors duration-200"
-              />
-            </PopoverTooltip>
+                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+              >
+                <Clipboard className="w-6 h-6" />
+              </button>
+            </Tooltip>
           )}
           {copied && (
-            <PopoverTooltip label={"Copied!"}>
-              <CheckCircle
+            <Tooltip label={"Copied!"} dir="bottom">
+              <button
                 onClick={() => copyToClipboard()}
-                role="image"
-                className="w-6 h-6 text-success animate-fadeIn"
-              />
-            </PopoverTooltip>
+                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+              >
+                <CheckCircle className="w-6 h-6 text-success animate-fadeIn" />
+              </button>
+            </Tooltip>
           )}
         </div>
       </div>

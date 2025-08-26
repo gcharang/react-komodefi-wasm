@@ -20,7 +20,7 @@ import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
-import PopoverTooltip from "./PopoverTooltip";
+import Tooltip from "./Tooltip";
 
 // MenuItem component - defined outside to avoid hooks issues
 interface MenuItemProps {
@@ -386,15 +386,15 @@ const RpcPanel = () => {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <PopoverTooltip label={"Open Settings"} dir="bottom">
+              <Tooltip label={"Open Settings"} dir="bottom">
                 <SettingsIcon
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
                   role="button"
                   className="w-5 h-5 cursor-pointer"
                 />
-              </PopoverTooltip>
-              <PopoverTooltip label={"Select Electrum Coins"} dir="bottom">
+              </Tooltip>
+              <Tooltip label={"Select Electrum Coins"} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
                   className="inline-flex items-center gap-1 rounded-lg text-sm py-1 px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
@@ -415,7 +415,7 @@ const RpcPanel = () => {
                   </svg>
                   <span>Electrum</span>
                 </button>
-              </PopoverTooltip>
+              </Tooltip>
               <ListBox methods={methods} router={router} />
             </div>
           </div>

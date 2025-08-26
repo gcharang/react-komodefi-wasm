@@ -2,18 +2,37 @@ import React from "react";
 
 interface TooltipProps {
   label: string;
-  dir?: "top" | "bottom";
+  dir?: "top" | "bottom" | "bottom-right";
   children: React.ReactNode;
+}
+
+function classBasedOnDir(dir: TooltipProps["dir"]) {
+  let classs = ""
+  switch (dir) {
+    case "top":
+      classs = "bottom-full mb-2"
+      break;
+    case "bottom":
+      classs = "top-full mt-2"
+      break;
+    case "bottom-right":
+      classs = "top-full mt-2 left-full"
+      break;
+    default:
+      break;
+  }
+  return classs;
 }
 
 const Tooltip = ({ label, dir = "top", children }: TooltipProps) => {
   return (
-    <div className="group cursor-pointer relative text-center">
+    <div className="relative inline-block group">
       {children}
       <div
-        className={`transition opacity-0 shadow-2xl ring-1 ring-accent/20 w-28 bg-primary-bg-800/95 backdrop-blur-xl text-text-primary text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 group-hover:-translate-y-2 ${
-          dir === "top" ? "bottom-full" : "-bottom-[200%]"
-        } -translate-y-4 left-1/2 -translate-x-1/2  pointer-events-none`}
+        className={`absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200
+          bg-primary-bg-800 text-text-primary text-xs rounded-md px-2 py-1 whitespace-nowrap
+          ${classBasedOnDir(dir)}
+          left-1/2 -translate-x-1/2`}
       >
         {label}
         <svg

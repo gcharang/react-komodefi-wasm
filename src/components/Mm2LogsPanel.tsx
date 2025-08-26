@@ -3,7 +3,7 @@ import { Switch } from "@headlessui/react";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/useStore";
-import PopoverTooltip from "./PopoverTooltip";
+import Tooltip from "./Tooltip";
 
 interface Mm2LogsPanelProps {
   windowSizes: {
@@ -68,37 +68,43 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <PopoverTooltip
+            <Tooltip
               label={
-                windowSizes.bottomBar <= 100 ? "Expand panel" : "Collapse Panel"
+                windowSizes.bottomBar <= 100 ? "Expand Panel" : "Collapse Panel"
               }
+              dir="bottom-right"
             >
-              <DoubleDown
+              <button
                 onClick={() => {
                   setWindowSizes({
                     ...windowSizes,
                     bottomBar: windowSizes.bottomBar <= 100 ? 280 : 100,
                   });
                 }}
-                className={`w-6 h-6 cursor-pointer hover:text-accent transition ${
-                  windowSizes.bottomBar <= 100 ? "rotate-180" : ""
-                }`}
-              />
-            </PopoverTooltip>
-            <PopoverTooltip label={"Clear console"}>
-              <NoSymbol
+                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+              >
+                <DoubleDown
+                  className={`w-6 h-6 ${
+                    windowSizes.bottomBar <= 100 ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </Tooltip>
+            <Tooltip label={"Clear console"} dir="bottom">
+              <button
                 onClick={() => {
                   setMm2LogsPanelState({
                     outputMessages: [],
                   });
                 }}
-                role="button"
-                className="w-6 h-6 cursor-pointer hover:text-accent"
-              />
-            </PopoverTooltip>
+                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+              >
+                <NoSymbol className="w-6 h-6" />
+              </button>
+            </Tooltip>
             {!copied && (
-              <PopoverTooltip label={"Copy Logs"}>
-                <Clipboard
+              <Tooltip label={"Copy Logs"} dir="bottom">
+                <button
                   onClick={() => {
                     copyToClipboard(
                       mm2LogsPanelState.outputMessages
@@ -108,14 +114,15 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     setCopied(true);
                     setTimeout(() => setCopied(false), 1000);
                   }}
-                  role="button"
-                  className="w-6 h-6 cursor-pointer hover:text-accent"
-                />
-              </PopoverTooltip>
+                  className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                >
+                  <Clipboard className="w-6 h-6" />
+                </button>
+              </Tooltip>
             )}
             {copied && (
-              <PopoverTooltip label={"Copied!"}>
-                <CheckCircle
+              <Tooltip label={"Copied!"} dir="bottom">
+                <button
                   onClick={() => {
                     copyToClipboard(
                       mm2LogsPanelState.outputMessages
@@ -125,10 +132,11 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     setCopied(true);
                     setTimeout(() => setCopied(false), 1000);
                   }}
-                  role="image"
-                  className="w-6 h-6 text-green-600"
-                />
-              </PopoverTooltip>
+                  className="p-0 border-none bg-transparent cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                >
+                  <CheckCircle className="w-6 h-6 text-success" />
+                </button>
+              </Tooltip>
             )}
           </div>
           <div>
@@ -139,13 +147,17 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   checked={shouldAlwaysScrollToBottom}
                   onChange={setShouldAlwaysScrollToBottom}
                   className={`${
-                    shouldAlwaysScrollToBottom ? 'bg-accent' : 'bg-primary-bg-700'
-                  } relative inline-flex h-5 w-10 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary-bg-800`}
+                    shouldAlwaysScrollToBottom
+                      ? "bg-accent"
+                      : "bg-primary-bg-700"
+                  } relative cursor-pointer inline-flex h-5 w-10 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary-bg-800`}
                 >
                   <span className="sr-only">Enable scroll to bottom</span>
                   <span
                     className={`${
-                      shouldAlwaysScrollToBottom ? 'translate-x-5' : 'translate-x-0.5'
+                      shouldAlwaysScrollToBottom
+                        ? "translate-x-5"
+                        : "translate-x-0.5"
                     } inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200`}
                   />
                 </Switch>
