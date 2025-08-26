@@ -71,3 +71,12 @@ export interface CoinItemProps {
   isSelected: boolean;
   onToggle: (coinName: string) => void;
 }
+
+export interface JsonMonacoEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  disabled?: boolean;
+  className?: string;
+  width?: string | number;
+  height?: string | number;
+}

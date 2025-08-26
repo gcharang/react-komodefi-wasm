@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { highlightJSON, renderHighlightedJSON } from "./jsonHighlighter";
-
+import JsonMonacoEditor from "./JsonMonacoEditor";
 import { CheckCircle, Clipboard } from "./IconComponents";
 import { useRpcResponseState } from "../store/useStore";
 import Tooltip from "./Tooltip";
@@ -8,14 +7,6 @@ import Tooltip from "./Tooltip";
 const RpcResponsePanel = () => {
   const { rpcResponseState } = useRpcResponseState();
   const [copied, setCopied] = useState(false);
-  const [highlightedCode, setHighlightedCode] = useState("");
-
-  useEffect(() => {
-    if (!rpcResponseState.requestResponse) return;
-    const highlightedJSON = highlightJSON(rpcResponseState.requestResponse);
-    const highlightedHTML = renderHighlightedJSON(highlightedJSON);
-    setHighlightedCode(highlightedHTML);
-  }, [rpcResponseState.requestResponse]);
 
   const copyToClipboard = () => {
     try {
@@ -53,10 +44,12 @@ const RpcResponsePanel = () => {
           )}
         </div>
       </div>
-      <div className="overflow-hidden overflow-y-auto">
-        <pre className="text-sm text-text-primary whitespace-pre-wrap p-3 min-h-full bg-primary-bg-900/50 font-mono">
-          <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
-        </pre>
+      <div className="flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50">
+        <JsonMonacoEditor
+          value={rpcResponseState.requestResponse || ""}
+          onChange={() => {}}
+          disabled={true}
+        />
       </div>
     </div>
   );

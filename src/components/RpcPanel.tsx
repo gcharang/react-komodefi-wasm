@@ -1,6 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
-import { Menu, MenuButton, MenuItems, Field, Input, Textarea } from '@headlessui/react';
+import { Menu, MenuButton, MenuItems, Field, Input } from '@headlessui/react';
+import JsonMonacoEditor from './JsonMonacoEditor';
 import type { MenuItemProps } from '../types/components';
 import type { MethodCollection, RpcMethod } from '../types/api';
 import {
@@ -414,31 +415,31 @@ const RpcPanel = () => {
             </div>
           </div>
         </div>
-        <Textarea
-          id="rpc-config"
-          name="rpcConfig"
-          onChange={(e) => {
-            let value = e.target.value;
-            if (checkIfSchemaValid(value)) {
-              setRpcPanelState({
-                config: value,
-                dataHasErrors: false,
-              });
-              // Password will be synced automatically via useEffect
-            } else {
-              setRpcPanelState({
-                config: value,
-                dataHasErrors: true,
-              });
-            }
-          }}
+        <div 
           className={`${
             !rpcPanelState.dataHasErrors
-              ? "focus:ring-2 focus:ring-accent/50 focus:ring-inset"
+              ? "focus-within:ring-2 focus-within:ring-accent/50 focus-within:ring-inset"
               : "ring-2 ring-danger/50 ring-inset"
-          } p-3 h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary font-mono text-sm disabled:opacity-50 transition-all duration-200`}
-          value={rpcPanelState.config}
-        />
+          } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
+        >
+          <JsonMonacoEditor
+            value={rpcPanelState.config}
+            onChange={(value) => {
+              if (checkIfSchemaValid(value)) {
+                setRpcPanelState({
+                  config: value,
+                  dataHasErrors: false,
+                });
+                // Password will be synced automatically via useEffect
+              } else {
+                setRpcPanelState({
+                  config: value,
+                  dataHasErrors: true,
+                });
+              }
+            }}
+          />
+        </div>
       </div>
     );
   }, [

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Textarea } from "@headlessui/react";
 import { PlayIcon, StopIcon } from "../components/IconComponents";
+import JsonMonacoEditor from "./JsonMonacoEditor";
 
 import init, {
   LogLevel,
@@ -277,31 +277,31 @@ const Mm2Panel = () => {
           </div>
         </div>
       </div>
-      <Textarea
-        id="mm2-config"
-        name="mm2Config"
-        disabled={mm2PanelState.mm2Running}
-        onChange={(e) => {
-          let value = e.target.value;
-          if (checkIfSchemaValid(value)) {
-            setMm2PanelState({
-              mm2Config: e.target.value,
-              dataHasErrors: false,
-            });
-          } else {
-            setMm2PanelState({
-              mm2Config: e.target.value,
-              dataHasErrors: true,
-            });
-          }
-        }}
+      <div 
         className={`${
           !mm2PanelState.dataHasErrors
-            ? "focus:ring-2 focus:ring-accent/50 focus:ring-inset"
+            ? "focus-within:ring-2 focus-within:ring-accent/50 focus-within:ring-inset"
             : "ring-2 ring-danger/50 ring-inset"
-        } p-3 w-full h-full resize-none border-none outline-none bg-primary-bg-900/50 text-text-primary font-mono text-sm disabled:opacity-50 transition-all duration-200`}
-        value={mm2PanelState.mm2Config}
-      />
+        } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
+      >
+        <JsonMonacoEditor
+          value={mm2PanelState.mm2Config}
+          onChange={(value) => {
+            if (checkIfSchemaValid(value)) {
+              setMm2PanelState({
+                mm2Config: value,
+                dataHasErrors: false,
+              });
+            } else {
+              setMm2PanelState({
+                mm2Config: value,
+                dataHasErrors: true,
+              });
+            }
+          }}
+          disabled={mm2PanelState.mm2Running}
+        />
+      </div>
     </div>
   );
 };
