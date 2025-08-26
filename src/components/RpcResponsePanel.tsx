@@ -19,8 +19,8 @@ const RpcResponsePanel = () => {
   };
 
   return (
-    <div className="h-full grid grid-flow-row">
-      <div className="w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary">
+    <div className="relative h-full grid grid-flow-row">
+      <div className="relative w-full p-2 flex-[0_0_auto] bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary z-30">
         <div className="flex gap-3 items-center">
           {!copied && (
             <Tooltip label={"Copy Response"} dir="bottom-right">
@@ -44,7 +44,7 @@ const RpcResponsePanel = () => {
           )}
         </div>
       </div>
-      <div className="flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50">
+      <div className="relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50">
         <JsonMonacoEditor
           value={rpcResponseState.requestResponse || ""}
           onChange={() => {}}

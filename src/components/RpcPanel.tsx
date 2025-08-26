@@ -1,9 +1,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
-import { Menu, MenuButton, MenuItems, Field, Input } from '@headlessui/react';
-import JsonMonacoEditor from './JsonMonacoEditor';
-import type { MenuItemProps } from '../types/components';
-import type { MethodCollection, RpcMethod } from '../types/api';
+import { Menu, MenuButton, MenuItems, Field, Input } from "@headlessui/react";
+import JsonMonacoEditor from "./JsonMonacoEditor";
+import type { MenuItemProps } from "../types/components";
+import type { MethodCollection, RpcMethod } from "../types/api";
 import {
   fetchRpcMethods,
   getRawValues,
@@ -25,7 +25,12 @@ import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
 
-const MenuItem: React.FC<MenuItemProps> = ({ label, children, isActive, onToggle }) => {
+const MenuItem: React.FC<MenuItemProps> = ({
+  label,
+  children,
+  isActive,
+  onToggle,
+}) => {
   return (
     <li
       role="menuitem"
@@ -85,28 +90,28 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   // Filter methods based on debounced search text
   const filteredMethods = useMemo(() => {
     if (!methods || !debouncedFilter) return methods;
-    
+
     const filtered: MethodCollection = {};
     const searchLower = debouncedFilter.toLowerCase();
-    
+
     Object.keys(methods).forEach((methodList) => {
       // Check if category name matches
       const categoryMatches = methodList.toLowerCase().includes(searchLower);
-      
+
       // Filter methods within the category
       const filteredMethodsInCategory = methods[methodList].filter(
-        (methodJson: RpcMethod) => 
+        (methodJson: RpcMethod) =>
           methodJson?.name?.toLowerCase().includes(searchLower)
       );
-      
+
       // Include category if it matches or has matching methods
       if (categoryMatches || filteredMethodsInCategory.length > 0) {
-        filtered[methodList] = categoryMatches 
-          ? methods[methodList] 
+        filtered[methodList] = categoryMatches
+          ? methods[methodList]
           : filteredMethodsInCategory;
       }
     });
-    
+
     return Object.keys(filtered).length > 0 ? filtered : null;
   }, [methods, debouncedFilter]);
 
@@ -126,55 +131,73 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
           ></path>
         </svg>
       </MenuButton>
-      
+
       <MenuItems
         transition
         className="absolute right-0 z-50 max-h-[60vh] min-w-[20rem] w-fit mt-2 origin-top-right bg-primary-bg-800/95 backdrop-blur-xl divide-y rounded-lg shadow-2xl ring-1 ring-accent/20 outline-none transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
       >
-          {/* Search/Filter Input */}
-          <div className="p-2 border-b border-border-primary">
-            <Field className="relative">
-              <Input
-                type="text"
-                placeholder="Filter methods..."
-                value={filterText}
-                onChange={(e) => setFilterText(e.target.value)}
-                className="w-full px-3 py-1.5 pr-8 text-sm bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary focus:outline-none focus:ring-1 focus:ring-accent/50 placeholder-text-muted"
-                onClick={(e) => e.stopPropagation()}
-              />
-              {filterText && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFilterText("");
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="Clear filter"
+        {/* Search/Filter Input */}
+        <div className="p-2 border-b border-border-primary">
+          <Field className="relative">
+            <Input
+              type="text"
+              placeholder="Filter methods..."
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+              className="w-full px-3 py-1.5 pr-8 text-sm bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary focus:outline-none focus:ring-1 focus:ring-accent/50 placeholder-text-muted"
+              onClick={(e) => e.stopPropagation()}
+            />
+            {filterText && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFilterText("");
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+                aria-label="Clear filter"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </Field>
-          </div>
-          <ul
-            role="menu"
-            id="mm2-methods"
-            className="py-1 flex flex-col max-h-[calc(60vh-3.5rem)] overflow-hidden overflow-y-auto"
-          >
-            {filteredMethods ? (
-              Object.keys(filteredMethods).map((methodList, categoryIndex) => {
-                return (
-                  <MenuItem 
-                    key={`category-${categoryIndex}-${methodList}`} 
-                    label={methodList}
-                    isActive={activeMenuItem === methodList}
-                    onToggle={() => setActiveMenuItem(activeMenuItem === methodList ? "" : methodList)}
-                  >
-                    {filteredMethods[methodList].map((methodJson: RpcMethod, methodIndex: number) => {
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            )}
+          </Field>
+        </div>
+        <ul
+          role="menu"
+          id="mm2-methods"
+          className="py-1 flex flex-col max-h-[calc(60vh-3.5rem)] overflow-hidden overflow-y-auto"
+        >
+          {filteredMethods ? (
+            Object.keys(filteredMethods).map((methodList, categoryIndex) => {
+              return (
+                <MenuItem
+                  key={`category-${categoryIndex}-${methodList}`}
+                  label={methodList}
+                  isActive={activeMenuItem === methodList}
+                  onToggle={() =>
+                    setActiveMenuItem(
+                      activeMenuItem === methodList ? "" : methodList
+                    )
+                  }
+                >
+                  {filteredMethods[methodList].map(
+                    (methodJson: RpcMethod, methodIndex: number) => {
                       return (
-                        <li role="menuitem" key={`method-${categoryIndex}-${methodIndex}-${methodJson?.name}`}>
+                        <li
+                          role="menuitem"
+                          key={`method-${categoryIndex}-${methodIndex}-${methodJson?.name}`}
+                        >
                           <button
                             tabIndex={0}
                             onClick={() => {
@@ -193,22 +216,23 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                           </button>
                         </li>
                       );
-                    })}
-                  </MenuItem>
-                );
-              })
-            ) : (
-              <li className="px-4 py-3 text-sm text-text-muted text-center">
-                {debouncedFilter ? "No methods found" : "Loading methods..."}
-              </li>
-            )}
-          </ul>
+                    }
+                  )}
+                </MenuItem>
+              );
+            })
+          ) : (
+            <li className="px-4 py-3 text-sm text-text-muted text-center">
+              {debouncedFilter ? "No methods found" : "Loading methods..."}
+            </li>
+          )}
+        </ul>
       </MenuItems>
     </Menu>
   );
 });
 
-ListBox.displayName = 'ListBox';
+ListBox.displayName = "ListBox";
 
 const RpcPanel = () => {
   const { mm2PanelState } = useMm2PanelState();
@@ -224,14 +248,17 @@ const RpcPanel = () => {
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
-  const generateRpcMethods = useCallback(async (collectionUrl?: string) => {
-    const methods = await fetchRpcMethods(collectionUrl);
-    let result = getRawValues(methods.item);
-    if (result) {
-      setMethods(result);
-      return result;
-    }
-  }, [setMethods]);
+  const generateRpcMethods = useCallback(
+    async (collectionUrl?: string) => {
+      const methods = await fetchRpcMethods(collectionUrl);
+      let result = getRawValues(methods.item);
+      if (result) {
+        setMethods(result);
+        return result;
+      }
+    },
+    [setMethods]
+  );
 
   useEffect(() => {
     generateRpcMethods();
@@ -250,16 +277,19 @@ const RpcPanel = () => {
   }, [mm2PanelState.mm2Config]);
 
   // Utility function to prepare method for RPC (remove 'name' key and update password)
-  const prepareMethodForRpc = useCallback((methodData: any, password?: string) => {
-    // Create a shallow copy and remove the 'name' key
-    const { name, ...cleanedMethod } = methodData;
-    
-    // Update password if provided
-    if (password) {
-      return updateUserPass(cleanedMethod, password);
-    }
-    return cleanedMethod;
-  }, []);
+  const prepareMethodForRpc = useCallback(
+    (methodData: any, password?: string) => {
+      // Create a shallow copy and remove the 'name' key
+      const { name, ...cleanedMethod } = methodData;
+
+      // Update password if provided
+      if (password) {
+        return updateUserPass(cleanedMethod, password);
+      }
+      return cleanedMethod;
+    },
+    []
+  );
 
   const loadMethodFromUrl = ({
     method,
@@ -294,7 +324,7 @@ const RpcPanel = () => {
       // Clean the method and update password in one step
       const rpcPassword = grabMM2RpcPassword();
       const cleanedMethod = prepareMethodForRpc(requiredValue, rpcPassword);
-      
+
       // Set the cleaned method directly
       setRpcPanelState({
         config: JSON.stringify(cleanedMethod, null, 2),
@@ -315,7 +345,7 @@ const RpcPanel = () => {
     try {
       request_js = JSON.parse(rpcPanelState.config);
       // Ensure 'name' key is removed before sending
-      if ('name' in request_js) {
+      if ("name" in request_js) {
         const { name, ...cleanRequest } = request_js;
         request_js = cleanRequest;
       }
@@ -336,10 +366,10 @@ const RpcPanel = () => {
   const syncPanelPasswords = useCallback(() => {
     const rpcPassword = grabMM2RpcPassword();
     if (!rpcPassword || !rpcPanelState.config) return;
-    
+
     try {
       const currentConfig = JSON.parse(rpcPanelState.config);
-      
+
       // Only update if password is different
       if (currentConfig.userpass !== rpcPassword) {
         const updatedConfig = updateUserPass(currentConfig, rpcPassword);
@@ -352,7 +382,7 @@ const RpcPanel = () => {
       }
     } catch (error) {
       // Config is not valid JSON, skip password sync
-      console.debug('Skipping password sync for invalid JSON config');
+      console.debug("Skipping password sync for invalid JSON config");
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState]);
 
@@ -365,8 +395,8 @@ const RpcPanel = () => {
   const panel = useMemo(() => {
     return (
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20 relative z-30">
-        <div className="relative flex justify-between w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
-          <div className="relative flex justify-between w-full">
+        <div className="relative flex justify-between w-full p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg z-30">
+          <div className="relative flex flex-row justify-between w-full">
             <div className="flex gap-3">
               <button
                 onClick={sendRpcRequest}
@@ -380,7 +410,7 @@ const RpcPanel = () => {
                 <span>Send</span> <Send role="image" className={`w-5 h-5`} />
               </button>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-row flex-wrap items-center gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
                 <SettingsIcon
                   aria-label="open settings dialog"
@@ -415,12 +445,12 @@ const RpcPanel = () => {
             </div>
           </div>
         </div>
-        <div 
+        <div
           className={`${
             !rpcPanelState.dataHasErrors
               ? "focus-within:ring-2 focus-within:ring-accent/50 focus-within:ring-inset"
               : "ring-2 ring-danger/50 ring-inset"
-          } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
+          } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200 relative`}
         >
           <JsonMonacoEditor
             value={rpcPanelState.config}

@@ -19,7 +19,7 @@ function App() {
       <WarningDialog />
       <div className="h-full m-auto max-w-[2200px] p-4">
         <div className="w-full h-full flex flex-col">
-          <div className="flex-[1_0_auto]">
+          <div className="flex-[1_0_auto] min-h-0">
             <div className="flex w-full h-full">
               <div
                 style={{
@@ -29,7 +29,7 @@ function App() {
                       : `${windowSizes.leftPane}px`
                   }`,
                 }}
-                className="h-full text-gray-300"
+                className="h-full text-gray-300 min-w-0"
               >
                 <Mm2Panel />
               </div>
@@ -82,12 +82,12 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 h-full text-gray-300">
+              <div className="flex-1 min-w-0 h-full text-gray-300">
                 <RpcPanel />
               </div>
             </div>
           </div>
-          <div className="flex-[0_0_auto]">
+          <div className="flex-[0_0_auto] min-h-0">
             <div
               onMouseDown={(e) => {
                 e.preventDefault();
