@@ -19,7 +19,7 @@ function App() {
       <WarningDialog />
       <div className="h-full m-auto max-w-[2200px] p-4">
         <div className="w-full h-full flex flex-col">
-          <div className="flex-[1_0_auto] min-h-0">
+          <div className="flex-1 min-h-0">
             <div className="flex w-full h-full">
               <div
                 style={{
@@ -139,7 +139,7 @@ function App() {
               }}
               className="flex text-white bg-primary-bg-800/95 backdrop-blur-xl relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-accent/20"
             >
-              <div className="flex-1 overflow-hidden">
+              <div className="flex-1 min-w-0 overflow-hidden">
                 <Mm2LogsPanel
                   windowSizes={windowSizes}
                   setWindowSizes={setWindowSizes}
@@ -150,7 +150,7 @@ function App() {
                 <div className="w-px h-full bg-primary-bg-500/50"></div>
                 <div className="absolute inset-0 w-px bg-gradient-to-b from-transparent via-accent/20 to-transparent blur-sm"></div>
               </div>
-              <div className="flex-1 overflow-hidden">
+              <div className="flex-1 min-w-0 overflow-hidden">
                 <RpcResponsePanel />
               </div>
             </div>
