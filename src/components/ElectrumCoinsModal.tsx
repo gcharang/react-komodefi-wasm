@@ -29,7 +29,7 @@ const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
   return (
     <button
       onClick={handleClick}
-      className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+      className={`w-full px-3 md:px-4 py-2.5 md:py-2 text-left text-sm transition-colors ${
         isSelected
           ? 'bg-accent/20 text-accent'
           : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
@@ -39,10 +39,10 @@ const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
         <Checkbox
           checked={isSelected}
           onChange={handleClick}
-          className="group size-4 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
+          className="group size-4 md:size-4 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
           onClick={handleCheckboxClick}
         >
-          <svg className="hidden size-4 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
+          <svg className="hidden size-4 md:size-4 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
             <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
         </Checkbox>
@@ -67,6 +67,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
   const [showSelectedOnly, setShowSelectedOnly] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'select' | 'preview'>('select');
   const { mm2PanelState } = useMm2PanelState();
   
   // Initialize with password-synced coins - optimized with useMemo
@@ -244,19 +245,20 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
         className="fixed inset-0 bg-black/30 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0" 
       />
 
-      <div className="fixed inset-0 flex items-center justify-center p-4">
+      <div className="fixed inset-0 flex items-center justify-center p-2 md:p-4">
         <DialogPanel 
           transition
-          className="relative max-h-[80vh] w-full max-w-4xl overflow-hidden rounded-lg bg-primary-bg-800/95 backdrop-blur-xl shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="relative max-h-[90vh] md:max-h-[80vh] w-full max-w-full md:max-w-4xl overflow-hidden rounded-lg bg-primary-bg-800/95 backdrop-blur-xl shadow-2xl ring-1 ring-accent/20 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
-          <div className="flex items-center justify-between border-b border-border-primary p-4">
-            <div className="flex items-center gap-3">
-              <DialogTitle className="text-lg font-semibold text-text-primary">
-                Select Electrum Coins
+          <div className="flex items-center justify-between border-b border-border-primary p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <DialogTitle className="text-base md:text-lg font-semibold text-text-primary">
+                <span className="hidden md:inline">Select Electrum Coins</span>
+                <span className="md:hidden">Electrum Coins</span>
               </DialogTitle>
               {selectedCoins.size > 0 && (
-                <span className="text-sm text-accent bg-accent/10 px-2 py-0.5 rounded-full">
-                  {selectedCoins.size} selected
+                <span className="text-xs md:text-sm text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+                  {selectedCoins.size}
                 </span>
               )}
               {isLoading && (
@@ -265,7 +267,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span>Loading latest data...</span>
+                  <span className="hidden md:inline">Loading latest data...</span>
                 </div>
               )}
               {fetchError && !isLoading && (
@@ -280,7 +282,181 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             </button>
           </div>
 
-          <div className="flex h-[60vh]">
+          {/* Mobile Tab Navigation */}
+          <div className="md:hidden flex border-b border-border-primary">
+            <button
+              onClick={() => setMobileTab('select')}
+              className={`flex-1 py-2 px-4 text-sm font-medium transition-all duration-200 ${
+                mobileTab === 'select'
+                  ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                  : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+              }`}
+            >
+              Select ({selectedCoins.size})
+            </button>
+            <button
+              onClick={() => setMobileTab('preview')}
+              className={`flex-1 py-2 px-4 text-sm font-medium transition-all duration-200 ${
+                mobileTab === 'preview'
+                  ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
+                  : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
+              }`}
+              disabled={selectedCoinsData.length === 0}
+            >
+              Preview ({selectedCoinsData.length})
+            </button>
+          </div>
+
+          {/* Mobile Content */}
+          <div className="md:hidden h-[60vh]">
+            {mobileTab === 'select' ? (
+              /* Mobile Coin List */
+              <div className="h-full flex flex-col">
+                <div className="p-3">
+                  <Field>
+                    <Input
+                      id="electrum-coin-search-mobile"
+                      name="electrum-coin-search-mobile"
+                      type="text"
+                      placeholder="Search coins..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full rounded-lg bg-primary-bg-900/50 px-3 py-2.5 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    />
+                  </Field>
+                  <div className="mt-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-text-muted">
+                        {filteredCoins.length} of {electrumCoins.length} coins
+                      </span>
+                      {selectedCoins.size > 0 && (
+                        <span className="text-xs font-medium text-accent">
+                          {selectedCoins.size} selected
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-2 border-t border-border-primary pt-2">
+                      <button
+                        onClick={toggleSelectAll}
+                        className="w-full rounded-md bg-primary-bg-900/50 px-3 py-2 text-sm font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={filteredCoins.length === 0}
+                      >
+                        {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
+                          ? 'Deselect All' 
+                          : 'Select All'}
+                      </button>
+                      {selectedCoins.size > 0 && (
+                        <button
+                          onClick={clearSelection}
+                          className="w-full rounded-md bg-primary-bg-900/50 px-3 py-2 text-sm font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200"
+                        >
+                          Clear Selection
+                        </button>
+                      )}
+                    </div>
+                    <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2.5 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
+                      <Checkbox
+                        id="show-selected-only-mobile"
+                        name="show-selected-only-mobile"
+                        checked={showSelectedOnly}
+                        onChange={setShowSelectedOnly}
+                        className="group size-4 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
+                      >
+                        <svg className="hidden size-4 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
+                          <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                        </svg>
+                      </Checkbox>
+                      <span className="text-sm text-text-secondary">Show selected only</span>
+                    </label>
+                  </div>
+                </div>
+                <div className="flex-1 overflow-y-auto px-2">
+                  {filteredCoins.map((coin) => {
+                    if (!coin) return null;
+                    return (
+                      <div key={coin.coin} className="mb-1">
+                        <button
+                          onClick={() => toggleCoinSelection(coin.coin)}
+                          className={`w-full px-3 py-3 text-left text-sm transition-colors rounded-md ${
+                            selectedCoins.has(coin.coin)
+                              ? 'bg-accent/20 text-accent'
+                              : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <Checkbox
+                              checked={selectedCoins.has(coin.coin)}
+                              onChange={() => toggleCoinSelection(coin.coin)}
+                              className="group size-5 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0 cursor-pointer"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <svg className="hidden size-5 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
+                                <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              </svg>
+                            </Checkbox>
+                            <div className="flex-1 flex items-center justify-between">
+                              <span className="font-medium">{coin.coin}</span>
+                              <span className="text-xs text-text-muted">
+                                {coin.servers.length} server{coin.servers.length !== 1 ? 's' : ''}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              /* Mobile JSON Preview */
+              <div className="h-full flex flex-col p-3">
+                {selectedCoinsData.length > 0 ? (
+                  <>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-base font-medium text-text-primary">
+                        {selectedCoinsData.length === 1 
+                          ? `${selectedCoinsData[0].coin}`
+                          : `${selectedCoinsData.length} Coins`
+                        }
+                      </h3>
+                      <button
+                        onClick={copyToClipboard}
+                        className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-2 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200"
+                      >
+                        {copied ? (
+                          <>
+                            <CheckCircle className="h-4 w-4 text-success" />
+                            <span className="text-success">Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Clipboard className="h-4 w-4" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-3">
+                      <pre className="text-xs md:text-sm text-text-primary font-mono">
+                        <code>{JSON.stringify(
+                          selectedCoinsData.length === 1 ? selectedCoinsData[0] : selectedCoinsData, 
+                          null, 
+                          2
+                        )}</code>
+                      </pre>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-text-muted text-center px-4">Select coins to view their configuration</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden md:flex h-[60vh]">
             {/* Left panel - Coin list */}
             <div className="w-1/3 border-r border-border-primary">
               <div className="p-4">
