@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
 import type { JsonMonacoEditorProps } from "../types/components";
@@ -7,7 +7,6 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
   value,
   onChange,
   disabled = false,
-  className = "",
   width,
   height,
 }) => {

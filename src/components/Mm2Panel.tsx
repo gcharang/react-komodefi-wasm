@@ -132,13 +132,13 @@ const Mm2Panel = () => {
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
 
       console.log("Loading compressed WASM from:", mm2BinUrl.toString());
-      
+
       // Load and decompress the WASM file
       const wasmBuffer = await loadCompressedWasm(mm2BinUrl);
-      
+
       // Initialize the WASM module with the decompressed buffer
       await init(wasmBuffer);
-      
+
       console.log("WASM module initialized successfully");
     } catch (e) {
       console.error("Failed to initialize WASM:", e);
@@ -277,13 +277,18 @@ const Mm2Panel = () => {
           </div>
         </div>
       </div>
-      <div 
+      <div
         className={`${
           !mm2PanelState.dataHasErrors
             ? "focus-within:ring-2 focus-within:ring-accent/50 focus-within:ring-inset"
             : "ring-2 ring-danger/50 ring-inset"
-        } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
+        } relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
       >
+        <div
+          className={`absolute inset-0 p-2 h-full w-full z-10 bg-gray-100 ${
+            mm2PanelState.mm2Running ? "opacity-20" : "opacity-0"
+          }`}
+        ></div>
         <JsonMonacoEditor
           value={mm2PanelState.mm2Config}
           onChange={(value) => {
