@@ -1,4 +1,6 @@
-export async function fetchRpcMethods(collectionUrl?: string): Promise<any> {
+import type { PostmanCollection, PostmanItem, MethodCollection, RpcMethod } from '../types/api';
+
+export async function fetchRpcMethods(collectionUrl?: string): Promise<PostmanCollection> {
   const result = await fetch(
     collectionUrl
       ? collectionUrl
@@ -8,14 +10,14 @@ export async function fetchRpcMethods(collectionUrl?: string): Promise<any> {
   return json;
 }
 
-export const getRawValues = (arr: any[]): Record<string, any[]> => {
+export const getRawValues = (arr: PostmanItem[]): MethodCollection => {
   // let rawValues = [];
   let levels: string[] = [];
-  let bigData: Record<string, any[]> = {};
-  const findRaw = (item: any, isLastIteration?: boolean) => {
+  let bigData: MethodCollection = {};
+  const findRaw = (item: PostmanItem, isLastIteration?: boolean) => {
     if (item?.request?.body?.raw) {
       // get the stringified `raw` data
-      let rawData = JSON.parse(
+      let rawData: RpcMethod = JSON.parse(
         item.request.body.raw.replace(
           /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g,
           (m: string, g: string) => (g ? "" : m)
@@ -38,8 +40,8 @@ export const getRawValues = (arr: any[]): Record<string, any[]> => {
         // This is how we keep track of the levels using the `name` key
         levels.push(item.name);
       }
-      item.item.forEach((data: any, index: number) => {
-        findRaw(data, item.item.length === index + 1);
+      item.item.forEach((data: PostmanItem, index: number) => {
+        findRaw(data, item.item!.length === index + 1);
       });
     }
     // We wouldn't want to add previous levels to new iteration. So we start afresh here.

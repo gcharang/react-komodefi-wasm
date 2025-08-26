@@ -9,12 +9,7 @@ import {
   Description,
 } from "@headlessui/react";
 import { useState } from "react";
-
-interface SettingsDialogProps {
-  isDialogOpen?: boolean;
-  setIsDialogOpen?: (value: boolean) => void;
-  generateRpcMethods: (url?: string) => void;
-}
+import type { SettingsDialogProps } from "../types/components";
 
 export const SettingsDialog = ({
   isDialogOpen = false,

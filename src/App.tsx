@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { AppWindowSizes } from "./types/components";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
@@ -6,14 +7,8 @@ import RpcResponsePanel from "./components/RpcResponsePanel";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 
-interface WindowSizes {
-  bottomBar: number;
-  leftPane: number | null;
-  rightPane: number | null;
-}
-
 function App() {
-  const [windowSizes, setWindowSizes] = useState<WindowSizes>({
+  const [windowSizes, setWindowSizes] = useState<AppWindowSizes>({
     bottomBar: 280, // More space for logs
     leftPane: null, // Will use 50% by default
     rightPane: null,

@@ -1,6 +1,7 @@
+import type { RpcRequest, RpcResponse } from '../types/api';
 import { Mm2RpcErr, mm2_rpc } from "../js/kdflib.js";
 
-export async function rpc_request(request_js: any): Promise<any> {
+export async function rpc_request(request_js: RpcRequest): Promise<RpcResponse | undefined> {
   try {
     const response = await mm2_rpc(request_js);
     console.log(response);
@@ -20,5 +21,6 @@ export async function rpc_request(request_js: any): Promise<any> {
         alert(`Unexpected error: ${e}`);
         break;
     }
+    return undefined;
   }
 }

@@ -1,6 +1,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
 import { Menu, MenuButton, MenuItems, Field, Input, Textarea } from '@headlessui/react';
+import type { MenuItemProps } from '../types/components';
+import type { MethodCollection, RpcMethod } from '../types/api';
 import {
   fetchRpcMethods,
   getRawValues,
@@ -21,14 +23,6 @@ import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
-
-// MenuItem component - defined outside to avoid hooks issues
-interface MenuItemProps {
-  label: string;
-  children: React.ReactNode;
-  isActive: boolean;
-  onToggle: () => void;
-}
 
 const MenuItem: React.FC<MenuItemProps> = ({ label, children, isActive, onToggle }) => {
   return (
@@ -70,8 +64,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, children, isActive, onToggle
 
 // ListBox component - defined outside to avoid hooks issues
 interface ListBoxProps {
-  methods: any;
-  router: any;
+  methods: MethodCollection;
+  router: ReturnType<typeof useRouter>;
 }
 
 const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
@@ -91,7 +85,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   const filteredMethods = useMemo(() => {
     if (!methods || !debouncedFilter) return methods;
     
-    const filtered: Record<string, any[]> = {};
+    const filtered: MethodCollection = {};
     const searchLower = debouncedFilter.toLowerCase();
     
     Object.keys(methods).forEach((methodList) => {
@@ -100,7 +94,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
       
       // Filter methods within the category
       const filteredMethodsInCategory = methods[methodList].filter(
-        (methodJson: any) => 
+        (methodJson: RpcMethod) => 
           methodJson?.name?.toLowerCase().includes(searchLower)
       );
       
@@ -177,7 +171,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                     isActive={activeMenuItem === methodList}
                     onToggle={() => setActiveMenuItem(activeMenuItem === methodList ? "" : methodList)}
                   >
-                    {filteredMethods[methodList].map((methodJson: any, methodIndex: number) => {
+                    {filteredMethods[methodList].map((methodJson: RpcMethod, methodIndex: number) => {
                       return (
                         <li role="menuitem" key={`method-${categoryIndex}-${methodIndex}-${methodJson?.name}`}>
                           <button

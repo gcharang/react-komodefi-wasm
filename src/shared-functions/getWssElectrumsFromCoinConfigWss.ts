@@ -1,29 +1,4 @@
-interface ElectrumServer {
-  url: string;
-  protocol: string;
-  disable_cert_verification?: boolean;
-}
-
-interface CoinElectrumConfig {
-  userpass: string;
-  method: string;
-  mm2: number;
-  coin: string;
-  tx_history: boolean;
-  servers: ElectrumServer[];
-}
-
-interface CoinData {
-  coin: string;
-  electrum?: Array<{
-    url: string;
-    protocol: string;
-    disable_cert_verification?: boolean;
-    [key: string]: any;
-  }>;
-  [key: string]: any;
-}
-
+import type { CoinElectrumConfig, CoinData } from '../types/coins';
 import { getSessionPassword } from './passwordGenerator';
 
 export function extractWssElectrumsFromConfig(coinsConfig: Record<string, CoinData>): CoinElectrumConfig[] {

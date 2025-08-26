@@ -1,24 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Switch } from "@headlessui/react";
+import type { Mm2LogsPanelProps } from "../types/components";
 import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
 import { useMm2LogsPanelState } from "../store/useStore";
 import Tooltip from "./Tooltip";
-
-interface Mm2LogsPanelProps {
-  windowSizes: {
-    bottomBar: number;
-    leftPane: number | null;
-    rightPane: number | null;
-  };
-  setWindowSizes: React.Dispatch<
-    React.SetStateAction<{
-      bottomBar: number;
-      leftPane: number | null;
-      rightPane: number | null;
-    }>
-  >;
-}
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();

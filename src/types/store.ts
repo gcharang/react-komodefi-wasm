@@ -1,5 +1,7 @@
 // Store Types
 
+import type { MethodCollection } from './api';
+
 export interface MM2PanelState {
   mm2Running: boolean;
   startCommand: string;
@@ -60,8 +62,8 @@ export interface StoreState {
   setGenericModal: (updates: Partial<GenericModalState>) => void;
 
   // Methods State
-  methods: any; // TODO: Define proper type for methods
-  setMethods: (methods: any) => void;
+  methods: MethodCollection;
+  setMethods: (methods: MethodCollection) => void;
 }
 
 // Hook return types
@@ -100,6 +102,6 @@ export interface UseGenericModalReturn {
 }
 
 export interface UseRpcMethodsReturn {
-  methods: any; // TODO: Define proper type for methods
-  setMethods: (methods: any) => void;
+  methods: MethodCollection;
+  setMethods: (methods: MethodCollection) => void;
 }

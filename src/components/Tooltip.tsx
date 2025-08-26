@@ -1,10 +1,5 @@
 import React from "react";
-
-interface TooltipProps {
-  label: string;
-  dir?: "top" | "bottom" | "bottom-right";
-  children: React.ReactNode;
-}
+import type { TooltipProps } from "../types/components";
 
 function classBasedOnDir(dir: TooltipProps["dir"]) {
   let classs = ""

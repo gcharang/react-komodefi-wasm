@@ -8,37 +8,14 @@ import {
   Input,
   Checkbox,
 } from '@headlessui/react';
+import type { ElectrumCoinsModalProps, CoinItemProps } from '../types/components';
+import type { CoinElectrumConfig } from '../types/coins';
 import { ALL_COIN_ELECTRUMS } from '../staticData';
 import coins_config_wss from '../staticData/coins_config_wss.json';
 import { fetchWssElectrums } from '../shared-functions/getWssElectrumsFromCoinConfigWss';
 import { updateUserPass } from '../shared-functions/updateUserPassword';
 import { useMm2PanelState } from '../store/useStore';
 import { CheckCircle, Clipboard, CloseIcon } from './IconComponents';
-
-interface ElectrumCoinsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-interface CoinElectrumConfig {
-  userpass: string;
-  method: string;
-  mm2: number;
-  coin: string;
-  tx_history: boolean;
-  servers: Array<{
-    url: string;
-    protocol: string;
-    disable_cert_verification?: boolean;
-  }>;
-}
-
-// Memoized coin item component for better performance
-interface CoinItemProps {
-  coin: CoinElectrumConfig;
-  isSelected: boolean;
-  onToggle: (coinName: string) => void;
-}
 
 const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
   const handleClick = () => {

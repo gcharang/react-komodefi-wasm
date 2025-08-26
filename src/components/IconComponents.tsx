@@ -1,6 +1,5 @@
 import React from 'react';
-
-type IconProps = React.SVGProps<SVGSVGElement>;
+import type { IconProps } from '../types/components';
 
 export const PlayIcon = (props: IconProps) => {
   return (

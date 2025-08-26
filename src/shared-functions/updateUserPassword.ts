@@ -1,7 +1,7 @@
 export function updateUserPass(jsonData: any, newPassword: string): any {
   try {
     // Check if the input data is an object
-    if (typeof jsonData === "object") {
+    if (typeof jsonData === "object" && jsonData !== null) {
       // If it's an array, iterate over its elements
       if (Array.isArray(jsonData)) {
         for (let i = 0; i < jsonData.length; i++) {

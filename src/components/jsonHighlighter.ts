@@ -1,12 +1,4 @@
-type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue };
-
-type ParsedValue = 
-  | { type: "string"; value: string }
-  | { type: "number"; value: number }
-  | { type: "boolean"; value: boolean }
-  | { type: "null"; value: null }
-  | { type: "array"; value: ParsedValue[] }
-  | { type: "object"; value: { [key: string]: ParsedValue } };
+import type { JSONValue, ParsedValue } from '../types/utils';
 
 export function highlightJSON(json: JSONValue | string): ParsedValue {
   if (!json) return { type: "string", value: "" };
