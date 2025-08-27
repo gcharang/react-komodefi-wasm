@@ -25,7 +25,7 @@ import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
-import type { RpcPanelProps } from "../types/components";
+import type { RpcPanelProps, ListBoxProps } from "../types/components";
 
 const MenuItem: React.FC<MenuItemProps> = ({
   label,
@@ -71,11 +71,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
 };
 
 // ListBox component - defined outside to avoid hooks issues
-interface ListBoxProps {
-  methods: MethodCollection;
-  router: ReturnType<typeof useRouter>;
-}
-
 const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string>("");
   const [filterText, setFilterText] = useState<string>("");

@@ -2,6 +2,7 @@
 
 import type { CoinElectrumConfig } from './coins';
 import type { MethodCollection } from './api';
+import type { useRouter } from 'next/navigation';
 
 // Window sizes for App layout
 export interface AppWindowSizes {
@@ -58,11 +59,18 @@ export interface MenuItemProps {
   children: React.ReactNode;
 }
 
-export interface ListBoxProps {
+// Old ListBox props - may be unused, keeping for compatibility
+export interface ListBoxMethodsProps {
   searchParams: {
     get: (key: string) => string | null;
   };
   methods: MethodCollection;
+}
+
+// ListBox component props from RpcPanel
+export interface ListBoxProps {
+  methods: MethodCollection;
+  router: ReturnType<typeof useRouter>;
 }
 
 // ElectrumCoinsModal component props
@@ -85,3 +93,17 @@ export interface JsonMonacoEditorProps {
   width?: string | number;
   height?: string | number;
 }
+
+// Toast component props
+export interface ToastProps {
+  message: string;
+  type?: "success" | "error" | "info";
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+  onClose: () => void;
+}
+
+// App component types
+export type TabType = 'mm2' | 'rpc' | 'logs' | 'response';

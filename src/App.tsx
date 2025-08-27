@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { AppWindowSizes } from "./types/components";
+import type { AppWindowSizes, TabType } from "./types/components";
 import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
@@ -8,8 +8,6 @@ import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
 import Toast from "./components/Toast";
 import { useToastState } from "./store/useStore";
-
-type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
 
 function App() {
   const [windowSizes, setWindowSizes] = useState<AppWindowSizes>({

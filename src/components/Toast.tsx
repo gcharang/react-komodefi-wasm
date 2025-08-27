@@ -1,15 +1,6 @@
 import React, { useEffect } from "react";
 import { CheckCircle, CloseIcon } from "./IconComponents";
-
-interface ToastProps {
-  message: string;
-  type?: "success" | "error" | "info";
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-  onClose: () => void;
-}
+import type { ToastProps } from "../types/components";
 
 const Toast: React.FC<ToastProps> = ({
   message,
