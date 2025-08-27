@@ -47,7 +47,6 @@ const RpcResponsePanel = () => {
             <button
               onClick={() => {
                 const timestamp = Date.now();
-                console.log(rpcResponseState);
                 const method =
                   rpcResponseState.requestMethod || "unknown_method";
                 downloadFile(

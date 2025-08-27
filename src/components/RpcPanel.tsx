@@ -362,10 +362,21 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       request_json: typeof request_js
     ) => {
       if (Array.isArray(request_json)) {
-        const methods = request_json.map((item) => item.method);
-        methods.sort();
+        // Count occurrences of each method
+        const methodCounts = new Map<string, number>();
+        request_json.forEach((item) => {
+          const method = item.method;
+          methodCounts.set(method, (methodCounts.get(method) || 0) + 1);
+        });
 
-        return methods[0];
+        // Sort methods alphabetically and build the name
+        const sortedMethods = Array.from(methodCounts.keys()).sort();
+        const methodParts = sortedMethods.map((method) => {
+          const count = methodCounts.get(method)!;
+          return count > 1 ? `${method}${count}` : method;
+        });
+
+        return methodParts.join('-');
       }
       return request_json.method;
     };
