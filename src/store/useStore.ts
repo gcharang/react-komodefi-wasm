@@ -58,6 +58,7 @@ export const useStore = create<StoreState>()(
       // RPC Response State
       rpcResponse: {
         requestResponse: "",
+        requestMethod: "",
       },
       setRpcResponse: (updates) =>
         set((state) => ({

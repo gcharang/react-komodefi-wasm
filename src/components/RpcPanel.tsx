@@ -231,7 +231,10 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
 
 ListBox.displayName = "ListBox";
 
-const RpcPanel: React.FC<RpcPanelProps> = ({ isMobile = false, onSwitchToResponse }) => {
+const RpcPanel: React.FC<RpcPanelProps> = ({
+  isMobile = false,
+  onSwitchToResponse,
+}) => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const { setRpcResponseState } = useRpcResponseState();
@@ -355,24 +358,39 @@ const RpcPanel: React.FC<RpcPanelProps> = ({ isMobile = false, onSwitchToRespons
     }
 
     let response = await rpc_request(request_js);
+    const getMethodNameForResponseDownload = (
+      request_json: typeof request_js
+    ) => {
+      if (Array.isArray(request_json)) {
+        const methods = request_json.map((item) => item.method);
+        methods.sort();
+
+        return methods[0];
+      }
+      return request_json.method;
+    };
+    console.log(getMethodNameForResponseDownload(request_js));
     setRpcResponseState({
       requestResponse: JSON.stringify(response, null, 2),
+      requestMethod: getMethodNameForResponseDownload(request_js),
     });
-    
+
     // Show toast notification
     if (isMobile && onSwitchToResponse) {
-      showToast(
-        'Request sent successfully!',
-        'success',
-        {
-          label: 'View Response',
-          onClick: onSwitchToResponse
-        }
-      );
+      showToast("Request sent successfully!", "success", {
+        label: "View Response",
+        onClick: onSwitchToResponse,
+      });
     } else {
-      showToast('Request sent successfully!', 'success');
+      showToast("Request sent successfully!", "success");
     }
-  }, [rpcPanelState.config, setRpcResponseState, isMobile, onSwitchToResponse, showToast]);
+  }, [
+    rpcPanelState.config,
+    setRpcResponseState,
+    isMobile,
+    onSwitchToResponse,
+    showToast,
+  ]);
 
   // Improved password syncing - only updates when password actually changes
   const syncPanelPasswords = useCallback(() => {

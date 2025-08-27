@@ -21,6 +21,7 @@ export interface MM2LogsState {
 
 export interface RpcResponseState {
   requestResponse: string;
+  requestMethod: string;
 }
 
 export interface GenericModalState {

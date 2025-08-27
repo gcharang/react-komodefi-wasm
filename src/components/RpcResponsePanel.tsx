@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
-import { CheckCircle, Clipboard } from "./IconComponents";
+import { CheckCircle, Clipboard, DownloadIcon } from "./IconComponents";
 import { useRpcResponseState } from "../store/useStore";
+import { downloadFile } from "../shared-functions/downloadFile";
 import Tooltip from "./Tooltip";
 
 const RpcResponsePanel = () => {
@@ -42,6 +43,23 @@ const RpcResponsePanel = () => {
               </button>
             </Tooltip>
           )}
+          <Tooltip label={"Download Response"} dir="bottom">
+            <button
+              onClick={() => {
+                const timestamp = Date.now();
+                console.log(rpcResponseState);
+                const method =
+                  rpcResponseState.requestMethod || "unknown_method";
+                downloadFile(
+                  rpcResponseState.requestResponse,
+                  `${method}_response_${timestamp}.json`
+                );
+              }}
+              className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+            >
+              <DownloadIcon className="w-6 h-6" />
+            </button>
+          </Tooltip>
         </div>
       </div>
       <div className="relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50">

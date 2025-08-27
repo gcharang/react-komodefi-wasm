@@ -1,8 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Switch } from "@headlessui/react";
 import type { Mm2LogsPanelProps } from "../types/components";
-import { NoSymbol, DoubleDown, Clipboard, CheckCircle } from "./IconComponents";
+import {
+  NoSymbol,
+  DoubleDown,
+  Clipboard,
+  CheckCircle,
+  DownloadIcon,
+} from "./IconComponents";
 import { debounce } from "../shared-functions/debounce";
+import { downloadFile } from "../shared-functions/downloadFile";
 import { useMm2LogsPanelState } from "../store/useStore";
 import Tooltip from "./Tooltip";
 
@@ -124,6 +131,20 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 </button>
               </Tooltip>
             )}
+            <Tooltip label={"Download Logs"} dir="bottom">
+              <button
+                onClick={() => {
+                  const timestamp = Date.now();
+                  const content = mm2LogsPanelState.outputMessages
+                    .map((log) => log[0])
+                    .join("\n");
+                  downloadFile(content, `kdf_logs_wasm_pg_${timestamp}.txt`);
+                }}
+                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+              >
+                <DownloadIcon className="w-6 h-6" />
+              </button>
+            </Tooltip>
           </div>
           <div>
             <div className="flex gap-3 items-center">
