@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@monaco-editor/react": "^4.7.0",
     "@serwist/next": "^9.0.15",
     "js-cookie": "^3.0.5",
+    "monaco-editor": "^0.52.2",
     "next": "^14.2.30",
     "react": "18",
     "react-dom": "18",
