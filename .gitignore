@@ -26,6 +26,13 @@ dist
 wasm_versions/
 coins_versions/
 
+# Local development configs (never commit these!)
+.env.local
+local_MM2.json
+local_RPC.json
+public/local_MM2.json
+public/local_RPC.json
+
 # WASM files - we only commit the compressed version
 public/kdflib_bg.wasm
 

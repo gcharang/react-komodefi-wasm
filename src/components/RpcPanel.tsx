@@ -26,6 +26,11 @@ import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
 import type { RpcPanelProps, ListBoxProps } from "../types/components";
+import { 
+  isLocalhost, 
+  loadLocalRPCConfig,
+  syncRpcPassword 
+} from "../utils/localConfigLoader";
 
 const MenuItem: React.FC<MenuItemProps> = ({
   label,
@@ -264,6 +269,32 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   useEffect(() => {
     generateRpcMethods();
   }, []);
+
+  // Load local RPC configuration on mount (only on localhost)
+  useEffect(() => {
+    const loadLocalConfig = async () => {
+      if (isLocalhost()) {
+        const localRPCConfig = await loadLocalRPCConfig();
+        if (localRPCConfig) {
+          // Check if we have MM2 password to sync
+          const mm2Password = mm2PanelState.mm2UserPass;
+          let configToSet = localRPCConfig;
+          
+          if (mm2Password) {
+            // Sync the password from MM2 config
+            configToSet = syncRpcPassword(localRPCConfig, mm2Password);
+          }
+          
+          setRpcPanelState({ 
+            config: configToSet,
+            dataHasErrors: false 
+          });
+        }
+      }
+    };
+    
+    loadLocalConfig();
+  }, []); // Only run once on mount
 
   const grabMM2RpcPassword = useCallback(() => {
     try {

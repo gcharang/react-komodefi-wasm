@@ -1,0 +1,44 @@
+[
+  {
+    "userpass": "your_rpc_password_here",
+    "method": "electrum",
+    "mm2": 1,
+    "coin": "DOC",
+    "tx_history": true,
+    "servers": [
+      {
+        "url": "doc.electrum1.cipig.net:30020",
+        "protocol": "WSS"
+      },
+      {
+        "url": "doc.electrum2.cipig.net:30020",
+        "protocol": "WSS"
+      },
+      {
+        "url": "doc.electrum3.cipig.net:30020",
+        "protocol": "WSS"
+      }
+    ]
+  },
+  {
+    "userpass": "your_rpc_password_here",
+    "method": "electrum",
+    "mm2": 1,
+    "coin": "MARTY",
+    "tx_history": true,
+    "servers": [
+      {
+        "url": "marty.electrum1.cipig.net:30021",
+        "protocol": "WSS"
+      },
+      {
+        "url": "marty.electrum2.cipig.net:30021",
+        "protocol": "WSS"
+      },
+      {
+        "url": "marty.electrum3.cipig.net:30021",
+        "protocol": "WSS"
+      }
+    ]
+  }
+]

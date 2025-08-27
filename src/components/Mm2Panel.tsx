@@ -14,6 +14,11 @@ import init, {
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useStore, useMm2PanelState } from "../store/useStore";
 import { loadCompressedWasm } from "../utils/wasmLoader";
+import { 
+  isLocalhost, 
+  loadLocalMM2Config, 
+  extractRpcPassword 
+} from "../utils/localConfigLoader";
 
 const getBaseUrl = () => {
   return window.location.protocol + "//" + window.location.host;
@@ -23,6 +28,7 @@ const LOG_LEVEL = LogLevel.Debug;
 const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
+  const [localConfigLoaded, setLocalConfigLoaded] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
@@ -215,6 +221,27 @@ const Mm2Panel = () => {
     }
   };
 
+  // Load local configuration on mount (only on localhost)
+  useEffect(() => {
+    const loadLocalConfig = async () => {
+      if (isLocalhost()) {
+        const localMM2Config = await loadLocalMM2Config();
+        if (localMM2Config) {
+          setMm2PanelState({ mm2Config: localMM2Config });
+          setLocalConfigLoaded(true);
+          
+          // Extract and store the RPC password for syncing with RPC panel
+          const rpcPassword = extractRpcPassword(localMM2Config);
+          if (rpcPassword) {
+            setMm2PanelState({ mm2UserPass: rpcPassword });
+          }
+        }
+      }
+    };
+    
+    loadLocalConfig();
+  }, []); // Only run once on mount
+
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval> | undefined;
     init_wasm().then(function () {
@@ -262,6 +289,11 @@ const Mm2Panel = () => {
           </div>
           <div className="flex max-w-[80%] max-h-full flex-row flex-wrap overflow-auto">
             <p className="text-sm -md:text-xs">
+              {localConfigLoaded && (
+                <span className="text-green-400 mr-2" title="Local config loaded">
+                  📁
+                </span>
+              )}
               {" "}
               KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
               {process.env.NEXT_PUBLIC_KDF_PR_URL && (

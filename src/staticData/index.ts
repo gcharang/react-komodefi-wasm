@@ -24,12 +24,17 @@ const MARTY_WSS_ELECTRUMS = MARTY_ELECTRUMS.filter(
 export const ALL_COIN_ELECTRUMS =
   extractWssElectrumsFromConfig(coins_config_wss);
 
+// Store the session password globally so both configs use the same one
+let sessionPassword: string | null = null;
+
 // Get dynamic configs with generated password
 export const getRpcDefaultConfig = () => {
-  const password = getSessionPassword();
+  if (!sessionPassword) {
+    sessionPassword = getSessionPassword();
+  }
   return `[
     {
-        "userpass": "${password}",
+        "userpass": "${sessionPassword}",
         "method": "electrum",
         "mm2": 1,
         "coin": "DOC",
@@ -37,7 +42,7 @@ export const getRpcDefaultConfig = () => {
         "servers": ${JSON.stringify(DOC_WSS_ELECTRUMS)}
     },
     {
-        "userpass": "${password}",
+        "userpass": "${sessionPassword}",
         "method": "electrum",
         "mm2": 1,
         "coin": "MARTY",
@@ -48,14 +53,16 @@ export const getRpcDefaultConfig = () => {
 };
 
 export const getMm2DefaultConfig = () => {
-  const password = getSessionPassword();
+  if (!sessionPassword) {
+    sessionPassword = getSessionPassword();
+  }
   return `{
     "gui": "WASMTEST",
     "mm2": 1,
     "passphrase": "wasmtest",
     "i_am_seed": false,
     "disable_p2p": false,
-    "rpc_password": "${password}",
+    "rpc_password": "${sessionPassword}",
     "netid": 8762,
     "seednodes": ${JSON.stringify(
       seedNodes

@@ -34,6 +34,30 @@ yarn dev
 
 The development server will be available at http://localhost:3000/
 
+### Local Development Configuration
+
+When running on localhost, you can create local configuration files that will be automatically loaded on startup. This is useful for preserving your seed phrases, passwords, and settings during development.
+
+1. **Create local configuration files** (these are gitignored):
+
+   - Copy `local_MM2.example.json` to `public/local_MM2.json` and add your seed phrase and password
+   - Copy `local_RPC.example.json` to `public/local_RPC.json` for RPC settings
+
+```bash
+cp local_MM2.example.json public/local_MM2.json
+cp local_RPC.example.json public/local_RPC.json
+```
+
+2. **The configuration will automatically load** when:
+
+   - Running on localhost, 127.0.0.1, or local network IPs
+   - The local config files exist in the public directory
+
+3. **Nnotes**:
+   - These files are in `.gitignore` and will never be committed
+   - Only works on localhost
+   - A 📁 icon appears in the MM2 panel when local config is loaded
+
 ## Build and Production
 
 ```bash

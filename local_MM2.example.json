@@ -1,0 +1,15 @@
+{
+  "gui": "WASMTEST",
+  "mm2": 1,
+  "passphrase": "your seed phrase here",
+  "i_am_seed": false,
+  "disable_p2p": false,
+  "rpc_password": "your_rpc_password_here",
+  "netid": 8762,
+  "seednodes": [
+    "wss://seeds1.cipig.net:39001",
+    "wss://seeds2.cipig.net:39001", 
+    "wss://seeds3.cipig.net:39001",
+    "wss://seeds4.cipig.net:39001"
+  ]
+}
