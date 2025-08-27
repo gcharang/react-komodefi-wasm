@@ -10,7 +10,8 @@ import type {
   UseRpcResponseStateReturn, 
   UseVisibilityStateReturn, 
   UseGenericModalReturn, 
-  UseRpcMethodsReturn 
+  UseRpcMethodsReturn,
+  UseToastStateReturn 
 } from '../types/store';
 
 export const useStore = create<StoreState>()(
@@ -103,6 +104,27 @@ export const useStore = create<StoreState>()(
       // Methods State
       methods: null,
       setMethods: (methods) => set({ methods }),
+
+      // Toast State
+      toast: {
+        show: false,
+        message: '',
+        type: 'info',
+        action: undefined,
+      },
+      showToast: (message, type = 'info', action) =>
+        set({
+          toast: {
+            show: true,
+            message,
+            type,
+            action,
+          },
+        }),
+      hideToast: () =>
+        set((state) => ({
+          toast: { ...state.toast, show: false },
+        })),
     }),
     {
       name: 'komodefi-store', // name for devtools
@@ -181,6 +203,13 @@ export const useRpcMethods = (): UseRpcMethodsReturn => {
     methods,
     setMethods,
   };
+};
+
+export const useToastState = (): UseToastStateReturn => {
+  const toast = useStore((state) => state.toast);
+  const showToast = useStore((state) => state.showToast);
+  const hideToast = useStore((state) => state.hideToast);
+  return { toast, showToast, hideToast };
 };
 
 export default useStore;

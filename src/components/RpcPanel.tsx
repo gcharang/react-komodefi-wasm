@@ -18,12 +18,14 @@ import {
   useVisibilityState,
   useRpcPanelState,
   useRpcResponseState,
+  useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
 import { Send, SettingsIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import Tooltip from "./Tooltip";
+import type { RpcPanelProps } from "../types/components";
 
 const MenuItem: React.FC<MenuItemProps> = ({
   label,
@@ -234,12 +236,13 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
 
 ListBox.displayName = "ListBox";
 
-const RpcPanel = () => {
+const RpcPanel: React.FC<RpcPanelProps> = ({ isMobile = false, onSwitchToResponse }) => {
   const { mm2PanelState } = useMm2PanelState();
   const { rpcPanelState, setRpcPanelState } = useRpcPanelState();
   const { setRpcResponseState } = useRpcResponseState();
   const { showModal } = useVisibilityState();
   const { genericModalState, setGenericModalState } = useGenericModal();
+  const { showToast } = useToastState();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { methods, setMethods } = useRpcMethods();
@@ -360,7 +363,21 @@ const RpcPanel = () => {
     setRpcResponseState({
       requestResponse: JSON.stringify(response, null, 2),
     });
-  }, [rpcPanelState.config, setRpcResponseState]);
+    
+    // Show toast notification
+    if (isMobile && onSwitchToResponse) {
+      showToast(
+        'Request sent successfully!',
+        'success',
+        {
+          label: 'View Response',
+          onClick: onSwitchToResponse
+        }
+      );
+    } else {
+      showToast('Request sent successfully!', 'success');
+    }
+  }, [rpcPanelState.config, setRpcResponseState, isMobile, onSwitchToResponse, showToast]);
 
   // Improved password syncing - only updates when password actually changes
   const syncPanelPasswords = useCallback(() => {

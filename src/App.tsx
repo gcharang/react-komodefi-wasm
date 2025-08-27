@@ -6,6 +6,8 @@ import RpcPanel from "./components/RpcPanel";
 import RpcResponsePanel from "./components/RpcResponsePanel";
 import { MenuIcon } from "./components/IconComponents";
 import { WarningDialog } from "./components/WarningModal";
+import Toast from "./components/Toast";
+import { useToastState } from "./store/useStore";
 
 type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
 
@@ -17,6 +19,7 @@ function App() {
   });
   const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('mm2');
+  const { toast, hideToast } = useToastState();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -83,7 +86,12 @@ function App() {
               {/* Active Panel Content */}
               <div className="flex-1 min-h-0 overflow-hidden">
                 {activeTab === 'mm2' && <Mm2Panel />}
-                {activeTab === 'rpc' && <RpcPanel />}
+                {activeTab === 'rpc' && (
+                  <RpcPanel 
+                    isMobile={true} 
+                    onSwitchToResponse={() => setActiveTab('response')} 
+                  />
+                )}
                 {activeTab === 'logs' && (
                   <div className="h-full bg-primary-bg-800/95 backdrop-blur-xl rounded-b-lg shadow-2xl ring-1 ring-accent/20">
                     <Mm2LogsPanel windowSizes={windowSizes} setWindowSizes={setWindowSizes} />
@@ -163,7 +171,7 @@ function App() {
                 </div>
               </div>
               <div className="flex-1 min-w-0 h-full text-gray-300">
-                <RpcPanel />
+                <RpcPanel isMobile={false} />
               </div>
             </div>
           </div>
@@ -239,6 +247,14 @@ function App() {
           )}
         </div>
       </div>
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          action={toast.action}
+          onClose={hideToast}
+        />
+      )}
     </div>
   );
 }

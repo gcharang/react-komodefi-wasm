@@ -30,6 +30,11 @@ export interface Mm2LogsPanelProps {
   setWindowSizes: React.Dispatch<React.SetStateAction<AppWindowSizes>>;
 }
 
+export interface RpcPanelProps {
+  isMobile?: boolean;
+  onSwitchToResponse?: () => void;
+}
+
 export interface TooltipProps {
   label: string;
   dir?: "top" | "bottom" | "bottom-right";

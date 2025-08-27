@@ -32,6 +32,16 @@ export interface GenericModalState {
   onCancel: () => void;
 }
 
+export interface ToastState {
+  show: boolean;
+  message: string;
+  type: 'success' | 'error' | 'info';
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
+
 export interface StoreState {
   // MM2 Panel State
   mm2Panel: MM2PanelState;
@@ -64,6 +74,11 @@ export interface StoreState {
   // Methods State
   methods: MethodCollection;
   setMethods: (methods: MethodCollection) => void;
+
+  // Toast State
+  toast: ToastState;
+  showToast: (message: string, type?: 'success' | 'error' | 'info', action?: { label: string; onClick: () => void }) => void;
+  hideToast: () => void;
 }
 
 // Hook return types
@@ -104,4 +119,10 @@ export interface UseGenericModalReturn {
 export interface UseRpcMethodsReturn {
   methods: MethodCollection;
   setMethods: (methods: MethodCollection) => void;
+}
+
+export interface UseToastStateReturn {
+  toast: ToastState;
+  showToast: (message: string, type?: 'success' | 'error' | 'info', action?: { label: string; onClick: () => void }) => void;
+  hideToast: () => void;
 }
