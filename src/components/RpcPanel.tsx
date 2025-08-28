@@ -21,9 +21,11 @@ import {
   useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
-import { Send, SettingsIcon } from "./IconComponents";
+import { Send, SettingsIcon, SaveIcon, LoadIcon } from "./IconComponents";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
+import { SaveRequestDialog } from "./SaveRequestDialog";
+import { LoadRequestModal } from "./LoadRequestModal";
 import Tooltip from "./Tooltip";
 import type { RpcPanelProps, ListBoxProps } from "../types/components";
 import { 
@@ -251,6 +253,8 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   const { methods, setMethods } = useRpcMethods();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isElectrumModalOpen, setIsElectrumModalOpen] = useState(false);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
@@ -484,6 +488,24 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                 <span>Send</span>{" "}
                 <Send role="image" className={`w-4 md:w-5 h-4 md:h-5`} />
               </button>
+              
+              <Tooltip label={"Save Request"} dir="bottom">
+                <button
+                  onClick={() => setIsSaveDialogOpen(true)}
+                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200"
+                >
+                  <SaveIcon className="w-4 md:w-5 h-4 md:h-5" />
+                </button>
+              </Tooltip>
+              
+              <Tooltip label={"Load Request"} dir="bottom">
+                <button
+                  onClick={() => setIsLoadModalOpen(true)}
+                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200"
+                >
+                  <LoadIcon className="w-4 md:w-5 h-4 md:h-5" />
+                </button>
+              </Tooltip>
             </div>
             <div className="flex flex-row flex-wrap items-center gap-1 md:gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
@@ -556,6 +578,36 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     isValidSchema,
   ]);
 
+  const handleLoadRequest = useCallback((config: string) => {
+    // Get current password from MM2 panel
+    const currentPassword = grabMM2RpcPassword();
+    
+    // Parse and update password if available
+    let configToSet = config;
+    if (currentPassword) {
+      try {
+        const parsedConfig = JSON.parse(config);
+        const updatedConfig = updateUserPass(parsedConfig, currentPassword);
+        configToSet = JSON.stringify(updatedConfig, null, 2);
+      } catch (error) {
+        // If parsing fails, use config as-is
+        console.debug('Unable to sync password for loaded request');
+      }
+    }
+    
+    // Set the config with synced password
+    setRpcPanelState({
+      config: configToSet,
+      dataHasErrors: false
+    });
+    
+    showToast('Request loaded successfully!', 'success');
+  }, [setRpcPanelState, showToast, grabMM2RpcPassword]);
+
+  const handleRequestSaved = useCallback((name: string) => {
+    showToast(`Request saved as "${name}"`, 'success');
+  }, [showToast]);
+
   return (
     <>
       <SettingsDialog
@@ -566,6 +618,17 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       <ElectrumCoinsModal
         isOpen={isElectrumModalOpen}
         onClose={() => setIsElectrumModalOpen(false)}
+      />
+      <SaveRequestDialog
+        isOpen={isSaveDialogOpen}
+        onClose={() => setIsSaveDialogOpen(false)}
+        currentConfig={rpcPanelState.config}
+        onSaved={handleRequestSaved}
+      />
+      <LoadRequestModal
+        isOpen={isLoadModalOpen}
+        onClose={() => setIsLoadModalOpen(false)}
+        onLoad={handleLoadRequest}
       />
       {panel}
     </>

@@ -1,0 +1,226 @@
+import React, { useState, useEffect } from 'react';
+import { Dialog, Field, Input } from '@headlessui/react';
+import { 
+  getSavedRequests, 
+  loadRequest, 
+  deleteRequest,
+  getRecentRequests,
+  exportRequests,
+  clearAllRequests
+} from '../utils/savedRequestsManager';
+import type { SavedRequest } from '../utils/savedRequestsManager';
+import { CloseIcon, DownloadIcon } from './IconComponents';
+
+interface LoadRequestModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onLoad: (config: string) => void;
+}
+
+export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
+  isOpen,
+  onClose,
+  onLoad
+}) => {
+  const [savedRequests, setSavedRequests] = useState<SavedRequest[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadSavedRequests();
+    }
+  }, [isOpen]);
+
+  const loadSavedRequests = () => {
+    const requests = getSavedRequests();
+    setSavedRequests(Object.values(requests));
+  };
+
+  const filteredRequests = savedRequests.filter(req =>
+    req.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleLoad = (name: string) => {
+    const request = loadRequest(name);
+    if (request) {
+      onLoad(request.config);
+      onClose();
+    }
+  };
+
+  const handleDelete = (name: string) => {
+    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+      deleteRequest(name);
+      loadSavedRequests();
+      if (selectedRequest?.name === name) {
+        setSelectedRequest(null);
+      }
+    }
+  };
+
+  const handleExport = () => {
+    const data = exportRequests();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `kdf_saved_requests_${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm('Are you sure you want to delete ALL saved requests? This cannot be undone.')) {
+      clearAllRequests();
+      loadSavedRequests();
+      setSelectedRequest(null);
+    }
+  };
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true" />
+      
+      <div className="fixed inset-0 flex items-center justify-center p-4">
+        <Dialog.Panel className="mx-auto max-w-4xl w-full h-[600px] bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
+          <div className="flex items-center justify-between p-4 border-b border-border-primary">
+            <Dialog.Title className="text-lg font-medium text-text-primary">
+              Load Saved Request
+            </Dialog.Title>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleExport}
+                className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                title="Export all saved requests"
+              >
+                <DownloadIcon className="w-5 h-5 text-text-muted" />
+              </button>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+              >
+                <CloseIcon className="w-5 h-5 text-text-muted" />
+              </button>
+            </div>
+          </div>
+          
+          <div className="flex-1 flex overflow-hidden">
+            {/* Left side - Request list */}
+            <div className="w-1/2 border-r border-border-primary flex flex-col">
+              <div className="p-4">
+                <Field>
+                  <Input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search saved requests..."
+                    className="w-full px-3 py-2 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder-text-muted"
+                  />
+                </Field>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto px-4 pb-4">
+                {filteredRequests.length === 0 ? (
+                  <div className="text-center py-8 text-text-muted">
+                    {searchTerm ? 'No requests found' : 'No saved requests yet'}
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {filteredRequests.map((req) => (
+                      <div
+                        key={req.name}
+                        onClick={() => setSelectedRequest(req)}
+                        className={`p-3 rounded-md border cursor-pointer transition-all ${
+                          selectedRequest?.name === req.name
+                            ? 'bg-accent/10 border-accent'
+                            : 'bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50'
+                        }`}
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <h3 className="font-medium text-text-primary">
+                              {req.name}
+                            </h3>
+                            <div className="flex gap-4 mt-1 text-xs text-text-muted">
+                              <span>{formatDate(req.savedAt)}</span>
+                              <span>Used {req.usageCount} times</span>
+                              {req.includesPassword && (
+                                <span className="text-warning">Contains password</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              {savedRequests.length > 0 && (
+                <div className="p-4 border-t border-border-primary">
+                  <button
+                    onClick={handleClearAll}
+                    className="text-sm text-danger hover:text-danger/80 transition-colors"
+                  >
+                    Clear All Saved Requests
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            {/* Right side - Request preview */}
+            <div className="w-1/2 flex flex-col">
+              {selectedRequest ? (
+                <>
+                  <div className="p-4 border-b border-border-primary">
+                    <h3 className="font-medium text-text-primary mb-2">
+                      {selectedRequest.name}
+                    </h3>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleLoad(selectedRequest.name)}
+                        className="px-3 py-1.5 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors text-sm font-medium"
+                      >
+                        Load Request
+                      </button>
+                      <button
+                        onClick={() => handleDelete(selectedRequest.name)}
+                        className="px-3 py-1.5 bg-danger/20 text-danger hover:bg-danger/30 rounded-md transition-colors text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <pre className="text-xs text-text-primary font-mono whitespace-pre-wrap">
+                      {selectedRequest.config}
+                    </pre>
+                  </div>
+                </>
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-text-muted">
+                  Select a request to preview
+                </div>
+              )}
+            </div>
+          </div>
+        </Dialog.Panel>
+      </div>
+    </Dialog>
+  );
+};
