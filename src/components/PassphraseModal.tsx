@@ -4,7 +4,6 @@ import {
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
-  Field,
   Input,
 } from '@headlessui/react';
 import { Key, ClipboardPaste, CheckCircle, AlertCircle, X } from 'lucide-react';
@@ -46,11 +45,15 @@ async function verifyBip39Checksum(words: string[]): Promise<{ ok: boolean; reas
   // MS = ENT + CS, where CS = ENT / 32
   // MS = ENT + ENT/32 = ENT * (1 + 1/32) = ENT * 33/32
   // Therefore: ENT = MS * 32/33
-  const ENT = (MS * 32) / 33;
-  const CS = ENT / 32;
+  const ENT = Math.floor((MS * 32) / 33);
+  const CS = Math.floor(ENT / 32);
   
-  // Verify ENT is a valid value (must be divisible by 32 and result in whole bits)
-  if (ENT % 32 !== 0 || !Number.isInteger(ENT) || !Number.isInteger(CS)) {
+  // Verify ENT is valid (must be 128-256 bits and divisible by 32)
+  if (ENT < 128 || ENT > 256) {
+    return { ok: false, reason: 'invalid_entropy_length' };
+  }
+  
+  if (ENT % 32 !== 0) {
     return { ok: false, reason: 'invalid_length' };
   }
   
@@ -68,7 +71,12 @@ async function verifyBip39Checksum(words: string[]): Promise<{ ok: boolean; reas
   
   try {
     // Calculate SHA-256 hash of entropy
-    const hashBuf = await crypto.subtle.digest('SHA-256', entropy);
+    // Create a new ArrayBuffer to ensure compatibility with crypto.subtle.digest
+    const entropyBuffer = new ArrayBuffer(entropy.length);
+    const entropyView = new Uint8Array(entropyBuffer);
+    entropyView.set(entropy);
+    
+    const hashBuf = await crypto.subtle.digest('SHA-256', entropyBuffer);
     const hashArray = new Uint8Array(hashBuf);
     
     // Convert first byte(s) of hash to binary and take CS bits as expected checksum

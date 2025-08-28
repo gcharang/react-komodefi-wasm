@@ -308,19 +308,17 @@ const Mm2Panel = () => {
         const currentConfig = JSON.parse(mm2PanelState.mm2Config);
         currentConfig.passphrase = passphrase;
         
-        setMm2PanelState({
+        // Update both config and userPass in a single state update
+        const stateUpdate: any = {
           mm2Config: JSON.stringify(currentConfig, null, 2),
           dataHasErrors: false
-        });
+        };
         
-        // Also update the userPass if it exists
         if (currentConfig.rpc_password) {
-          setMm2PanelState(prev => ({
-            ...prev,
-            mm2UserPass: currentConfig.rpc_password
-          }));
+          stateUpdate.mm2UserPass = currentConfig.rpc_password;
         }
         
+        setMm2PanelState(stateUpdate);
         showToast("Recovery phrase imported successfully!", "success");
       } catch (error) {
         console.error("Failed to update config with passphrase:", error);
