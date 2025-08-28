@@ -30,9 +30,9 @@ const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
   return (
     <button
       onClick={handleClick}
-      className={`w-full px-3 md:px-4 py-2.5 md:py-2 text-left text-sm transition-colors ${
+      className={`w-full px-3 md:px-4 py-2.5 md:py-2 text-left text-sm transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md ${
         isSelected
-          ? 'bg-accent/20 text-accent'
+          ? 'bg-accent/20 text-accent hover:bg-accent/30'
           : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
       }`}
     >
@@ -277,7 +277,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="text-text-secondary hover:text-accent transition-colors cursor-pointer p-1"
+              className="text-text-secondary hover:text-accent transition-all duration-200 cursor-pointer p-1 rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
             >
               <X className="h-5 w-5" />
             </button>
@@ -287,7 +287,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
           <div className="md:hidden flex border-b border-border-primary">
             <button
               onClick={() => setMobileTab('select')}
-              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] ${
+              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 focus:z-10 ${
                 mobileTab === 'select'
                   ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                   : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -297,7 +297,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             </button>
             <button
               onClick={() => setMobileTab('preview')}
-              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] ${
+              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 focus:z-10 ${
                 mobileTab === 'preview'
                   ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                   : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -339,7 +339,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     <div className="flex flex-col gap-2 border-t border-border-primary pt-2">
                       <button
                         onClick={toggleSelectAll}
-                        className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                        className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                         disabled={filteredCoins.length === 0}
                       >
                         {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
@@ -349,26 +349,30 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       {selectedCoins.size > 0 && (
                         <button
                           onClick={clearSelection}
-                          className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200 cursor-pointer min-h-[44px]"
+                          className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200 cursor-pointer min-h-[44px] focus:outline-none focus:ring-2 focus:ring-danger/50 active:scale-[0.98]"
                         >
                           Clear Selection
                         </button>
                       )}
                     </div>
-                    <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2.5 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
+                    <div 
+                      onClick={() => setShowSelectedOnly(!showSelectedOnly)}
+                      className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2.5 cursor-pointer hover:bg-primary-bg-900/50 transition-colors"
+                    >
                       <Checkbox
                         id="show-selected-only-mobile"
                         name="show-selected-only-mobile"
                         checked={showSelectedOnly}
                         onChange={setShowSelectedOnly}
                         className="group size-4 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <svg className="hidden size-4 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
                           <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                         </svg>
                       </Checkbox>
-                      <span className="text-sm text-text-secondary">Show selected only</span>
-                    </label>
+                      <span className="text-sm text-text-secondary select-none">Show selected only</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex-1 overflow-y-auto px-2">
@@ -378,9 +382,9 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       <div key={coin.coin} className="mb-1">
                         <button
                           onClick={() => toggleCoinSelection(coin.coin)}
-                          className={`w-full px-3 py-3 text-left text-sm transition-colors rounded-md cursor-pointer ${
+                          className={`w-full px-3 py-3 text-left text-sm transition-all duration-200 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 ${
                             selectedCoins.has(coin.coin)
-                              ? 'bg-accent/20 text-accent'
+                              ? 'bg-accent/20 text-accent hover:bg-accent/30'
                               : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
                           }`}
                         >
@@ -422,7 +426,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       </h3>
                       <button
                         onClick={copyToClipboard}
-                        className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-2 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer"
+                        className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-2 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                       >
                         {copied ? (
                           <>
@@ -489,7 +493,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   <div className="flex items-center gap-2 border-t border-border-primary pt-2">
                     <button
                       onClick={toggleSelectAll}
-                      className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                       disabled={filteredCoins.length === 0}
                     >
                       {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
@@ -499,26 +503,30 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     {selectedCoins.size > 0 && (
                       <button
                         onClick={clearSelection}
-                        className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-error/20 hover:text-error transition-all duration-200 cursor-pointer"
+                        className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-danger/50 active:scale-[0.98]"
                       >
                         Clear Selection
                       </button>
                     )}
                   </div>
-                  <label className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2 cursor-pointer hover:bg-primary-bg-900/50 transition-colors">
+                  <div 
+                    onClick={() => setShowSelectedOnly(!showSelectedOnly)}
+                    className="flex items-center gap-2 rounded-md bg-primary-bg-900/30 px-3 py-2 cursor-pointer hover:bg-primary-bg-900/50 transition-colors"
+                  >
                     <Checkbox
                       id="show-selected-only"
                       name="show-selected-only"
                       checked={showSelectedOnly}
                       onChange={setShowSelectedOnly}
                       className="group size-3.5 rounded border border-border-primary bg-primary-bg-900 data-[checked]:bg-accent data-[checked]:border-accent focus:ring-1 focus:ring-accent/50 focus:ring-offset-0"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <svg className="hidden size-3.5 fill-white group-data-[checked]:block" viewBox="0 0 14 14">
                         <path d="M11.5 4.5L6 10L2.5 6.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                       </svg>
                     </Checkbox>
-                    <span className="text-xs text-text-secondary">Show selected only</span>
-                  </label>
+                    <span className="text-xs text-text-secondary select-none">Show selected only</span>
+                  </div>
                 </div>
               </div>
               <div className="h-[calc(100%-8rem)] overflow-y-auto">
@@ -559,7 +567,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     </h3>
                     <button
                       onClick={copyToClipboard}
-                      className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-1.5 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer"
+                      className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-1.5 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                     >
                       {copied ? (
                         <>
