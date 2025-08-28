@@ -446,31 +446,31 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-300" />
       
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="w-full max-w-4xl bg-gradient-to-br from-primary-bg-800/95 via-primary-bg-800/98 to-primary-bg-900/95 backdrop-blur-xl rounded-2xl shadow-2xl ring-2 ring-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+      <div className="fixed inset-0 flex items-center justify-center p-2 sm:p-4">
+        <DialogPanel className="w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] bg-gradient-to-br from-primary-bg-800/95 via-primary-bg-800/98 to-primary-bg-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-2xl ring-2 ring-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-300 flex flex-col">
           {!showVerification ? (
             <>
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-transparent via-white/5 to-transparent">
-                <div className="flex items-center gap-4">
-                  <div className="relative p-3 bg-gradient-to-br from-accent/30 to-secondary-500/30 rounded-xl shadow-lg shadow-accent/20">
-                    <Key className="w-5 h-5 text-white relative z-10" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent to-secondary-500 rounded-xl opacity-20 blur-xl" />
+              <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 bg-gradient-to-r from-transparent via-white/5 to-transparent flex-shrink-0">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="relative p-2 sm:p-3 bg-gradient-to-br from-accent/30 to-secondary-500/30 rounded-lg sm:rounded-xl shadow-lg shadow-accent/20">
+                    <Key className="w-4 h-4 sm:w-5 sm:h-5 text-white relative z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent to-secondary-500 rounded-lg sm:rounded-xl opacity-20 blur-xl" />
                   </div>
                   <div>
-                    <DialogTitle className="text-xl font-bold text-white">
+                    <DialogTitle className="text-lg sm:text-xl font-bold text-white">
                       Import Recovery Phrase
                     </DialogTitle>
-                    <p className="text-sm text-white/60 mt-0.5">
+                    <p className="text-xs sm:text-sm text-white/60 mt-0.5">
                       Enter your {wordCount}-word BIP39 mnemonic phrase
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-white/10 rounded-xl transition-all duration-200 cursor-pointer group"
+                  className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg sm:rounded-xl transition-all duration-200 cursor-pointer group"
                 >
-                  <X className="w-5 h-5 text-white/60 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5 text-white/60 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
                 </button>
               </div>
 
@@ -496,8 +496,8 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-6">
+              {/* Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6">
                 {/* Method Selector */}
                 <div className="flex gap-2 mb-6 p-1 bg-black/30 rounded-xl">
                   <button
@@ -574,7 +574,13 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
 
                 {/* Input Methods */}
                 {method === 'grid' ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[400px] overflow-visible p-1 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <div className={`grid gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+                    wordCount === 24 
+                      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'
+                      : wordCount >= 18
+                      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+                      : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                  }`}>
                     {words.map((word, index) => (
                       <WordInput
                         key={index}
@@ -613,22 +619,22 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-3 p-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/20">
+              {/* Actions - Fixed at bottom */}
+              <div className="flex gap-2 sm:gap-3 p-4 sm:p-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/20 flex-shrink-0">
                 <button
                   onClick={() => {
                     setWords(Array(wordCount).fill(''));
                     setManualInput('');
                     setError('');
                   }}
-                  className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-xl font-semibold transition-all duration-300 cursor-pointer border-2 border-white/10 hover:border-white/20"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 cursor-pointer border-2 border-white/10 hover:border-white/20"
                 >
                   Clear All
                 </button>
                 <button
                   onClick={verifyAndImport}
                   disabled={!canVerify || isVerifying}
-                  className={`flex-1 relative px-6 py-3 rounded-xl font-bold transition-all duration-300 overflow-hidden group ${
+                  className={`flex-1 relative px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold transition-all duration-300 overflow-hidden group ${
                     canVerify && !isVerifying
                       ? 'bg-gradient-to-r from-accent to-secondary-500 text-white hover:shadow-2xl hover:shadow-accent/30 hover:scale-[1.02] cursor-pointer'
                       : 'bg-white/5 text-white/30 cursor-not-allowed'
@@ -653,51 +659,57 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
           ) : (
             <>
               {/* Verification Success */}
-              <div className="p-6 border-b border-white/10 bg-gradient-to-r from-transparent via-success/10 to-transparent animate-in fade-in slide-in-from-top-2 duration-500">
-                <div className="flex items-center gap-4">
-                  <div className="relative p-3 bg-success/20 rounded-xl">
-                    <CheckCircle className="w-6 h-6 text-success animate-in zoom-in spin-in-180 duration-500" />
-                    <div className="absolute inset-0 bg-success rounded-xl opacity-20 blur-xl animate-pulse" />
+              <div className="p-4 sm:p-6 border-b border-white/10 bg-gradient-to-r from-transparent via-success/10 to-transparent animate-in fade-in slide-in-from-top-2 duration-500 flex-shrink-0">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="relative p-2.5 sm:p-3 bg-success/20 rounded-lg sm:rounded-xl">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-success animate-in zoom-in spin-in-180 duration-500" />
+                    <div className="absolute inset-0 bg-success rounded-lg sm:rounded-xl opacity-20 blur-xl animate-pulse" />
                   </div>
                   <div>
-                    <DialogTitle className="text-xl font-bold text-white">
+                    <DialogTitle className="text-lg sm:text-xl font-bold text-white">
                       Verification Successful
                     </DialogTitle>
-                    <p className="text-sm text-white/60 mt-0.5">
+                    <p className="text-xs sm:text-sm text-white/60 mt-0.5">
                       Your recovery phrase is valid. Please confirm to import.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6">
-                <div className="bg-black/30 backdrop-blur-sm rounded-xl p-5 border-2 border-white/10">
-                  <p className="text-xs text-white/50 mb-4 font-semibold uppercase tracking-wider">Your recovery phrase:</p>
-                  <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+                <div className="bg-black/30 backdrop-blur-sm rounded-xl p-3 sm:p-5 border-2 border-white/10">
+                  <p className="text-xs text-white/50 mb-3 sm:mb-4 font-semibold uppercase tracking-wider">Your recovery phrase:</p>
+                  <div className={`grid gap-1.5 sm:gap-2 ${
+                    words.filter(w => w.length > 0).length === 24
+                      ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
+                      : words.filter(w => w.length > 0).length >= 18
+                      ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'
+                      : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
+                  }`}>
                     {words.filter(w => w.length > 0).map((word, index) => (
                       <div
                         key={index}
-                        className="group bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15 border border-white/20 rounded-xl px-3 py-2.5 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg animate-in fade-in zoom-in-95 duration-500"
+                        className="group bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15 border border-white/20 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-3 sm:py-2.5 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg animate-in fade-in zoom-in-95 duration-500"
                         style={{ animationDelay: `${index * 30}ms` }}
                       >
-                        <span className="text-[10px] text-accent/70 block font-bold">#{String(index + 1).padStart(2, '0')}</span>
-                        <span className="text-sm font-mono text-white font-semibold">{word}</span>
+                        <span className="text-[9px] sm:text-[10px] text-accent/70 block font-bold">#{String(index + 1).padStart(2, '0')}</span>
+                        <span className="text-xs sm:text-sm font-mono text-white font-semibold">{word}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-3 p-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/20">
+              <div className="flex gap-2 sm:gap-3 p-4 sm:p-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/20 flex-shrink-0">
                 <button
                   onClick={() => setShowVerification(false)}
-                  className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-xl font-semibold transition-all duration-300 cursor-pointer border-2 border-white/10 hover:border-white/20"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 cursor-pointer border-2 border-white/10 hover:border-white/20"
                 >
                   Back to Edit
                 </button>
                 <button
                   onClick={confirmImport}
-                  className="flex-1 relative px-6 py-3 bg-gradient-to-r from-success to-secondary-500 text-white hover:shadow-2xl hover:shadow-success/30 hover:scale-[1.02] rounded-xl font-bold transition-all duration-300 cursor-pointer overflow-hidden group"
+                  className="flex-1 relative px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-success to-secondary-500 text-white hover:shadow-2xl hover:shadow-success/30 hover:scale-[1.02] rounded-lg sm:rounded-xl text-sm sm:text-base font-bold transition-all duration-300 cursor-pointer overflow-hidden group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative">Complete Import</span>
