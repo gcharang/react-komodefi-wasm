@@ -341,12 +341,6 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                           <span>{formatDate(req.savedAt)}</span>
                           <span className="text-text-muted/50">•</span>
                           <span>{req.usageCount}x used</span>
-                          {/* {req.includesPassword && (
-                            <>
-                              <span className="text-text-muted/50">•</span>
-                              <span className="text-warning text-xs">pwd</span>
-                            </>
-                          )} */}
                         </div>
                       </div>
                     ))}

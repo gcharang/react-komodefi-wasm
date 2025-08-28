@@ -9,7 +9,6 @@ export interface SavedRequest {
   savedAt: string;
   usageCount: number;
   lastUsedAt?: string;
-  includesPassword?: boolean;
 }
 
 export interface SavedRequestsCollection {
@@ -71,8 +70,7 @@ export const saveRequest = (
       name: name,
       config: configToSave,
       savedAt: new Date().toISOString(),
-      usageCount: saved[name]?.usageCount || 0,
-      includesPassword: false
+      usageCount: saved[name]?.usageCount || 0
     };
     
     localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
@@ -219,8 +217,7 @@ export const importRequests = (jsonString: string, overwrite: boolean = false): 
               return existingUsed > importedUsed 
                 ? existingRequest.lastUsedAt 
                 : importedRequest.lastUsedAt;
-            })(),
-            includesPassword: importedRequest.includesPassword || existingRequest.includesPassword
+            })()
           };
         } else {
           // New request - add it
