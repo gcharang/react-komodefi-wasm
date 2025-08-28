@@ -616,6 +616,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     setRpcPanelState,
     mm2PanelState.mm2Config,
     isValidSchema,
+    copied,
   ]);
 
   const handleLoadRequest = useCallback(
