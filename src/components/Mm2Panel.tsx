@@ -273,7 +273,7 @@ const Mm2Panel = () => {
                   <span className="md:hidden">Run</span>
                   <Play
                     aria-hidden="true"
-                    className="w-4 md:w-5 h-4 md:h-5 fill-green-500"
+                    className="w-3.5 md:w-4 h-3.5 md:h-4 fill-green-500"
                   />
                 </>
               ) : (
@@ -282,7 +282,7 @@ const Mm2Panel = () => {
                   <span className="md:hidden">Stop</span>
                   <Square
                     aria-hidden="true"
-                    className="w-4 md:w-5 h-4 md:h-5 fill-red-500"
+                    className="w-3.5 md:w-4 h-3.5 md:h-4 fill-red-500"
                   />
                 </>
               )}

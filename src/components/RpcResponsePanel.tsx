@@ -29,7 +29,7 @@ const RpcResponsePanel = () => {
                 onClick={() => copyToClipboard()}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <ClipboardCheck className="w-6 h-6" />
+                <ClipboardCheck className="w-5 h-5" />
               </button>
             </Tooltip>
           )}
@@ -39,7 +39,7 @@ const RpcResponsePanel = () => {
                 onClick={() => copyToClipboard()}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <CheckCircle className="w-6 h-6 text-success animate-fadeIn" />
+                <CheckCircle className="w-5 h-5 text-success animate-fadeIn" />
               </button>
             </Tooltip>
           )}
@@ -56,7 +56,7 @@ const RpcResponsePanel = () => {
               }}
               className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
             >
-              <Download className="w-6 h-6" />
+              <Download className="w-5 h-5" />
             </button>
           </Tooltip>
         </div>

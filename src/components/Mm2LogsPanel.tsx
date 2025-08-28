@@ -77,7 +77,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
                 <ChevronsDown
-                  className={`w-6 h-6 ${
+                  className={`w-5 h-5 ${
                     windowSizes.bottomBar <= 100 ? "rotate-180" : ""
                   }`}
                 />
@@ -92,7 +92,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <Ban className="w-6 h-6" />
+                <Ban className="w-5 h-5" />
               </button>
             </Tooltip>
             {!copied && (
@@ -109,7 +109,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   }}
                   className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
                 >
-                  <ClipboardCheck className="w-6 h-6" />
+                  <ClipboardCheck className="w-5 h-5" />
                 </button>
               </Tooltip>
             )}
@@ -127,7 +127,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   }}
                   className="p-0 border-none bg-transparent cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
                 >
-                  <CheckCircle className="w-6 h-6 text-success" />
+                  <CheckCircle className="w-5 h-5 text-success" />
                 </button>
               </Tooltip>
             )}
@@ -142,7 +142,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <Download className="w-6 h-6" />
+                <Download className="w-5 h-5" />
               </button>
             </Tooltip>
           </div>
@@ -210,13 +210,13 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 {isInlineCopied.id !== String(index) && (
                   <ClipboardCheck
                     role="image"
-                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6"
+                    className="opacity-0 transition group-hover:opacity-100 w-5 h-5"
                   />
                 )}
                 {isInlineCopied.id === String(index) && (
                   <CheckCircle
                     role="image"
-                    className="opacity-0 transition group-hover:opacity-100 w-6 h-6 text-success"
+                    className="opacity-0 transition group-hover:opacity-100 w-5 h-5 text-success"
                   />
                 )}
               </span>

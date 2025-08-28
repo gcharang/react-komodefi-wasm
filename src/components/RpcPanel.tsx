@@ -21,17 +21,17 @@ import {
   useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
-import { Send, Settings, Save, FolderOpen } from "lucide-react";
+import { SendHorizontal, Settings, Save, FolderOpen } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import { SaveRequestDialog } from "./SaveRequestDialog";
 import { LoadRequestModal } from "./LoadRequestModal";
 import Tooltip from "./Tooltip";
 import type { RpcPanelProps, ListBoxProps } from "../types/components";
-import { 
-  isLocalhost, 
+import {
+  isLocalhost,
   loadLocalRPCConfig,
-  syncRpcPassword 
+  syncRpcPassword,
 } from "../utils/localConfigLoader";
 
 const MenuItem: React.FC<MenuItemProps> = ({
@@ -283,20 +283,20 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
           // Check if we have MM2 password to sync
           const mm2Password = mm2PanelState.mm2UserPass;
           let configToSet = localRPCConfig;
-          
+
           if (mm2Password) {
             // Sync the password from MM2 config
             configToSet = syncRpcPassword(localRPCConfig, mm2Password);
           }
-          
-          setRpcPanelState({ 
+
+          setRpcPanelState({
             config: configToSet,
-            dataHasErrors: false 
+            dataHasErrors: false,
           });
         }
       }
     };
-    
+
     loadLocalConfig();
   }, []); // Only run once on mount
 
@@ -411,7 +411,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
           return count > 1 ? `${method}${count}` : method;
         });
 
-        return methodParts.join('-');
+        return methodParts.join("-");
       }
       return request_json.method;
     };
@@ -479,16 +479,19 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                 disabled={
                   !mm2PanelState.mm2Running || rpcPanelState.dataHasErrors
                 }
-                className={`flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
+                className={`flex flex-row justify-center items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running && !rpcPanelState.dataHasErrors
                     ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
                     : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                 }`}
               >
                 <span>Send</span>{" "}
-                <Send role="image" className={`w-4 md:w-5 h-4 md:h-5`} />
+                <SendHorizontal
+                  role="image"
+                  className={`w-3.5 md:w-4 h-3.5 md:h-4`}
+                />
               </button>
-              
+
               <Tooltip label={"Save Request"} dir="bottom">
                 <button
                   onClick={() => setIsSaveDialogOpen(true)}
@@ -497,7 +500,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                   <Save className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
-              
+
               <Tooltip label={"Load Request"} dir="bottom">
                 <button
                   onClick={() => setIsLoadModalOpen(true)}
@@ -578,35 +581,41 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     isValidSchema,
   ]);
 
-  const handleLoadRequest = useCallback((config: string) => {
-    // Get current password from MM2 panel
-    const currentPassword = grabMM2RpcPassword();
-    
-    // Parse and update password if available
-    let configToSet = config;
-    if (currentPassword) {
-      try {
-        const parsedConfig = JSON.parse(config);
-        const updatedConfig = updateUserPass(parsedConfig, currentPassword);
-        configToSet = JSON.stringify(updatedConfig, null, 2);
-      } catch (error) {
-        // If parsing fails, use config as-is
-        console.debug('Unable to sync password for loaded request');
-      }
-    }
-    
-    // Set the config with synced password
-    setRpcPanelState({
-      config: configToSet,
-      dataHasErrors: false
-    });
-    
-    showToast('Request loaded successfully!', 'success');
-  }, [setRpcPanelState, showToast, grabMM2RpcPassword]);
+  const handleLoadRequest = useCallback(
+    (config: string) => {
+      // Get current password from MM2 panel
+      const currentPassword = grabMM2RpcPassword();
 
-  const handleRequestSaved = useCallback((name: string) => {
-    showToast(`Request saved as "${name}"`, 'success');
-  }, [showToast]);
+      // Parse and update password if available
+      let configToSet = config;
+      if (currentPassword) {
+        try {
+          const parsedConfig = JSON.parse(config);
+          const updatedConfig = updateUserPass(parsedConfig, currentPassword);
+          configToSet = JSON.stringify(updatedConfig, null, 2);
+        } catch (error) {
+          // If parsing fails, use config as-is
+          console.debug("Unable to sync password for loaded request");
+        }
+      }
+
+      // Set the config with synced password
+      setRpcPanelState({
+        config: configToSet,
+        dataHasErrors: false,
+      });
+
+      showToast("Request loaded successfully!", "success");
+    },
+    [setRpcPanelState, showToast, grabMM2RpcPassword]
+  );
+
+  const handleRequestSaved = useCallback(
+    (name: string) => {
+      showToast(`Request saved as "${name}"`, "success");
+    },
+    [showToast]
+  );
 
   return (
     <>
