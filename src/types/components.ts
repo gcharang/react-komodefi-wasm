@@ -153,9 +153,4 @@ export interface WordInputProps {
   autoFocus?: boolean;
 }
 
-export interface ChipEditorProps {
-  words: string[];
-  onWordsChange: (words: string[]) => void;
-}
-
 export type SortOption = "usage" | "lastUsed" | "dateCreated";
