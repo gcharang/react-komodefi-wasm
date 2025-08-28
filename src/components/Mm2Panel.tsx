@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Play, Square } from "lucide-react";
+import { Play, Square, Ban, ClipboardCheck, CheckCircle } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
+import Tooltip from "./Tooltip";
 
 import init, {
   LogLevel,
@@ -29,6 +30,7 @@ const Mm2Panel = () => {
   const { mm2PanelState, setMm2PanelState } = useMm2PanelState();
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
   const [localConfigLoaded, setLocalConfigLoaded] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
@@ -261,7 +263,7 @@ const Mm2Panel = () => {
     <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
       <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
         <div className="relative w-full flex items-center justify-between">
-          <div className="flex gap-1 md:gap-3">
+          <div className="flex gap-1 md:gap-2">
             <button
               onClick={() => toggleMm2()}
               aria-label={!mm2PanelState.mm2Running ? "Start KDF service" : "Stop KDF service"}
@@ -287,6 +289,43 @@ const Mm2Panel = () => {
                 </>
               )}
             </button>
+            {!mm2PanelState.mm2Running && (
+              <>
+                <Tooltip label="Clear Panel" dir="bottom">
+                  <button
+                    onClick={() => setMm2PanelState({ mm2Config: "{}" })}
+                    className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                    aria-label="Clear MM2 config"
+                  >
+                    <Ban className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-danger" />
+                  </button>
+                </Tooltip>
+                {!copied ? (
+                  <Tooltip label="Copy Config" dir="bottom">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(mm2PanelState.mm2Config);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                      aria-label="Copy MM2 config"
+                    >
+                      <ClipboardCheck className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-accent" />
+                    </button>
+                  </Tooltip>
+                ) : (
+                  <Tooltip label="Copied!" dir="bottom">
+                    <button
+                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
+                      aria-label="Config copied"
+                    >
+                      <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-success animate-fadeIn" />
+                    </button>
+                  </Tooltip>
+                )}
+              </>
+            )}
           </div>
           <div className="flex max-w-[80%] max-h-full flex-row flex-wrap overflow-auto">
             <p className="text-sm -md:text-xs">

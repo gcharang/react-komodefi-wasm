@@ -83,20 +83,20 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 />
               </button>
             </Tooltip>
-            <Tooltip label={"Clear console"} dir="bottom">
+            <Tooltip label="Clear Panel" dir="bottom">
               <button
                 onClick={() => {
                   setMm2LogsPanelState({
                     outputMessages: [],
                   });
                 }}
-                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
               >
-                <Ban className="w-5 h-5" />
+                <Ban className="w-5 h-5 text-text-muted hover:text-danger" />
               </button>
             </Tooltip>
-            {!copied && (
-              <Tooltip label={"Copy Logs"} dir="bottom">
+            {!copied ? (
+              <Tooltip label="Copy Logs" dir="bottom">
                 <button
                   onClick={() => {
                     copyToClipboard(
@@ -105,33 +105,23 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                         .join("\n")
                     );
                     setCopied(true);
-                    setTimeout(() => setCopied(false), 1000);
+                    setTimeout(() => setCopied(false), 2000);
                   }}
-                  className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                  className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                 >
-                  <ClipboardCheck className="w-5 h-5" />
+                  <ClipboardCheck className="w-5 h-5 text-text-muted hover:text-accent" />
                 </button>
               </Tooltip>
-            )}
-            {copied && (
-              <Tooltip label={"Copied!"} dir="bottom">
+            ) : (
+              <Tooltip label="Copied!" dir="bottom">
                 <button
-                  onClick={() => {
-                    copyToClipboard(
-                      mm2LogsPanelState.outputMessages
-                        .map((log) => log[0])
-                        .join("\n")
-                    );
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 1000);
-                  }}
-                  className="p-0 border-none bg-transparent cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                  className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
                 >
-                  <CheckCircle className="w-5 h-5 text-success" />
+                  <CheckCircle className="w-5 h-5 text-success animate-fadeIn" />
                 </button>
               </Tooltip>
             )}
-            <Tooltip label={"Download Logs"} dir="bottom">
+            <Tooltip label="Download Logs" dir="bottom">
               <button
                 onClick={() => {
                   const timestamp = Date.now();
@@ -140,9 +130,9 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     .join("\n");
                   downloadFile(content, `kdf_logs_wasm_pg_${timestamp}.txt`);
                 }}
-                className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
               >
-                <Download className="w-5 h-5" />
+                <Download className="w-5 h-5 text-text-muted hover:text-accent" />
               </button>
             </Tooltip>
           </div>

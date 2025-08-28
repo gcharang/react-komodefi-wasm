@@ -21,7 +21,7 @@ import {
   useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
-import { SendHorizontal, Settings, Save, FolderOpen } from "lucide-react";
+import { SendHorizontal, Settings, Save, FolderOpen, Ban, ClipboardCheck, CheckCircle } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import { SaveRequestDialog } from "./SaveRequestDialog";
@@ -255,6 +255,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   const [isElectrumModalOpen, setIsElectrumModalOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     rpcPanelState.config
   );
@@ -509,6 +510,42 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                   <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
+
+              <div className="flex gap-1">
+                <Tooltip label="Clear Panel" dir="bottom">
+                  <button
+                    onClick={() => setRpcPanelState({ config: "{}" })}
+                    className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                    aria-label="Clear RPC request"
+                  >
+                    <Ban className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-danger" />
+                  </button>
+                </Tooltip>
+                {!copied ? (
+                  <Tooltip label="Copy Request" dir="bottom">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(rpcPanelState.config);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                      aria-label="Copy RPC request"
+                    >
+                      <ClipboardCheck className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-accent" />
+                    </button>
+                  </Tooltip>
+                ) : (
+                  <Tooltip label="Copied!" dir="bottom">
+                    <button
+                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
+                      aria-label="Request copied"
+                    >
+                      <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-success animate-fadeIn" />
+                    </button>
+                  </Tooltip>
+                )}
+              </div>
             </div>
             <div className="flex flex-row flex-wrap items-center gap-1 md:gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
