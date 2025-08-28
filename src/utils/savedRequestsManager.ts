@@ -191,9 +191,43 @@ export const importRequests = (jsonString: string, overwrite: boolean = false): 
     const imported = JSON.parse(jsonString) as SavedRequestsCollection;
     
     if (!overwrite) {
-      // Merge with existing
+      // Intelligent merge with existing
       const existing = getSavedRequests();
-      const merged = { ...existing, ...imported };
+      const merged = { ...existing };
+      
+      // Merge each imported request intelligently
+      Object.entries(imported).forEach(([name, importedRequest]) => {
+        if (merged[name]) {
+          // Request exists - merge intelligently
+          const existingRequest = merged[name];
+          merged[name] = {
+            name: name,
+            config: importedRequest.config, // Use newer config from import
+            savedAt: new Date(existingRequest.savedAt) < new Date(importedRequest.savedAt) 
+              ? existingRequest.savedAt 
+              : importedRequest.savedAt, // Keep earliest creation date
+            usageCount: existingRequest.usageCount + importedRequest.usageCount, // Sum usage counts
+            lastUsedAt: (() => {
+              // Keep most recent usage date
+              const existingUsed = existingRequest.lastUsedAt ? new Date(existingRequest.lastUsedAt) : null;
+              const importedUsed = importedRequest.lastUsedAt ? new Date(importedRequest.lastUsedAt) : null;
+              
+              if (!existingUsed && !importedUsed) return undefined;
+              if (!existingUsed) return importedRequest.lastUsedAt;
+              if (!importedUsed) return existingRequest.lastUsedAt;
+              
+              return existingUsed > importedUsed 
+                ? existingRequest.lastUsedAt 
+                : importedRequest.lastUsedAt;
+            })(),
+            includesPassword: importedRequest.includesPassword || existingRequest.includesPassword
+          };
+        } else {
+          // New request - add it
+          merged[name] = importedRequest;
+        }
+      });
+      
       localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     } else {
       // Replace all

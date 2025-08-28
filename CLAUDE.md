@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important
+
+- Always place types in a appropriate file in src/types
+- Use cursor-pointer for all clickable things like buttons
+- Always make sure the components being implemented are responsive and will look good in mobile views too
+- Prefer lucide icons when available. File list avaialable at https://github.com/lucide-icons/lucide/tree/main/icons
+
 ## Commands
 
 ### Development

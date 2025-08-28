@@ -10,16 +10,17 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { ArrowDownWideNarrow, ArrowUpNarrowWide } from "lucide-react";
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Upload, Download } from "lucide-react";
 import {
   getSavedRequests,
   loadRequest,
   deleteRequest,
   exportRequests,
+  importRequests,
   clearAllRequests,
 } from "../utils/savedRequestsManager";
 import type { SavedRequest } from "../utils/savedRequestsManager";
-import { CloseIcon, DownloadIcon, ChevronDownIcon } from "./IconComponents";
+import { CloseIcon, ChevronDownIcon } from "./IconComponents";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 
 interface LoadRequestModalProps {
@@ -48,6 +49,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   );
   const [sortBy, setSortBy] = useState<SortOption>("dateCreated");
   const [sortDescending, setSortDescending] = useState(true);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -122,6 +124,39 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleImport = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      
+      // Ask user if they want to merge or overwrite
+      const shouldOverwrite = window.confirm(
+        "Do you want to replace all existing saved requests?\n\n" +
+        "Click 'OK' to replace all existing requests\n" +
+        "Click 'Cancel' to merge with existing requests"
+      );
+      
+      importRequests(text, shouldOverwrite);
+      loadSavedRequests();
+      
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      alert(`Successfully imported requests (${shouldOverwrite ? 'replaced' : 'merged'})`);
+    } catch (error) {
+      alert('Failed to import requests. Please ensure the file is a valid JSON export.');
+      console.error('Import error:', error);
+    }
   };
 
   const handleClearAll = () => {
@@ -204,12 +239,26 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               </div>
 
               <div className="flex items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <button
+                  onClick={handleImport}
+                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                  title="Import saved requests from file"
+                >
+                  <Upload className="w-5 h-5 text-text-muted" />
+                </button>
                 <button
                   onClick={handleExport}
                   className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
                   title="Export all saved requests"
                 >
-                  <DownloadIcon className="w-5 h-5 text-text-muted" />
+                  <Download className="w-5 h-5 text-text-muted" />
                 </button>
                 <button
                   onClick={onClose}
