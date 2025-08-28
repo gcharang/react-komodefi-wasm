@@ -179,8 +179,19 @@ const WordInput: React.FC<WordInputProps> = ({
         onChange={handleInput}
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => {
+          setIsFocused(true);
+          // Restore suggestions when focusing back
+          if (value.length > 0) {
+            const matches = BIP39_WORDLIST.filter(word => word.startsWith(value));
+            setSuggestions(matches.slice(0, 5));
+            setSelectedSuggestion(0);
+          }
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+          setSuggestions([]); // Clear suggestions when losing focus
+        }}
         data-index={index}
         autoFocus={autoFocus}
         className={`w-full pl-10 pr-3 py-3 bg-black/30 backdrop-blur-sm border-2 rounded-xl text-sm font-mono text-white transition-all duration-300 ${
