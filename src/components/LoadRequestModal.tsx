@@ -10,7 +10,12 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { ArrowDownWideNarrow, ArrowUpNarrowWide, Upload, Download } from "lucide-react";
+import {
+  ArrowDownWideNarrow,
+  ArrowUpNarrowWide,
+  Upload,
+  Download,
+} from "lucide-react";
 import {
   getSavedRequests,
   loadRequest,
@@ -119,7 +124,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `kdf_saved_requests_${Date.now()}.json`;
+    a.download = `kdf_saved_requests_wasm_pg_${Date.now()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -130,32 +135,40 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     try {
       const text = await file.text();
-      
+
       // Ask user if they want to merge or overwrite
       const shouldOverwrite = window.confirm(
         "Do you want to replace all existing saved requests?\n\n" +
-        "Click 'OK' to replace all existing requests\n" +
-        "Click 'Cancel' to merge with existing requests"
+          "Click 'OK' to replace all existing requests\n" +
+          "Click 'Cancel' to merge with existing requests"
       );
-      
+
       importRequests(text, shouldOverwrite);
       loadSavedRequests();
-      
+
       // Reset file input
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
-      
-      alert(`Successfully imported requests (${shouldOverwrite ? 'replaced' : 'merged'})`);
+
+      alert(
+        `Successfully imported requests (${
+          shouldOverwrite ? "replaced" : "merged"
+        })`
+      );
     } catch (error) {
-      alert('Failed to import requests. Please ensure the file is a valid JSON export.');
-      console.error('Import error:', error);
+      alert(
+        "Failed to import requests. Please ensure the file is a valid JSON export."
+      );
+      console.error("Import error:", error);
     }
   };
 
