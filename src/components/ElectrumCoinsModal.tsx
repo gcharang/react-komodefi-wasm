@@ -16,6 +16,7 @@ import { fetchWssElectrums } from '../shared-functions/getWssElectrumsFromCoinCo
 import { updateUserPass } from '../shared-functions/updateUserPassword';
 import { useMm2PanelState } from '../store/useStore';
 import { CheckCircle, ClipboardCheck, X } from 'lucide-react';
+import JsonMonacoEditor from './JsonMonacoEditor';
 
 const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
   const handleClick = () => {
@@ -377,7 +378,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       <div key={coin.coin} className="mb-1">
                         <button
                           onClick={() => toggleCoinSelection(coin.coin)}
-                          className={`w-full px-3 py-3 text-left text-sm transition-colors rounded-md ${
+                          className={`w-full px-3 py-3 text-left text-sm transition-colors rounded-md cursor-pointer ${
                             selectedCoins.has(coin.coin)
                               ? 'bg-accent/20 text-accent'
                               : 'text-text-primary hover:bg-primary-bg-800 hover:text-accent'
@@ -421,7 +422,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       </h3>
                       <button
                         onClick={copyToClipboard}
-                        className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-2 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200"
+                        className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-2 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer"
                       >
                         {copied ? (
                           <>
@@ -436,14 +437,17 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                         )}
                       </button>
                     </div>
-                    <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-3">
-                      <pre className="text-xs md:text-sm text-text-primary font-mono">
-                        <code>{JSON.stringify(
+                    <div className="flex-1 overflow-hidden rounded-lg bg-primary-bg-900/50">
+                      <JsonMonacoEditor
+                        value={JSON.stringify(
                           selectedCoinsData.length === 1 ? selectedCoinsData[0] : selectedCoinsData, 
                           null, 
                           2
-                        )}</code>
-                      </pre>
+                        )}
+                        onChange={() => {}}
+                        disabled={true}
+                        height="100%"
+                      />
                     </div>
                   </>
                 ) : (
@@ -485,7 +489,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                   <div className="flex items-center gap-2 border-t border-border-primary pt-2">
                     <button
                       onClick={toggleSelectAll}
-                      className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={filteredCoins.length === 0}
                     >
                       {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
@@ -495,7 +499,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     {selectedCoins.size > 0 && (
                       <button
                         onClick={clearSelection}
-                        className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-error/20 hover:text-error transition-all duration-200"
+                        className="flex-1 rounded-md bg-primary-bg-900/50 px-2 py-1 text-xs font-medium text-text-primary hover:bg-error/20 hover:text-error transition-all duration-200 cursor-pointer"
                       >
                         Clear Selection
                       </button>
@@ -555,7 +559,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     </h3>
                     <button
                       onClick={copyToClipboard}
-                      className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-1.5 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200"
+                      className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-3 py-1.5 text-sm text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer"
                     >
                       {copied ? (
                         <>
@@ -570,14 +574,17 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       )}
                     </button>
                   </div>
-                  <div className="flex-1 overflow-auto rounded-lg bg-primary-bg-900/50 p-4">
-                    <pre className="text-sm text-text-primary font-mono">
-                      <code>{JSON.stringify(
+                  <div className="flex-1 overflow-hidden rounded-lg bg-primary-bg-900/50">
+                    <JsonMonacoEditor
+                      value={JSON.stringify(
                         selectedCoinsData.length === 1 ? selectedCoinsData[0] : selectedCoinsData, 
                         null, 
                         2
-                      )}</code>
-                    </pre>
+                      )}
+                      onChange={() => {}}
+                      disabled={true}
+                      height="100%"
+                    />
                   </div>
                 </div>
               ) : (

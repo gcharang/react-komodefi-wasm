@@ -473,7 +473,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20 relative z-30">
         <div className="relative flex justify-between w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg z-30">
           <div className="relative flex flex-row justify-between w-full">
-            <div className="flex gap-1 md:gap-3">
+            <div className="flex flex-row items-center gap-1 md:gap-3">
               <button
                 onClick={sendRpcRequest}
                 disabled={

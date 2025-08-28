@@ -25,7 +25,7 @@ import {
   clearAllRequests,
 } from "../utils/savedRequestsManager";
 import type { SavedRequest } from "../utils/savedRequestsManager";
-import { X, ChevronDown } from "lucide-react";
+import { X, ChevronDown, ChevronLeft } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 import type { LoadRequestModalProps, SortOption } from "../types/components";
 
@@ -47,11 +47,13 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   );
   const [sortBy, setSortBy] = useState<SortOption>("dateCreated");
   const [sortDescending, setSortDescending] = useState(true);
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       loadSavedRequests();
+      setShowMobilePreview(false); // Reset mobile view when opening
     }
   }, [isOpen]);
 
@@ -194,31 +196,39 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
         aria-hidden="true"
       />
 
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="mx-auto max-w-4xl w-full h-[600px] bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
-          <div className="flex items-center justify-between p-4 border-b border-border-primary">
-            <DialogTitle className="text-lg font-medium text-text-primary">
-              Load Saved Request
-            </DialogTitle>
+      <div className="fixed inset-0 flex items-center justify-center md:p-4">
+        <DialogPanel className="mx-auto max-w-full md:max-w-4xl w-full h-full md:h-[600px] bg-primary-bg-800 md:rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between p-3 md:p-4 border-b border-border-primary space-y-3 md:space-y-0">
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-base md:text-lg font-medium text-text-primary">
+                Load Saved Request
+              </DialogTitle>
+              <button
+                onClick={onClose}
+                className="p-1.5 md:p-2 hover:bg-primary-bg-700 rounded transition-colors md:hidden"
+              >
+                <X className="w-5 h-5 text-text-muted" />
+              </button>
+            </div>
 
-            <div className="flex items-center gap-3">
-              <div className="flex gap-2">
+            <div className={`${showMobilePreview ? 'hidden md:flex' : 'flex'} items-center justify-between md:gap-3`}>
+              <div className="flex gap-1.5 md:gap-2">
                 <Listbox value={sortBy} onChange={setSortBy}>
                   <div className="relative">
-                    <ListboxButton className="relative px-3 py-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary text-left focus:outline-none focus:ring-2 focus:ring-accent/50 flex items-center gap-2">
-                      <span className="text-sm">
-                        Sort:{" "}
+                    <ListboxButton className="relative px-2 md:px-3 py-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary text-left focus:outline-none focus:ring-2 focus:ring-accent/50 flex items-center gap-1 md:gap-2">
+                      <span className="text-xs md:text-sm">
+                        <span className="hidden sm:inline">Sort: </span>
                         {sortOptions.find((opt) => opt.value === sortBy)?.label}
                       </span>
-                      <ChevronDown className="w-4 h-4 text-text-muted" />
+                      <ChevronDown className="w-3.5 md:w-4 h-3.5 md:h-4 text-text-muted" />
                     </ListboxButton>
-                    <ListboxOptions className="absolute z-10 mt-1 right-0 bg-primary-bg-800 rounded-md border border-border-primary shadow-lg focus:outline-none">
+                    <ListboxOptions className="absolute z-10 mt-1 left-0 md:right-0 bg-primary-bg-800 rounded-md border border-border-primary shadow-lg focus:outline-none">
                       {sortOptions.map((option) => (
                         <ListboxOption
                           key={option.value}
                           value={option.value}
                           className={({ focus, selected }) =>
-                            `px-3 py-2 text-sm cursor-pointer whitespace-nowrap ${
+                            `px-3 py-2 text-xs md:text-sm cursor-pointer whitespace-nowrap ${
                               focus
                                 ? "bg-primary-bg-700 text-text-primary"
                                 : "text-text-primary"
@@ -237,14 +247,14 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                   title={sortDescending ? "Sort descending" : "Sort ascending"}
                 >
                   {sortDescending ? (
-                    <ArrowDownWideNarrow className="w-4 h-4" />
+                    <ArrowDownWideNarrow className="w-3.5 md:w-4 h-3.5 md:h-4" />
                   ) : (
-                    <ArrowUpNarrowWide className="w-4 h-4" />
+                    <ArrowUpNarrowWide className="w-3.5 md:w-4 h-3.5 md:h-4" />
                   )}
                 </button>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -254,44 +264,57 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 />
                 <button
                   onClick={handleImport}
-                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                  className="p-1.5 md:p-2 hover:bg-primary-bg-700 rounded transition-colors"
                   title="Import saved requests from file"
                 >
-                  <Upload className="w-5 h-5 text-text-muted" />
+                  <Upload className="w-4 md:w-5 h-4 md:h-5 text-text-muted" />
                 </button>
                 <button
                   onClick={handleExport}
-                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                  className="p-1.5 md:p-2 hover:bg-primary-bg-700 rounded transition-colors"
                   title="Export all saved requests"
                 >
-                  <Download className="w-5 h-5 text-text-muted" />
+                  <Download className="w-4 md:w-5 h-4 md:h-5 text-text-muted" />
                 </button>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                  className="hidden md:block p-2 hover:bg-primary-bg-700 rounded transition-colors"
                 >
                   <X className="w-5 h-5 text-text-muted" />
                 </button>
               </div>
             </div>
+            
+            {/* Mobile back button when previewing */}
+            {showMobilePreview && (
+              <div className="flex md:hidden">
+                <button
+                  onClick={() => setShowMobilePreview(false)}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-primary-bg-900/50 hover:bg-primary-bg-800/50 text-text-primary rounded-md border border-border-primary transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span className="text-sm font-medium">Back to List</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          <div className="flex-1 flex overflow-hidden">
-            {/* Left side - Request list */}
-            <div className="w-1/2 border-r border-border-primary flex flex-col">
-              <div className="p-4">
+          <div className="flex-1 flex overflow-hidden relative">
+            {/* Mobile: Show either list or preview, Desktop: Show both */}
+            <div className={`${showMobilePreview ? 'hidden' : 'flex'} md:flex flex-col w-full md:w-1/2 md:border-r border-border-primary`}>
+              <div className="p-3 md:p-4">
                 <Field>
                   <Input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search saved requests..."
-                    className="w-full px-3 py-2 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder-text-muted"
+                    className="w-full px-3 py-2 bg-primary-bg-900/50 text-text-primary text-sm rounded-md border border-border-primary focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder-text-muted"
                   />
                 </Field>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-4 pb-4">
+              <div className="flex-1 overflow-y-auto px-3 md:px-4 pb-4">
                 {filteredAndSortedRequests.length === 0 ? (
                   <div className="text-center py-8 text-text-muted">
                     {searchTerm ? "No requests found" : "No saved requests yet"}
@@ -301,7 +324,10 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                     {filteredAndSortedRequests.map((req) => (
                       <div
                         key={req.name}
-                        onClick={() => setSelectedRequest(req)}
+                        onClick={() => {
+                          setSelectedRequest(req);
+                          setShowMobilePreview(true);
+                        }}
                         className={`py-2 px-2.5 rounded-md border cursor-pointer transition-all ${
                           selectedRequest?.name === req.name
                             ? "bg-accent/10 border-accent"
@@ -329,10 +355,10 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               </div>
 
               {savedRequests.length > 0 && (
-                <div className="p-4 border-t border-border-primary">
+                <div className="p-3 md:p-4 border-t border-border-primary">
                   <button
                     onClick={handleClearAll}
-                    className="text-sm text-danger hover:text-danger/80 transition-colors cursor-pointer"
+                    className="text-xs md:text-sm text-danger hover:text-danger/80 transition-colors cursor-pointer"
                   >
                     Clear All Saved Requests
                   </button>
@@ -340,24 +366,32 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               )}
             </div>
 
-            {/* Right side - Request preview */}
-            <div className="w-1/2 flex flex-col">
+            {/* Preview Panel - Full width on mobile when shown, half on desktop */}
+            <div className={`${showMobilePreview ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative inset-0 md:inset-auto w-full md:w-1/2 bg-primary-bg-800 z-10 md:z-auto`}>
               {selectedRequest ? (
                 <>
-                  <div className="p-4 border-b border-border-primary">
-                    <h3 className="font-medium text-text-primary mb-2">
-                      {selectedRequest.name}
-                    </h3>
+                  <div className="p-3 md:p-4 border-b border-border-primary">
+                    <div className="mb-2">
+                      <h3 className="font-medium text-text-primary text-sm md:text-base">
+                        {selectedRequest.name}
+                      </h3>
+                    </div>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleLoad(selectedRequest.name)}
-                        className="px-3 py-1.5 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors text-sm font-medium"
+                        onClick={() => {
+                          handleLoad(selectedRequest.name);
+                          setShowMobilePreview(false);
+                        }}
+                        className="px-3 py-1.5 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors text-xs md:text-sm font-medium"
                       >
                         Load Request
                       </button>
                       <button
-                        onClick={() => handleDelete(selectedRequest.name)}
-                        className="px-3 py-1.5 bg-danger/20 text-danger hover:bg-danger/30 rounded-md transition-colors text-sm"
+                        onClick={() => {
+                          handleDelete(selectedRequest.name);
+                          setShowMobilePreview(false);
+                        }}
+                        className="px-3 py-1.5 bg-danger/20 text-danger hover:bg-danger/30 rounded-md transition-colors text-xs md:text-sm"
                       >
                         Delete
                       </button>
