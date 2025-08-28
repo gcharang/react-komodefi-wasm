@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Play, Square, Ban, ClipboardCheck, CheckCircle, Save, FolderOpen } from "lucide-react";
+import { Play, Square, Ban, ClipboardCheck, CheckCircle, Save, FolderOpen, Key } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 import Tooltip from "./Tooltip";
 import { SaveMm2ConfigDialog } from "./SaveMm2ConfigDialog";
 import { LoadMm2ConfigModal } from "./LoadMm2ConfigModal";
+import { PassphraseModal } from "./PassphraseModal";
 import { useToastState } from "../store/useStore";
 
 import init, {
@@ -36,6 +37,7 @@ const Mm2Panel = () => {
   const [copied, setCopied] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
+  const [isPassphraseModalOpen, setIsPassphraseModalOpen] = useState(false);
   const { showToast } = useToastState();
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
@@ -300,6 +302,34 @@ const Mm2Panel = () => {
     [showToast]
   );
 
+  const handlePassphraseImport = useCallback(
+    (passphrase: string) => {
+      try {
+        const currentConfig = JSON.parse(mm2PanelState.mm2Config);
+        currentConfig.passphrase = passphrase;
+        
+        setMm2PanelState({
+          mm2Config: JSON.stringify(currentConfig, null, 2),
+          dataHasErrors: false
+        });
+        
+        // Also update the userPass if it exists
+        if (currentConfig.rpc_password) {
+          setMm2PanelState(prev => ({
+            ...prev,
+            mm2UserPass: currentConfig.rpc_password
+          }));
+        }
+        
+        showToast("Recovery phrase imported successfully!", "success");
+      } catch (error) {
+        console.error("Failed to update config with passphrase:", error);
+        showToast("Failed to import recovery phrase", "error");
+      }
+    },
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
+  );
+
   return (
     <>
       <SaveMm2ConfigDialog
@@ -312,6 +342,11 @@ const Mm2Panel = () => {
         isOpen={isLoadModalOpen}
         onClose={() => setIsLoadModalOpen(false)}
         onLoad={handleLoadConfig}
+      />
+      <PassphraseModal
+        isOpen={isPassphraseModalOpen}
+        onClose={() => setIsPassphraseModalOpen(false)}
+        onImport={handlePassphraseImport}
       />
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
       <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
@@ -359,6 +394,15 @@ const Mm2Panel = () => {
                     className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
                   >
                     <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
+                  </button>
+                </Tooltip>
+
+                <Tooltip label="Import Seed Phrase" dir="bottom">
+                  <button
+                    onClick={() => setIsPassphraseModalOpen(true)}
+                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
+                  >
+                    <Key className="w-4 md:w-5 h-4 md:h-5" />
                   </button>
                 </Tooltip>
 

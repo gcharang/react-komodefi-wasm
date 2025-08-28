@@ -138,4 +138,24 @@ export interface LoadMm2ConfigModalProps {
   onLoad: (config: string) => void;
 }
 
+export interface PassphraseModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onImport: (passphrase: string) => void;
+}
+
+export interface WordInputProps {
+  index: number;
+  value: string;
+  onChange: (index: number, value: string) => void;
+  onPaste: (index: number, pastedWords: string[]) => void;
+  isValid?: boolean;
+  autoFocus?: boolean;
+}
+
+export interface ChipEditorProps {
+  words: string[];
+  onWordsChange: (words: string[]) => void;
+}
+
 export type SortOption = "usage" | "lastUsed" | "dateCreated";
