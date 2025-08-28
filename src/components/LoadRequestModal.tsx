@@ -1,16 +1,26 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Dialog, Field, Input, Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Field,
+  Input,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
 import { ArrowDownWideNarrow, ArrowUpNarrowWide } from "lucide-react";
 import {
   getSavedRequests,
   loadRequest,
   deleteRequest,
-  getRecentRequests,
   exportRequests,
   clearAllRequests,
 } from "../utils/savedRequestsManager";
 import type { SavedRequest } from "../utils/savedRequestsManager";
 import { CloseIcon, DownloadIcon, ChevronDownIcon } from "./IconComponents";
+import JsonMonacoEditor from "./JsonMonacoEditor";
 
 interface LoadRequestModalProps {
   isOpen: boolean;
@@ -18,12 +28,12 @@ interface LoadRequestModalProps {
   onLoad: (config: string) => void;
 }
 
-type SortOption = 'usage' | 'lastUsed' | 'dateCreated';
+type SortOption = "usage" | "lastUsed" | "dateCreated";
 
 const sortOptions = [
-  { value: 'usage' as const, label: 'Usage Count' },
-  { value: 'lastUsed' as const, label: 'Last Used' },
-  { value: 'dateCreated' as const, label: 'Date Created' },
+  { value: "usage" as const, label: "Usage Count" },
+  { value: "lastUsed" as const, label: "Last Used" },
+  { value: "dateCreated" as const, label: "Date Created" },
 ];
 
 export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
@@ -36,7 +46,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(
     null
   );
-  const [sortBy, setSortBy] = useState<SortOption>('dateCreated');
+  const [sortBy, setSortBy] = useState<SortOption>("dateCreated");
   const [sortDescending, setSortDescending] = useState(true);
 
   useEffect(() => {
@@ -55,27 +65,29 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     const filtered = savedRequests.filter((req) =>
       req.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
+
     // Then sort based on selected option
     return [...filtered].sort((a, b) => {
       let comparison = 0;
-      
+
       switch (sortBy) {
-        case 'usage':
+        case "usage":
           comparison = b.usageCount - a.usageCount;
           break;
-        case 'lastUsed':
+        case "lastUsed":
           // Sort by lastUsedAt, fallback to savedAt if never used
           const aLastUsed = a.lastUsedAt || a.savedAt;
           const bLastUsed = b.lastUsedAt || b.savedAt;
-          comparison = new Date(bLastUsed).getTime() - new Date(aLastUsed).getTime();
+          comparison =
+            new Date(bLastUsed).getTime() - new Date(aLastUsed).getTime();
           break;
-        case 'dateCreated':
+        case "dateCreated":
         default:
-          comparison = new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime();
+          comparison =
+            new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime();
           break;
       }
-      
+
       // Reverse comparison if ascending order
       return sortDescending ? comparison : -comparison;
     });
@@ -143,18 +155,21 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
       />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-4xl w-full h-[600px] bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
+        <DialogPanel className="mx-auto max-w-4xl w-full h-[600px] bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
           <div className="flex items-center justify-between p-4 border-b border-border-primary">
-            <Dialog.Title className="text-lg font-medium text-text-primary">
+            <DialogTitle className="text-lg font-medium text-text-primary">
               Load Saved Request
-            </Dialog.Title>
-            
+            </DialogTitle>
+
             <div className="flex items-center gap-3">
               <div className="flex gap-2">
                 <Listbox value={sortBy} onChange={setSortBy}>
                   <div className="relative">
                     <ListboxButton className="relative px-3 py-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary text-left focus:outline-none focus:ring-2 focus:ring-accent/50 flex items-center gap-2">
-                      <span className="text-sm">Sort: {sortOptions.find(opt => opt.value === sortBy)?.label}</span>
+                      <span className="text-sm">
+                        Sort:{" "}
+                        {sortOptions.find((opt) => opt.value === sortBy)?.label}
+                      </span>
                       <ChevronDownIcon className="w-4 h-4 text-text-muted" />
                     </ListboxButton>
                     <ListboxOptions className="absolute z-10 mt-1 right-0 bg-primary-bg-800 rounded-md border border-border-primary shadow-lg focus:outline-none">
@@ -162,10 +177,12 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                         <ListboxOption
                           key={option.value}
                           value={option.value}
-                          className={({ active, selected }) =>
+                          className={({ focus, selected }) =>
                             `px-3 py-2 text-sm cursor-pointer whitespace-nowrap ${
-                              active ? 'bg-primary-bg-700 text-text-primary' : 'text-text-primary'
-                            } ${selected ? 'font-medium' : ''}`
+                              focus
+                                ? "bg-primary-bg-700 text-text-primary"
+                                : "text-text-primary"
+                            } ${selected ? "font-medium" : ""}`
                           }
                         >
                           {option.label}
@@ -186,7 +203,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                   )}
                 </button>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleExport}
@@ -295,10 +312,13 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex-1 overflow-y-auto p-4">
-                    <pre className="text-xs text-text-primary font-mono whitespace-pre-wrap">
-                      {selectedRequest.config}
-                    </pre>
+                  <div className="flex-1 overflow-hidden">
+                    <JsonMonacoEditor
+                      value={selectedRequest.config}
+                      onChange={() => {}}
+                      disabled={true}
+                      height="100%"
+                    />
                   </div>
                 </>
               ) : (
@@ -308,7 +328,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               )}
             </div>
           </div>
-        </Dialog.Panel>
+        </DialogPanel>
       </div>
     </Dialog>
   );

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, Field, Input, Label } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, Field, Input, Label } from "@headlessui/react";
 import { saveRequest, requestExists } from "../utils/savedRequestsManager";
 import { getMethodNameFromConfig } from "../utils/getMethodName";
 import { CloseIcon } from "./IconComponents";
+import JsonMonacoEditor from "./JsonMonacoEditor";
 
 interface SaveRequestDialogProps {
   isOpen: boolean;
@@ -78,11 +79,11 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
       />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-lg w-full bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20">
+        <DialogPanel className="mx-auto max-w-lg w-full bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20">
           <div className="flex items-center justify-between p-4 border-b border-border-primary">
-            <Dialog.Title className="text-lg font-medium text-text-primary">
+            <DialogTitle className="text-lg font-medium text-text-primary">
               Save Request
-            </Dialog.Title>
+            </DialogTitle>
             <button
               onClick={handleClose}
               className="p-1 hover:bg-primary-bg-700 rounded transition-colors"
@@ -120,11 +121,16 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
               </div>
             )}
 
-            <div className="p-3 bg-primary-bg-900/50 rounded-md border border-border-primary max-h-[300px] md:max-h-[400px] overflow-y-auto">
-              <p className="text-xs text-text-muted mb-1">Request</p>
-              <pre className="text-xs text-text-primary font-mono">
-                {currentConfig}
-              </pre>
+            <div className="bg-primary-bg-900/50 rounded-md border border-border-primary overflow-hidden">
+              <p className="text-xs text-text-muted px-3 pt-3 pb-1">Request Preview</p>
+              <div className="h-[300px] md:h-[350px]">
+                <JsonMonacoEditor
+                  value={currentConfig}
+                  onChange={() => {}}
+                  disabled={true}
+                  height="100%"
+                />
+              </div>
             </div>
           </div>
 
@@ -142,7 +148,7 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
               Save Request
             </button>
           </div>
-        </Dialog.Panel>
+        </DialogPanel>
       </div>
     </Dialog>
   );
