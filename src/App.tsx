@@ -4,7 +4,7 @@ import Mm2LogsPanel from "./components/Mm2LogsPanel";
 import Mm2Panel from "./components/Mm2Panel";
 import RpcPanel from "./components/RpcPanel";
 import RpcResponsePanel from "./components/RpcResponsePanel";
-import { MenuIcon } from "./components/IconComponents";
+import { Menu } from "lucide-react";
 import { WarningDialog } from "./components/WarningModal";
 import Toast from "./components/Toast";
 import { useToastState } from "./store/useStore";
@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   return (
-    <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-screen relative">
+    <div className="h-full bg-gradient-to-br from-primary-bg-950 to-primary-bg-900 min-h-dvh relative">
       <WarningDialog />
       <div className="h-full m-auto max-w-[2200px] p-2 md:p-4">
         <div className="w-full h-full flex flex-col">
@@ -41,7 +41,7 @@ function App() {
               <div className="flex border-b border-border-primary bg-primary-bg-800/95 backdrop-blur-xl rounded-t-lg">
                 <button
                   onClick={() => setActiveTab('mm2')}
-                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 cursor-pointer ${
                     activeTab === 'mm2'
                       ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                       : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -51,7 +51,7 @@ function App() {
                 </button>
                 <button
                   onClick={() => setActiveTab('rpc')}
-                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 cursor-pointer ${
                     activeTab === 'rpc'
                       ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                       : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -61,7 +61,7 @@ function App() {
                 </button>
                 <button
                   onClick={() => setActiveTab('logs')}
-                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 cursor-pointer ${
                     activeTab === 'logs'
                       ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                       : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -71,7 +71,7 @@ function App() {
                 </button>
                 <button
                   onClick={() => setActiveTab('response')}
-                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 ${
+                  className={`flex-1 py-2 px-3 text-xs font-medium transition-all duration-200 cursor-pointer ${
                     activeTab === 'response'
                       ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                       : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'

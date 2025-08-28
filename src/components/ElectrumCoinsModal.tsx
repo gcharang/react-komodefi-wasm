@@ -15,7 +15,7 @@ import coins_config_wss from '../staticData/coins_config_wss.json';
 import { fetchWssElectrums } from '../shared-functions/getWssElectrumsFromCoinConfigWss';
 import { updateUserPass } from '../shared-functions/updateUserPassword';
 import { useMm2PanelState } from '../store/useStore';
-import { CheckCircle, Clipboard, CloseIcon } from './IconComponents';
+import { CheckCircle, ClipboardCheck, X } from 'lucide-react';
 
 const CoinItem = memo<CoinItemProps>(({ coin, isSelected, onToggle }) => {
   const handleClick = () => {
@@ -276,9 +276,9 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="text-text-secondary hover:text-accent transition-colors"
+              className="text-text-secondary hover:text-accent transition-colors cursor-pointer p-1"
             >
-              <CloseIcon className="h-5 w-5" />
+              <X className="h-5 w-5" />
             </button>
           </div>
 
@@ -286,7 +286,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
           <div className="md:hidden flex border-b border-border-primary">
             <button
               onClick={() => setMobileTab('select')}
-              className={`flex-1 py-2 px-4 text-sm font-medium transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] ${
                 mobileTab === 'select'
                   ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                   : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -296,7 +296,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
             </button>
             <button
               onClick={() => setMobileTab('preview')}
-              className={`flex-1 py-2 px-4 text-sm font-medium transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 text-sm font-medium transition-all duration-200 cursor-pointer min-h-[44px] ${
                 mobileTab === 'preview'
                   ? 'text-accent border-b-2 border-accent bg-primary-bg-700/50'
                   : 'text-text-muted hover:text-text-primary hover:bg-primary-bg-700/30'
@@ -338,7 +338,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                     <div className="flex flex-col gap-2 border-t border-border-primary pt-2">
                       <button
                         onClick={toggleSelectAll}
-                        className="w-full rounded-md bg-primary-bg-900/50 px-3 py-2 text-sm font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-accent/20 hover:text-accent transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                         disabled={filteredCoins.length === 0}
                       >
                         {filteredCoins.length > 0 && filteredCoins.every(coin => selectedCoins.has(coin.coin)) 
@@ -348,7 +348,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                       {selectedCoins.size > 0 && (
                         <button
                           onClick={clearSelection}
-                          className="w-full rounded-md bg-primary-bg-900/50 px-3 py-2 text-sm font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200"
+                          className="w-full rounded-md bg-primary-bg-900/50 px-3 py-3 text-sm font-medium text-text-primary hover:bg-danger/20 hover:text-danger transition-all duration-200 cursor-pointer min-h-[44px]"
                         >
                           Clear Selection
                         </button>
@@ -430,7 +430,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                           </>
                         ) : (
                           <>
-                            <Clipboard className="h-4 w-4" />
+                            <ClipboardCheck className="h-4 w-4" />
                             <span>Copy</span>
                           </>
                         )}
@@ -564,7 +564,7 @@ export const ElectrumCoinsModal: React.FC<ElectrumCoinsModalProps> = ({
                         </>
                       ) : (
                         <>
-                          <Clipboard className="h-4 w-4" />
+                          <ClipboardCheck className="h-4 w-4" />
                           <span>Copy</span>
                         </>
                       )}

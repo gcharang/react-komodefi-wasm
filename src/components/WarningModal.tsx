@@ -63,7 +63,7 @@ export const WarningDialog = () => {
           <div className="mt-4 flex justify-end">
             <button
               type="button"
-              className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="flex items-center gap-2 rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
               onClick={handleCloseModal}
             >
               I understand

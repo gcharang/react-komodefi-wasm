@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { Switch } from "@headlessui/react";
 import type { Mm2LogsPanelProps } from "../types/components";
 import {
-  NoSymbol,
-  DoubleDown,
-  Clipboard,
+  Ban,
+  ChevronsDown,
+  ClipboardCheck,
   CheckCircle,
-  DownloadIcon,
-} from "./IconComponents";
+  Download,
+} from "lucide-react";
 import { debounce } from "../shared-functions/debounce";
 import { downloadFile } from "../shared-functions/downloadFile";
 import { useMm2LogsPanelState } from "../store/useStore";
@@ -76,7 +76,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <DoubleDown
+                <ChevronsDown
                   className={`w-6 h-6 ${
                     windowSizes.bottomBar <= 100 ? "rotate-180" : ""
                   }`}
@@ -92,7 +92,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <NoSymbol className="w-6 h-6" />
+                <Ban className="w-6 h-6" />
               </button>
             </Tooltip>
             {!copied && (
@@ -109,7 +109,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   }}
                   className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
                 >
-                  <Clipboard className="w-6 h-6" />
+                  <ClipboardCheck className="w-6 h-6" />
                 </button>
               </Tooltip>
             )}
@@ -142,7 +142,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 }}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <DownloadIcon className="w-6 h-6" />
+                <Download className="w-6 h-6" />
               </button>
             </Tooltip>
           </div>
@@ -208,7 +208,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
               {message[0]}
               <span className="ml-1">
                 {isInlineCopied.id !== String(index) && (
-                  <Clipboard
+                  <ClipboardCheck
                     role="image"
                     className="opacity-0 transition group-hover:opacity-100 w-6 h-6"
                   />

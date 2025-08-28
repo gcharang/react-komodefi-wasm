@@ -25,16 +25,9 @@ import {
   clearAllRequests,
 } from "../utils/savedRequestsManager";
 import type { SavedRequest } from "../utils/savedRequestsManager";
-import { CloseIcon, ChevronDownIcon } from "./IconComponents";
+import { X, ChevronDown } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
-
-interface LoadRequestModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLoad: (config: string) => void;
-}
-
-type SortOption = "usage" | "lastUsed" | "dateCreated";
+import type { LoadRequestModalProps, SortOption } from "../types/components";
 
 const sortOptions = [
   { value: "usage" as const, label: "Usage Count" },
@@ -217,7 +210,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                         Sort:{" "}
                         {sortOptions.find((opt) => opt.value === sortBy)?.label}
                       </span>
-                      <ChevronDownIcon className="w-4 h-4 text-text-muted" />
+                      <ChevronDown className="w-4 h-4 text-text-muted" />
                     </ListboxButton>
                     <ListboxOptions className="absolute z-10 mt-1 right-0 bg-primary-bg-800 rounded-md border border-border-primary shadow-lg focus:outline-none">
                       {sortOptions.map((option) => (
@@ -277,7 +270,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                   onClick={onClose}
                   className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
                 >
-                  <CloseIcon className="w-5 h-5 text-text-muted" />
+                  <X className="w-5 h-5 text-text-muted" />
                 </button>
               </div>
             </div>

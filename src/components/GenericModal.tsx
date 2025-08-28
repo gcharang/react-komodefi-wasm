@@ -37,7 +37,7 @@ export const GenericModal = () => {
           <div className="mt-4 flex justify-between items-center">
             <button
               type="button"
-              className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
               onClick={() => {
                 genericModalState.onCancel();
                 hideModal(ModalIds.genericModal);
@@ -48,7 +48,7 @@ export const GenericModal = () => {
             {genericModalState.onProceed && (
               <button
                 type="button"
-                className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                className="min-w-[100px] inline-flex justify-center rounded-lg bg-primary-bg-800 px-4 py-2 text-sm font-medium text-text-primary hover:bg-primary-bg-700 hover:text-accent transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
                 onClick={() => {
                   genericModalState.onProceed?.();
                   hideModal(ModalIds.genericModal);

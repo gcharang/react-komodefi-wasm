@@ -21,7 +21,7 @@ import {
   useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
-import { Send, SettingsIcon, SaveIcon, LoadIcon } from "./IconComponents";
+import { Send, Settings, Save, FolderOpen } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import { SaveRequestDialog } from "./SaveRequestDialog";
@@ -157,7 +157,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                   e.stopPropagation();
                   setFilterText("");
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors cursor-pointer p-1"
                 aria-label="Clear filter"
               >
                 <svg
@@ -492,24 +492,24 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
               <Tooltip label={"Save Request"} dir="bottom">
                 <button
                   onClick={() => setIsSaveDialogOpen(true)}
-                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200"
+                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
                 >
-                  <SaveIcon className="w-4 md:w-5 h-4 md:h-5" />
+                  <Save className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
               
               <Tooltip label={"Load Request"} dir="bottom">
                 <button
                   onClick={() => setIsLoadModalOpen(true)}
-                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200"
+                  className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
                 >
-                  <LoadIcon className="w-4 md:w-5 h-4 md:h-5" />
+                  <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
             </div>
             <div className="flex flex-row flex-wrap items-center gap-1 md:gap-3">
               <Tooltip label={"Open Settings"} dir="bottom">
-                <SettingsIcon
+                <Settings
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
                   role="button"

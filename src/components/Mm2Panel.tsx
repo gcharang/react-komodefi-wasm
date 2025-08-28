@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PlayIcon, StopIcon } from "../components/IconComponents";
+import { Play, Square } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 
 import init, {
@@ -264,14 +264,15 @@ const Mm2Panel = () => {
           <div className="flex gap-1 md:gap-3">
             <button
               onClick={() => toggleMm2()}
-              className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200"
+              aria-label={!mm2PanelState.mm2Running ? "Start KDF service" : "Stop KDF service"}
+              className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
             >
               {!mm2PanelState.mm2Running ? (
                 <>
                   <span className="hidden md:inline">Run KDF</span>
                   <span className="md:hidden">Run</span>
-                  <PlayIcon
-                    role="image"
+                  <Play
+                    aria-hidden="true"
                     className="w-4 md:w-5 h-4 md:h-5 fill-green-500"
                   />
                 </>
@@ -279,8 +280,8 @@ const Mm2Panel = () => {
                 <>
                   <span className="hidden md:inline">Stop KDF</span>
                   <span className="md:hidden">Stop</span>
-                  <StopIcon
-                    role="image"
+                  <Square
+                    aria-hidden="true"
                     className="w-4 md:w-5 h-4 md:h-5 fill-red-500"
                   />
                 </>

@@ -107,3 +107,20 @@ export interface ToastProps {
 
 // App component types
 export type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
+
+// SaveRequestDialog component props
+export interface SaveRequestDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  currentConfig: string;
+  onSaved?: (name: string) => void;
+}
+
+// LoadRequestModal component props
+export interface LoadRequestModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onLoad: (config: string) => void;
+}
+
+export type SortOption = "usage" | "lastUsed" | "dateCreated";

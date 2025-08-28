@@ -2,15 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogPanel, DialogTitle, Field, Input, Label } from "@headlessui/react";
 import { saveRequest, requestExists } from "../utils/savedRequestsManager";
 import { getMethodNameFromConfig } from "../utils/getMethodName";
-import { CloseIcon } from "./IconComponents";
+import { X } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
-
-interface SaveRequestDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  currentConfig: string;
-  onSaved?: (name: string) => void;
-}
+import type { SaveRequestDialogProps } from "../types/components";
 
 export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
   isOpen,
@@ -86,9 +80,9 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
             </DialogTitle>
             <button
               onClick={handleClose}
-              className="p-1 hover:bg-primary-bg-700 rounded transition-colors"
+              className="p-1 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer"
             >
-              <CloseIcon className="w-5 h-5 text-text-muted" />
+              <X className="w-5 h-5 text-text-muted" />
             </button>
           </div>
 
@@ -107,7 +101,7 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
                 />
                 <button
                   onClick={resetToAutoName}
-                  className="px-3 py-2 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 rounded-md transition-colors text-sm"
+                  className="px-3 py-2 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 rounded-md transition-colors text-sm cursor-pointer"
                   title="Reset to auto-generated method name"
                 >
                   Reset
@@ -137,13 +131,13 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
           <div className="flex justify-end gap-3 p-4 border-t border-border-primary">
             <button
               onClick={handleClose}
-              className="px-4 py-2 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 rounded-md transition-colors"
+              className="px-4 py-2 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 rounded-md transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors font-medium"
+              className="px-4 py-2 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors font-medium cursor-pointer"
             >
               Save Request
             </button>

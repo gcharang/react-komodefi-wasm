@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
-import { CheckCircle, Clipboard, DownloadIcon } from "./IconComponents";
+import { CheckCircle, ClipboardCheck, Download } from "lucide-react";
 import { useRpcResponseState } from "../store/useStore";
 import { downloadFile } from "../shared-functions/downloadFile";
 import Tooltip from "./Tooltip";
@@ -29,7 +29,7 @@ const RpcResponsePanel = () => {
                 onClick={() => copyToClipboard()}
                 className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
               >
-                <Clipboard className="w-6 h-6" />
+                <ClipboardCheck className="w-6 h-6" />
               </button>
             </Tooltip>
           )}
@@ -56,7 +56,7 @@ const RpcResponsePanel = () => {
               }}
               className="inline-flex items-center justify-center p-1 border-none bg-transparent cursor-pointer hover:text-accent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
             >
-              <DownloadIcon className="w-6 h-6" />
+              <Download className="w-6 h-6" />
             </button>
           </Tooltip>
         </div>
