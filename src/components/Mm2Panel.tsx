@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Play, Square, Ban, ClipboardCheck, CheckCircle } from "lucide-react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Play, Square, Ban, ClipboardCheck, CheckCircle, Save, FolderOpen } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 import Tooltip from "./Tooltip";
+import { SaveMm2ConfigDialog } from "./SaveMm2ConfigDialog";
+import { LoadMm2ConfigModal } from "./LoadMm2ConfigModal";
+import { useToastState } from "../store/useStore";
 
 import init, {
   LogLevel,
@@ -31,6 +34,9 @@ const Mm2Panel = () => {
   const [isMm2Initialized, setIsMm2Initialized] = useState(false);
   const [localConfigLoaded, setLocalConfigLoaded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
+  const { showToast } = useToastState();
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
     mm2PanelState.mm2Config
   );
@@ -259,8 +265,55 @@ const Mm2Panel = () => {
     };
   }, []);
 
+  const handleLoadConfig = useCallback(
+    (config: string) => {
+      // Parse and restore current password and passphrase if available
+      try {
+        const currentConfig = JSON.parse(mm2PanelState.mm2Config);
+        const currentPassword = currentConfig.rpc_password;
+        const currentPassphrase = currentConfig.passphrase;
+        
+        const loadedConfig = JSON.parse(config);
+        
+        // Restore both password and passphrase from current config
+        if (currentPassword) {
+          loadedConfig.rpc_password = currentPassword;
+        }
+        if (currentPassphrase) {
+          loadedConfig.passphrase = currentPassphrase;
+        }
+        
+        setMm2PanelState({ mm2Config: JSON.stringify(loadedConfig, null, 2) });
+      } catch {
+        setMm2PanelState({ mm2Config: config });
+      }
+      
+      showToast("Configuration loaded successfully!", "success");
+    },
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
+  );
+
+  const handleConfigSaved = useCallback(
+    (name: string) => {
+      showToast(`Configuration saved as "${name}"`, "success");
+    },
+    [showToast]
+  );
+
   return (
-    <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
+    <>
+      <SaveMm2ConfigDialog
+        isOpen={isSaveDialogOpen}
+        onClose={() => setIsSaveDialogOpen(false)}
+        currentConfig={mm2PanelState.mm2Config}
+        onSaved={handleConfigSaved}
+      />
+      <LoadMm2ConfigModal
+        isOpen={isLoadModalOpen}
+        onClose={() => setIsLoadModalOpen(false)}
+        onLoad={handleLoadConfig}
+      />
+      <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
       <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
         <div className="relative w-full flex items-center justify-between">
           <div className="flex gap-1 md:gap-2">
@@ -291,7 +344,26 @@ const Mm2Panel = () => {
             </button>
             {!mm2PanelState.mm2Running && (
               <>
-                <Tooltip label="Clear Panel" dir="bottom">
+                <Tooltip label="Save Config" dir="bottom">
+                  <button
+                    onClick={() => setIsSaveDialogOpen(true)}
+                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
+                  >
+                    <Save className="w-4 md:w-5 h-4 md:h-5" />
+                  </button>
+                </Tooltip>
+
+                <Tooltip label="Load Config" dir="bottom">
+                  <button
+                    onClick={() => setIsLoadModalOpen(true)}
+                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
+                  >
+                    <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
+                  </button>
+                </Tooltip>
+
+                <div className="flex gap-1">
+                  <Tooltip label="Clear Panel" dir="bottom">
                   <button
                     onClick={() => setMm2PanelState({ mm2Config: "{}" })}
                     className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
@@ -323,7 +395,8 @@ const Mm2Panel = () => {
                       <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-success animate-fadeIn" />
                     </button>
                   </Tooltip>
-                )}
+                  )}
+                </div>
               </>
             )}
           </div>
@@ -389,6 +462,7 @@ const Mm2Panel = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

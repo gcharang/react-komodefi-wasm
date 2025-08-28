@@ -17,17 +17,17 @@ import {
   Download,
 } from "lucide-react";
 import {
-  getSavedRequests,
-  loadRequest,
-  deleteRequest,
-  exportRequests,
-  importRequests,
-  clearAllRequests,
-} from "../utils/savedRequestsManager";
-import type { SavedRequest } from "../utils/savedRequestsManager";
+  getSavedMm2Configs,
+  loadMm2Config,
+  deleteMm2Config,
+  exportMm2Configs,
+  importMm2Configs,
+  clearAllMm2Configs,
+} from "../utils/savedMm2ConfigsManager";
+import type { SavedMm2Config } from "../utils/savedMm2ConfigsManager";
 import { X, ChevronDown, ChevronLeft } from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
-import type { LoadRequestModalProps, SortOption } from "../types/components";
+import type { LoadMm2ConfigModalProps, SortOption } from "../types/components";
 
 const sortOptions = [
   { value: "usage" as const, label: "Usage Count" },
@@ -35,14 +35,14 @@ const sortOptions = [
   { value: "dateCreated" as const, label: "Date Created" },
 ];
 
-export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
+export const LoadMm2ConfigModal: React.FC<LoadMm2ConfigModalProps> = ({
   isOpen,
   onClose,
   onLoad,
 }) => {
-  const [savedRequests, setSavedRequests] = useState<SavedRequest[]>([]);
+  const [savedConfigs, setSavedConfigs] = useState<SavedMm2Config[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(
+  const [selectedConfig, setSelectedConfig] = useState<SavedMm2Config | null>(
     null
   );
   const [sortBy, setSortBy] = useState<SortOption>("dateCreated");
@@ -52,20 +52,20 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      loadSavedRequests();
+      loadSavedConfigs();
       setShowMobilePreview(false); // Reset mobile view when opening
     }
   }, [isOpen]);
 
-  const loadSavedRequests = () => {
-    const requests = getSavedRequests();
-    setSavedRequests(Object.values(requests));
+  const loadSavedConfigs = () => {
+    const configs = getSavedMm2Configs();
+    setSavedConfigs(Object.values(configs));
   };
 
-  const filteredAndSortedRequests = useMemo(() => {
+  const filteredAndSortedConfigs = useMemo(() => {
     // First filter by search term
-    const filtered = savedRequests.filter((req) =>
-      req.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = savedConfigs.filter((config) =>
+      config.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Then sort based on selected option
@@ -93,33 +93,33 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
       // Reverse comparison if ascending order
       return sortDescending ? comparison : -comparison;
     });
-  }, [savedRequests, searchTerm, sortBy, sortDescending]);
+  }, [savedConfigs, searchTerm, sortBy, sortDescending]);
 
   const handleLoad = (name: string) => {
-    const request = loadRequest(name);
-    if (request) {
-      onLoad(request.config);
+    const config = loadMm2Config(name);
+    if (config) {
+      onLoad(config.config);
       onClose();
     }
   };
 
   const handleDelete = (name: string) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
-      deleteRequest(name);
-      loadSavedRequests();
-      if (selectedRequest?.name === name) {
-        setSelectedRequest(null);
+      deleteMm2Config(name);
+      loadSavedConfigs();
+      if (selectedConfig?.name === name) {
+        setSelectedConfig(null);
       }
     }
   };
 
   const handleExport = () => {
-    const data = exportRequests();
+    const data = exportMm2Configs();
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `kdf_saved_requests_wasm_pg_${Date.now()}.json`;
+    a.download = `kdf_saved_mm2_configs_${Date.now()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -141,13 +141,13 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
       // Ask user if they want to merge or overwrite
       const shouldOverwrite = window.confirm(
-        "Do you want to replace all existing saved requests?\n\n" +
-          "Click 'OK' to replace all existing requests\n" +
-          "Click 'Cancel' to merge with existing requests"
+        "Do you want to replace all existing saved configurations?\n\n" +
+          "Click 'OK' to replace all existing configurations\n" +
+          "Click 'Cancel' to merge with existing configurations"
       );
 
-      importRequests(text, shouldOverwrite);
-      loadSavedRequests();
+      importMm2Configs(text, shouldOverwrite);
+      loadSavedConfigs();
 
       // Reset file input
       if (fileInputRef.current) {
@@ -155,13 +155,13 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
       }
 
       alert(
-        `Successfully imported requests (${
+        `Successfully imported configurations (${
           shouldOverwrite ? "replaced" : "merged"
         })`
       );
     } catch (error) {
       alert(
-        "Failed to import requests. Please ensure the file is a valid JSON export."
+        "Failed to import configurations. Please ensure the file is a valid JSON export."
       );
       console.error("Import error:", error);
     }
@@ -170,12 +170,12 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   const handleClearAll = () => {
     if (
       window.confirm(
-        "Are you sure you want to delete ALL saved requests? This cannot be undone."
+        "Are you sure you want to delete ALL saved configurations? This cannot be undone."
       )
     ) {
-      clearAllRequests();
-      loadSavedRequests();
-      setSelectedRequest(null);
+      clearAllMm2Configs();
+      loadSavedConfigs();
+      setSelectedConfig(null);
     }
   };
 
@@ -201,7 +201,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
           <div className="flex flex-col md:flex-row md:items-center md:justify-between p-3 md:p-4 border-b border-border-primary space-y-3 md:space-y-0">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-base md:text-lg font-medium text-text-primary">
-                Load Saved Request
+                Load Saved MM2 Configuration
               </DialogTitle>
               <button
                 onClick={onClose}
@@ -265,14 +265,14 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 <button
                   onClick={handleImport}
                   className="p-1.5 md:p-2 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer"
-                  title="Import saved requests from file"
+                  title="Import saved configurations from file"
                 >
                   <Upload className="w-4 md:w-5 h-4 md:h-5 text-text-muted" />
                 </button>
                 <button
                   onClick={handleExport}
                   className="p-1.5 md:p-2 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer"
-                  title="Export all saved requests"
+                  title="Export all saved configurations"
                 >
                   <Download className="w-4 md:w-5 h-4 md:h-5 text-text-muted" />
                 </button>
@@ -308,39 +308,39 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search saved requests..."
+                    placeholder="Search saved configurations..."
                     className="w-full px-3 py-2 bg-primary-bg-900/50 text-text-primary text-sm rounded-md border border-border-primary focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder-text-muted"
                   />
                 </Field>
               </div>
 
               <div className="flex-1 overflow-y-auto px-3 md:px-4 pb-4">
-                {filteredAndSortedRequests.length === 0 ? (
+                {filteredAndSortedConfigs.length === 0 ? (
                   <div className="text-center py-8 text-text-muted">
-                    {searchTerm ? "No requests found" : "No saved requests yet"}
+                    {searchTerm ? "No configurations found" : "No saved configurations yet"}
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    {filteredAndSortedRequests.map((req) => (
+                    {filteredAndSortedConfigs.map((config) => (
                       <div
-                        key={req.name}
+                        key={config.name}
                         onClick={() => {
-                          setSelectedRequest(req);
+                          setSelectedConfig(config);
                           setShowMobilePreview(true);
                         }}
                         className={`py-2 px-2.5 rounded-md border cursor-pointer transition-all ${
-                          selectedRequest?.name === req.name
+                          selectedConfig?.name === config.name
                             ? "bg-accent/10 border-accent"
                             : "bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50"
                         }`}
                       >
                         <div className="font-medium text-sm text-text-primary leading-tight">
-                          {req.name}
+                          {config.name}
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-text-muted mt-0.5">
-                          <span>{formatDate(req.savedAt)}</span>
+                          <span>{formatDate(config.savedAt)}</span>
                           <span className="text-text-muted/50">•</span>
-                          <span>{req.usageCount}x used</span>
+                          <span>{config.usageCount}x used</span>
                         </div>
                       </div>
                     ))}
@@ -348,13 +348,13 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 )}
               </div>
 
-              {savedRequests.length > 0 && (
+              {savedConfigs.length > 0 && (
                 <div className="p-3 md:p-4 border-t border-border-primary">
                   <button
                     onClick={handleClearAll}
                     className="text-xs md:text-sm text-danger hover:text-danger/80 transition-colors cursor-pointer"
                   >
-                    Clear All Saved Requests
+                    Clear All Saved Configurations
                   </button>
                 </div>
               )}
@@ -362,27 +362,27 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
             {/* Preview Panel - Full width on mobile when shown, half on desktop */}
             <div className={`${showMobilePreview ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative inset-0 md:inset-auto w-full md:w-1/2 bg-primary-bg-800 z-10 md:z-auto`}>
-              {selectedRequest ? (
+              {selectedConfig ? (
                 <>
                   <div className="p-3 md:p-4 border-b border-border-primary">
                     <div className="mb-2">
                       <h3 className="font-medium text-text-primary text-sm md:text-base">
-                        {selectedRequest.name}
+                        {selectedConfig.name}
                       </h3>
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => {
-                          handleLoad(selectedRequest.name);
+                          handleLoad(selectedConfig.name);
                           setShowMobilePreview(false);
                         }}
                         className="px-3 py-1.5 bg-accent text-primary-bg-900 hover:bg-accent/90 rounded-md transition-colors text-xs md:text-sm font-medium"
                       >
-                        Load Request
+                        Load Configuration
                       </button>
                       <button
                         onClick={() => {
-                          handleDelete(selectedRequest.name);
+                          handleDelete(selectedConfig.name);
                           setShowMobilePreview(false);
                         }}
                         className="px-3 py-1.5 bg-danger/20 text-danger hover:bg-danger/30 rounded-md transition-colors text-xs md:text-sm"
@@ -394,7 +394,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
                   <div className="flex-1 overflow-hidden">
                     <JsonMonacoEditor
-                      value={selectedRequest.config}
+                      value={selectedConfig.config}
                       onChange={() => {}}
                       disabled={true}
                       height="100%"
@@ -403,7 +403,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 </>
               ) : (
                 <div className="flex-1 flex items-center justify-center text-text-muted">
-                  Select a request to preview
+                  Select a configuration to preview
                 </div>
               )}
             </div>

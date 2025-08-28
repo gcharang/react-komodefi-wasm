@@ -123,4 +123,19 @@ export interface LoadRequestModalProps {
   onLoad: (config: string) => void;
 }
 
+// SaveMm2ConfigDialog component props
+export interface SaveMm2ConfigDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  currentConfig: string;
+  onSaved?: (name: string) => void;
+}
+
+// LoadMm2ConfigModal component props
+export interface LoadMm2ConfigModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onLoad: (config: string) => void;
+}
+
 export type SortOption = "usage" | "lastUsed" | "dateCreated";
