@@ -141,7 +141,6 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
-      year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -243,32 +242,30 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                     {searchTerm ? "No requests found" : "No saved requests yet"}
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     {filteredAndSortedRequests.map((req) => (
                       <div
                         key={req.name}
                         onClick={() => setSelectedRequest(req)}
-                        className={`p-3 rounded-md border cursor-pointer transition-all ${
+                        className={`py-2 px-2.5 rounded-md border cursor-pointer transition-all ${
                           selectedRequest?.name === req.name
                             ? "bg-accent/10 border-accent"
                             : "bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50"
                         }`}
                       >
-                        <div className="flex justify-between items-start">
-                          <div className="flex-1">
-                            <h3 className="font-medium text-text-primary">
-                              {req.name}
-                            </h3>
-                            <div className="flex gap-4 mt-1 text-xs text-text-muted">
-                              <span>{formatDate(req.savedAt)}</span>
-                              <span>Used {req.usageCount} times</span>
-                              {req.includesPassword && (
-                                <span className="text-warning">
-                                  Contains password
-                                </span>
-                              )}
-                            </div>
-                          </div>
+                        <div className="font-medium text-sm text-text-primary leading-tight">
+                          {req.name}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-text-muted mt-0.5">
+                          <span>{formatDate(req.savedAt)}</span>
+                          <span className="text-text-muted/50">•</span>
+                          <span>{req.usageCount}x used</span>
+                          {/* {req.includesPassword && (
+                            <>
+                              <span className="text-text-muted/50">•</span>
+                              <span className="text-warning text-xs">pwd</span>
+                            </>
+                          )} */}
                         </div>
                       </div>
                     ))}
