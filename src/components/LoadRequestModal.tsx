@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, Field, Input } from '@headlessui/react';
-import { 
-  getSavedRequests, 
-  loadRequest, 
+import React, { useState, useEffect, useMemo } from "react";
+import { Dialog, Field, Input, Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import { ArrowDownWideNarrow, ArrowUpNarrowWide } from "lucide-react";
+import {
+  getSavedRequests,
+  loadRequest,
   deleteRequest,
   getRecentRequests,
   exportRequests,
-  clearAllRequests
-} from '../utils/savedRequestsManager';
-import type { SavedRequest } from '../utils/savedRequestsManager';
-import { CloseIcon, DownloadIcon } from './IconComponents';
+  clearAllRequests,
+} from "../utils/savedRequestsManager";
+import type { SavedRequest } from "../utils/savedRequestsManager";
+import { CloseIcon, DownloadIcon, ChevronDownIcon } from "./IconComponents";
 
 interface LoadRequestModalProps {
   isOpen: boolean;
@@ -17,14 +18,26 @@ interface LoadRequestModalProps {
   onLoad: (config: string) => void;
 }
 
+type SortOption = 'usage' | 'lastUsed' | 'dateCreated';
+
+const sortOptions = [
+  { value: 'usage' as const, label: 'Usage Count' },
+  { value: 'lastUsed' as const, label: 'Last Used' },
+  { value: 'dateCreated' as const, label: 'Date Created' },
+];
+
 export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   isOpen,
   onClose,
-  onLoad
+  onLoad,
 }) => {
   const [savedRequests, setSavedRequests] = useState<SavedRequest[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(
+    null
+  );
+  const [sortBy, setSortBy] = useState<SortOption>('dateCreated');
+  const [sortDescending, setSortDescending] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
@@ -37,9 +50,36 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
     setSavedRequests(Object.values(requests));
   };
 
-  const filteredRequests = savedRequests.filter(req =>
-    req.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAndSortedRequests = useMemo(() => {
+    // First filter by search term
+    const filtered = savedRequests.filter((req) =>
+      req.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    // Then sort based on selected option
+    return [...filtered].sort((a, b) => {
+      let comparison = 0;
+      
+      switch (sortBy) {
+        case 'usage':
+          comparison = b.usageCount - a.usageCount;
+          break;
+        case 'lastUsed':
+          // Sort by lastUsedAt, fallback to savedAt if never used
+          const aLastUsed = a.lastUsedAt || a.savedAt;
+          const bLastUsed = b.lastUsedAt || b.savedAt;
+          comparison = new Date(bLastUsed).getTime() - new Date(aLastUsed).getTime();
+          break;
+        case 'dateCreated':
+        default:
+          comparison = new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime();
+          break;
+      }
+      
+      // Reverse comparison if ascending order
+      return sortDescending ? comparison : -comparison;
+    });
+  }, [savedRequests, searchTerm, sortBy, sortDescending]);
 
   const handleLoad = (name: string) => {
     const request = loadRequest(name);
@@ -61,9 +101,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
   const handleExport = () => {
     const data = exportRequests();
-    const blob = new Blob([data], { type: 'application/json' });
+    const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `kdf_saved_requests_${Date.now()}.json`;
     document.body.appendChild(a);
@@ -73,7 +113,11 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   };
 
   const handleClearAll = () => {
-    if (window.confirm('Are you sure you want to delete ALL saved requests? This cannot be undone.')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete ALL saved requests? This cannot be undone."
+      )
+    ) {
       clearAllRequests();
       loadSavedRequests();
       setSelectedRequest(null);
@@ -82,42 +126,85 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true" />
-      
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        aria-hidden="true"
+      />
+
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-4xl w-full h-[600px] bg-primary-bg-800 rounded-lg shadow-2xl ring-1 ring-accent/20 flex flex-col">
           <div className="flex items-center justify-between p-4 border-b border-border-primary">
             <Dialog.Title className="text-lg font-medium text-text-primary">
               Load Saved Request
             </Dialog.Title>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleExport}
-                className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
-                title="Export all saved requests"
-              >
-                <DownloadIcon className="w-5 h-5 text-text-muted" />
-              </button>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
-              >
-                <CloseIcon className="w-5 h-5 text-text-muted" />
-              </button>
+            
+            <div className="flex items-center gap-3">
+              <div className="flex gap-2">
+                <Listbox value={sortBy} onChange={setSortBy}>
+                  <div className="relative">
+                    <ListboxButton className="relative px-3 py-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary text-left focus:outline-none focus:ring-2 focus:ring-accent/50 flex items-center gap-2">
+                      <span className="text-sm">Sort: {sortOptions.find(opt => opt.value === sortBy)?.label}</span>
+                      <ChevronDownIcon className="w-4 h-4 text-text-muted" />
+                    </ListboxButton>
+                    <ListboxOptions className="absolute z-10 mt-1 right-0 bg-primary-bg-800 rounded-md border border-border-primary shadow-lg focus:outline-none">
+                      {sortOptions.map((option) => (
+                        <ListboxOption
+                          key={option.value}
+                          value={option.value}
+                          className={({ active, selected }) =>
+                            `px-3 py-2 text-sm cursor-pointer whitespace-nowrap ${
+                              active ? 'bg-primary-bg-700 text-text-primary' : 'text-text-primary'
+                            } ${selected ? 'font-medium' : ''}`
+                          }
+                        >
+                          {option.label}
+                        </ListboxOption>
+                      ))}
+                    </ListboxOptions>
+                  </div>
+                </Listbox>
+                <button
+                  onClick={() => setSortDescending(!sortDescending)}
+                  className="p-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary hover:bg-primary-bg-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50"
+                  title={sortDescending ? "Sort descending" : "Sort ascending"}
+                >
+                  {sortDescending ? (
+                    <ArrowDownWideNarrow className="w-4 h-4" />
+                  ) : (
+                    <ArrowUpNarrowWide className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleExport}
+                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                  title="Export all saved requests"
+                >
+                  <DownloadIcon className="w-5 h-5 text-text-muted" />
+                </button>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-primary-bg-700 rounded transition-colors"
+                >
+                  <CloseIcon className="w-5 h-5 text-text-muted" />
+                </button>
+              </div>
             </div>
           </div>
-          
+
           <div className="flex-1 flex overflow-hidden">
             {/* Left side - Request list */}
             <div className="w-1/2 border-r border-border-primary flex flex-col">
@@ -132,22 +219,22 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                   />
                 </Field>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto px-4 pb-4">
-                {filteredRequests.length === 0 ? (
+                {filteredAndSortedRequests.length === 0 ? (
                   <div className="text-center py-8 text-text-muted">
-                    {searchTerm ? 'No requests found' : 'No saved requests yet'}
+                    {searchTerm ? "No requests found" : "No saved requests yet"}
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {filteredRequests.map((req) => (
+                    {filteredAndSortedRequests.map((req) => (
                       <div
                         key={req.name}
                         onClick={() => setSelectedRequest(req)}
                         className={`p-3 rounded-md border cursor-pointer transition-all ${
                           selectedRequest?.name === req.name
-                            ? 'bg-accent/10 border-accent'
-                            : 'bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50'
+                            ? "bg-accent/10 border-accent"
+                            : "bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50"
                         }`}
                       >
                         <div className="flex justify-between items-start">
@@ -159,7 +246,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                               <span>{formatDate(req.savedAt)}</span>
                               <span>Used {req.usageCount} times</span>
                               {req.includesPassword && (
-                                <span className="text-warning">Contains password</span>
+                                <span className="text-warning">
+                                  Contains password
+                                </span>
                               )}
                             </div>
                           </div>
@@ -169,19 +258,19 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                   </div>
                 )}
               </div>
-              
+
               {savedRequests.length > 0 && (
                 <div className="p-4 border-t border-border-primary">
                   <button
                     onClick={handleClearAll}
-                    className="text-sm text-danger hover:text-danger/80 transition-colors"
+                    className="text-sm text-danger hover:text-danger/80 transition-colors cursor-pointer"
                   >
                     Clear All Saved Requests
                   </button>
                 </div>
               )}
             </div>
-            
+
             {/* Right side - Request preview */}
             <div className="w-1/2 flex flex-col">
               {selectedRequest ? (
@@ -205,7 +294,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="flex-1 overflow-y-auto p-4">
                     <pre className="text-xs text-text-primary font-mono whitespace-pre-wrap">
                       {selectedRequest.config}

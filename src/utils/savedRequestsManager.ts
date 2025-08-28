@@ -8,6 +8,7 @@ export interface SavedRequest {
   config: string;
   savedAt: string;
   usageCount: number;
+  lastUsedAt?: string;
   includesPassword?: boolean;
 }
 
@@ -91,8 +92,9 @@ export const loadRequest = (name: string): SavedRequest | null => {
     const request = saved[name];
     
     if (request) {
-      // Increment usage count
+      // Increment usage count and update last used time
       request.usageCount++;
+      request.lastUsedAt = new Date().toISOString();
       saved[name] = request;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
       

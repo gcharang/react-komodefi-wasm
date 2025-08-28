@@ -122,7 +122,7 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
 
             <div className="p-3 bg-primary-bg-900/50 rounded-md border border-border-primary max-h-[300px] md:max-h-[400px] overflow-y-auto">
               <p className="text-xs text-text-muted mb-1">Request</p>
-              <pre className="text-xs text-text-primary font-mono overflow-hidden">
+              <pre className="text-xs text-text-primary font-mono">
                 {currentConfig}
               </pre>
             </div>
