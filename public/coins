@@ -1302,6 +1302,44 @@
     "derivation_path": "m/44'/60'"
   },
   {
+    "coin": "BAL-ARB20",
+    "name": "bal_arb20",
+    "fname": "Balancer",
+    "rpcport": 80,
+    "mm2": 1,
+    "chain_id": 42161,
+    "decimals": 18,
+    "avg_blocktime": 0.25,
+    "required_confirmations": 10,
+    "protocol": {
+      "type": "ERC20",
+      "protocol_data": {
+        "platform": "ETH-ARB20",
+        "contract_address": "0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8"
+      }
+    },
+    "derivation_path": "m/44'/60'"
+  },
+  {
+    "coin": "BAL-AVX20",
+    "name": "bal_avx20",
+    "fname": "Balancer",
+    "rpcport": 80,
+    "mm2": 1,
+    "chain_id": 43114,
+    "decimals": 18,
+    "avg_blocktime": 2.4,
+    "required_confirmations": 3,
+    "protocol": {
+      "type": "ERC20",
+      "protocol_data": {
+        "platform": "AVAX",
+        "contract_address": "0xE15bCB9E0EA69e6aB9FA080c4c4A5632896298C3"
+      }
+    },
+    "derivation_path": "m/44'/60'"
+  },
+  {
     "coin": "BAL-BEP20",
     "name": "bal_bep20",
     "fname": "Balancer",
@@ -1591,6 +1629,58 @@
       }
     },
     "derivation_path": "m/44'/60'"
+  },
+  {
+    "coin": "BC2",
+    "name": "bitcoinII",
+    "fname": "Bitcoin II",
+    "rpcport": 8332,
+    "pubtype": 0,
+    "p2shtype": 5,
+    "wiftype": 128,
+    "segwit": true,
+    "bech32_hrp": "bc",
+    "txfee": 1000,
+    "mm2": 1,
+    "sign_message_prefix": "Bitcoin Signed Message:\n",
+    "required_confirmations": 2,
+    "avg_blocktime": 600,
+    "protocol": {
+      "type": "UTXO"
+    },
+    "derivation_path": "m/44'/0'",
+    "links": {
+      "github": "https://github.com/BitcoinII-Dev/BitcoinII",
+      "homepage": "https://bitcoin-ii.org"
+    }
+  },
+  {
+    "coin": "BC2-segwit",
+    "name": "bitcoinII",
+    "fname": "Bitcoin II",
+    "sign_message_prefix": "Bitcoin Signed Message:\n",
+    "rpcport": 8332,
+    "pubtype": 0,
+    "p2shtype": 5,
+    "wiftype": 128,
+    "segwit": true,
+    "bech32_hrp": "bc",
+    "address_format": {
+      "format": "segwit"
+    },  
+    "orderbook_ticker": "BC2",
+    "txfee": 1000,
+    "mm2": 1,
+    "required_confirmations": 2,
+    "avg_blocktime": 600,
+    "protocol": {
+      "type": "UTXO"
+    },
+    "derivation_path": "m/84'/0'",
+    "links": {
+      "github": "https://github.com/BitcoinII-Dev/BitcoinII",
+      "homepage": "https://bitcoin-ii.org"
+    }
   },
   {
     "coin": "BCH",
@@ -11105,6 +11195,31 @@
     "links": {
       "github": "https://github.com/shibacoinppc/shibacoin",
       "homepage": "https://shibapow.org/"
+    }
+  },
+  {
+    "coin": "TRMP",
+    "name": "trumpow",
+    "fname": "TrumPow",
+    "rpcport": 33883,
+    "pubtype": 65,
+    "p2shtype": 28,
+    "wiftype": 151,
+    "segwit": false,
+    "txfee": 1000000,
+    "dingo_fee": true,
+    "dust": 1000000,
+    "mm2": 1,
+    "sign_message_prefix": "TrumPow Signed Message:\n",
+    "required_confirmations": 5,
+    "avg_blocktime": 60,
+    "protocol": {
+      "type": "UTXO"
+    },
+    "derivation_path": "m/44'/1707'",
+    "links": {
+      "github": "https://github.com/trumpowppc/trumpow",
+      "homepage": "https://trumpow.meme"
     }
   },
   {
