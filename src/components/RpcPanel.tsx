@@ -21,7 +21,16 @@ import {
   useToastState,
 } from "../store/useStore";
 import { ModalIds } from "../store/modalIds";
-import { SendHorizontal, Settings, Save, FolderOpen, Ban, ClipboardCheck, CheckCircle } from "lucide-react";
+import {
+  SendHorizontal,
+  Settings,
+  Save,
+  FolderOpen,
+  Ban,
+  ClipboardCheck,
+  CheckCircle,
+  Key,
+} from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
 import { SaveRequestDialog } from "./SaveRequestDialog";
@@ -105,7 +114,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
       // Filter methods within the category
       const filteredMethodsInCategory = methods[methodList].filter(
         (methodJson: RpcMethod) =>
-          methodJson?.name?.toLowerCase().includes(searchLower)
+          methodJson?.name?.toLowerCase().includes(searchLower),
       );
 
       // Include category if it matches or has matching methods
@@ -191,7 +200,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                   isActive={activeMenuItem === methodList}
                   onToggle={() =>
                     setActiveMenuItem(
-                      activeMenuItem === methodList ? "" : methodList
+                      activeMenuItem === methodList ? "" : methodList,
                     )
                   }
                 >
@@ -207,11 +216,11 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                             onClick={() => {
                               router.push(
                                 `?method=${methodList}&methodName=${encodeURIComponent(
-                                  methodJson?.name
+                                  methodJson?.name,
                                 )}`,
                                 {
                                   scroll: false,
-                                }
+                                },
                               );
                             }}
                             className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-700 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
@@ -220,7 +229,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                           </button>
                         </li>
                       );
-                    }
+                    },
                   )}
                 </MenuItem>
               );
@@ -257,7 +266,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcPanelState.config
+    rpcPanelState.config,
   );
   const generateRpcMethods = useCallback(
     async (collectionUrl?: string) => {
@@ -268,7 +277,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         return result;
       }
     },
-    [setMethods]
+    [setMethods],
   );
 
   useEffect(() => {
@@ -307,7 +316,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     } catch (error) {
       console.error(
         "An error occurred while trying to parse MM2 config",
-        error
+        error,
       );
       return undefined;
     }
@@ -325,7 +334,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       }
       return cleanedMethod;
     },
-    []
+    [],
   );
 
   const loadMethodFromUrl = ({
@@ -355,7 +364,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       return;
     }
     const requiredValue = methods[method].find(
-      (value: any) => value?.name === methodName
+      (value: any) => value?.name === methodName,
     );
     if (requiredValue) {
       // Clean the method and update password in one step
@@ -388,14 +397,14 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       }
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`,
       );
       return;
     }
 
     let response = await rpc_request(request_js);
     const getMethodNameForResponseDownload = (
-      request_json: typeof request_js
+      request_json: typeof request_js,
     ) => {
       if (Array.isArray(request_json)) {
         // Count occurrences of each method
@@ -463,6 +472,30 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState]);
 
+  // Manual sync password handler for the button
+  const handleSyncPassword = useCallback(() => {
+    const rpcPassword = grabMM2RpcPassword();
+    if (!rpcPassword) {
+      showToast("No MM2 password found. Please start MM2 first.", "error");
+      return;
+    }
+
+    try {
+      const currentConfig = JSON.parse(rpcPanelState.config);
+      const updatedConfig = updateUserPass(currentConfig, rpcPassword);
+
+      if (updatedConfig) {
+        setRpcPanelState({
+          config: JSON.stringify(updatedConfig, null, 2),
+          dataHasErrors: false,
+        });
+        showToast("Password synced successfully!", "success");
+      }
+    } catch (error) {
+      showToast("Invalid JSON config. Please fix the syntax first.", "error");
+    }
+  }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState, showToast]);
+
   useEffect(() => {
     !mm2PanelState.dataHasErrors &&
       !rpcPanelState.dataHasErrors &&
@@ -508,6 +541,20 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                   className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
                 >
                   <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
+                </button>
+              </Tooltip>
+
+              <Tooltip label={"Sync Password from MM2"} dir="bottom">
+                <button
+                  onClick={handleSyncPassword}
+                  disabled={rpcPanelState.dataHasErrors}
+                  className={`flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
+                    !rpcPanelState.dataHasErrors
+                      ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
+                      : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
+                  }`}
+                >
+                  <Key className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
 
@@ -645,14 +692,14 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
 
       showToast("Request loaded successfully!", "success");
     },
-    [setRpcPanelState, showToast, grabMM2RpcPassword]
+    [setRpcPanelState, showToast, grabMM2RpcPassword],
   );
 
   const handleRequestSaved = useCallback(
     (name: string) => {
       showToast(`Request saved as "${name}"`, "success");
     },
-    [showToast]
+    [showToast],
   );
 
   return (
