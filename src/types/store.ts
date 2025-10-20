@@ -66,7 +66,10 @@ export interface StoreState {
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
   imVisible: (modalId: string) => boolean;
-  hidePreviousThenShowNext: (previousModalId: string, nextModalId: string) => void;
+  hidePreviousThenShowNext: (
+    previousModalId: string,
+    nextModalId: string
+  ) => void;
 
   // Generic Modal State
   genericModal: GenericModalState;
@@ -78,7 +81,11 @@ export interface StoreState {
 
   // Toast State
   toast: ToastState;
-  showToast: (message: string, type?: 'success' | 'error' | 'info', action?: { label: string; onClick: () => void }) => void;
+  showToast: (
+    message: string,
+    type?: 'success' | 'error' | 'info',
+    action?: { label: string; onClick: () => void }
+  ) => void;
   hideToast: () => void;
 }
 
@@ -109,7 +116,10 @@ export interface UseVisibilityStateReturn {
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
   imVisible: (modalId: string) => boolean;
-  hidePreviousThenShowNext: (previousModalId: string, nextModalId: string) => void;
+  hidePreviousThenShowNext: (
+    previousModalId: string,
+    nextModalId: string
+  ) => void;
 }
 
 export interface UseGenericModalReturn {
@@ -124,6 +134,10 @@ export interface UseRpcMethodsReturn {
 
 export interface UseToastStateReturn {
   toast: ToastState;
-  showToast: (message: string, type?: 'success' | 'error' | 'info', action?: { label: string; onClick: () => void }) => void;
+  showToast: (
+    message: string,
+    type?: 'success' | 'error' | 'info',
+    action?: { label: string; onClick: () => void }
+  ) => void;
   hideToast: () => void;
 }

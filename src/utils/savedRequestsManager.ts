@@ -35,18 +35,18 @@ export const getSavedRequests = (): SavedRequestsCollection => {
  */
 export const generateUniqueName = (baseName: string): string => {
   const saved = getSavedRequests();
-  
+
   // If the base name doesn't exist, use it
   if (!(baseName in saved)) {
     return baseName;
   }
-  
+
   // Find the next available counter
   let counter = 2;
   while (`${baseName}_${counter}` in saved) {
     counter++;
   }
-  
+
   return `${baseName}_${counter}`;
 };
 
@@ -55,24 +55,24 @@ export const generateUniqueName = (baseName: string): string => {
  * Always strips password/userpass for security
  */
 export const saveRequest = (
-  name: string, 
-  config: string, 
+  name: string,
+  config: string,
   overwrite: boolean = true
 ): string => {
   try {
     const saved = getSavedRequests();
-    
+
     // Always strip password when saving
     const configToSave = stripPassword(config);
-    
+
     // Create or update the saved request
     saved[name] = {
       name: name,
       config: configToSave,
       savedAt: new Date().toISOString(),
-      usageCount: saved[name]?.usageCount || 0
+      usageCount: saved[name]?.usageCount || 0,
     };
-    
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
     return name; // Return the name used
   } catch (error) {
@@ -88,17 +88,17 @@ export const loadRequest = (name: string): SavedRequest | null => {
   try {
     const saved = getSavedRequests();
     const request = saved[name];
-    
+
     if (request) {
       // Increment usage count and update last used time
       request.usageCount++;
       request.lastUsedAt = new Date().toISOString();
       saved[name] = request;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-      
+
       return request;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Error loading request:', error);
@@ -133,12 +133,12 @@ export const requestExists = (name: string): boolean => {
 const stripPassword = (config: string): string => {
   try {
     const parsed = JSON.parse(config);
-    
+
     if (Array.isArray(parsed)) {
       return JSON.stringify(
-        parsed.map(item => {
+        parsed.map((item) => {
           const { userpass, ...rest } = item;
-          return { ...rest, userpass: "YOUR_PASSWORD_HERE" };
+          return { ...rest, userpass: 'YOUR_PASSWORD_HERE' };
         }),
         null,
         2
@@ -146,7 +146,7 @@ const stripPassword = (config: string): string => {
     } else {
       const { userpass, ...rest } = parsed;
       return JSON.stringify(
-        { ...rest, userpass: "YOUR_PASSWORD_HERE" },
+        { ...rest, userpass: 'YOUR_PASSWORD_HERE' },
         null,
         2
       );
@@ -184,15 +184,18 @@ export const exportRequests = (): string => {
 /**
  * Import requests from JSON string
  */
-export const importRequests = (jsonString: string, overwrite: boolean = false): void => {
+export const importRequests = (
+  jsonString: string,
+  overwrite: boolean = false
+): void => {
   try {
     const imported = JSON.parse(jsonString) as SavedRequestsCollection;
-    
+
     if (!overwrite) {
       // Intelligent merge with existing
       const existing = getSavedRequests();
       const merged = { ...existing };
-      
+
       // Merge each imported request intelligently
       Object.entries(imported).forEach(([name, importedRequest]) => {
         if (merged[name]) {
@@ -201,30 +204,36 @@ export const importRequests = (jsonString: string, overwrite: boolean = false): 
           merged[name] = {
             name: name,
             config: importedRequest.config, // Use newer config from import
-            savedAt: new Date(existingRequest.savedAt) < new Date(importedRequest.savedAt) 
-              ? existingRequest.savedAt 
-              : importedRequest.savedAt, // Keep earliest creation date
+            savedAt:
+              new Date(existingRequest.savedAt) <
+              new Date(importedRequest.savedAt)
+                ? existingRequest.savedAt
+                : importedRequest.savedAt, // Keep earliest creation date
             usageCount: existingRequest.usageCount + importedRequest.usageCount, // Sum usage counts
             lastUsedAt: (() => {
               // Keep most recent usage date
-              const existingUsed = existingRequest.lastUsedAt ? new Date(existingRequest.lastUsedAt) : null;
-              const importedUsed = importedRequest.lastUsedAt ? new Date(importedRequest.lastUsedAt) : null;
-              
+              const existingUsed = existingRequest.lastUsedAt
+                ? new Date(existingRequest.lastUsedAt)
+                : null;
+              const importedUsed = importedRequest.lastUsedAt
+                ? new Date(importedRequest.lastUsedAt)
+                : null;
+
               if (!existingUsed && !importedUsed) return undefined;
               if (!existingUsed) return importedRequest.lastUsedAt;
               if (!importedUsed) return existingRequest.lastUsedAt;
-              
-              return existingUsed > importedUsed 
-                ? existingRequest.lastUsedAt 
+
+              return existingUsed > importedUsed
+                ? existingRequest.lastUsedAt
                 : importedRequest.lastUsedAt;
-            })()
+            })(),
           };
         } else {
           // New request - add it
           merged[name] = importedRequest;
         }
       });
-      
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     } else {
       // Replace all

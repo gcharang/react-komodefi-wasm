@@ -35,18 +35,18 @@ export const getSavedMm2Configs = (): SavedMm2ConfigsCollection => {
  */
 export const generateUniqueName = (baseName: string = 'mm2_config'): string => {
   const saved = getSavedMm2Configs();
-  
+
   // If the base name doesn't exist, use it
   if (!(baseName in saved)) {
     return baseName;
   }
-  
+
   // Find the next available counter
   let counter = 2;
   while (`${baseName}_${counter}` in saved) {
     counter++;
   }
-  
+
   return `${baseName}_${counter}`;
 };
 
@@ -55,24 +55,24 @@ export const generateUniqueName = (baseName: string = 'mm2_config'): string => {
  * Always strips rpc_password for security
  */
 export const saveMm2Config = (
-  name: string, 
-  config: string, 
+  name: string,
+  config: string,
   overwrite: boolean = true
 ): string => {
   try {
     const saved = getSavedMm2Configs();
-    
+
     // Always strip password when saving
     const configToSave = stripPassword(config);
-    
+
     // Create or update the saved config
     saved[name] = {
       name: name,
       config: configToSave,
       savedAt: new Date().toISOString(),
-      usageCount: saved[name]?.usageCount || 0
+      usageCount: saved[name]?.usageCount || 0,
     };
-    
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
     return name; // Return the name used
   } catch (error) {
@@ -88,17 +88,17 @@ export const loadMm2Config = (name: string): SavedMm2Config | null => {
   try {
     const saved = getSavedMm2Configs();
     const config = saved[name];
-    
+
     if (config) {
       // Increment usage count and update last used time
       config.usageCount++;
       config.lastUsedAt = new Date().toISOString();
       saved[name] = config;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-      
+
       return config;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Error loading MM2 config:', error);
@@ -134,10 +134,10 @@ const stripPassword = (config: string): string => {
   try {
     const parsed = JSON.parse(config);
     return JSON.stringify(
-      { 
-        ...parsed, 
-        rpc_password: "YOUR_PASSWORD_HERE",
-        passphrase: "wasmtest"
+      {
+        ...parsed,
+        rpc_password: 'YOUR_PASSWORD_HERE',
+        passphrase: 'wasmtest',
       },
       null,
       2
@@ -159,15 +159,18 @@ export const exportMm2Configs = (): string => {
 /**
  * Import MM2 configs from JSON string
  */
-export const importMm2Configs = (jsonString: string, overwrite: boolean = false): void => {
+export const importMm2Configs = (
+  jsonString: string,
+  overwrite: boolean = false
+): void => {
   try {
     const imported = JSON.parse(jsonString) as SavedMm2ConfigsCollection;
-    
+
     if (!overwrite) {
       // Intelligent merge with existing
       const existing = getSavedMm2Configs();
       const merged = { ...existing };
-      
+
       // Merge each imported config intelligently
       Object.entries(imported).forEach(([name, importedConfig]) => {
         if (merged[name]) {
@@ -176,30 +179,36 @@ export const importMm2Configs = (jsonString: string, overwrite: boolean = false)
           merged[name] = {
             name: name,
             config: importedConfig.config, // Use newer config from import
-            savedAt: new Date(existingConfig.savedAt) < new Date(importedConfig.savedAt) 
-              ? existingConfig.savedAt 
-              : importedConfig.savedAt, // Keep earliest creation date
+            savedAt:
+              new Date(existingConfig.savedAt) <
+              new Date(importedConfig.savedAt)
+                ? existingConfig.savedAt
+                : importedConfig.savedAt, // Keep earliest creation date
             usageCount: existingConfig.usageCount + importedConfig.usageCount, // Sum usage counts
             lastUsedAt: (() => {
               // Keep most recent usage date
-              const existingUsed = existingConfig.lastUsedAt ? new Date(existingConfig.lastUsedAt) : null;
-              const importedUsed = importedConfig.lastUsedAt ? new Date(importedConfig.lastUsedAt) : null;
-              
+              const existingUsed = existingConfig.lastUsedAt
+                ? new Date(existingConfig.lastUsedAt)
+                : null;
+              const importedUsed = importedConfig.lastUsedAt
+                ? new Date(importedConfig.lastUsedAt)
+                : null;
+
               if (!existingUsed && !importedUsed) return undefined;
               if (!existingUsed) return importedConfig.lastUsedAt;
               if (!importedUsed) return existingConfig.lastUsedAt;
-              
-              return existingUsed > importedUsed 
-                ? existingConfig.lastUsedAt 
+
+              return existingUsed > importedUsed
+                ? existingConfig.lastUsedAt
                 : importedConfig.lastUsedAt;
-            })()
+            })(),
           };
         } else {
           // New config - add it
           merged[name] = importedConfig;
         }
       });
-      
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     } else {
       // Replace all

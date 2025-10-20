@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Play,
   Square,
@@ -8,13 +8,13 @@ import {
   Save,
   FolderOpen,
   Key,
-} from "lucide-react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import Tooltip from "./Tooltip";
-import { SaveMm2ConfigDialog } from "./SaveMm2ConfigDialog";
-import { LoadMm2ConfigModal } from "./LoadMm2ConfigModal";
-import { PassphraseModal } from "./PassphraseModal";
-import { useToastState } from "../store/useStore";
+} from 'lucide-react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import Tooltip from './Tooltip';
+import { SaveMm2ConfigDialog } from './SaveMm2ConfigDialog';
+import { LoadMm2ConfigModal } from './LoadMm2ConfigModal';
+import { PassphraseModal } from './PassphraseModal';
+import { useToastState } from '../store/useStore';
 
 import init, {
   LogLevel,
@@ -24,18 +24,18 @@ import init, {
   mm2_main_status,
   mm2_stop,
   mm2_version,
-} from "../js/kdflib.js";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
-import { useStore, useMm2PanelState } from "../store/useStore";
-import { loadCompressedWasm } from "../utils/wasmLoader";
+} from '../js/kdflib.js';
+import useIsValidSchema from '../shared-functions/useIsValidSchema';
+import { useStore, useMm2PanelState } from '../store/useStore';
+import { loadCompressedWasm } from '../utils/wasmLoader';
 import {
   isLocalhost,
   loadLocalMM2Config,
   extractRpcPassword,
-} from "../utils/localConfigLoader";
+} from '../utils/localConfigLoader';
 
 const getBaseUrl = () => {
-  return window.location.protocol + "//" + window.location.host;
+  return window.location.protocol + '//' + window.location.host;
 };
 const LOG_LEVEL = LogLevel.Debug;
 
@@ -49,12 +49,12 @@ const Mm2Panel = () => {
   const [isPassphraseModalOpen, setIsPassphraseModalOpen] = useState(false);
   const { showToast } = useToastState();
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config,
+    mm2PanelState.mm2Config
   );
 
   function handle_log(
     level: (typeof LogLevel)[keyof typeof LogLevel],
-    line: string,
+    line: string
   ) {
     switch (level) {
       case LogLevel.Off:
@@ -65,7 +65,7 @@ const Mm2Panel = () => {
             ...state.mm2Logs,
             outputMessages: [
               ...state.mm2Logs.outputMessages,
-              ["[Error] " + line, "red"],
+              ['[Error] ' + line, 'red'],
             ],
           },
         }));
@@ -77,7 +77,7 @@ const Mm2Panel = () => {
             ...state.mm2Logs,
             outputMessages: [
               ...state.mm2Logs.outputMessages,
-              ["[Warn] " + line, "yellow"],
+              ['[Warn] ' + line, 'yellow'],
             ],
           },
         }));
@@ -89,7 +89,7 @@ const Mm2Panel = () => {
             ...state.mm2Logs,
             outputMessages: [
               ...state.mm2Logs.outputMessages,
-              ["[Info] " + line, "violet"],
+              ['[Info] ' + line, 'violet'],
             ],
           },
         }));
@@ -106,7 +106,7 @@ const Mm2Panel = () => {
             ...state.mm2Logs,
             outputMessages: [
               ...state.mm2Logs.outputMessages,
-              ["[default] " + line, "neutral"],
+              ['[default] ' + line, 'neutral'],
             ],
           },
         }));
@@ -119,8 +119,8 @@ const Mm2Panel = () => {
     params: any,
     handle_log: (
       level: (typeof LogLevel)[keyof typeof LogLevel],
-      line: string,
-    ) => void,
+      line: string
+    ) => void
   ) {
     // run an MM2 instance
     try {
@@ -131,15 +131,15 @@ const Mm2Panel = () => {
           outputMessages: [
             ...state.mm2Logs.outputMessages,
             [
-              "[Info] " +
+              '[Info] ' +
                 `run_mm2() version=${version.result} datetime=${version.datetime}`,
-              "violet",
+              'violet',
             ],
           ],
         },
       }));
       console.info(
-        `run_mm2() version=${version.result} datetime=${version.datetime}`,
+        `run_mm2() version=${version.result} datetime=${version.datetime}`
       );
       mm2_main(params, handle_log);
       return true;
@@ -156,7 +156,7 @@ const Mm2Panel = () => {
       const wasm_bin_path = `/kdflib_bg.wasm.gz`;
       let mm2BinUrl = new URL(baseUrl + wasm_bin_path);
 
-      console.log("Loading compressed WASM from:", mm2BinUrl.toString());
+      console.log('Loading compressed WASM from:', mm2BinUrl.toString());
 
       // Load and decompress the WASM file
       const wasmBuffer = await loadCompressedWasm(mm2BinUrl);
@@ -164,9 +164,9 @@ const Mm2Panel = () => {
       // Initialize the WASM module with the decompressed buffer
       await init(wasmBuffer);
 
-      console.log("WASM module initialized successfully");
+      console.log('WASM module initialized successfully');
     } catch (e) {
-      console.error("Failed to initialize WASM:", e);
+      console.error('Failed to initialize WASM:', e);
       alert(`Failed to initialize WASM: ${e}`);
     }
   }
@@ -213,7 +213,7 @@ const Mm2Panel = () => {
         const conf_js = JSON.parse(mm2PanelState.mm2Config);
         if (!conf_js.coins) {
           const baseUrl = getBaseUrl();
-          let coinsUrl = new URL(baseUrl + "/coins");
+          let coinsUrl = new URL(baseUrl + '/coins');
           let coins = await fetch(coinsUrl);
           let coinsJson = await coins.json();
           conf_js.coins = coinsJson;
@@ -228,7 +228,7 @@ const Mm2Panel = () => {
         };
       } catch (e) {
         alert(
-          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`,
+          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
         );
         return;
       }
@@ -299,16 +299,16 @@ const Mm2Panel = () => {
         setMm2PanelState({ mm2Config: config });
       }
 
-      showToast("Configuration loaded successfully!", "success");
+      showToast('Configuration loaded successfully!', 'success');
     },
-    [mm2PanelState.mm2Config, setMm2PanelState, showToast],
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
   );
 
   const handleConfigSaved = useCallback(
     (name: string) => {
-      showToast(`Configuration saved as "${name}"`, "success");
+      showToast(`Configuration saved as "${name}"`, 'success');
     },
-    [showToast],
+    [showToast]
   );
 
   const handlePassphraseImport = useCallback(
@@ -328,13 +328,13 @@ const Mm2Panel = () => {
         }
 
         setMm2PanelState(stateUpdate);
-        showToast("Recovery phrase imported successfully!", "success");
+        showToast('Recovery phrase imported successfully!', 'success');
       } catch (error) {
-        console.error("Failed to update config with passphrase:", error);
-        showToast("Failed to import recovery phrase", "error");
+        console.error('Failed to update config with passphrase:', error);
+        showToast('Failed to import recovery phrase', 'error');
       }
     },
-    [mm2PanelState.mm2Config, setMm2PanelState, showToast],
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
   );
 
   return (
@@ -362,8 +362,8 @@ const Mm2Panel = () => {
               <Tooltip
                 label={
                   !mm2PanelState.mm2Running
-                    ? "Start KDF service"
-                    : "Stop KDF service"
+                    ? 'Start KDF service'
+                    : 'Stop KDF service'
                 }
                 dir="bottom"
               >
@@ -371,8 +371,8 @@ const Mm2Panel = () => {
                   onClick={() => toggleMm2()}
                   aria-label={
                     !mm2PanelState.mm2Running
-                      ? "Start KDF service"
-                      : "Stop KDF service"
+                      ? 'Start KDF service'
+                      : 'Stop KDF service'
                   }
                   className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
                 >
@@ -429,7 +429,7 @@ const Mm2Panel = () => {
                   <div className="flex gap-1">
                     <Tooltip label="Clear Panel" dir="bottom">
                       <button
-                        onClick={() => setMm2PanelState({ mm2Config: "{}" })}
+                        onClick={() => setMm2PanelState({ mm2Config: '{}' })}
                         className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                         aria-label="Clear MM2 config"
                       >
@@ -441,7 +441,7 @@ const Mm2Panel = () => {
                         <button
                           onClick={() => {
                             navigator.clipboard.writeText(
-                              mm2PanelState.mm2Config,
+                              mm2PanelState.mm2Config
                             );
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
@@ -475,8 +475,8 @@ const Mm2Panel = () => {
                   >
                     📁
                   </span>
-                )}{" "}
-                KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
+                )}{' '}
+                KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{' '}
                 {process.env.NEXT_PUBLIC_KDF_PR_URL && (
                   <a
                     className="ml-2 text-blue-300"
@@ -485,7 +485,7 @@ const Mm2Panel = () => {
                   >
                     🔗 <span className="underline">PR Link</span>
                   </a>
-                )}{" "}
+                )}{' '}
                 {process.env.NEXT_PUBLIC_KDF_TREE && (
                   <a
                     className="ml-2 text-blue-300"
@@ -502,13 +502,13 @@ const Mm2Panel = () => {
         <div
           className={`${
             !mm2PanelState.dataHasErrors
-              ? "focus-within:ring-2 focus-within:ring-accent/50"
-              : "ring-4 ring-red-500"
+              ? 'focus-within:ring-2 focus-within:ring-accent/50'
+              : 'ring-4 ring-red-500'
           } relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
         >
           <div
             className={`absolute inset-0 p-2 h-full w-full z-10 bg-gray-100 ${
-              mm2PanelState.mm2Running ? "opacity-20 block" : "opacity-0 hidden"
+              mm2PanelState.mm2Running ? 'opacity-20 block' : 'opacity-0 hidden'
             }`}
           ></div>
           <JsonMonacoEditor

@@ -2,16 +2,16 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import React from 'react';
 import { getMm2DefaultConfig, getRpcDefaultConfig } from '../staticData';
-import type { 
-  StoreState, 
-  UseMm2PanelStateReturn, 
-  UseRpcPanelStateReturn, 
-  UseMm2LogsPanelStateReturn, 
-  UseRpcResponseStateReturn, 
-  UseVisibilityStateReturn, 
-  UseGenericModalReturn, 
+import type {
+  StoreState,
+  UseMm2PanelStateReturn,
+  UseRpcPanelStateReturn,
+  UseMm2LogsPanelStateReturn,
+  UseRpcResponseStateReturn,
+  UseVisibilityStateReturn,
+  UseGenericModalReturn,
   UseRpcMethodsReturn,
-  UseToastStateReturn 
+  UseToastStateReturn,
 } from '../types/store';
 
 export const useStore = create<StoreState>()(
@@ -20,8 +20,8 @@ export const useStore = create<StoreState>()(
       // MM2 Panel State
       mm2Panel: {
         mm2Running: false,
-        startCommand: "Run MM2",
-        mm2UserPass: "",
+        startCommand: 'Run MM2',
+        mm2UserPass: '',
         mm2Config: getMm2DefaultConfig(),
         dataHasErrors: false,
       },
@@ -42,13 +42,15 @@ export const useStore = create<StoreState>()(
 
       // MM2 Logs State
       mm2Logs: {
-        outputMessages: [["Once kdf is run, daemon output is rendered here", "blue"]],
+        outputMessages: [
+          ['Once kdf is run, daemon output is rendered here', 'blue'],
+        ],
       },
       setMm2Logs: (updates) =>
         set((state) => ({
           mm2Logs: { ...state.mm2Logs, ...updates },
         })),
-      addMm2Log: (message, color = "white") =>
+      addMm2Log: (message, color = 'white') =>
         set((state) => ({
           mm2Logs: {
             outputMessages: [...state.mm2Logs.outputMessages, [message, color]],
@@ -57,8 +59,8 @@ export const useStore = create<StoreState>()(
 
       // RPC Response State
       rpcResponse: {
-        requestResponse: "",
-        requestMethod: "",
+        requestResponse: '',
+        requestMethod: '',
       },
       setRpcResponse: (updates) =>
         set((state) => ({
@@ -86,14 +88,14 @@ export const useStore = create<StoreState>()(
 
       // Generic Modal State
       genericModal: {
-        titleComponent: "Hello, world!",
+        titleComponent: 'Hello, world!',
         messageComponent: React.createElement(
           'p',
-          { className: "text-sm text-gray-400" },
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          { className: 'text-sm text-gray-400' },
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         ),
-        proceedBtnMessage: "I understand",
-        cancelBtnMessage: "Close",
+        proceedBtnMessage: 'I understand',
+        cancelBtnMessage: 'Close',
         onProceed: null,
         onCancel: () => {},
       },
@@ -177,8 +179,10 @@ export const useVisibilityState = (): UseVisibilityStateReturn => {
   const showModal = useStore((state) => state.showModal);
   const hideModal = useStore((state) => state.hideModal);
   const imVisible = useStore((state) => state.imVisible);
-  const hidePreviousThenShowNext = useStore((state) => state.hidePreviousThenShowNext);
-  
+  const hidePreviousThenShowNext = useStore(
+    (state) => state.hidePreviousThenShowNext
+  );
+
   return {
     modalVisibilityState,
     showModal,

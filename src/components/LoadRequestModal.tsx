@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -9,13 +9,13 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
-} from "@headlessui/react";
+} from '@headlessui/react';
 import {
   ArrowDownWideNarrow,
   ArrowUpNarrowWide,
   Upload,
   Download,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   getSavedRequests,
   loadRequest,
@@ -23,16 +23,16 @@ import {
   exportRequests,
   importRequests,
   clearAllRequests,
-} from "../utils/savedRequestsManager";
-import type { SavedRequest } from "../utils/savedRequestsManager";
-import { X, ChevronDown, ChevronLeft } from "lucide-react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import type { LoadRequestModalProps, SortOption } from "../types/components";
+} from '../utils/savedRequestsManager';
+import type { SavedRequest } from '../utils/savedRequestsManager';
+import { X, ChevronDown, ChevronLeft } from 'lucide-react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import type { LoadRequestModalProps, SortOption } from '../types/components';
 
 const sortOptions = [
-  { value: "usage" as const, label: "Usage Count" },
-  { value: "lastUsed" as const, label: "Last Used" },
-  { value: "dateCreated" as const, label: "Date Created" },
+  { value: 'usage' as const, label: 'Usage Count' },
+  { value: 'lastUsed' as const, label: 'Last Used' },
+  { value: 'dateCreated' as const, label: 'Date Created' },
 ];
 
 export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
@@ -41,11 +41,11 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
   onLoad,
 }) => {
   const [savedRequests, setSavedRequests] = useState<SavedRequest[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedRequest, setSelectedRequest] = useState<SavedRequest | null>(
     null
   );
-  const [sortBy, setSortBy] = useState<SortOption>("dateCreated");
+  const [sortBy, setSortBy] = useState<SortOption>('dateCreated');
   const [sortDescending, setSortDescending] = useState(true);
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -73,17 +73,17 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
       let comparison = 0;
 
       switch (sortBy) {
-        case "usage":
+        case 'usage':
           comparison = b.usageCount - a.usageCount;
           break;
-        case "lastUsed":
+        case 'lastUsed':
           // Sort by lastUsedAt, fallback to savedAt if never used
           const aLastUsed = a.lastUsedAt || a.savedAt;
           const bLastUsed = b.lastUsedAt || b.savedAt;
           comparison =
             new Date(bLastUsed).getTime() - new Date(aLastUsed).getTime();
           break;
-        case "dateCreated":
+        case 'dateCreated':
         default:
           comparison =
             new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime();
@@ -115,9 +115,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
   const handleExport = () => {
     const data = exportRequests();
-    const blob = new Blob([data], { type: "application/json" });
+    const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = `kdf_saved_requests_wasm_pg_${Date.now()}.json`;
     document.body.appendChild(a);
@@ -141,7 +141,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
       // Ask user if they want to merge or overwrite
       const shouldOverwrite = window.confirm(
-        "Do you want to replace all existing saved requests?\n\n" +
+        'Do you want to replace all existing saved requests?\n\n' +
           "Click 'OK' to replace all existing requests\n" +
           "Click 'Cancel' to merge with existing requests"
       );
@@ -151,26 +151,26 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
       // Reset file input
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current.value = '';
       }
 
       alert(
         `Successfully imported requests (${
-          shouldOverwrite ? "replaced" : "merged"
+          shouldOverwrite ? 'replaced' : 'merged'
         })`
       );
     } catch (error) {
       alert(
-        "Failed to import requests. Please ensure the file is a valid JSON export."
+        'Failed to import requests. Please ensure the file is a valid JSON export.'
       );
-      console.error("Import error:", error);
+      console.error('Import error:', error);
     }
   };
 
   const handleClearAll = () => {
     if (
       window.confirm(
-        "Are you sure you want to delete ALL saved requests? This cannot be undone."
+        'Are you sure you want to delete ALL saved requests? This cannot be undone.'
       )
     ) {
       clearAllRequests();
@@ -181,11 +181,11 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -211,7 +211,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               </button>
             </div>
 
-            <div className={`${showMobilePreview ? 'hidden md:flex' : 'flex'} items-center justify-between md:gap-3`}>
+            <div
+              className={`${showMobilePreview ? 'hidden md:flex' : 'flex'} items-center justify-between md:gap-3`}
+            >
               <div className="flex gap-1.5 md:gap-2">
                 <Listbox value={sortBy} onChange={setSortBy}>
                   <div className="relative">
@@ -230,9 +232,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                           className={({ focus, selected }) =>
                             `px-3 py-2 text-xs md:text-sm cursor-pointer whitespace-nowrap ${
                               focus
-                                ? "bg-primary-bg-700 text-text-primary"
-                                : "text-text-primary"
-                            } ${selected ? "font-medium" : ""}`
+                                ? 'bg-primary-bg-700 text-text-primary'
+                                : 'text-text-primary'
+                            } ${selected ? 'font-medium' : ''}`
                           }
                         >
                           {option.label}
@@ -244,7 +246,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 <button
                   onClick={() => setSortDescending(!sortDescending)}
                   className="p-1.5 bg-primary-bg-900/50 text-text-primary rounded-md border border-border-primary hover:bg-primary-bg-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50"
-                  title={sortDescending ? "Sort descending" : "Sort ascending"}
+                  title={sortDescending ? 'Sort descending' : 'Sort ascending'}
                 >
                   {sortDescending ? (
                     <ArrowDownWideNarrow className="w-3.5 md:w-4 h-3.5 md:h-4" />
@@ -284,7 +286,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                 </button>
               </div>
             </div>
-            
+
             {/* Mobile back button when previewing */}
             {showMobilePreview && (
               <div className="flex md:hidden">
@@ -301,7 +303,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
 
           <div className="flex-1 flex overflow-hidden relative">
             {/* Mobile: Show either list or preview, Desktop: Show both */}
-            <div className={`${showMobilePreview ? 'hidden' : 'flex'} md:flex flex-col w-full md:w-1/2 md:border-r border-border-primary`}>
+            <div
+              className={`${showMobilePreview ? 'hidden' : 'flex'} md:flex flex-col w-full md:w-1/2 md:border-r border-border-primary`}
+            >
               <div className="p-3 md:p-4">
                 <Field>
                   <Input
@@ -317,7 +321,7 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
               <div className="flex-1 overflow-y-auto px-3 md:px-4 pb-4">
                 {filteredAndSortedRequests.length === 0 ? (
                   <div className="text-center py-8 text-text-muted">
-                    {searchTerm ? "No requests found" : "No saved requests yet"}
+                    {searchTerm ? 'No requests found' : 'No saved requests yet'}
                   </div>
                 ) : (
                   <div className="space-y-1">
@@ -330,8 +334,8 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
                         }}
                         className={`py-2 px-2.5 rounded-md border cursor-pointer transition-all ${
                           selectedRequest?.name === req.name
-                            ? "bg-accent/10 border-accent"
-                            : "bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50"
+                            ? 'bg-accent/10 border-accent'
+                            : 'bg-primary-bg-900/30 border-border-primary hover:bg-primary-bg-900/50'
                         }`}
                       >
                         <div className="font-medium text-sm text-text-primary leading-tight">
@@ -361,7 +365,9 @@ export const LoadRequestModal: React.FC<LoadRequestModalProps> = ({
             </div>
 
             {/* Preview Panel - Full width on mobile when shown, half on desktop */}
-            <div className={`${showMobilePreview ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative inset-0 md:inset-auto w-full md:w-1/2 bg-primary-bg-800 z-10 md:z-auto`}>
+            <div
+              className={`${showMobilePreview ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative inset-0 md:inset-auto w-full md:w-1/2 bg-primary-bg-800 z-10 md:z-auto`}
+            >
               {selectedRequest ? (
                 <>
                   <div className="p-3 md:p-4 border-b border-border-primary">

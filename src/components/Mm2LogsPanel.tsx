@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Switch } from "@headlessui/react";
-import type { Mm2LogsPanelProps } from "../types/components";
+import React, { useEffect, useState, useRef } from 'react';
+import { Switch } from '@headlessui/react';
+import type { Mm2LogsPanelProps } from '../types/components';
 import {
   Ban,
   ChevronsDown,
   ClipboardCheck,
   CheckCircle,
   Download,
-} from "lucide-react";
-import { debounce } from "../shared-functions/debounce";
-import { downloadFile } from "../shared-functions/downloadFile";
-import { useMm2LogsPanelState } from "../store/useStore";
-import Tooltip from "./Tooltip";
+} from 'lucide-react';
+import { debounce } from '../shared-functions/debounce';
+import { downloadFile } from '../shared-functions/downloadFile';
+import { useMm2LogsPanelState } from '../store/useStore';
+import Tooltip from './Tooltip';
 
 const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
   const { mm2LogsPanelState, setMm2LogsPanelState } = useMm2LogsPanelState();
   const [copied, setCopied] = useState(false);
-  const [isInlineCopied, setIsInlineCopied] = useState({ id: "" });
+  const [isInlineCopied, setIsInlineCopied] = useState({ id: '' });
   const [shouldAlwaysScrollToBottom, setShouldAlwaysScrollToBottom] =
     useState(true);
   let mm2Ref = useRef<HTMLDivElement | null>(null);
@@ -41,20 +41,20 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
         setShouldAlwaysScrollToBottom(false);
       }, 300);
 
-      mm2Ref.current.addEventListener("mouseenter", debouncedHandler);
+      mm2Ref.current.addEventListener('mouseenter', debouncedHandler);
 
       return () => {
-        mm2Ref.current?.removeEventListener("mouseenter", debouncedHandler);
+        mm2Ref.current?.removeEventListener('mouseenter', debouncedHandler);
       };
     }
   }, [mm2Ref]);
 
   const classes = [
-    "text-secondary-400",
-    "text-accent",
-    "text-danger",
-    "text-warning",
-    "text-text-primary",
+    'text-secondary-400',
+    'text-accent',
+    'text-danger',
+    'text-warning',
+    'text-text-primary',
   ];
   return (
     <div className="h-full grid grid-flow-row">
@@ -63,7 +63,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
           <div className="flex gap-3 items-center">
             <Tooltip
               label={
-                windowSizes.bottomBar <= 100 ? "Expand Panel" : "Collapse Panel"
+                windowSizes.bottomBar <= 100 ? 'Expand Panel' : 'Collapse Panel'
               }
               dir="bottom-right"
             >
@@ -78,7 +78,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
               >
                 <ChevronsDown
                   className={`w-5 h-5 ${
-                    windowSizes.bottomBar <= 100 ? "rotate-180" : ""
+                    windowSizes.bottomBar <= 100 ? 'rotate-180' : ''
                   }`}
                 />
               </button>
@@ -102,7 +102,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                     copyToClipboard(
                       mm2LogsPanelState.outputMessages
                         .map((log) => log[0])
-                        .join("\n")
+                        .join('\n')
                     );
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
@@ -114,9 +114,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
               </Tooltip>
             ) : (
               <Tooltip label="Copied!" dir="bottom">
-                <button
-                  className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
-                >
+                <button className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50">
                   <CheckCircle className="w-5 h-5 text-success animate-fadeIn" />
                 </button>
               </Tooltip>
@@ -127,7 +125,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   const timestamp = Date.now();
                   const content = mm2LogsPanelState.outputMessages
                     .map((log) => log[0])
-                    .join("\n");
+                    .join('\n');
                   downloadFile(content, `kdf_logs_wasm_pg_${timestamp}.txt`);
                 }}
                 className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
@@ -145,16 +143,16 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                   onChange={setShouldAlwaysScrollToBottom}
                   className={`${
                     shouldAlwaysScrollToBottom
-                      ? "bg-accent"
-                      : "bg-primary-bg-700"
+                      ? 'bg-accent'
+                      : 'bg-primary-bg-700'
                   } relative cursor-pointer inline-flex h-5 w-10 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary-bg-800`}
                 >
                   <span className="sr-only">Enable scroll to bottom</span>
                   <span
                     className={`${
                       shouldAlwaysScrollToBottom
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
+                        ? 'translate-x-5'
+                        : 'translate-x-0.5'
                     } inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200`}
                   />
                 </Switch>
@@ -166,7 +164,7 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
       <div
         ref={mm2Ref}
         className={`p-3 overflow-hidden overflow-y-auto break-words bg-primary-bg-900/50 h-full ${
-          windowSizes.bottomBar <= 100 && "hidden"
+          windowSizes.bottomBar <= 100 && 'hidden'
         }`}
       >
         {mm2LogsPanelState.outputMessages.map((message, index) => {
@@ -176,23 +174,23 @@ const Mm2LogsPanel = ({ windowSizes, setWindowSizes }: Mm2LogsPanelProps) => {
                 copyToClipboard(message[0]);
                 setIsInlineCopied({ id: String(index) });
                 setTimeout(() => {
-                  setIsInlineCopied({ id: "" });
+                  setIsInlineCopied({ id: '' });
                 }, 1000);
               }}
               key={index}
               className={`whitespace-pre-wrap ${
-                message[1] === "blue"
-                  ? "text-secondary-400"
-                  : message[1] === "violet"
-                  ? "text-accent"
-                  : message[1] === "red"
-                  ? "text-danger"
-                  : message[1] === "yellow"
-                  ? "text-warning"
-                  : "text-text-primary"
+                message[1] === 'blue'
+                  ? 'text-secondary-400'
+                  : message[1] === 'violet'
+                    ? 'text-accent'
+                    : message[1] === 'red'
+                      ? 'text-danger'
+                      : message[1] === 'yellow'
+                        ? 'text-warning'
+                        : 'text-text-primary'
               } ${
                 isInlineCopied.id === String(index) &&
-                "text-success hover:text-success"
+                'text-success hover:text-success'
               } flex group hover:text-accent hover:cursor-pointer text-sm font-mono border-border-primary border-b py-1 transition-colors duration-200`}
             >
               {message[0]}

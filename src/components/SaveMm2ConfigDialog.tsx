@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Dialog, DialogPanel, DialogTitle, Field, Input, Label } from "@headlessui/react";
-import { saveMm2Config, configExists, generateUniqueName } from "../utils/savedMm2ConfigsManager";
-import { X } from "lucide-react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import type { SaveMm2ConfigDialogProps } from "../types/components";
+import React, { useState, useEffect } from 'react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Field,
+  Input,
+  Label,
+} from '@headlessui/react';
+import {
+  saveMm2Config,
+  configExists,
+  generateUniqueName,
+} from '../utils/savedMm2ConfigsManager';
+import { X } from 'lucide-react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import type { SaveMm2ConfigDialogProps } from '../types/components';
 
 export const SaveMm2ConfigDialog: React.FC<SaveMm2ConfigDialogProps> = ({
   isOpen,
@@ -11,22 +22,22 @@ export const SaveMm2ConfigDialog: React.FC<SaveMm2ConfigDialogProps> = ({
   currentConfig,
   onSaved,
 }) => {
-  const [configName, setConfigName] = useState("");
-  const [error, setError] = useState("");
+  const [configName, setConfigName] = useState('');
+  const [error, setError] = useState('');
 
   // Auto-generate name when dialog opens
   useEffect(() => {
     if (isOpen) {
-      const autoName = generateUniqueName("mm2_config");
+      const autoName = generateUniqueName('mm2_config');
       setConfigName(autoName);
     }
   }, [isOpen]);
 
   const handleSave = () => {
-    setError("");
+    setError('');
 
     if (!configName.trim()) {
-      setError("Please enter a name for this configuration");
+      setError('Please enter a name for this configuration');
       return;
     }
 
@@ -48,19 +59,19 @@ export const SaveMm2ConfigDialog: React.FC<SaveMm2ConfigDialogProps> = ({
       onSaved?.(savedName);
       handleClose();
     } catch (err) {
-      setError("Failed to save configuration. Please try again.");
+      setError('Failed to save configuration. Please try again.');
     }
   };
 
   const handleClose = () => {
-    setConfigName("");
-    setError("");
+    setConfigName('');
+    setError('');
     onClose();
   };
 
   // Reset to auto-generated name
   const resetToAutoName = () => {
-    const autoName = generateUniqueName("mm2_config");
+    const autoName = generateUniqueName('mm2_config');
     setConfigName(autoName);
   };
 
@@ -115,7 +126,9 @@ export const SaveMm2ConfigDialog: React.FC<SaveMm2ConfigDialogProps> = ({
             )}
 
             <div className="bg-primary-bg-900/50 rounded-md border border-border-primary overflow-hidden">
-              <p className="text-xs text-text-muted px-3 pt-3 pb-1">Configuration Preview (passphrase will be set to 'wasmtest')</p>
+              <p className="text-xs text-text-muted px-3 pt-3 pb-1">
+                Configuration Preview (passphrase will be set to 'wasmtest')
+              </p>
               <div className="h-[300px] md:h-[350px]">
                 <JsonMonacoEditor
                   value={currentConfig}

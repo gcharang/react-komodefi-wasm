@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import {
   Dialog,
   DialogBackdrop,
@@ -8,12 +14,12 @@ import {
 } from '@headlessui/react';
 import { Key, ClipboardPaste, CheckCircle, AlertCircle, X } from 'lucide-react';
 import type { PassphraseModalProps, WordInputProps } from '../types/components';
-import { 
-  BIP39_WORDLIST, 
-  BIP39_WORD_SET, 
+import {
+  BIP39_WORDLIST,
+  BIP39_WORD_SET,
   BIP39_WORD_MAP,
   VALID_MNEMONIC_LENGTHS,
-  type ValidMnemonicLength 
+  type ValidMnemonicLength,
 } from '../staticData/bip39-wordlist';
 
 // Helper functions for BIP39 checksum validation
@@ -30,61 +36,63 @@ function bitsToBytes(bits: string): Uint8Array {
   return out;
 }
 
-async function verifyBip39Checksum(words: string[]): Promise<{ ok: boolean; reason?: string }> {
+async function verifyBip39Checksum(
+  words: string[]
+): Promise<{ ok: boolean; reason?: string }> {
   // Get word indices
-  const indices = words.map(w => BIP39_WORD_MAP.get(w));
-  if (indices.some(v => v === undefined)) {
+  const indices = words.map((w) => BIP39_WORD_MAP.get(w));
+  if (indices.some((v) => v === undefined)) {
     return { ok: false, reason: 'unknown_word' };
   }
-  
+
   // Convert words to bits (11 bits per word)
   const MS = words.length * 11; // Total mnemonic sentence bits
-  const bitString = indices.map(i => toBinary(i!, 11)).join('');
-  
+  const bitString = indices.map((i) => toBinary(i!, 11)).join('');
+
   // Calculate entropy and checksum lengths
   // MS = ENT + CS, where CS = ENT / 32
   // MS = ENT + ENT/32 = ENT * (1 + 1/32) = ENT * 33/32
   // Therefore: ENT = MS * 32/33
   const ENT = Math.floor((MS * 32) / 33);
   const CS = Math.floor(ENT / 32);
-  
+
   // Verify ENT is valid (must be 128-256 bits and divisible by 32)
   if (ENT < 128 || ENT > 256) {
     return { ok: false, reason: 'invalid_entropy_length' };
   }
-  
+
   if (ENT % 32 !== 0) {
     return { ok: false, reason: 'invalid_length' };
   }
-  
+
   // Split into entropy and checksum parts
   const entropyBits = bitString.slice(0, ENT);
   const checksumBits = bitString.slice(ENT, ENT + CS);
-  
+
   // Convert entropy bits to bytes for hashing
   const entropy = bitsToBytes(entropyBits);
-  
+
   // Check if Web Crypto API is available
   if (!(window.crypto && window.crypto.subtle)) {
     return { ok: false, reason: 'webcrypto_unavailable' };
   }
-  
+
   try {
     // Calculate SHA-256 hash of entropy
     // Create a new ArrayBuffer to ensure compatibility with crypto.subtle.digest
     const entropyBuffer = new ArrayBuffer(entropy.length);
     const entropyView = new Uint8Array(entropyBuffer);
     entropyView.set(entropy);
-    
+
     const hashBuf = await crypto.subtle.digest('SHA-256', entropyBuffer);
     const hashArray = new Uint8Array(hashBuf);
-    
+
     // Convert first byte(s) of hash to binary and take CS bits as expected checksum
     const hashBits = Array.from(hashArray)
-      .map(b => b.toString(2).padStart(8, '0'))
+      .map((b) => b.toString(2).padStart(8, '0'))
       .join('');
     const expectedChecksum = hashBits.slice(0, CS);
-    
+
     // Compare checksums
     return { ok: expectedChecksum === checksumBits };
   } catch (error) {
@@ -93,13 +101,13 @@ async function verifyBip39Checksum(words: string[]): Promise<{ ok: boolean; reas
 }
 
 // WordInput component
-const WordInput: React.FC<WordInputProps> = ({ 
-  index, 
-  value, 
-  onChange, 
+const WordInput: React.FC<WordInputProps> = ({
+  index,
+  value,
+  onChange,
   onPaste,
   isValid,
-  autoFocus 
+  autoFocus,
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState(0);
@@ -109,19 +117,21 @@ const WordInput: React.FC<WordInputProps> = ({
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Allow the raw value to be set first (this allows backspace to work)
     const rawValue = e.target.value;
-    
+
     // Only filter out non-alphabetic characters if there's actual content
     const newValue = rawValue.toLowerCase().replace(/[^a-z]/g, '');
     // Compare against the current value prop to detect deletion
     const isDeleting = newValue.length < value.length;
-    
+
     onChange(index, newValue);
-    
+
     if (newValue.length > 0) {
-      const matches = BIP39_WORDLIST.filter(word => word.startsWith(newValue));
+      const matches = BIP39_WORDLIST.filter((word) =>
+        word.startsWith(newValue)
+      );
       setSuggestions(matches.slice(0, 5));
       setSelectedSuggestion(0);
-      
+
       // Auto-complete only when adding characters, not deleting
       if (!isDeleting && matches.length === 1 && newValue !== matches[0]) {
         onChange(index, matches[0]);
@@ -136,16 +146,23 @@ const WordInput: React.FC<WordInputProps> = ({
     if (suggestions.length > 0) {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedSuggestion(prev => Math.min(prev + 1, suggestions.length - 1));
+        setSelectedSuggestion((prev) =>
+          Math.min(prev + 1, suggestions.length - 1)
+        );
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedSuggestion(prev => Math.max(prev - 1, 0));
-      } else if ((e.key === 'Enter' || e.key === 'Tab') && suggestions[selectedSuggestion]) {
+        setSelectedSuggestion((prev) => Math.max(prev - 1, 0));
+      } else if (
+        (e.key === 'Enter' || e.key === 'Tab') &&
+        suggestions[selectedSuggestion]
+      ) {
         e.preventDefault();
         onChange(index, suggestions[selectedSuggestion]);
         setSuggestions([]);
         // Focus next input
-        const nextInput = document.querySelector(`input[data-index="${index + 1}"]`) as HTMLInputElement;
+        const nextInput = document.querySelector(
+          `input[data-index="${index + 1}"]`
+        ) as HTMLInputElement;
         if (nextInput) nextInput.focus();
       }
     }
@@ -157,9 +174,9 @@ const WordInput: React.FC<WordInputProps> = ({
     const words = pastedText
       .toLowerCase()
       .split(/[\s,]+/)
-      .map(w => w.replace(/[^a-z]/g, ''))
-      .filter(w => w.length > 0);
-    
+      .map((w) => w.replace(/[^a-z]/g, ''))
+      .filter((w) => w.length > 0);
+
     if (words.length > 0) {
       onPaste(index, words);
     }
@@ -167,9 +184,17 @@ const WordInput: React.FC<WordInputProps> = ({
 
   return (
     <div className="relative group">
-      <span className={`absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold transition-all duration-200 z-10 ${
-        isFocused ? 'text-accent' : value.length > 0 ? isValid ? 'text-success' : 'text-danger' : 'text-white/40'
-      }`}>
+      <span
+        className={`absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold transition-all duration-200 z-10 ${
+          isFocused
+            ? 'text-accent'
+            : value.length > 0
+              ? isValid
+                ? 'text-success'
+                : 'text-danger'
+              : 'text-white/40'
+        }`}
+      >
         {String(index + 1).padStart(2, '0')}
       </span>
       <Input
@@ -183,7 +208,9 @@ const WordInput: React.FC<WordInputProps> = ({
           setIsFocused(true);
           // Restore suggestions when focusing back
           if (value.length > 0) {
-            const matches = BIP39_WORDLIST.filter(word => word.startsWith(value));
+            const matches = BIP39_WORDLIST.filter((word) =>
+              word.startsWith(value)
+            );
             setSuggestions(matches.slice(0, 5));
             setSelectedSuggestion(0);
           }
@@ -205,7 +232,7 @@ const WordInput: React.FC<WordInputProps> = ({
         } focus:outline-none placeholder:text-white/30`}
         placeholder="enter word"
       />
-      
+
       {suggestions.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-black/95 backdrop-blur-md border-2 border-accent/30 rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
           {suggestions.map((word, i) => (
@@ -225,16 +252,26 @@ const WordInput: React.FC<WordInputProps> = ({
                 <span className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-accent rounded-full" />
               )}
               <span className="font-bold text-accent">{value}</span>
-              <span className="text-white/60">{word.substring(value.length)}</span>
+              <span className="text-white/60">
+                {word.substring(value.length)}
+              </span>
               {i === selectedSuggestion && (
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/40">↵</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/40">
+                  ↵
+                </span>
               )}
             </button>
           ))}
           <div className="px-3 py-1.5 bg-white/5 border-t border-white/10 text-xs text-white/40">
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-[10px]">↑↓</kbd> navigate
-              <kbd className="ml-2 px-1.5 py-0.5 bg-white/10 rounded text-[10px]">Enter</kbd> select
+              <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-[10px]">
+                ↑↓
+              </kbd>{' '}
+              navigate
+              <kbd className="ml-2 px-1.5 py-0.5 bg-white/10 rounded text-[10px]">
+                Enter
+              </kbd>{' '}
+              select
             </span>
           </div>
         </div>
@@ -282,54 +319,58 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
   // Sync manual input when words change (but not when updating from manual)
   useEffect(() => {
     if (!isUpdatingFromManual) {
-      const validWordsText = words
-        .filter(w => w.length > 0)
-        .join(' ');
+      const validWordsText = words.filter((w) => w.length > 0).join(' ');
       setManualInput(validWordsText);
     }
   }, [words, isUpdatingFromManual]);
 
-  const handleWordChange = useCallback((index: number, value: string) => {
-    const newWords = [...words];
-    newWords[index] = value;
-    setWords(newWords);
-    setError('');
-  }, [words]);
-
-  const handlePaste = useCallback((startIndex: number, pastedWords: string[]) => {
-    // Determine appropriate word count
-    const totalNeeded = startIndex + pastedWords.length;
-    let newWordCount = wordCount;
-    
-    for (const count of VALID_MNEMONIC_LENGTHS) {
-      if (totalNeeded <= count) {
-        newWordCount = count;
-        break;
-      }
-    }
-    
-    if (newWordCount !== wordCount && newWordCount <= 24) {
-      setWordCount(newWordCount);
-      const newWords = Array(newWordCount).fill('');
-      words.forEach((word, i) => newWords[i] = word || '');
-      pastedWords.forEach((word, i) => {
-        if (startIndex + i < newWordCount) {
-          newWords[startIndex + i] = word;
-        }
-      });
-      setWords(newWords);
-    } else {
+  const handleWordChange = useCallback(
+    (index: number, value: string) => {
       const newWords = [...words];
-      pastedWords.forEach((word, i) => {
-        if (startIndex + i < words.length) {
-          newWords[startIndex + i] = word;
-        }
-      });
+      newWords[index] = value;
       setWords(newWords);
-    }
-    
-    setError('');
-  }, [words, wordCount]);
+      setError('');
+    },
+    [words]
+  );
+
+  const handlePaste = useCallback(
+    (startIndex: number, pastedWords: string[]) => {
+      // Determine appropriate word count
+      const totalNeeded = startIndex + pastedWords.length;
+      let newWordCount = wordCount;
+
+      for (const count of VALID_MNEMONIC_LENGTHS) {
+        if (totalNeeded <= count) {
+          newWordCount = count;
+          break;
+        }
+      }
+
+      if (newWordCount !== wordCount && newWordCount <= 24) {
+        setWordCount(newWordCount);
+        const newWords = Array(newWordCount).fill('');
+        words.forEach((word, i) => (newWords[i] = word || ''));
+        pastedWords.forEach((word, i) => {
+          if (startIndex + i < newWordCount) {
+            newWords[startIndex + i] = word;
+          }
+        });
+        setWords(newWords);
+      } else {
+        const newWords = [...words];
+        pastedWords.forEach((word, i) => {
+          if (startIndex + i < words.length) {
+            newWords[startIndex + i] = word;
+          }
+        });
+        setWords(newWords);
+      }
+
+      setError('');
+    },
+    [words, wordCount]
+  );
 
   const handleManualPaste = async () => {
     try {
@@ -343,16 +384,16 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
 
   const processManualInput = (text: string) => {
     setIsUpdatingFromManual(true);
-    
+
     const extractedWords = text
       .toLowerCase()
       .split(/[\s,]+/)
-      .map(w => w.replace(/[^a-z]/g, ''))
-      .filter(w => w.length > 0);
-    
+      .map((w) => w.replace(/[^a-z]/g, ''))
+      .filter((w) => w.length > 0);
+
     // Keep ALL words (including invalid ones) to preserve user input during editing
     // We'll validate them but still keep partial words
-    
+
     // Determine the appropriate word count based on total words
     let targetCount = wordCount;
     if (extractedWords.length > 0) {
@@ -362,26 +403,26 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
           break;
         }
       }
-      
+
       // If we have more than 24 words, cap at 24
       if (extractedWords.length > 24) {
         targetCount = 24;
       }
-      
+
       setWordCount(targetCount);
       const newWords = Array(targetCount).fill('');
-      
+
       // Fill with all words, not just valid ones
       extractedWords.forEach((word, i) => {
         if (i < targetCount) newWords[i] = word;
       });
-      
+
       setWords(newWords);
     } else {
       // If no words, keep current word count but clear array
       setWords(Array(wordCount).fill(''));
     }
-    
+
     // Reset the flag after a short delay to allow the effect to run
     setTimeout(() => setIsUpdatingFromManual(false), 100);
   };
@@ -389,24 +430,28 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
   const verifyAndImport = async () => {
     setIsVerifying(true);
     setError('');
-    
-    const validPhrase = words.filter(w => w.length > 0);
-    
+
+    const validPhrase = words.filter((w) => w.length > 0);
+
     // Check all words are valid
-    const invalidWords = validPhrase.filter(w => !BIP39_WORD_SET.has(w));
+    const invalidWords = validPhrase.filter((w) => !BIP39_WORD_SET.has(w));
     if (invalidWords.length > 0) {
       setError(`Invalid word(s): ${invalidWords.join(', ')}`);
       setIsVerifying(false);
       return;
     }
-    
+
     // Check valid length
-    if (!VALID_MNEMONIC_LENGTHS.includes(validPhrase.length as ValidMnemonicLength)) {
+    if (
+      !VALID_MNEMONIC_LENGTHS.includes(
+        validPhrase.length as ValidMnemonicLength
+      )
+    ) {
       setError('Phrase must be 12, 15, 18, 21, or 24 words');
       setIsVerifying(false);
       return;
     }
-    
+
     // Verify checksum
     const result = await verifyBip39Checksum(validPhrase);
     if (!result.ok) {
@@ -418,13 +463,13 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
       setIsVerifying(false);
       return;
     }
-    
+
     setIsVerifying(false);
     setShowVerification(true);
   };
 
   const confirmImport = () => {
-    const passphrase = words.filter(w => w.length > 0).join(' ');
+    const passphrase = words.filter((w) => w.length > 0).join(' ');
     onImport(passphrase);
     onClose();
   };
@@ -434,7 +479,7 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
       const extractedWords = manualInput
         .toLowerCase()
         .split(/[\s,]+/)
-        .filter(w => w.length > 0 && BIP39_WORD_SET.has(w));
+        .filter((w) => w.length > 0 && BIP39_WORD_SET.has(w));
       return (extractedWords.length / wordCount) * 100;
     }
     return (validWords.size / wordCount) * 100;
@@ -445,7 +490,7 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-300" />
-      
+
       <div className="fixed inset-0 flex items-center justify-center p-2 sm:p-4">
         <DialogPanel className="w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] bg-gradient-to-br from-primary-bg-800/95 via-primary-bg-800/98 to-primary-bg-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-2xl ring-2 ring-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-300 flex flex-col">
           {!showVerification ? (
@@ -480,9 +525,12 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 animate-pulse" />
                   <div
                     className="relative h-full bg-gradient-to-r from-accent via-secondary-500 to-accent bg-[length:200%_100%] animate-gradient rounded-full transition-all duration-500 ease-out shadow-lg"
-                    style={{ 
+                    style={{
                       width: `${progress}%`,
-                      boxShadow: progress > 0 ? '0 0 20px rgba(34, 211, 238, 0.5)' : 'none'
+                      boxShadow:
+                        progress > 0
+                          ? '0 0 20px rgba(34, 211, 238, 0.5)'
+                          : 'none',
                     }}
                   >
                     {progress > 0 && (
@@ -491,8 +539,12 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                   </div>
                 </div>
                 <div className="flex justify-between mt-2">
-                  <span className="text-xs text-white/40">{validWords.size} of {wordCount} words</span>
-                  <span className="text-xs text-white/40">{Math.round(progress)}% complete</span>
+                  <span className="text-xs text-white/40">
+                    {validWords.size} of {wordCount} words
+                  </span>
+                  <span className="text-xs text-white/40">
+                    {Math.round(progress)}% complete
+                  </span>
                 </div>
               </div>
 
@@ -538,7 +590,7 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                 {/* Word Count Selector */}
                 {method === 'grid' && (
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {VALID_MNEMONIC_LENGTHS.map(count => (
+                    {VALID_MNEMONIC_LENGTHS.map((count) => (
                       <button
                         key={count}
                         onClick={() => {
@@ -574,13 +626,15 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
 
                 {/* Input Methods */}
                 {method === 'grid' ? (
-                  <div className={`grid gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${
-                    wordCount === 24 
-                      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'
-                      : wordCount >= 18
-                      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-                      : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-                  }`}>
+                  <div
+                    className={`grid gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+                      wordCount === 24
+                        ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'
+                        : wordCount >= 18
+                          ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+                          : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                    }`}
+                  >
                     {words.map((word, index) => (
                       <WordInput
                         key={index}
@@ -607,7 +661,16 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
                       />
                       <div className="absolute bottom-3 right-3 flex items-center gap-2">
                         <span className="text-xs text-white/40">
-                          {manualInput.split(/\s+/).filter(w => w.length > 0 && BIP39_WORD_SET.has(w.toLowerCase())).length} valid words detected
+                          {
+                            manualInput
+                              .split(/\s+/)
+                              .filter(
+                                (w) =>
+                                  w.length > 0 &&
+                                  BIP39_WORD_SET.has(w.toLowerCase())
+                              ).length
+                          }{' '}
+                          valid words detected
                         </span>
                       </div>
                     </div>
@@ -678,24 +741,34 @@ export const PassphraseModal: React.FC<PassphraseModalProps> = ({
 
               <div className="flex-1 overflow-y-auto p-4 sm:p-6">
                 <div className="bg-black/30 backdrop-blur-sm rounded-xl p-3 sm:p-5 border-2 border-white/10">
-                  <p className="text-xs text-white/50 mb-3 sm:mb-4 font-semibold uppercase tracking-wider">Your recovery phrase:</p>
-                  <div className={`grid gap-1.5 sm:gap-2 ${
-                    words.filter(w => w.length > 0).length === 24
-                      ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
-                      : words.filter(w => w.length > 0).length >= 18
-                      ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'
-                      : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
-                  }`}>
-                    {words.filter(w => w.length > 0).map((word, index) => (
-                      <div
-                        key={index}
-                        className="group bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15 border border-white/20 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-3 sm:py-2.5 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg animate-in fade-in zoom-in-95 duration-500"
-                        style={{ animationDelay: `${index * 30}ms` }}
-                      >
-                        <span className="text-[9px] sm:text-[10px] text-accent/70 block font-bold">#{String(index + 1).padStart(2, '0')}</span>
-                        <span className="text-xs sm:text-sm font-mono text-white font-semibold">{word}</span>
-                      </div>
-                    ))}
+                  <p className="text-xs text-white/50 mb-3 sm:mb-4 font-semibold uppercase tracking-wider">
+                    Your recovery phrase:
+                  </p>
+                  <div
+                    className={`grid gap-1.5 sm:gap-2 ${
+                      words.filter((w) => w.length > 0).length === 24
+                        ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
+                        : words.filter((w) => w.length > 0).length >= 18
+                          ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'
+                          : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
+                    }`}
+                  >
+                    {words
+                      .filter((w) => w.length > 0)
+                      .map((word, index) => (
+                        <div
+                          key={index}
+                          className="group bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15 border border-white/20 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-3 sm:py-2.5 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg animate-in fade-in zoom-in-95 duration-500"
+                          style={{ animationDelay: `${index * 30}ms` }}
+                        >
+                          <span className="text-[9px] sm:text-[10px] text-accent/70 block font-bold">
+                            #{String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="text-xs sm:text-sm font-mono text-white font-semibold">
+                            {word}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>

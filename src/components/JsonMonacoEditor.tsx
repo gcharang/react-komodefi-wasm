@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useEffect } from "react";
-import Editor, { OnChange, OnMount } from "@monaco-editor/react";
-import type { editor } from "monaco-editor";
-import type { JsonMonacoEditorProps } from "../types/components";
+import React, { useCallback, useRef, useEffect } from 'react';
+import Editor, { OnChange, OnMount } from '@monaco-editor/react';
+import type { editor } from 'monaco-editor';
+import type { JsonMonacoEditorProps } from '../types/components';
 
 const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
   value,
@@ -31,7 +31,7 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
     // Format document on mount if it's valid JSON
     try {
       JSON.parse(value);
-      editor.getAction("editor.action.formatDocument")?.run();
+      editor.getAction('editor.action.formatDocument')?.run();
     } catch {
       // Invalid JSON, skip formatting
     }
@@ -39,15 +39,15 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
 
   const handleEditorChange: OnChange = useCallback(
     (value) => {
-      onChange(value || "");
+      onChange(value || '');
     },
-    [onChange],
+    [onChange]
   );
 
   const options: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
     scrollBeyondLastLine: false,
-    wordWrap: "on",
+    wordWrap: 'on',
     formatOnPaste: true,
     formatOnType: true,
     automaticLayout: true,
@@ -56,8 +56,8 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
       'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
     readOnly: disabled,
     scrollbar: {
-      vertical: "auto",
-      horizontal: "auto",
+      vertical: 'auto',
+      horizontal: 'auto',
       verticalScrollbarSize: 10,
       horizontalScrollbarSize: 10,
     },
@@ -65,12 +65,12 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
       top: 12,
       bottom: 12,
     },
-    lineNumbers: "on",
+    lineNumbers: 'on',
     glyphMargin: false,
     folding: true,
     lineDecorationsWidth: 0,
     lineNumbersMinChars: 3,
-    renderLineHighlight: "all",
+    renderLineHighlight: 'all',
     contextmenu: true,
     // Disable all suggestions and autocomplete
     quickSuggestions: false,
@@ -79,26 +79,26 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
     },
     suggestOnTriggerCharacters: false,
     acceptSuggestionOnCommitCharacter: false,
-    tabCompletion: "off",
-    snippetSuggestions: "none",
-    wordBasedSuggestions: "off",
+    tabCompletion: 'off',
+    snippetSuggestions: 'none',
+    wordBasedSuggestions: 'off',
     inlineSuggest: {
       enabled: false,
     },
     codeLens: false,
     // Add visual indicator for disabled state
     ...(disabled && {
-      renderWhitespace: "none",
-      renderLineHighlight: "none",
+      renderWhitespace: 'none',
+      renderLineHighlight: 'none',
       selectionHighlight: false,
-      occurrencesHighlight: "off",
+      occurrencesHighlight: 'off',
     }),
   };
 
   return (
     <Editor
-      height={height || "100%"}
-      width={width || "100%"}
+      height={height || '100%'}
+      width={width || '100%'}
       defaultLanguage="json"
       language="json"
       theme="vs-dark"

@@ -1,8 +1,8 @@
-"use client";
-import dynamic from "next/dynamic";
+'use client';
+import dynamic from 'next/dynamic';
 // import App from '../src/App';
-import { GenericModal } from "../src/components/GenericModal";
-const App = dynamic(() => import("../src/App"), { ssr: false });
+import { GenericModal } from '../src/components/GenericModal';
+const App = dynamic(() => import('../src/App'), { ssr: false });
 
 export default function Page() {
   return (

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import { CheckCircle, ClipboardCheck, Download, Ban } from "lucide-react";
-import { useRpcResponseState } from "../store/useStore";
-import { downloadFile } from "../shared-functions/downloadFile";
-import Tooltip from "./Tooltip";
+import React, { useEffect, useState } from 'react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import { CheckCircle, ClipboardCheck, Download, Ban } from 'lucide-react';
+import { useRpcResponseState } from '../store/useStore';
+import { downloadFile } from '../shared-functions/downloadFile';
+import Tooltip from './Tooltip';
 
 const RpcResponsePanel = () => {
   const { rpcResponseState, setRpcResponseState } = useRpcResponseState();
@@ -25,7 +25,7 @@ const RpcResponsePanel = () => {
         <div className="flex gap-2 items-center">
           <Tooltip label="Clear Panel" dir="bottom">
             <button
-              onClick={() => setRpcResponseState({ requestResponse: "" })}
+              onClick={() => setRpcResponseState({ requestResponse: '' })}
               className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
             >
               <Ban className="w-5 h-5 text-text-muted hover:text-danger" />
@@ -42,9 +42,7 @@ const RpcResponsePanel = () => {
             </Tooltip>
           ) : (
             <Tooltip label="Copied!" dir="bottom">
-              <button
-                className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
-              >
+              <button className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50">
                 <CheckCircle className="w-5 h-5 text-success animate-fadeIn" />
               </button>
             </Tooltip>
@@ -54,7 +52,7 @@ const RpcResponsePanel = () => {
               onClick={() => {
                 const timestamp = Date.now();
                 const method =
-                  rpcResponseState.requestMethod || "unknown_method";
+                  rpcResponseState.requestMethod || 'unknown_method';
                 downloadFile(
                   rpcResponseState.requestResponse,
                   `${method}_response_${timestamp}.json`
@@ -69,7 +67,7 @@ const RpcResponsePanel = () => {
       </div>
       <div className="relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50">
         <JsonMonacoEditor
-          value={rpcResponseState.requestResponse || ""}
+          value={rpcResponseState.requestResponse || ''}
           onChange={() => {}}
           disabled={true}
         />

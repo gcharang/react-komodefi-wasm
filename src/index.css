@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @source not "../public/";
 @plugin '@tailwindcss/forms';
 
@@ -124,9 +124,15 @@
   }
 
   @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   .animate-gradient {
@@ -145,11 +151,15 @@
 
   /* Base styles */
   body {
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
     antialiased: true;
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     cursor: pointer;
     accent-color: var(--color-accent);
   }
@@ -205,7 +215,7 @@
   }
 
   .resize-handle::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: -4px;
     cursor: inherit;

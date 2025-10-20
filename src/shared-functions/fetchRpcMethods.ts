@@ -1,10 +1,17 @@
-import type { PostmanCollection, PostmanItem, MethodCollection, RpcMethod } from '../types/api';
+import type {
+  PostmanCollection,
+  PostmanItem,
+  MethodCollection,
+  RpcMethod,
+} from '../types/api';
 
-export async function fetchRpcMethods(collectionUrl?: string): Promise<PostmanCollection> {
+export async function fetchRpcMethods(
+  collectionUrl?: string
+): Promise<PostmanCollection> {
   const result = await fetch(
     collectionUrl
       ? collectionUrl
-      : "https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/dev/postman/collections/komodo_defi.postman_collection.json"
+      : 'https://raw.githubusercontent.com/KomodoPlatform/komodo-docs-mdx/dev/postman/collections/komodo_defi.postman_collection.json'
   );
   const json = await result.json();
   return json;
@@ -20,7 +27,7 @@ export const getRawValues = (arr: PostmanItem[]): MethodCollection => {
       let rawData: RpcMethod = JSON.parse(
         item.request.body.raw.replace(
           /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g,
-          (m: string, g: string) => (g ? "" : m)
+          (m: string, g: string) => (g ? '' : m)
         )
       );
       if (item?.name) {
@@ -29,8 +36,8 @@ export const getRawValues = (arr: PostmanItem[]): MethodCollection => {
       }
       // This is where we store all the methods. bigData `key`s itself is gotten from the
       // `name` key in each level that gets us to the `raw` data. This can be found to be the identifier dropdown sections
-      bigData[levels.join(" > ")] = [
-        ...(bigData[levels.join(" > ")] ?? []),
+      bigData[levels.join(' > ')] = [
+        ...(bigData[levels.join(' > ')] ?? []),
         rawData,
       ];
       // rawValues.push(rawData);

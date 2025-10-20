@@ -39,7 +39,6 @@ The development server will be available at http://localhost:3000/
 When running on localhost, you can create local configuration files that will be automatically loaded on startup. This is useful for preserving your seed phrases, passwords, and settings during development.
 
 1. **Create local configuration files** (these are gitignored):
-
    - Copy `local_MM2.example.json` to `public/local_MM2.json` and add your seed phrase and password
    - Copy `local_RPC.example.json` to `public/local_RPC.json` for RPC settings
 
@@ -49,7 +48,6 @@ cp local_RPC.example.json public/local_RPC.json
 ```
 
 2. **The configuration will automatically load** when:
-
    - Running on localhost, 127.0.0.1, or local network IPs
    - The local config files exist in the public directory
 
@@ -93,7 +91,6 @@ If you don't have the `kdf` Wasm binary locally, you can compile it from the sou
 1. **Set up the development environment** for the [KomodoDeFi Framework](https://github.com/KomodoPlatform/komodo-defi-framework).
 
 2. **Compile the Wasm binary** using `wasm-pack` based on your platform:
-
    - **For Mac Silicon:**
 
    ```bash
@@ -115,7 +112,6 @@ If you don't have the `kdf` Wasm binary locally, you can compile it from the sou
    ```
 
 4. You have two options:
-
    - **Option 1: If you want to use the directory directly** with the integration script, you can skip zipping the folder and proceed to Step 2.
 
    - **Option 2: If you prefer to create a zip archive** of the compiled files, follow this step:
@@ -129,7 +125,6 @@ If you don't have the `kdf` Wasm binary locally, you can compile it from the sou
 Once the `kdf` binary is compiled (either as a folder or a zip archive), follow these steps to update the React Komodefi project:
 
 1. **Run the `update_wasm_path.sh` script**, which supports multiple input types:
-
    - **Using a URL** (downloads automatically):
 
    ```bash

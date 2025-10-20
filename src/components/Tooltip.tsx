@@ -1,17 +1,17 @@
-import React from "react";
-import type { TooltipProps } from "../types/components";
+import React from 'react';
+import type { TooltipProps } from '../types/components';
 
-function classBasedOnDir(dir: TooltipProps["dir"]) {
-  let classs = ""
+function classBasedOnDir(dir: TooltipProps['dir']) {
+  let classs = '';
   switch (dir) {
-    case "top":
-      classs = "bottom-full mb-2"
+    case 'top':
+      classs = 'bottom-full mb-2';
       break;
-    case "bottom":
-      classs = "top-full mt-2"
+    case 'bottom':
+      classs = 'top-full mt-2';
       break;
-    case "bottom-right":
-      classs = "top-full mt-2 left-full"
+    case 'bottom-right':
+      classs = 'top-full mt-2 left-full';
       break;
     default:
       break;
@@ -19,7 +19,7 @@ function classBasedOnDir(dir: TooltipProps["dir"]) {
   return classs;
 }
 
-const Tooltip = ({ label, dir = "top", children }: TooltipProps) => {
+const Tooltip = ({ label, dir = 'top', children }: TooltipProps) => {
   return (
     <div className="relative inline-block group">
       {children}
@@ -37,7 +37,7 @@ const Tooltip = ({ label, dir = "top", children }: TooltipProps) => {
           viewBox="0 0 255 255"
         >
           <polygon
-            className={`fill-current ${dir === "top" ? "" : "hidden"}`}
+            className={`fill-current ${dir === 'top' ? '' : 'hidden'}`}
             points="0,0 127.5,127.5 255,0"
           />
         </svg>

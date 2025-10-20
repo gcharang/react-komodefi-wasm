@@ -1,68 +1,73 @@
 import type { JSONValue, ParsedValue } from '../types/utils';
 
 export function highlightJSON(json: JSONValue | string): ParsedValue {
-  if (!json) return { type: "string", value: "" };
+  if (!json) return { type: 'string', value: '' };
   const parse = (data: JSONValue): ParsedValue => {
-    if (typeof data === "string") {
-      return { type: "string", value: data };
+    if (typeof data === 'string') {
+      return { type: 'string', value: data };
     }
-    if (typeof data === "number") {
-      return { type: "number", value: data };
+    if (typeof data === 'number') {
+      return { type: 'number', value: data };
     }
-    if (typeof data === "boolean") {
-      return { type: "boolean", value: data };
+    if (typeof data === 'boolean') {
+      return { type: 'boolean', value: data };
     }
     if (data === null) {
-      return { type: "null", value: null };
+      return { type: 'null', value: null };
     }
     if (Array.isArray(data)) {
-      return { type: "array", value: data.map(parse) };
+      return { type: 'array', value: data.map(parse) };
     }
     if (isPlainObject(data)) {
       const obj: { [key: string]: ParsedValue } = {};
       for (const [key, value] of Object.entries(data)) {
         obj[key] = parse(value as JSONValue);
       }
-      return { type: "object", value: obj };
+      return { type: 'object', value: obj };
     }
     throw new Error(`Unsupported JSON data type: ${typeof data}`);
   };
 
-  const jsonObj = typeof json === "string" ? JSON.parse(json) : json;
+  const jsonObj = typeof json === 'string' ? JSON.parse(json) : json;
   return parse(jsonObj);
 }
 
-export function renderHighlightedJSON(json: ParsedValue, indentLevel = 0): string {
-  const indent = "  ".repeat(indentLevel);
+export function renderHighlightedJSON(
+  json: ParsedValue,
+  indentLevel = 0
+): string {
+  const indent = '  '.repeat(indentLevel);
 
   const renderValue = (value: ParsedValue, level: number): string => {
     switch (value.type) {
-      case "string":
+      case 'string':
         return `<span class="text-green-500">"${value.value}"</span>`;
-      case "number":
+      case 'number':
         return `<span class="text-blue-500">${value.value}</span>`;
-      case "boolean":
+      case 'boolean':
         return `<span class="text-yellow-500">${value.value}</span>`;
-      case "null":
+      case 'null':
         return '<span class="text-red-500">null</span>';
-      case "array":
+      case 'array':
         return `[\n${(value.value as ParsedValue[])
           .map(
-            (item) => `${"  ".repeat(level + 1)}${renderValue(item, level + 1)}`
+            (item) => `${'  '.repeat(level + 1)}${renderValue(item, level + 1)}`
           )
-          .join(",\n")}\n${"  ".repeat(level)}]`;
-      case "object":
-        return `{\n${Object.entries(value.value as { [key: string]: ParsedValue })
+          .join(',\n')}\n${'  '.repeat(level)}]`;
+      case 'object':
+        return `{\n${Object.entries(
+          value.value as { [key: string]: ParsedValue }
+        )
           .map(
             ([key, val]) =>
-              `${"  ".repeat(
+              `${'  '.repeat(
                 level + 1
               )}<span class="text-pink-500">"${key}"</span>: ${renderValue(
                 val,
                 level + 1
               )}`
           )
-          .join(",\n")}\n${"  ".repeat(level)}}`;
+          .join(',\n')}\n${'  '.repeat(level)}}`;
       default:
         throw new Error(`Unknown type: ${(value as any).type}`);
     }
@@ -73,6 +78,6 @@ export function renderHighlightedJSON(json: ParsedValue, indentLevel = 0): strin
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
-    typeof value === "object" && value !== null && value.constructor === Object
+    typeof value === 'object' && value !== null && value.constructor === Object
   );
 }

@@ -7,16 +7,16 @@ import {
   Label,
   Input,
   Description,
-} from "@headlessui/react";
-import { useState } from "react";
-import type { SettingsDialogProps } from "../types/components";
+} from '@headlessui/react';
+import { useState } from 'react';
+import type { SettingsDialogProps } from '../types/components';
 
 export const SettingsDialog = ({
   isDialogOpen = false,
   setIsDialogOpen = () => {},
   generateRpcMethods,
 }: SettingsDialogProps) => {
-  const [url, setUrl] = useState<string>("");
+  const [url, setUrl] = useState<string>('');
   const processRequest = () => {
     generateRpcMethods(url);
     setIsDialogOpen(false);

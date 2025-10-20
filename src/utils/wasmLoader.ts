@@ -7,7 +7,9 @@
  * @param url - URL to the .wasm.gz file
  * @returns Promise resolving to the decompressed WASM ArrayBuffer
  */
-export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer> {
+export async function loadCompressedWasm(
+  url: string | URL
+): Promise<ArrayBuffer> {
   try {
     // Fetch the compressed WASM file
     const response = await fetch(url.toString(), {
@@ -37,7 +39,7 @@ export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer
     // Read the decompressed stream into an ArrayBuffer
     const reader = decompressedStream.getReader();
     const chunks: Uint8Array[] = [];
-    
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -48,14 +50,16 @@ export async function loadCompressedWasm(url: string | URL): Promise<ArrayBuffer
     const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
     const result = new Uint8Array(totalLength);
     let offset = 0;
-    
+
     for (const chunk of chunks) {
       result.set(chunk, offset);
       offset += chunk.length;
     }
 
-    console.log(`WASM decompressed: ${(totalLength / 1024 / 1024).toFixed(2)} MB`);
-    
+    console.log(
+      `WASM decompressed: ${(totalLength / 1024 / 1024).toFixed(2)} MB`
+    );
+
     return result.buffer;
   } catch (error) {
     console.error('Failed to load compressed WASM:', error);

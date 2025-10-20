@@ -1,30 +1,36 @@
 import type { CoinElectrumConfig, CoinData } from '../types/coins';
 import { getSessionPassword } from './passwordGenerator';
 
-export function extractWssElectrumsFromConfig(coinsConfig: Record<string, CoinData>): CoinElectrumConfig[] {
+export function extractWssElectrumsFromConfig(
+  coinsConfig: Record<string, CoinData>
+): CoinElectrumConfig[] {
   const password = getSessionPassword();
-  
+
   return Object.entries(coinsConfig)
-    .filter(([_, coinData]) => coinData.electrum && coinData.electrum.length > 0)
+    .filter(
+      ([_, coinData]) => coinData.electrum && coinData.electrum.length > 0
+    )
     .map(([coinSymbol, coinData]) => {
       // Filter for WSS servers only
-      const wssServers = coinData.electrum!
-        .filter((server) => server.protocol === "WSS")
+      const wssServers = coinData
+        .electrum!.filter((server) => server.protocol === 'WSS')
         .map((server) => ({
           url: server.url,
-          protocol: "WSS",
-          ...(server.disable_cert_verification && { disable_cert_verification: server.disable_cert_verification })
+          protocol: 'WSS',
+          ...(server.disable_cert_verification && {
+            disable_cert_verification: server.disable_cert_verification,
+          }),
         }));
-      
+
       // Only return if there are WSS servers
       if (wssServers.length > 0) {
         return {
           userpass: password,
-          method: "electrum",
+          method: 'electrum',
           mm2: 1,
           coin: coinSymbol,
           tx_history: true,
-          servers: wssServers
+          servers: wssServers,
         };
       }
       return null;
@@ -32,25 +38,33 @@ export function extractWssElectrumsFromConfig(coinsConfig: Record<string, CoinDa
     .filter(Boolean) as CoinElectrumConfig[];
 }
 
-export async function fetchWssElectrums(fallbackConfig?: Record<string, CoinData>): Promise<CoinElectrumConfig[]> {
-  const COINS_CONFIG_URL = "https://raw.githubusercontent.com/KomodoPlatform/coins/refs/heads/master/utils/coins_config_wss.json";
-  
+export async function fetchWssElectrums(
+  fallbackConfig?: Record<string, CoinData>
+): Promise<CoinElectrumConfig[]> {
+  const COINS_CONFIG_URL =
+    'https://raw.githubusercontent.com/KomodoPlatform/coins/refs/heads/master/utils/coins_config_wss.json';
+
   try {
     const response = await fetch(COINS_CONFIG_URL);
-    
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch coins config: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch coins config: ${response.status} ${response.statusText}`
+      );
     }
-    
+
     const coinsConfig = await response.json();
     return extractWssElectrumsFromConfig(coinsConfig);
   } catch (error) {
-    console.warn("Failed to fetch coins config from remote, using fallback:", error);
-    
+    console.warn(
+      'Failed to fetch coins config from remote, using fallback:',
+      error
+    );
+
     if (fallbackConfig) {
       return extractWssElectrumsFromConfig(fallbackConfig);
     }
-    
+
     return [];
   }
 }

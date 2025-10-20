@@ -6,7 +6,7 @@
 export const getMethodNameFromConfig = (configString: string): string => {
   try {
     const request_json = JSON.parse(configString);
-    
+
     if (Array.isArray(request_json)) {
       // Count occurrences of each method
       const methodCounts = new Map<string, number>();

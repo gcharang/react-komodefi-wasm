@@ -1,16 +1,16 @@
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState, useCallback, memo } from "react";
-import { Menu, MenuButton, MenuItems, Field, Input } from "@headlessui/react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import type { MenuItemProps } from "../types/components";
-import type { MethodCollection, RpcMethod } from "../types/api";
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useMemo, useState, useCallback, memo } from 'react';
+import { Menu, MenuButton, MenuItems, Field, Input } from '@headlessui/react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import type { MenuItemProps } from '../types/components';
+import type { MethodCollection, RpcMethod } from '../types/api';
 import {
   fetchRpcMethods,
   getRawValues,
-} from "../shared-functions/fetchRpcMethods";
-import { rpc_request } from "../shared-functions/rpcRequest";
-import { updateUserPass } from "../shared-functions/updateUserPassword";
-import useIsValidSchema from "../shared-functions/useIsValidSchema";
+} from '../shared-functions/fetchRpcMethods';
+import { rpc_request } from '../shared-functions/rpcRequest';
+import { updateUserPass } from '../shared-functions/updateUserPassword';
+import useIsValidSchema from '../shared-functions/useIsValidSchema';
 import {
   useGenericModal,
   useRpcMethods,
@@ -19,8 +19,8 @@ import {
   useRpcPanelState,
   useRpcResponseState,
   useToastState,
-} from "../store/useStore";
-import { ModalIds } from "../store/modalIds";
+} from '../store/useStore';
+import { ModalIds } from '../store/modalIds';
 import {
   SendHorizontal,
   Settings,
@@ -30,18 +30,18 @@ import {
   ClipboardCheck,
   CheckCircle,
   RefreshCw,
-} from "lucide-react";
-import { SettingsDialog } from "./SettingsDialog";
-import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
-import { SaveRequestDialog } from "./SaveRequestDialog";
-import { LoadRequestModal } from "./LoadRequestModal";
-import Tooltip from "./Tooltip";
-import type { RpcPanelProps, ListBoxProps } from "../types/components";
+} from 'lucide-react';
+import { SettingsDialog } from './SettingsDialog';
+import { ElectrumCoinsModal } from './ElectrumCoinsModal';
+import { SaveRequestDialog } from './SaveRequestDialog';
+import { LoadRequestModal } from './LoadRequestModal';
+import Tooltip from './Tooltip';
+import type { RpcPanelProps, ListBoxProps } from '../types/components';
 import {
   isLocalhost,
   loadLocalRPCConfig,
   syncRpcPassword,
-} from "../utils/localConfigLoader";
+} from '../utils/localConfigLoader';
 
 const MenuItem: React.FC<MenuItemProps> = ({
   label,
@@ -63,7 +63,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
           <span className="absolute top-0 right-0 mt-2 mr-4">
             <svg
               className={`w-5 h-5 ml-2 -mr-1 transition-all duration-200 ${
-                isActive ? "rotate-180" : "rotate-0"
+                isActive ? 'rotate-180' : 'rotate-0'
               }`}
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -88,9 +88,9 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
 // ListBox component - defined outside to avoid hooks issues
 const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
-  const [activeMenuItem, setActiveMenuItem] = useState<string>("");
-  const [filterText, setFilterText] = useState<string>("");
-  const [debouncedFilter, setDebouncedFilter] = useState<string>("");
+  const [activeMenuItem, setActiveMenuItem] = useState<string>('');
+  const [filterText, setFilterText] = useState<string>('');
+  const [debouncedFilter, setDebouncedFilter] = useState<string>('');
 
   // Debounce filter text for better performance
   useEffect(() => {
@@ -114,7 +114,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
       // Filter methods within the category
       const filteredMethodsInCategory = methods[methodList].filter(
         (methodJson: RpcMethod) =>
-          methodJson?.name?.toLowerCase().includes(searchLower),
+          methodJson?.name?.toLowerCase().includes(searchLower)
       );
 
       // Include category if it matches or has matching methods
@@ -164,7 +164,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  setFilterText("");
+                  setFilterText('');
                 }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors cursor-pointer p-1"
                 aria-label="Clear filter"
@@ -200,7 +200,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                   isActive={activeMenuItem === methodList}
                   onToggle={() =>
                     setActiveMenuItem(
-                      activeMenuItem === methodList ? "" : methodList,
+                      activeMenuItem === methodList ? '' : methodList
                     )
                   }
                 >
@@ -216,11 +216,11 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                             onClick={() => {
                               router.push(
                                 `?method=${methodList}&methodName=${encodeURIComponent(
-                                  methodJson?.name,
+                                  methodJson?.name
                                 )}`,
                                 {
                                   scroll: false,
-                                },
+                                }
                               );
                             }}
                             className="px-4 flex justify-between gap-2 items-center hover:bg-primary-bg-700 hover:text-accent w-full py-2 text-sm cursor-pointer leading-5 text-left transition-colors duration-200"
@@ -229,14 +229,14 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
                           </button>
                         </li>
                       );
-                    },
+                    }
                   )}
                 </MenuItem>
               );
             })
           ) : (
             <li className="px-4 py-3 text-sm text-text-muted text-center">
-              {debouncedFilter ? "No methods found" : "Loading methods..."}
+              {debouncedFilter ? 'No methods found' : 'Loading methods...'}
             </li>
           )}
         </ul>
@@ -245,7 +245,7 @@ const ListBox: React.FC<ListBoxProps> = memo(({ methods, router }) => {
   );
 });
 
-ListBox.displayName = "ListBox";
+ListBox.displayName = 'ListBox';
 
 const RpcPanel: React.FC<RpcPanelProps> = ({
   isMobile = false,
@@ -266,7 +266,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    rpcPanelState.config,
+    rpcPanelState.config
   );
   const generateRpcMethods = useCallback(
     async (collectionUrl?: string) => {
@@ -277,7 +277,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         return result;
       }
     },
-    [setMethods],
+    [setMethods]
   );
 
   useEffect(() => {
@@ -315,8 +315,8 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       return JSON.parse(mm2PanelState.mm2Config).rpc_password;
     } catch (error) {
       console.error(
-        "An error occurred while trying to parse MM2 config",
-        error,
+        'An error occurred while trying to parse MM2 config',
+        error
       );
       return undefined;
     }
@@ -334,7 +334,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       }
       return cleanedMethod;
     },
-    [],
+    []
   );
 
   const loadMethodFromUrl = ({
@@ -364,7 +364,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       return;
     }
     const requiredValue = methods[method].find(
-      (value: any) => value?.name === methodName,
+      (value: any) => value?.name === methodName
     );
     if (requiredValue) {
       // Clean the method and update password in one step
@@ -379,8 +379,8 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     }
   };
   useEffect(() => {
-    const method = searchParams.get("method");
-    const methodName = searchParams.get("methodName");
+    const method = searchParams.get('method');
+    const methodName = searchParams.get('methodName');
     if (methods && method && methodName) {
       loadMethodFromUrl({ method, methodName });
     }
@@ -391,20 +391,20 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     try {
       request_js = JSON.parse(rpcPanelState.config);
       // Ensure 'name' key is removed before sending
-      if ("name" in request_js) {
+      if ('name' in request_js) {
         const { name, ...cleanRequest } = request_js;
         request_js = cleanRequest;
       }
     } catch (e) {
       alert(
-        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`,
+        `Expected request in JSON, found '${rpcPanelState.config}'\nError : ${e}`
       );
       return;
     }
 
     let response = await rpc_request(request_js);
     const getMethodNameForResponseDownload = (
-      request_json: typeof request_js,
+      request_json: typeof request_js
     ) => {
       if (Array.isArray(request_json)) {
         // Count occurrences of each method
@@ -421,7 +421,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
           return count > 1 ? `${method}${count}` : method;
         });
 
-        return methodParts.join("-");
+        return methodParts.join('-');
       }
       return request_json.method;
     };
@@ -433,12 +433,12 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
 
     // Show toast notification
     if (isMobile && onSwitchToResponse) {
-      showToast("Request sent successfully!", "success", {
-        label: "View Response",
+      showToast('Request sent successfully!', 'success', {
+        label: 'View Response',
         onClick: onSwitchToResponse,
       });
     } else {
-      showToast("Request sent successfully!", "success");
+      showToast('Request sent successfully!', 'success');
     }
   }, [
     rpcPanelState.config,
@@ -468,7 +468,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
       }
     } catch (error) {
       // Config is not valid JSON, skip password sync
-      console.debug("Skipping password sync for invalid JSON config");
+      console.debug('Skipping password sync for invalid JSON config');
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState]);
 
@@ -476,7 +476,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
   const handleSyncPassword = useCallback(() => {
     const rpcPassword = grabMM2RpcPassword();
     if (!rpcPassword) {
-      showToast("No MM2 password found. Please start MM2 first.", "error");
+      showToast('No MM2 password found. Please start MM2 first.', 'error');
       return;
     }
 
@@ -489,10 +489,10 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
           config: JSON.stringify(updatedConfig, null, 2),
           dataHasErrors: false,
         });
-        showToast("Password synced successfully!", "success");
+        showToast('Password synced successfully!', 'success');
       }
     } catch (error) {
-      showToast("Invalid JSON config. Please fix the syntax first.", "error");
+      showToast('Invalid JSON config. Please fix the syntax first.', 'error');
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState, showToast]);
 
@@ -517,7 +517,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
               config: JSON.stringify(updatedConfig, null, 2),
               dataHasErrors: false,
             });
-            showToast("Password synced automatically on paste", "success");
+            showToast('Password synced automatically on paste', 'success');
             return;
           }
         }
@@ -536,7 +536,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         });
       }
     },
-    [grabMM2RpcPassword, setRpcPanelState, showToast, checkIfSchemaValid],
+    [grabMM2RpcPassword, setRpcPanelState, showToast, checkIfSchemaValid]
   );
 
   useEffect(() => {
@@ -558,18 +558,18 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                 }
                 className={`flex flex-row justify-center items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
                   mm2PanelState.mm2Running && !rpcPanelState.dataHasErrors
-                    ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
-                    : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
+                    ? 'bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer'
+                    : 'bg-primary-bg-700/50 text-text-muted cursor-not-allowed'
                 }`}
               >
-                <span>Send</span>{" "}
+                <span>Send</span>{' '}
                 <SendHorizontal
                   role="image"
                   className={`w-3.5 md:w-4 h-3.5 md:h-4`}
                 />
               </button>
 
-              <Tooltip label={"Save Request"} dir="bottom">
+              <Tooltip label={'Save Request'} dir="bottom">
                 <button
                   onClick={() => setIsSaveDialogOpen(true)}
                   className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
@@ -578,7 +578,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                 </button>
               </Tooltip>
 
-              <Tooltip label={"Load Request"} dir="bottom">
+              <Tooltip label={'Load Request'} dir="bottom">
                 <button
                   onClick={() => setIsLoadModalOpen(true)}
                   className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
@@ -587,14 +587,14 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                 </button>
               </Tooltip>
 
-              <Tooltip label={"Sync Password from MM2"} dir="bottom">
+              <Tooltip label={'Sync Password from MM2'} dir="bottom">
                 <button
                   onClick={handleSyncPassword}
                   disabled={rpcPanelState.dataHasErrors}
                   className={`flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 transition-all duration-200 ${
                     !rpcPanelState.dataHasErrors
-                      ? "bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer"
-                      : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
+                      ? 'bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent cursor-pointer'
+                      : 'bg-primary-bg-700/50 text-text-muted cursor-not-allowed'
                   }`}
                 >
                   <RefreshCw className="w-4 md:w-5 h-4 md:h-5" />
@@ -604,7 +604,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
               <div className="flex gap-1">
                 <Tooltip label="Clear Panel" dir="bottom">
                   <button
-                    onClick={() => setRpcPanelState({ config: "{}" })}
+                    onClick={() => setRpcPanelState({ config: '{}' })}
                     className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
                     aria-label="Clear RPC request"
                   >
@@ -638,7 +638,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
               </div>
             </div>
             <div className="flex flex-row flex-wrap items-center gap-1 md:gap-3">
-              <Tooltip label={"Open Settings"} dir="bottom">
+              <Tooltip label={'Open Settings'} dir="bottom">
                 <Settings
                   aria-label="open settings dialog"
                   onClick={() => setIsDialogOpen(true)}
@@ -646,7 +646,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                   className="w-4 md:w-5 h-4 md:h-5 cursor-pointer"
                 />
               </Tooltip>
-              <Tooltip label={"Select Electrum Coins"} dir="bottom">
+              <Tooltip label={'Select Electrum Coins'} dir="bottom">
                 <button
                   onClick={() => setIsElectrumModalOpen(true)}
                   className="inline-flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 focus:outline-none cursor-pointer"
@@ -675,8 +675,8 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         <div
           className={`${
             !rpcPanelState.dataHasErrors
-              ? "focus-within:ring-2 focus-within:ring-accent/50"
-              : "ring-4 ring-red-500"
+              ? 'focus-within:ring-2 focus-within:ring-accent/50'
+              : 'ring-4 ring-red-500'
           } flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200 relative`}
         >
           <JsonMonacoEditor
@@ -724,7 +724,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
           configToSet = JSON.stringify(updatedConfig, null, 2);
         } catch (error) {
           // If parsing fails, use config as-is
-          console.debug("Unable to sync password for loaded request");
+          console.debug('Unable to sync password for loaded request');
         }
       }
 
@@ -734,16 +734,16 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         dataHasErrors: false,
       });
 
-      showToast("Request loaded successfully!", "success");
+      showToast('Request loaded successfully!', 'success');
     },
-    [setRpcPanelState, showToast, grabMM2RpcPassword],
+    [setRpcPanelState, showToast, grabMM2RpcPassword]
   );
 
   const handleRequestSaved = useCallback(
     (name: string) => {
-      showToast(`Request saved as "${name}"`, "success");
+      showToast(`Request saved as "${name}"`, 'success');
     },
-    [showToast],
+    [showToast]
   );
 
   return (

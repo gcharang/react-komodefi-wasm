@@ -3,9 +3,9 @@ import {
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
-} from "@headlessui/react";
-import { useVisibilityState, useGenericModal } from "../store/useStore";
-import { ModalIds } from "../store/modalIds";
+} from '@headlessui/react';
+import { useVisibilityState, useGenericModal } from '../store/useStore';
+import { ModalIds } from '../store/modalIds';
 
 export const GenericModal = () => {
   const { imVisible, hideModal } = useVisibilityState();

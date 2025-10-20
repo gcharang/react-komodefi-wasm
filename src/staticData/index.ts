@@ -1,23 +1,23 @@
-import seedNodes from "./seed-nodes.json";
-import DOC_ELECTRUMS from "./electrums/DOC.json";
-import MARTY_ELECTRUMS from "./electrums/MARTY.json";
-import coins_config_wss from "./coins_config_wss.json";
-import { extractWssElectrumsFromConfig } from "../shared-functions/getWssElectrumsFromCoinConfigWss";
-import { getSessionPassword } from "../shared-functions/passwordGenerator";
+import seedNodes from './seed-nodes.json';
+import DOC_ELECTRUMS from './electrums/DOC.json';
+import MARTY_ELECTRUMS from './electrums/MARTY.json';
+import coins_config_wss from './coins_config_wss.json';
+import { extractWssElectrumsFromConfig } from '../shared-functions/getWssElectrumsFromCoinConfigWss';
+import { getSessionPassword } from '../shared-functions/passwordGenerator';
 
 const DOC_WSS_ELECTRUMS = DOC_ELECTRUMS.filter(
   (server) =>
-    server.ws_url && server.protocol === "SSL" && server.ws_url.length > 0
+    server.ws_url && server.protocol === 'SSL' && server.ws_url.length > 0
 ).map((server) => ({
   url: server.ws_url,
-  protocol: "WSS",
+  protocol: 'WSS',
 }));
 const MARTY_WSS_ELECTRUMS = MARTY_ELECTRUMS.filter(
   (server) =>
-    server.ws_url && server.protocol === "SSL" && server.ws_url.length > 0
+    server.ws_url && server.protocol === 'SSL' && server.ws_url.length > 0
 ).map((server) => ({
   url: server.ws_url,
-  protocol: "WSS",
+  protocol: 'WSS',
 }));
 
 // Use the shared function to extract WSS electrums

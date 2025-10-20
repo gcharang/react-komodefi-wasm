@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Dialog, DialogPanel, DialogTitle, Field, Input, Label } from "@headlessui/react";
-import { saveRequest, requestExists } from "../utils/savedRequestsManager";
-import { getMethodNameFromConfig } from "../utils/getMethodName";
-import { X } from "lucide-react";
-import JsonMonacoEditor from "./JsonMonacoEditor";
-import type { SaveRequestDialogProps } from "../types/components";
+import React, { useState, useEffect } from 'react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Field,
+  Input,
+  Label,
+} from '@headlessui/react';
+import { saveRequest, requestExists } from '../utils/savedRequestsManager';
+import { getMethodNameFromConfig } from '../utils/getMethodName';
+import { X } from 'lucide-react';
+import JsonMonacoEditor from './JsonMonacoEditor';
+import type { SaveRequestDialogProps } from '../types/components';
 
 export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
   isOpen,
@@ -12,8 +19,8 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
   currentConfig,
   onSaved,
 }) => {
-  const [requestName, setRequestName] = useState("");
-  const [error, setError] = useState("");
+  const [requestName, setRequestName] = useState('');
+  const [error, setError] = useState('');
 
   // Auto-generate name when dialog opens
   useEffect(() => {
@@ -24,10 +31,10 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
   }, [isOpen, currentConfig]);
 
   const handleSave = () => {
-    setError("");
+    setError('');
 
     if (!requestName.trim()) {
-      setError("Please enter a name for this request");
+      setError('Please enter a name for this request');
       return;
     }
 
@@ -49,13 +56,13 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
       onSaved?.(savedName);
       handleClose();
     } catch (err) {
-      setError("Failed to save request. Please try again.");
+      setError('Failed to save request. Please try again.');
     }
   };
 
   const handleClose = () => {
-    setRequestName("");
-    setError("");
+    setRequestName('');
+    setError('');
     onClose();
   };
 
@@ -116,7 +123,9 @@ export const SaveRequestDialog: React.FC<SaveRequestDialogProps> = ({
             )}
 
             <div className="bg-primary-bg-900/50 rounded-md border border-border-primary overflow-hidden">
-              <p className="text-xs text-text-muted px-3 pt-3 pb-1">Request Preview</p>
+              <p className="text-xs text-text-muted px-3 pt-3 pb-1">
+                Request Preview
+              </p>
               <div className="h-[300px] md:h-[350px]">
                 <JsonMonacoEditor
                   value={currentConfig}

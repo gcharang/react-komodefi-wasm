@@ -1,7 +1,9 @@
 import type { RpcRequest, RpcResponse } from '../types/api';
-import { Mm2RpcErr, mm2_rpc } from "../js/kdflib.js";
+import { Mm2RpcErr, mm2_rpc } from '../js/kdflib.js';
 
-export async function rpc_request(request_js: RpcRequest): Promise<RpcResponse | undefined> {
+export async function rpc_request(
+  request_js: RpcRequest
+): Promise<RpcResponse | undefined> {
   try {
     const response = await mm2_rpc(request_js);
     console.log(response);
@@ -9,7 +11,7 @@ export async function rpc_request(request_js: RpcRequest): Promise<RpcResponse |
   } catch (e) {
     switch (e) {
       case Mm2RpcErr.NotRunning:
-        alert("KDF is not running yet");
+        alert('KDF is not running yet');
         break;
       case Mm2RpcErr.InvalidPayload:
         alert(`Invalid payload: ${request_js}`);

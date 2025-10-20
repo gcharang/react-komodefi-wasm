@@ -7,7 +7,7 @@ export type JSONArray = JSONValue[];
 export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
 
 // Parsed value types for JSON highlighter
-export type ParsedValue = 
+export type ParsedValue =
   | { type: 'string'; value: string }
   | { type: 'number'; value: number }
   | { type: 'boolean'; value: boolean }
@@ -20,8 +20,10 @@ export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
-  Pick<T, Exclude<keyof T, Keys>> &
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
   {
     [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
   }[Keys];
@@ -30,7 +32,9 @@ export type ValueOf<T> = T[keyof T];
 
 // Event handler types
 export type MouseEventHandler = (event: React.MouseEvent) => void;
-export type ChangeEventHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+export type ChangeEventHandler = (
+  event: React.ChangeEvent<HTMLInputElement>
+) => void;
 export type FormEventHandler = (event: React.FormEvent) => void;
 export type KeyboardEventHandler = (event: React.KeyboardEvent) => void;
 
@@ -50,7 +54,7 @@ export interface AppError {
 }
 
 // Result type for operations that can fail
-export type Result<T, E = AppError> = 
+export type Result<T, E = AppError> =
   | { success: true; data: T }
   | { success: false; error: E };
 

@@ -1,14 +1,14 @@
-import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
-import "../src/index.css";
+import type { Metadata, Viewport } from 'next';
+import type { ReactNode } from 'react';
+import '../src/index.css';
 
-const APP_NAME = "Atomic Swap from any Crypto to any Other";
-const APP_DEFAULT_TITLE = "Atomic Swap from any Crypto to any Other";
-const APP_TITLE_TEMPLATE = "%s - Atomic Swap from any Crypto to any Other";
-const APP_DESCRIPTION = "Swap on Komodo DeFi Framework";
+const APP_NAME = 'Atomic Swap from any Crypto to any Other';
+const APP_DEFAULT_TITLE = 'Atomic Swap from any Crypto to any Other';
+const APP_TITLE_TEMPLATE = '%s - Atomic Swap from any Crypto to any Other';
+const APP_DESCRIPTION = 'Swap on Komodo DeFi Framework';
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: '#000000',
 };
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: 'default',
     title: APP_DEFAULT_TITLE,
     // startUpImage: [],
   },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    type: "website",
+    type: 'website',
     siteName: APP_NAME,
     title: {
       default: APP_DEFAULT_TITLE,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
   },
   twitter: {
-    card: "summary",
+    card: 'summary',
     title: {
       default: APP_DEFAULT_TITLE,
       template: APP_TITLE_TEMPLATE,
@@ -45,11 +45,11 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
-  manifest: "/manifest.json",
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

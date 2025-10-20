@@ -4,18 +4,18 @@ import {
   DialogPanel,
   DialogTitle,
   Description,
-} from "@headlessui/react";
-import { useState } from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { useVisibilityState } from "../store/useStore";
-import { ModalIds } from "../store/modalIds";
+} from '@headlessui/react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { useVisibilityState } from '../store/useStore';
+import { ModalIds } from '../store/modalIds';
 
 export const WarningDialog = () => {
   const { imVisible, hideModal, showModal } = useVisibilityState();
 
   useEffect(() => {
-    const lastDisplayTimestamp = +(Cookies.get("lastDisplayTimestamp") || 0);
+    const lastDisplayTimestamp = +(Cookies.get('lastDisplayTimestamp') || 0);
     const currentTimestamp = new Date().getTime();
 
     // If the last display timestamp is not set or more than 24 hours have passed, show the modal
@@ -29,7 +29,7 @@ export const WarningDialog = () => {
 
   const handleCloseModal = () => {
     // Set a cookie with the current timestamp to record when the modal was last displayed
-    Cookies.set("lastDisplayTimestamp", new Date().getTime().toString(), {
+    Cookies.set('lastDisplayTimestamp', new Date().getTime().toString(), {
       expires: 1,
     }); // Expires in 1 day
 

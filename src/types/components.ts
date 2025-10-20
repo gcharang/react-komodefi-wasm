@@ -1,8 +1,8 @@
 // Component prop types
 
-import type { CoinElectrumConfig } from "./coins";
-import type { MethodCollection } from "./api";
-import type { useRouter } from "next/navigation";
+import type { CoinElectrumConfig } from './coins';
+import type { MethodCollection } from './api';
+import type { useRouter } from 'next/navigation';
 
 // Window sizes for App layout
 export interface AppWindowSizes {
@@ -38,7 +38,7 @@ export interface RpcPanelProps {
 
 export interface TooltipProps {
   label: string;
-  dir?: "top" | "bottom" | "bottom-right";
+  dir?: 'top' | 'bottom' | 'bottom-right';
   children: React.ReactNode;
 }
 
@@ -98,7 +98,7 @@ export interface JsonMonacoEditorProps {
 // Toast component props
 export interface ToastProps {
   message: string;
-  type?: "success" | "error" | "info";
+  type?: 'success' | 'error' | 'info';
   action?: {
     label: string;
     onClick: () => void;
@@ -107,7 +107,7 @@ export interface ToastProps {
 }
 
 // App component types
-export type TabType = "mm2" | "rpc" | "logs" | "response";
+export type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
 
 // SaveRequestDialog component props
 export interface SaveRequestDialogProps {
@@ -154,4 +154,4 @@ export interface WordInputProps {
   autoFocus?: boolean;
 }
 
-export type SortOption = "usage" | "lastUsed" | "dateCreated";
+export type SortOption = 'usage' | 'lastUsed' | 'dateCreated';

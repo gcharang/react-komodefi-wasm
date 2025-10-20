@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { CheckCircle, X, AlertCircle, Info } from "lucide-react";
-import type { ToastProps } from "../types/components";
+import React, { useEffect } from 'react';
+import { CheckCircle, X, AlertCircle, Info } from 'lucide-react';
+import type { ToastProps } from '../types/components';
 
 const Toast: React.FC<ToastProps> = ({
   message,
-  type = "info",
+  type = 'info',
   action,
   onClose,
 }) => {
@@ -18,11 +18,11 @@ const Toast: React.FC<ToastProps> = ({
 
   const getIcon = () => {
     switch (type) {
-      case "success":
+      case 'success':
         return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case "error":
+      case 'error':
         return <AlertCircle className="w-5 h-5 text-red-500" />;
-      case "info":
+      case 'info':
       default:
         return <Info className="w-5 h-5 text-accent" />;
     }
