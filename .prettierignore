@@ -25,7 +25,9 @@ node_modules
 
 # Ignore static data that shouldn't be formatted:
 /src/staticData/*.json
-/coins/*.json
+
+# Ignore git submodules:
+coins/
 
 # Ignore git:
 .git
