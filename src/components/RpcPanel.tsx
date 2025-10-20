@@ -29,7 +29,7 @@ import {
   Ban,
   ClipboardCheck,
   CheckCircle,
-  Key,
+  RefreshCw,
 } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { ElectrumCoinsModal } from "./ElectrumCoinsModal";
@@ -597,7 +597,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
                       : "bg-primary-bg-700/50 text-text-muted cursor-not-allowed"
                   }`}
                 >
-                  <Key className="w-4 md:w-5 h-4 md:h-5" />
+                  <RefreshCw className="w-4 md:w-5 h-4 md:h-5" />
                 </button>
               </Tooltip>
 
