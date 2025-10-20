@@ -1,5 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Play, Square, Ban, ClipboardCheck, CheckCircle, Save, FolderOpen, Key } from "lucide-react";
+import {
+  Play,
+  Square,
+  Ban,
+  ClipboardCheck,
+  CheckCircle,
+  Save,
+  FolderOpen,
+  Key,
+} from "lucide-react";
 import JsonMonacoEditor from "./JsonMonacoEditor";
 import Tooltip from "./Tooltip";
 import { SaveMm2ConfigDialog } from "./SaveMm2ConfigDialog";
@@ -19,10 +28,10 @@ import init, {
 import useIsValidSchema from "../shared-functions/useIsValidSchema";
 import { useStore, useMm2PanelState } from "../store/useStore";
 import { loadCompressedWasm } from "../utils/wasmLoader";
-import { 
-  isLocalhost, 
-  loadLocalMM2Config, 
-  extractRpcPassword 
+import {
+  isLocalhost,
+  loadLocalMM2Config,
+  extractRpcPassword,
 } from "../utils/localConfigLoader";
 
 const getBaseUrl = () => {
@@ -40,12 +49,12 @@ const Mm2Panel = () => {
   const [isPassphraseModalOpen, setIsPassphraseModalOpen] = useState(false);
   const { showToast } = useToastState();
   const [isValidSchema, _, checkIfSchemaValid] = useIsValidSchema(
-    mm2PanelState.mm2Config
+    mm2PanelState.mm2Config,
   );
 
   function handle_log(
     level: (typeof LogLevel)[keyof typeof LogLevel],
-    line: string
+    line: string,
   ) {
     switch (level) {
       case LogLevel.Off:
@@ -110,8 +119,8 @@ const Mm2Panel = () => {
     params: any,
     handle_log: (
       level: (typeof LogLevel)[keyof typeof LogLevel],
-      line: string
-    ) => void
+      line: string,
+    ) => void,
   ) {
     // run an MM2 instance
     try {
@@ -130,7 +139,7 @@ const Mm2Panel = () => {
         },
       }));
       console.info(
-        `run_mm2() version=${version.result} datetime=${version.datetime}`
+        `run_mm2() version=${version.result} datetime=${version.datetime}`,
       );
       mm2_main(params, handle_log);
       return true;
@@ -219,7 +228,7 @@ const Mm2Panel = () => {
         };
       } catch (e) {
         alert(
-          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`
+          `Expected config in JSON, found '${mm2PanelState.mm2Config}'\nError : ${e}`,
         );
         return;
       }
@@ -239,7 +248,7 @@ const Mm2Panel = () => {
         if (localMM2Config) {
           setMm2PanelState({ mm2Config: localMM2Config });
           setLocalConfigLoaded(true);
-          
+
           // Extract and store the RPC password for syncing with RPC panel
           const rpcPassword = extractRpcPassword(localMM2Config);
           if (rpcPassword) {
@@ -248,7 +257,7 @@ const Mm2Panel = () => {
         }
       }
     };
-    
+
     loadLocalConfig();
   }, []); // Only run once on mount
 
@@ -274,9 +283,9 @@ const Mm2Panel = () => {
         const currentConfig = JSON.parse(mm2PanelState.mm2Config);
         const currentPassword = currentConfig.rpc_password;
         const currentPassphrase = currentConfig.passphrase;
-        
+
         const loadedConfig = JSON.parse(config);
-        
+
         // Restore both password and passphrase from current config
         if (currentPassword) {
           loadedConfig.rpc_password = currentPassword;
@@ -284,22 +293,22 @@ const Mm2Panel = () => {
         if (currentPassphrase) {
           loadedConfig.passphrase = currentPassphrase;
         }
-        
+
         setMm2PanelState({ mm2Config: JSON.stringify(loadedConfig, null, 2) });
       } catch {
         setMm2PanelState({ mm2Config: config });
       }
-      
+
       showToast("Configuration loaded successfully!", "success");
     },
-    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast],
   );
 
   const handleConfigSaved = useCallback(
     (name: string) => {
       showToast(`Configuration saved as "${name}"`, "success");
     },
-    [showToast]
+    [showToast],
   );
 
   const handlePassphraseImport = useCallback(
@@ -307,17 +316,17 @@ const Mm2Panel = () => {
       try {
         const currentConfig = JSON.parse(mm2PanelState.mm2Config);
         currentConfig.passphrase = passphrase;
-        
+
         // Update both config and userPass in a single state update
         const stateUpdate: any = {
           mm2Config: JSON.stringify(currentConfig, null, 2),
-          dataHasErrors: false
+          dataHasErrors: false,
         };
-        
+
         if (currentConfig.rpc_password) {
           stateUpdate.mm2UserPass = currentConfig.rpc_password;
         }
-        
+
         setMm2PanelState(stateUpdate);
         showToast("Recovery phrase imported successfully!", "success");
       } catch (error) {
@@ -325,7 +334,7 @@ const Mm2Panel = () => {
         showToast("Failed to import recovery phrase", "error");
       }
     },
-    [mm2PanelState.mm2Config, setMm2PanelState, showToast]
+    [mm2PanelState.mm2Config, setMm2PanelState, showToast],
   );
 
   return (
@@ -347,163 +356,171 @@ const Mm2Panel = () => {
         onImport={handlePassphraseImport}
       />
       <div className="h-full flex flex-col bg-primary-bg-800/95 backdrop-blur-xl rounded-lg shadow-2xl ring-1 ring-accent/20">
-      <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
-        <div className="relative w-full flex items-center justify-between">
-          <div className="flex gap-1 md:gap-2">
-            <button
-              onClick={() => toggleMm2()}
-              aria-label={!mm2PanelState.mm2Running ? "Start KDF service" : "Stop KDF service"}
-              className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
-            >
-              {!mm2PanelState.mm2Running ? (
-                <>
-                  <span className="hidden md:inline">Run KDF</span>
-                  <span className="md:hidden">Run</span>
-                  <Play
-                    aria-hidden="true"
-                    className="w-3.5 md:w-4 h-3.5 md:h-4 fill-green-500"
-                  />
-                </>
-              ) : (
-                <>
-                  <span className="hidden md:inline">Stop KDF</span>
-                  <span className="md:hidden">Stop</span>
-                  <Square
-                    aria-hidden="true"
-                    className="w-3.5 md:w-4 h-3.5 md:h-4 fill-red-500"
-                  />
-                </>
-              )}
-            </button>
-            {!mm2PanelState.mm2Running && (
-              <>
-                <Tooltip label="Save Config" dir="bottom">
-                  <button
-                    onClick={() => setIsSaveDialogOpen(true)}
-                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
-                  >
-                    <Save className="w-4 md:w-5 h-4 md:h-5" />
-                  </button>
-                </Tooltip>
-
-                <Tooltip label="Load Config" dir="bottom">
-                  <button
-                    onClick={() => setIsLoadModalOpen(true)}
-                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
-                  >
-                    <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
-                  </button>
-                </Tooltip>
-
-                <Tooltip label="Import Seed Phrase" dir="bottom">
-                  <button
-                    onClick={() => setIsPassphraseModalOpen(true)}
-                    className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
-                  >
-                    <Key className="w-4 md:w-5 h-4 md:h-5" />
-                  </button>
-                </Tooltip>
-
-                <div className="flex gap-1">
-                  <Tooltip label="Clear Panel" dir="bottom">
-                  <button
-                    onClick={() => setMm2PanelState({ mm2Config: "{}" })}
-                    className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
-                    aria-label="Clear MM2 config"
-                  >
-                    <Ban className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-danger" />
-                  </button>
-                </Tooltip>
-                {!copied ? (
-                  <Tooltip label="Copy Config" dir="bottom">
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(mm2PanelState.mm2Config);
-                        setCopied(true);
-                        setTimeout(() => setCopied(false), 2000);
-                      }}
-                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
-                      aria-label="Copy MM2 config"
-                    >
-                      <ClipboardCheck className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-accent" />
-                    </button>
-                  </Tooltip>
+        <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
+          <div className="relative w-full flex items-center justify-between">
+            <div className="flex gap-1 md:gap-2">
+              <button
+                onClick={() => toggleMm2()}
+                aria-label={
+                  !mm2PanelState.mm2Running
+                    ? "Start KDF service"
+                    : "Stop KDF service"
+                }
+                className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              >
+                {!mm2PanelState.mm2Running ? (
+                  <>
+                    <span className="hidden md:inline">Run KDF</span>
+                    <span className="md:hidden">Run</span>
+                    <Play
+                      aria-hidden="true"
+                      className="w-3.5 md:w-4 h-3.5 md:h-4 fill-green-500"
+                    />
+                  </>
                 ) : (
-                  <Tooltip label="Copied!" dir="bottom">
+                  <>
+                    <span className="hidden md:inline">Stop KDF</span>
+                    <span className="md:hidden">Stop</span>
+                    <Square
+                      aria-hidden="true"
+                      className="w-3.5 md:w-4 h-3.5 md:h-4 fill-red-500"
+                    />
+                  </>
+                )}
+              </button>
+              {!mm2PanelState.mm2Running && (
+                <>
+                  <Tooltip label="Save Config" dir="bottom">
                     <button
-                      className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
-                      aria-label="Config copied"
+                      onClick={() => setIsSaveDialogOpen(true)}
+                      className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
                     >
-                      <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-success animate-fadeIn" />
+                      <Save className="w-4 md:w-5 h-4 md:h-5" />
                     </button>
                   </Tooltip>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-          <div className="flex max-w-[80%] max-h-full flex-row flex-wrap overflow-auto">
-            <p className="text-sm -md:text-xs">
-              {localConfigLoaded && (
-                <span className="text-green-400 mr-2" title="Local config loaded">
-                  📁
-                </span>
+
+                  <Tooltip label="Load Config" dir="bottom">
+                    <button
+                      onClick={() => setIsLoadModalOpen(true)}
+                      className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
+                    >
+                      <FolderOpen className="w-4 md:w-5 h-4 md:h-5" />
+                    </button>
+                  </Tooltip>
+
+                  <Tooltip label="Import Seed Phrase" dir="bottom">
+                    <button
+                      onClick={() => setIsPassphraseModalOpen(true)}
+                      className="flex items-center gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent transition-all duration-200 cursor-pointer"
+                    >
+                      <Key className="w-4 md:w-5 h-4 md:h-5" />
+                    </button>
+                  </Tooltip>
+
+                  <div className="flex gap-1">
+                    <Tooltip label="Clear Panel" dir="bottom">
+                      <button
+                        onClick={() => setMm2PanelState({ mm2Config: "{}" })}
+                        className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                        aria-label="Clear MM2 config"
+                      >
+                        <Ban className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-danger" />
+                      </button>
+                    </Tooltip>
+                    {!copied ? (
+                      <Tooltip label="Copy Config" dir="bottom">
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              mm2PanelState.mm2Config,
+                            );
+                            setCopied(true);
+                            setTimeout(() => setCopied(false), 2000);
+                          }}
+                          className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-[0.98]"
+                          aria-label="Copy MM2 config"
+                        >
+                          <ClipboardCheck className="w-4 md:w-5 h-4 md:h-5 text-text-muted hover:text-accent" />
+                        </button>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip label="Copied!" dir="bottom">
+                        <button
+                          className="p-1.5 hover:bg-primary-bg-700 rounded transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50"
+                          aria-label="Config copied"
+                        >
+                          <CheckCircle className="w-4 md:w-5 h-4 md:h-5 text-success animate-fadeIn" />
+                        </button>
+                      </Tooltip>
+                    )}
+                  </div>
+                </>
               )}
-              {" "}
-              KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
-              {process.env.NEXT_PUBLIC_KDF_PR_URL && (
-                <a
-                  className="ml-2 text-blue-300"
-                  href={process.env.NEXT_PUBLIC_KDF_PR_URL}
-                  target="_blank"
-                >
-                  🔗 <span className="underline">PR Link</span>
-                </a>
-              )}{" "}
-              {process.env.NEXT_PUBLIC_KDF_TREE && (
-                <a
-                  className="ml-2 text-blue-300"
-                  href={process.env.NEXT_PUBLIC_KDF_TREE}
-                  target="_blank"
-                >
-                  🔗 <span className="underline">GH Tree Link</span>
-                </a>
-              )}
-            </p>
+            </div>
+            <div className="flex max-w-[80%] max-h-full flex-row flex-wrap overflow-auto">
+              <p className="text-sm -md:text-xs">
+                {localConfigLoaded && (
+                  <span
+                    className="text-green-400 mr-2"
+                    title="Local config loaded"
+                  >
+                    📁
+                  </span>
+                )}{" "}
+                KDF Version: {process.env.NEXT_PUBLIC_KDF_WASM_LIB_VERSION}{" "}
+                {process.env.NEXT_PUBLIC_KDF_PR_URL && (
+                  <a
+                    className="ml-2 text-blue-300"
+                    href={process.env.NEXT_PUBLIC_KDF_PR_URL}
+                    target="_blank"
+                  >
+                    🔗 <span className="underline">PR Link</span>
+                  </a>
+                )}{" "}
+                {process.env.NEXT_PUBLIC_KDF_TREE && (
+                  <a
+                    className="ml-2 text-blue-300"
+                    href={process.env.NEXT_PUBLIC_KDF_TREE}
+                    target="_blank"
+                  >
+                    🔗 <span className="underline">GH Tree Link</span>
+                  </a>
+                )}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        className={`${
-          !mm2PanelState.dataHasErrors
-            ? "focus-within:ring-2 focus-within:ring-accent/50"
-            : "ring-4 ring-red-500"
-        } relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
-      >
         <div
-          className={`absolute inset-0 p-2 h-full w-full z-10 bg-gray-100 ${
-            mm2PanelState.mm2Running ? "opacity-20 block" : "opacity-0 hidden"
-          }`}
-        ></div>
-        <JsonMonacoEditor
-          value={mm2PanelState.mm2Config}
-          onChange={(value) => {
-            if (checkIfSchemaValid(value)) {
-              setMm2PanelState({
-                mm2Config: value,
-                dataHasErrors: false,
-              });
-            } else {
-              setMm2PanelState({
-                mm2Config: value,
-                dataHasErrors: true,
-              });
-            }
-          }}
-          disabled={mm2PanelState.mm2Running}
-        />
+          className={`${
+            !mm2PanelState.dataHasErrors
+              ? "focus-within:ring-2 focus-within:ring-accent/50"
+              : "ring-4 ring-red-500"
+          } relative flex-1 min-h-0 overflow-hidden bg-primary-bg-900/50 transition-all duration-200`}
+        >
+          <div
+            className={`absolute inset-0 p-2 h-full w-full z-10 bg-gray-100 ${
+              mm2PanelState.mm2Running ? "opacity-20 block" : "opacity-0 hidden"
+            }`}
+          ></div>
+          <JsonMonacoEditor
+            value={mm2PanelState.mm2Config}
+            onChange={(value) => {
+              if (checkIfSchemaValid(value)) {
+                setMm2PanelState({
+                  mm2Config: value,
+                  dataHasErrors: false,
+                });
+              } else {
+                setMm2PanelState({
+                  mm2Config: value,
+                  dataHasErrors: true,
+                });
+              }
+            }}
+            disabled={mm2PanelState.mm2Running}
+          />
+        </div>
       </div>
-    </div>
     </>
   );
 };
