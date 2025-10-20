@@ -1,8 +1,8 @@
 // Component prop types
 
-import type { CoinElectrumConfig } from './coins';
-import type { MethodCollection } from './api';
-import type { useRouter } from 'next/navigation';
+import type { CoinElectrumConfig } from "./coins";
+import type { MethodCollection } from "./api";
+import type { useRouter } from "next/navigation";
 
 // Window sizes for App layout
 export interface AppWindowSizes {
@@ -88,6 +88,7 @@ export interface CoinItemProps {
 export interface JsonMonacoEditorProps {
   value: string;
   onChange: (value: string) => void;
+  onPaste?: (pastedContent: string) => void;
   disabled?: boolean;
   className?: string;
   width?: string | number;
@@ -106,7 +107,7 @@ export interface ToastProps {
 }
 
 // App component types
-export type TabType = 'mm2' | 'rpc' | 'logs' | 'response';
+export type TabType = "mm2" | "rpc" | "logs" | "response";
 
 // SaveRequestDialog component props
 export interface SaveRequestDialogProps {

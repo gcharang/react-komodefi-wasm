@@ -496,6 +496,49 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
     }
   }, [grabMM2RpcPassword, rpcPanelState.config, setRpcPanelState, showToast]);
 
+  // Handle paste events - auto-sync userpass regardless of MM2 running status
+  const handlePaste = useCallback(
+    (pastedContent: string) => {
+      try {
+        // Parse the pasted content
+        const parsedConfig = JSON.parse(pastedContent);
+
+        // Get MM2 password (might be undefined if MM2 not running)
+        const mm2Password = grabMM2RpcPassword();
+
+        // Only update if there's a password to sync and the pasted content has userpass field(s)
+        if (
+          mm2Password &&
+          JSON.stringify(parsedConfig).includes('"userpass"')
+        ) {
+          const updatedConfig = updateUserPass(parsedConfig, mm2Password);
+          if (updatedConfig) {
+            setRpcPanelState({
+              config: JSON.stringify(updatedConfig, null, 2),
+              dataHasErrors: false,
+            });
+            showToast("Password synced automatically on paste", "success");
+            return;
+          }
+        }
+
+        // If no password available or no userpass field, just set the pasted content
+        setRpcPanelState({
+          config: pastedContent,
+          dataHasErrors: false,
+        });
+      } catch (error) {
+        // If it's not valid JSON, just set it as-is
+        // The onChange handler will validate it
+        setRpcPanelState({
+          config: pastedContent,
+          dataHasErrors: !checkIfSchemaValid(pastedContent),
+        });
+      }
+    },
+    [grabMM2RpcPassword, setRpcPanelState, showToast, checkIfSchemaValid],
+  );
+
   useEffect(() => {
     !mm2PanelState.dataHasErrors &&
       !rpcPanelState.dataHasErrors &&
@@ -638,6 +681,7 @@ const RpcPanel: React.FC<RpcPanelProps> = ({
         >
           <JsonMonacoEditor
             value={rpcPanelState.config}
+            onPaste={handlePaste}
             onChange={(value) => {
               if (checkIfSchemaValid(value)) {
                 setRpcPanelState({

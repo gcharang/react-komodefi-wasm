@@ -6,6 +6,7 @@ import type { JsonMonacoEditorProps } from "../types/components";
 const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
   value,
   onChange,
+  onPaste,
   disabled = false,
   width,
   height,
@@ -14,6 +15,15 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
 
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
+
+    // Register paste event listener if onPaste callback is provided
+    if (onPaste) {
+      editor.onDidPaste(() => {
+        // Get the current value after paste
+        const currentValue = editor.getValue();
+        onPaste(currentValue);
+      });
+    }
 
     // Focus the editor
     editor.focus();
@@ -31,7 +41,7 @@ const JsonMonacoEditor: React.FC<JsonMonacoEditorProps> = ({
     (value) => {
       onChange(value || "");
     },
-    [onChange]
+    [onChange],
   );
 
   const options: editor.IStandaloneEditorConstructionOptions = {
