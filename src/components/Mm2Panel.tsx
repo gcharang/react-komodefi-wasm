@@ -359,35 +359,44 @@ const Mm2Panel = () => {
         <div className="relative flex items-center justify-center w-full p-1 md:p-2 bg-primary-bg-800/80 backdrop-blur-sm text-text-primary h-10 border-b border-border-primary rounded-t-lg">
           <div className="relative w-full flex items-center justify-between">
             <div className="flex gap-1 md:gap-2">
-              <button
-                onClick={() => toggleMm2()}
-                aria-label={
+              <Tooltip
+                label={
                   !mm2PanelState.mm2Running
                     ? "Start KDF service"
                     : "Stop KDF service"
                 }
-                className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                dir="bottom"
               >
-                {!mm2PanelState.mm2Running ? (
-                  <>
-                    <span className="hidden md:inline">Run KDF</span>
-                    <span className="md:hidden">Run</span>
-                    <Play
-                      aria-hidden="true"
-                      className="w-3.5 md:w-4 h-3.5 md:h-4 fill-green-500"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <span className="hidden md:inline">Stop KDF</span>
-                    <span className="md:hidden">Stop</span>
-                    <Square
-                      aria-hidden="true"
-                      className="w-3.5 md:w-4 h-3.5 md:h-4 fill-red-500"
-                    />
-                  </>
-                )}
-              </button>
+                <button
+                  onClick={() => toggleMm2()}
+                  aria-label={
+                    !mm2PanelState.mm2Running
+                      ? "Start KDF service"
+                      : "Stop KDF service"
+                  }
+                  className="flex items-center cursor-pointer gap-1 rounded-lg text-xs md:text-sm py-1 px-2 md:px-3 bg-primary-bg-700 text-text-primary hover:bg-primary-bg-600 hover:text-accent hover:shadow-[0_0_10px_rgba(0,212,255,0.3)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                >
+                  {!mm2PanelState.mm2Running ? (
+                    <>
+                      <span className="hidden md:inline">Run KDF</span>
+                      <span className="md:hidden">Run</span>
+                      <Play
+                        aria-hidden="true"
+                        className="w-3.5 md:w-4 h-3.5 md:h-4 fill-green-500"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <span className="hidden md:inline">Stop KDF</span>
+                      <span className="md:hidden">Stop</span>
+                      <Square
+                        aria-hidden="true"
+                        className="w-3.5 md:w-4 h-3.5 md:h-4 fill-red-500"
+                      />
+                    </>
+                  )}
+                </button>
+              </Tooltip>
               {!mm2PanelState.mm2Running && (
                 <>
                   <Tooltip label="Save Config" dir="bottom">
