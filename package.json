@@ -7,7 +7,10 @@
     "dev": "next dev",
     "prebuild": "./prebuild.sh",
     "build": "npm run prebuild && next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write '**/*.{js,jsx,mjs,ts,tsx,json,css,scss}'",
+    "format:check": "prettier --check '**/*.{js,jsx,mjs,ts,tsx,json,css,scss}'",
+    "prepare": "husky"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
@@ -36,6 +39,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
     "eslint-plugin-unicorn": "^59.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
     "postcss": "^8.4.20",
     "prettier": "3.6.2",
     "serwist": "^9.0.15",
@@ -47,5 +52,10 @@
   "resolutions": {
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,ts,tsx,css,scss,json}": [
+      "prettier --write"
+    ]
   }
 }

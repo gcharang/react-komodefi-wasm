@@ -1,3 +1,35 @@
 # Ignore artifacts:
 build
 coverage
+dist
+.next
+out
+
+# Ignore WASM files:
+public/kdflib_bg.wasm
+public/kdflib_bg.wasm.gz
+*.wasm
+*.wasm.gz
+
+# Ignore dependencies:
+node_modules
+.yarn
+
+# Ignore minified files:
+*.min.js
+*.min.css
+
+# Ignore generated files:
+/src/js/kdflib.js
+/src/js/kdflib_bg.js
+
+# Ignore static data that shouldn't be formatted:
+/src/staticData/*.json
+/coins/*.json
+
+# Ignore git:
+.git
+
+# Ignore cache files:
+.cache
+*.cache
